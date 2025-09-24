@@ -1,4 +1,4 @@
-﻿namespace CursedOnion.GameLogic.Services
+﻿namespace CursedOnion.Game.Logic.Services
 {
     public interface IService
     {

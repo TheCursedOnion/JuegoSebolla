@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CursedOnion.GameLogic.Services.Pause;
+using CursedOnion.Game.Logic.Services.Pause;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;

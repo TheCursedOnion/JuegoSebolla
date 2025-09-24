@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CursedOnion.GameLogic.Services.Pause
+namespace CursedOnion.Game.Logic.Services.Pause
 {
     public interface IPausable
     {
