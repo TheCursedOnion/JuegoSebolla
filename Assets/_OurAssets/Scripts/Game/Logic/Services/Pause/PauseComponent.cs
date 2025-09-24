@@ -1,5 +1,5 @@
 using System;
-using CursedOnion.GameLogic.Services.Pause;
+using CursedOnion.Game.Logic.Services.Pause;
 using Reflex.Attributes;
 using UnityEngine;
 

@@ -1,6 +1,6 @@
 using Reflex.Core;
 using UnityEngine;
-using CursedOnion.GameLogic.Services.Pause;
+using CursedOnion.Game.Logic.Services.Pause;
 
 namespace CursedOnion
 {

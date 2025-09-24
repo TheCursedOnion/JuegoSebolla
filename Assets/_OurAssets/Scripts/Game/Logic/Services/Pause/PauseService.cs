@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CursedOnion.GameLogic.Services.Pause
+namespace CursedOnion.Game.Logic.Services.Pause
 {
     public class PauseService : IService
     { 
