@@ -4,7 +4,7 @@ using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace CursedOnion.Tools
+namespace CursedOnion.Game.Systems.Files
 {
     public class MeshCombiner : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace CursedOnion.Tools
             CombinedMesh combinedMesh = new CombinedMesh(filters);
             
             #if UNITY_EDITOR
-                combinedMesh.SaveResults();
+                combinedMesh.Save();
             #endif
             
             if(spawnObject)

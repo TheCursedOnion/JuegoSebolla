@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using CursedOnion.Extensions;
-using CursedOnion.Game.Systems;
+using CursedOnion.Game.Systems.Files;
 using CursedOnion.ScriptableObjects;
 using UnityEngine;
 
-namespace CursedOnion.Tools
+namespace CursedOnion.Game.Systems.Files
 {
-    public class CombinedMesh : ISaveableFileAsset
+    public class CombinedMesh : ISaveableAsset
     {
         public List<CombineInstance> CombineInstances = new();
         public List<Material> Materials  = new();
@@ -75,17 +75,30 @@ namespace CursedOnion.Tools
             mfCombined.sharedMesh = Mesh;
             mrCombined.sharedMaterials = Materials.ToArray();
         }
-        
-        public void SaveResults()
+
+        public void Save()
         {
-            FileAsset saveAsset = FileAsset.Default;
-            saveAsset.SetObject(Mesh, "asset");
-            FilePanelWindow.SaveFileAsset(ref saveAsset,"Guardar Mesh combinado", "Elige dónde guardar el mesh combinado");
-        
+            AssetFile file = AssetFile.Default;
+            
+            file.SetObject(Mesh, "asset");
+            file.SaveTitle = "Guardar Mesh combinado";
+            file.SaveMessage = "Elige dónde guardar el mesh combinado";
+            
+            if(FilePanelWindow.TryGetAssetDatabasePath(ref file, out string meshPath))
+            {
+                file.SaveAsset(meshPath);
+            }
+            
             MaterialArrayAsset materialArrayAsset = ScriptableObject.CreateInstance<MaterialArrayAsset>();
             materialArrayAsset.materials = Materials.ToArray();
-            saveAsset.SetObject(materialArrayAsset, "asset");
-            FilePanelWindow.SaveFileAsset(ref saveAsset,"Guardar Materials Asset");
+                file.SetObject(materialArrayAsset, "asset");
+                file.SaveTitle = "Guardar Materials Asset";
+                file.SaveMessage = "Elige dónde guardar el Asset de Materiales";
+                
+            if(FilePanelWindow.TryGetAssetDatabasePath(ref file, out string materialPath))
+            {
+                file.SaveAsset(materialPath);
+            }
         }
     }
 }
