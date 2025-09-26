@@ -1,7 +1,7 @@
-﻿namespace CursedOnion.Game.Grid3D
+﻿namespace CursedOnion.Game.Grid
 {
     [System.Serializable]
-    public struct BlockData
+    public struct Tile3dData
     {
         public ushort blockId;
         public byte metadata;

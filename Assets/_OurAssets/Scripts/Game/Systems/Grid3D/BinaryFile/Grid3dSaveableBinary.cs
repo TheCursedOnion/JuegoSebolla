@@ -1,18 +1,19 @@
 using System.IO;
 using CursedOnion.Game.Systems.Files;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace CursedOnion.Game.Grid3D
+namespace CursedOnion.Game.Grid
 {
     [System.Serializable]
-    public class Grid3DSaveableBinary : ISaveableBinary
+    public class Grid3dSaveableBinary : ISaveableBinary
     {
         public uint width = 0;
         public uint height = 0;
-        public uint depth = 0;
+        [FormerlySerializedAs("depth")] public uint length = 0;
         
         public int blockDataLength = 0;
-        public BlockData[] blocks;
+        public Tile3dData[] blocks;
         
         public void Save(BinaryWriter writer)
         {
@@ -20,7 +21,7 @@ namespace CursedOnion.Game.Grid3D
             {
                 writer.Write(width);
                 writer.Write(height);
-                writer.Write(depth);
+                writer.Write(length);
 
                 writer.Write(blockDataLength);
 
@@ -41,10 +42,10 @@ namespace CursedOnion.Game.Grid3D
             {
                 width = reader.ReadUInt32();
                 height = reader.ReadUInt32();
-                depth = reader.ReadUInt32();
+                length = reader.ReadUInt32();
 
                 blockDataLength = reader.ReadInt32();
-                blocks = new BlockData[blockDataLength];
+                blocks = new Tile3dData[blockDataLength];
 
                 for (int i = 0; i < blockDataLength; i++)
                 {
