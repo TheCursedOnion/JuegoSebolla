@@ -9,8 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3776e5cec40e7a8438db1c8fdd859ed2, type: 3}
-  m_Name: mats
+  m_Script: {fileID: 11500000, guid: de3324db62ee93d4e8e9abd6e523b745, type: 3}
+  m_Name: GameCatalog
   m_EditorClassIdentifier: 
-  materials:
-  - {fileID: -876546973899608171, guid: 7b1d02bdac6ad460d8521ea8c44baf1a, type: 3}
+  tileDefinitions:
+  - id: 0
+    tile: {fileID: 11400000, guid: 4f32a904cca42054f95b4679fd4bde0f, type: 2}
+  - id: 1
+    tile: {fileID: 11400000, guid: 105906f8340131b4e81040c86c25abc3, type: 2}

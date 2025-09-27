@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Systems.Files
     public class MeshCombiner : MonoBehaviour
     {
         [Button]
-        public CombinedMesh CombineMeshes(bool spawnObject = true)
+        public CombinedMesh CombineTilemapMeshes(bool spawnObject = true)
         {
             MeshFilter[] filters = GetComponentsInChildren<MeshFilter>();
 

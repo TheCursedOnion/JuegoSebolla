@@ -1,26 +1,32 @@
 using System.IO;
 using CursedOnion.Game.Systems.Files;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace CursedOnion.Game.Grid3D
+namespace CursedOnion.Game.Systems.Grid
 {
     [System.Serializable]
-    public class Grid3DSaveableBinary : ISaveableBinary
+    public class Grid3dSaveableBinary : ISaveableBinary
     {
         public uint width = 0;
         public uint height = 0;
-        public uint depth = 0;
+        public uint length = 0;
         
         public int blockDataLength = 0;
-        public BlockData[] blocks;
+        public Tile3dData[] blocks;
         
-        public void Save(BinaryWriter writer)
+        public void BeginSave()
+        {
+            BinaryFile file = BinaryFile.DefaultFile(this, "grid3d");
+            file.SaveBinary();
+        }
+        public void SaveProcess(BinaryWriter writer)
         {
             using (writer)
             {
                 writer.Write(width);
                 writer.Write(height);
-                writer.Write(depth);
+                writer.Write(length);
 
                 writer.Write(blockDataLength);
 
@@ -35,16 +41,22 @@ namespace CursedOnion.Game.Grid3D
             }
         }
 
-        public void Load(BinaryReader reader)
+        public void BeginLoad()
+        {
+            BinaryFile file = BinaryFile.DefaultFile(this, "grid3d");
+            file.LoadBinary();
+        }
+
+        public void LoadProcess(BinaryReader reader)
         {
             using (reader)
             {
                 width = reader.ReadUInt32();
                 height = reader.ReadUInt32();
-                depth = reader.ReadUInt32();
+                length = reader.ReadUInt32();
 
                 blockDataLength = reader.ReadInt32();
-                blocks = new BlockData[blockDataLength];
+                blocks = new Tile3dData[blockDataLength];
 
                 for (int i = 0; i < blockDataLength; i++)
                 {

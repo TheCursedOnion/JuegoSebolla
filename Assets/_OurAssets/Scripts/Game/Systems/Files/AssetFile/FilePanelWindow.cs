@@ -9,71 +9,50 @@ namespace CursedOnion.Game.Systems.Files
 {
     public static class FilePanelWindow
     {
-        public static bool TryGetAssetDatabasePath(ref AssetFile asset, out string path)
+        public static bool TryGetProjectPath(AssetFile asset, out string path)
         {
+            path = string.Empty;
+            
             #if UNITY_EDITOR
                 path = EditorUtility.SaveFilePanelInProject(
                     asset.SaveTitle,
-                    asset.AssetName,
+                    asset.FileName,
                     asset.Extension,
                     asset.SaveMessage
                 );
-
-                return !string.IsNullOrEmpty(path);
             #endif
+            return !string.IsNullOrEmpty(path);
         }
-        public static void SaveAssetFile(ref AssetFile asset)
-        {
-            #if UNITY_EDITOR
-                string path = EditorUtility.SaveFilePanelInProject(
-                    asset.SaveTitle,
-                    asset.AssetName,
-                    asset.Extension,
-                    asset.SaveMessage
-                );
+        
 
-                if (!string.IsNullOrEmpty(path))
-                {
-                    AssetDatabase.CreateAsset(asset.ObjectAsset, path);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                }
-            #endif
-        }
-
-        public static void SaveBinaryFile(ref BinaryFile file)
+        public static bool TryGetSaveBinaryPath(BinaryFile file, out string path)
         {
+            path = string.Empty;
+            
             #if UNITY_EDITOR
-                if(file.SaveableBinary == null) return;
-                
-                string path = EditorUtility.SaveFilePanel(
+                path = EditorUtility.SaveFilePanel(
                     file.SaveTitle,
                     "",
                     file.FileName,
                     file.Extension
                 );
-
-                if (BinarySaveSystem.TryGetWriter(path, FileMode.Create, out var writer))
-                {
-                    file.SaveableBinary.Save(writer);
-                }
             #endif
+            return !string.IsNullOrEmpty(path);
         }
         
-        public static void LoadBinaryFile(ref BinaryFile file)
+        public static bool TryGetLoadBinaryPath(BinaryFile file, out string path)
         {
+            path = string.Empty;
+            
             #if UNITY_EDITOR
-                    if(file.SaveableBinary == null) return;
-                        
-                    string path = EditorUtility.OpenFilePanel(
-                        file.SaveTitle,
-                        "",
-                        file.Extension
-                    );
-
-                    if(BinarySaveSystem.TryGetReader(path, out var reader))
-                        file.SaveableBinary.Load(reader);
+                path = EditorUtility.OpenFilePanel(
+                    file.SaveTitle,
+                    "",
+                    file.Extension
+                );
             #endif
+
+            return !string.IsNullOrEmpty(path);
         }
     }
 }

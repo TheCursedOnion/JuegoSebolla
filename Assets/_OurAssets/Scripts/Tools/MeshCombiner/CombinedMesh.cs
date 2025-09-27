@@ -6,12 +6,16 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Files
 {
-    public class CombinedMesh : ISaveableAsset
+    public class CombinedMesh
     {
-        public List<CombineInstance> CombineInstances = new();
-        public List<Material> Materials  = new();
-        public Mesh Mesh = new();
-
+        private readonly List<CombineInstance> combineInstances = new();
+        
+        private readonly Mesh mesh = new();
+            public Mesh Mesh => mesh;
+            
+        private readonly List<Material> materials  = new();
+            public Material[] MaterialsArray => materials.ToArray();
+        
         public CombinedMesh(MeshFilter[] filters)
         {
             var meshMaterialDictionary = BuildMeshMaterialDictionary(filters);
@@ -59,11 +63,11 @@ namespace CursedOnion.Game.Systems.Files
                         transform = Matrix4x4.identity
                     };
 
-                    CombineInstances.Add(ci);
-                    Materials.Add(mat);
+                    this.combineInstances.Add(ci);
+                    materials.Add(mat);
                 }
                 
-                Mesh.CentricCombineMeshes(CombineInstances.ToArray());
+                mesh.CentricCombineMeshes(combineInstances.ToArray());
             }
         
         public void SpawnObject()
@@ -72,15 +76,15 @@ namespace CursedOnion.Game.Systems.Files
             MeshFilter mfCombined = combined.AddComponent<MeshFilter>();
             MeshRenderer mrCombined = combined.AddComponent<MeshRenderer>();
 
-            mfCombined.sharedMesh = Mesh;
-            mrCombined.sharedMaterials = Materials.ToArray();
+            mfCombined.sharedMesh = mesh;
+            mrCombined.sharedMaterials = materials.ToArray();
         }
 
         public void Save()
         {
-            AssetFile file = AssetFile.Default;
+            /*AssetFile file = AssetFile.DefaultFile;
             
-            file.SetObject(Mesh, "asset");
+            file.SetObject(mesh, "asset");
             file.SaveTitle = "Guardar Mesh combinado";
             file.SaveMessage = "Elige dónde guardar el mesh combinado";
             
@@ -90,7 +94,7 @@ namespace CursedOnion.Game.Systems.Files
             }
             
             MaterialArrayAsset materialArrayAsset = ScriptableObject.CreateInstance<MaterialArrayAsset>();
-            materialArrayAsset.materials = Materials.ToArray();
+            materialArrayAsset.materials = materials.ToArray();
                 file.SetObject(materialArrayAsset, "asset");
                 file.SaveTitle = "Guardar Materials Asset";
                 file.SaveMessage = "Elige dónde guardar el Asset de Materiales";
@@ -98,7 +102,7 @@ namespace CursedOnion.Game.Systems.Files
             if(FilePanelWindow.TryGetAssetDatabasePath(ref file, out string materialPath))
             {
                 file.SaveAsset(materialPath);
-            }
+            }*/
         }
     }
 }
