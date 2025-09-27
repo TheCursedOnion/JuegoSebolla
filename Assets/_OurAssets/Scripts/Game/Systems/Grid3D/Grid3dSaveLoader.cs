@@ -1,9 +1,12 @@
-﻿using CursedOnion.Game.Systems.Files;
+﻿using System.Linq;
+using CursedOnion.Game.Systems.Files;
+using CursedOnion.Game.Systems.Grid.Scriptable;
+using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace CursedOnion.Game.Grid
+namespace CursedOnion.Game.Systems.Grid
 {
     public class Grid3dSaveLoader : MonoBehaviour
     {
@@ -11,26 +14,44 @@ namespace CursedOnion.Game.Grid
         public void GenerateGrid3DFile()
         {
             Tilemap[] layers = GetComponentsInChildren<Tilemap>();
-            var gridBounds = GetGridBounds(layers);
             
-            Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, layers);
+            if(!TryGetGridBounds(layers, out var gridBounds))
+                return;
 
-            var grid3DSaveable = new Grid3dSaveableBinary();
-            grid3DSaveable.width = (uint)gridBounds.size.x;
-            grid3DSaveable.height = (uint)gridBounds.size.y;
-            grid3DSaveable.length = (uint)gridBounds.size.z;
+            MeshCombiner meshCombiner = GetComponent<MeshCombiner>();
+            if(meshCombiner == null) return;
+
+            CombinedMesh combinedMesh = meshCombiner.CombineTilemapMeshes(false);
+            Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, layers);
             
-            BinaryFile file = BinaryFile.Default;
-            file.SetSaveableBinary(grid3DSaveable, "grid3d");
+            LevelAsset levelAsset = ScriptableObject.CreateInstance<LevelAsset>();
+            levelAsset.Mesh = combinedMesh.Mesh;
+            levelAsset.MeshMaterials = combinedMesh.MaterialsArray;
+            levelAsset.LevelGrid = grid3d;
             
-            FilePanelWindow.SaveBinaryFile(ref file);
+            levelAsset.Save();
         }
 
-        (Vector3 size, Vector3 origin) GetGridBounds(Tilemap[] layers)
+        bool TryGetGridBounds(Tilemap[] layers, out (Vector3 size, Vector3 origin) gridBounds)
         {
-            Vector3 min = layers[0].transform.GetChild(0).position;
-            Vector3 max = min;
+            bool hasMinBounds = false;
             
+            gridBounds.size =  gridBounds.origin = Vector3.zero;
+            Vector3
+                max = Vector3.zero,
+                min = Vector3.zero;
+            
+            for (int i = layers.Length - 1; i >= 0; i--)
+            {
+                if (layers[i].transform.childCount > 0)
+                {
+                    min = max = layers[i].transform.GetChild(0).position;
+                    hasMinBounds = true;
+                    break;
+                }
+            }
+            if(!hasMinBounds) return false;
+
             foreach (var layer in layers)
             {
                 foreach (Transform tile in layer.transform)
@@ -44,13 +65,27 @@ namespace CursedOnion.Game.Grid
             float width = max.x - min.x + 1;
             float height = layers.Length;
             float length = max.z - min.z + 1;
-            Vector3 size = new Vector3(width, height, length);
             
-            return (size, min);
+            gridBounds.size = new Vector3(width, height, length);
+            gridBounds.origin = min;
+            
+            return true;
         }
         
-        [Button]
-        public void ReadGrid3DFile()
+        /*
+         public void TestSaveBinary()
+         {
+            var grid3DSaveable = new Grid3dSaveableBinary();
+            grid3DSaveable.width = 1;
+            grid3DSaveable.height = 2;
+            grid3DSaveable.length = 3;
+            
+            BinaryFile file = BinaryFile.Default;
+            file.SetSaveableBinary(grid3DSaveable, "grid3d");
+            
+            FilePanelWindow.SaveBinaryFile(ref file);
+        }
+        public void TestLoadBinary()
         {
             var grid3Dfile = new Grid3dSaveableBinary();
             BinaryFile file = BinaryFile.Default;
@@ -59,5 +94,6 @@ namespace CursedOnion.Game.Grid
             FilePanelWindow.LoadBinaryFile(ref file);
             Debug.Log($"Size = {grid3Dfile.width},{grid3Dfile.height},{grid3Dfile.length}");
         }
+        */
     }
 }

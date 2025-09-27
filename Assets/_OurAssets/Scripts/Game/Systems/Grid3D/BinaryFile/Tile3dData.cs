@@ -1,4 +1,4 @@
-﻿namespace CursedOnion.Game.Grid
+﻿namespace CursedOnion.Game.Systems.Grid
 {
     [System.Serializable]
     public struct Tile3dData

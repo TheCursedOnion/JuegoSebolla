@@ -1,23 +1,41 @@
-﻿namespace CursedOnion.Game.Systems.Files
+﻿using System.IO;
+
+namespace CursedOnion.Game.Systems.Files
 {
-    public struct BinaryFile
+    public class BinaryFile : GameFile
     {
-        public static BinaryFile Default => new BinaryFile { FileName = "New Binary File", SaveTitle = "Guardar Archivo Nuevo", SaveMessage = "Elige la dirección para guardar tu Archivo"};
-        
         public ISaveableBinary SaveableBinary;
-        
-        public string FileName;
-        public string Extension;
-
-        public string SaveTitle;
-        public string SaveMessage;
-
+        public static BinaryFile DefaultFile(ISaveableBinary saveableBinary, string extension)
+        {
+            return new BinaryFile
+            {
+                FileName = "New File",
+                SaveTitle = "Guardar Archivo Nuevo",
+                SaveMessage = "Elige la dirección para guardar tu Archivo",
+                Extension = extension,
+                SaveableBinary = saveableBinary
+            };
+        }
         public void SetSaveableBinary(ISaveableBinary saveableBinary, string extension)
         {
-            this.SaveableBinary = saveableBinary;
-            this.Extension = extension;
+            SaveableBinary = saveableBinary;
+            Extension = extension;
         }
         
-        
+        public void SaveBinary()
+        {
+            if (FilePanelWindow.TryGetSaveBinaryPath(this, out string path) && BinarySaveSystem.TryGetWriter(path, FileMode.Create, out var writer))
+            {
+                SaveableBinary.SaveProcess(writer);
+            }
+        }
+
+        public void LoadBinary()
+        {
+            if (FilePanelWindow.TryGetLoadBinaryPath(this, out string path) && BinarySaveSystem.TryGetReader(path, out var reader))
+            {
+                SaveableBinary.LoadProcess(reader);
+            }
+        }
     }
 }

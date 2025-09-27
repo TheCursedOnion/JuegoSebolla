@@ -1,7 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace CursedOnion.Game.Grid
+namespace CursedOnion.Game.Systems.Grid
 {
     public class Grid3dEditor : MonoBehaviour
     {

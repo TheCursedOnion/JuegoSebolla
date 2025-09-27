@@ -3,29 +3,34 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Files
 {
-    public struct AssetFile
+    public class AssetFile : GameFile
     {
-        public static AssetFile Default => new AssetFile { AssetName = "New Asset", SaveTitle = "Guardar Asset Nuevo", SaveMessage = "Elige la dirección para guardar tu asset"};
-        
-        public Object ObjectAsset;
-        
-        public string AssetName;
-        public string Extension;
-
-        public string SaveTitle;
-        public string SaveMessage;
-
-        public void SetObject(Object objectAsset, string extension)
+        public Object AssetObject;
+        public static AssetFile DefaultFile(Object objectAsset, string extension)
         {
-            this.ObjectAsset = objectAsset;
-            this.Extension = extension;
+            return new AssetFile
+            {
+                FileName = "New Asset",
+                SaveTitle = "Guardar Asset Nuevo",
+                SaveMessage = "Elige la dirección para guardar tu asset",
+                Extension = extension,
+                AssetObject = objectAsset
+            };
+        }
+        public void SetAssetObject(Object assetObject, string extension)
+        {
+            AssetObject = assetObject;
+            Extension = extension;
         }
 
-        public void SaveAsset(string path)
+        public void SaveAsset()
         {
-            AssetDatabase.CreateAsset(ObjectAsset, path);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            if (FilePanelWindow.TryGetProjectPath(this, out string path))
+            {
+                AssetDatabase.CreateAsset(AssetObject, path);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
         }
     }
 }
