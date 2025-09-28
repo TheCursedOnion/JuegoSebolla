@@ -72,16 +72,6 @@ namespace CursedOnion.Tools
                 
                 mesh.CentricCombineMeshes(combineInstances.ToArray());
             }
-        
-        public void SpawnObject()
-        {
-            GameObject combined = new GameObject("CombinedMesh");
-            MeshFilter mfCombined = combined.AddComponent<MeshFilter>();
-            MeshRenderer mrCombined = combined.AddComponent<MeshRenderer>();
-
-            mfCombined.sharedMesh = mesh;
-            mrCombined.sharedMaterials = materials.ToArray();
-        }
 
         public void Save()
         {

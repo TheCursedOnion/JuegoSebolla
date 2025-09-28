@@ -19,9 +19,6 @@ namespace CursedOnion.Tools
                 combinedMesh.Save();
             #endif
             
-            if(spawnObject)
-                combinedMesh.SpawnObject();
-            
             return combinedMesh;
         }
             

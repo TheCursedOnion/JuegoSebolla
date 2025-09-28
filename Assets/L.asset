@@ -12,32 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6fa3a885419b7d4bb39f16c096bf1d3, type: 3}
   m_Name: L
   m_EditorClassIdentifier: 
-  Mesh: {fileID: 4300000, guid: 51971529dd0b9d34eab2e3dc80a2a626, type: 2}
+  Mesh: {fileID: 4300000, guid: c2b8804c59fb9bb43bd95305a0003482, type: 2}
   MeshMaterials:
   - {fileID: 2100000, guid: 19668f4e32a870140a34ebdf76ab5a8d, type: 2}
-  LevelGrid:
+  Grid:
     origin: {x: -3.5, y: 0.5, z: -0.5}
-    size: {x: 2, y: 1, z: 2}
+    size: {x: 2, y: 2, z: 2}
     tiles:
-    - VertexRange:
+    - gridMesh: {fileID: 0}
+      correspondingVerticesRange:
         Start: 0
-        End: 23
+        End: 0
       Descriptor:
-        Id: 1
+        Id: 0
         Cost: 0
-    - VertexRange:
+    - gridMesh: {fileID: 0}
+      correspondingVerticesRange:
+        Start: 0
+        End: 0
+      Descriptor:
+        Id: 0
+        Cost: 0
+    - gridMesh: {fileID: 0}
+      correspondingVerticesRange:
+        Start: 0
+        End: 0
+      Descriptor:
+        Id: 0
+        Cost: 0
+    - gridMesh: {fileID: 4300000, guid: c2b8804c59fb9bb43bd95305a0003482, type: 2}
+      correspondingVerticesRange:
+        Start: 96
+        End: 119
+      Descriptor:
+        Id: 0
+        Cost: 0
+    - gridMesh: {fileID: 4300000, guid: c2b8804c59fb9bb43bd95305a0003482, type: 2}
+      correspondingVerticesRange:
         Start: 24
         End: 47
       Descriptor:
         Id: 0
         Cost: 0
-    - VertexRange:
+    - gridMesh: {fileID: 4300000, guid: c2b8804c59fb9bb43bd95305a0003482, type: 2}
+      correspondingVerticesRange:
         Start: 48
         End: 71
       Descriptor:
         Id: 0
         Cost: 0
-    - VertexRange:
+    - gridMesh: {fileID: 4300000, guid: c2b8804c59fb9bb43bd95305a0003482, type: 2}
+      correspondingVerticesRange:
+        Start: 0
+        End: 23
+      Descriptor:
+        Id: 0
+        Cost: 0
+    - gridMesh: {fileID: 4300000, guid: c2b8804c59fb9bb43bd95305a0003482, type: 2}
+      correspondingVerticesRange:
         Start: 72
         End: 95
       Descriptor:

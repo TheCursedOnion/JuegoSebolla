@@ -19,7 +19,7 @@ namespace CursedOnion.Game.Systems.Grid.Scriptable
         {
             foreach (var entry in tileDefinitions)
             {
-                uint id = entry.GetTileDefinition() != null ? entry.GetTileDefinition().descriptor.Id : uint.MaxValue;
+                uint id = entry.GetTileDefinition() != null ? entry.GetTileDefinition().TileDescriptor.Id : uint.MaxValue;
                 entry.SetId(id);
             }
         }

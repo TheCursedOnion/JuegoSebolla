@@ -1,4 +1,5 @@
-﻿using CursedOnion.Game.Systems.Grid.Scriptable;
+﻿using CursedOnion.Extensions;
+using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Helpers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,37 +14,49 @@ namespace CursedOnion.Game.Systems.Grid
         {
             get
             {
-                var defaultTile = new Tile3d();
+                var defaultTile = new Tile3d(null);
                 defaultTile.Descriptor = Tile3dDescriptor.Default;
                 return defaultTile;
             }
         }
-
-        public IntRange VertexRange;
+        
+        [SerializeField] Mesh gridMesh;
+        [SerializeField] IntRange correspondingVerticesRange;
+        
         public Tile3dDescriptor Descriptor;
-
-        public Tile3d()
+        
+        public Tile3d(Mesh gridMesh)
         {
-            VertexRange = new IntRange(-1, -1);
+            correspondingVerticesRange = new IntRange(-1, -1);
             Descriptor = Tile3dDescriptor.Default;
+            this.gridMesh = gridMesh;
+        }
+        public void SetVerticesRange(IntRange verticesRange)
+        {
+            correspondingVerticesRange = verticesRange;
+        }
+        
+        public void ReplaceAttributes(Tile3d tile)
+        {
+            this.Descriptor = tile.Descriptor;
+        }
+        public void Paint(Color color)
+        {
+            if(gridMesh != null)
+                gridMesh.Color32Vertices(correspondingVerticesRange, color);
         }
         
         public Tile3d Clone()
         {
-            var clone = new Tile3d();
-            clone.VertexRange = VertexRange;
+            var clone = new Tile3d(gridMesh);
+            clone.correspondingVerticesRange = correspondingVerticesRange;
             clone.Descriptor = Descriptor;
             
             return clone;
         }
-
-        public void Replace(Tile3d tile)
-        {
-            this.Descriptor = tile.Descriptor;
-        }
         public void DebugTile()
         {
-            Debug.Log($"Tile Debug: {Descriptor.Id}; [{VertexRange.Start}, {VertexRange.End}]");
+            Debug.Log($"Tile Debug: {Descriptor.Id}; [{correspondingVerticesRange.Start}, {correspondingVerticesRange.End}]");
         }
         
     }

@@ -1,3 +1,4 @@
+using System.Linq;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game.Systems.Grid.Scriptable;
@@ -20,21 +21,14 @@ namespace CursedOnion.Game.Systems.Grid
         
 
         #region Constructos
-        public Grid3d(Vector3 size, Vector3 origin)
+        public Grid3d(Vector3 size, Vector3 origin, Mesh gridMesh, Tilemap[] layers)
         {
             this.size = size.ConvertToVectorInt();
             this.origin = origin;
             
-            InitializeTiles(null);
+            InitializeTiles(gridMesh, layers);
         }
-        public Grid3d(Vector3 size, Vector3 origin, Tilemap[] layers)
-        {
-            this.size = size.ConvertToVectorInt();
-            this.origin = origin;
-            
-            InitializeTiles(layers);
-        }
-        void InitializeTiles(Tilemap[] layers)
+        void InitializeTiles(Mesh gridMesh, Tilemap[] layers)
         {
             tiles = new Tile3d[size.x * size.y * size.z];
             if(layers == null || layers.Length == 0) return;
@@ -48,10 +42,10 @@ namespace CursedOnion.Game.Systems.Grid
                     Mesh tileMesh = transform.GetComponent<MeshFilter>().sharedMesh;
                     
                     ScriptableTile3d tileDefinition = transform.gameObject.GetComponent<Tile3dComponent>()?.tile;
-                    Tile3d tile = tileDefinition != null ? tileDefinition.ProduceTile() : Tile3d.Default;
+                    Tile3d tile = tileDefinition != null ? tileDefinition.ProduceTileForMesh(gridMesh) : Tile3d.Default;
                     
                     int lastVertexIndex = vertexCount + tileMesh.vertices.Length - 1;
-                    tile.VertexRange = new IntRange(vertexCount, lastVertexIndex);
+                    tile.SetVerticesRange(new IntRange(vertexCount, lastVertexIndex));
                     
                     SetTileAtWorldPosition(worldPositon, tile);
                     vertexCount += tileMesh.vertices.Length;
@@ -60,16 +54,46 @@ namespace CursedOnion.Game.Systems.Grid
         }
         #endregion
 
+        public bool WorldPositionInBounds(Vector3 worldPosition)
+        {
+            return IsIndexInBounds(GetIndexFromWorldPosition(worldPosition));
+        }
+        public bool AllWorldPositionsInBounds(Vector3[] worldPositions)
+        {
+            return worldPositions.All(pos => IsIndexInBounds(GetIndexFromWorldPosition(pos)));
+        }
+        public bool AllGridPositionsInBounds(Vector3[] gridPositions)
+        {
+            return gridPositions.All(pos => IsIndexInBounds(GetIndexFromGridPosition(pos)));
+        }
+
+        public bool IsGridPositionInBounds(Vector3 gridPosition)
+        {
+            return
+                gridPosition.x >= 0 && gridPosition.x < size.x &&
+                gridPosition.y >= 0 && gridPosition.y < size.y &&
+                gridPosition.z >= 0 && gridPosition.z < size.z;
+        }
+        
+        private bool IsIndexInBounds(int index)
+        {
+            return index >= 0 && index < tiles.Length;
+        }
+
         private int GetIndexFromWorldPosition(Vector3 worldPosition)
         {
-            Vector3 shiftedPosition = (worldPosition - origin);
-            Vector3Int vectorIndex = shiftedPosition.ConvertToVectorInt();
+            Vector3 gridPosition = (worldPosition - origin);
+            if(!IsGridPositionInBounds(gridPosition)) return -1;
+            
+            Vector3Int vectorIndex = gridPosition.ConvertToVectorInt();
             int index = vectorIndex.x + vectorIndex.z * size.x + vectorIndex.y * size.x * size.z;
             return index;
         }
         private int GetIndexFromGridPosition(Vector3 gridPosition)
         {
             Vector3Int vectorIndex = gridPosition.ConvertToVectorInt();
+            if(!IsGridPositionInBounds(gridPosition)) return -1;
+            
             int index = vectorIndex.x + vectorIndex.z * size.x + vectorIndex.y * size.x * size.z;
             return index;
         }
@@ -77,12 +101,12 @@ namespace CursedOnion.Game.Systems.Grid
         public Tile3d GetTileAtWorldPosition(Vector3 worldPosition)
         {
             int index = GetIndexFromWorldPosition(worldPosition);
-            return IsInBounds(index) ? tiles[index] ??= Tile3d.Default : null;
+            return IsIndexInBounds(index) ? tiles[index] ??= Tile3d.Default : null;
         }
         public Tile3d GetTileAtGridPosition(Vector3 gridPosition)
         {
             int index = GetIndexFromGridPosition(gridPosition);
-            return IsInBounds(index) ? tiles[index] ??= Tile3d.Default : null;
+            return IsIndexInBounds(index) ? tiles[index] ??= Tile3d.Default : null;
         }
 
         public void SetTileAtWorldPosition(Vector3 worldPosition, Tile3d tile)
@@ -106,19 +130,13 @@ namespace CursedOnion.Game.Systems.Grid
             Debug.Log(tiles.Length);
             Debug.Log(size);
         }
-
-        private bool IsInBounds(int index)
-        {
-            return index >= 0 && index < tiles.Length;
-        }
-
         private void SetOrReplaceTile(int index, Tile3d tile)
         {
-            if(!IsInBounds(index)) return;
+            if(!IsIndexInBounds(index)) return;
 
             if (tiles[index] != null)
             {
-                tiles[index].Replace(tile);
+                tiles[index].ReplaceAttributes(tile);
             }
             else
             {
