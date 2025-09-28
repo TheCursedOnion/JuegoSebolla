@@ -1,6 +1,8 @@
 using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Tools;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CursedOnion.ScriptableObjects
 {
@@ -10,8 +12,14 @@ namespace CursedOnion.ScriptableObjects
         public Mesh Mesh;
         public Material[] MeshMaterials;
 
-        public Grid3d LevelGrid;
-        
+        public Grid3d Grid;
+
+        public void SetupLevelAsset(CombinedMesh combinedMesh, Grid3d grid3d)
+        {
+            this.Mesh = combinedMesh.Mesh;
+            this.MeshMaterials = combinedMesh.MaterialsArray;
+            this.Grid = grid3d;
+        }
         public void Save()
         {
             AssetFile file = AssetFile.DefaultFile(Mesh, "asset");
@@ -24,7 +32,7 @@ namespace CursedOnion.ScriptableObjects
             file.SetSaveMessage("Elige dónde guardar el Nivel");
             file.SaveAsset();
             
-            LevelGrid.DebugGrid();
+            Grid.DebugGrid();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.ScriptableObjects;
+using CursedOnion.Tools;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -10,6 +12,8 @@ namespace CursedOnion.Game.Systems.Grid
 {
     public class Grid3dSaveLoader : MonoBehaviour
     {
+        [Required] public GameObject levelManagerPrefab;
+        
         [Button]
         public void GenerateGrid3DFile()
         {
@@ -22,14 +26,13 @@ namespace CursedOnion.Game.Systems.Grid
             if(meshCombiner == null) return;
 
             CombinedMesh combinedMesh = meshCombiner.CombineTilemapMeshes(true);
-            Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, layers);
+            Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, combinedMesh.Mesh, layers);
             
             LevelAsset levelAsset = ScriptableObject.CreateInstance<LevelAsset>();
-            levelAsset.Mesh = combinedMesh.Mesh;
-            levelAsset.MeshMaterials = combinedMesh.MaterialsArray;
-            levelAsset.LevelGrid = grid3d;
+            levelAsset.SetupLevelAsset(combinedMesh, grid3d);
             
             levelAsset.Save();
+            SpawnLevelManager(levelAsset);
         }
 
         bool TryGetGridBounds(Tilemap[] layers, out (Vector3 size, Vector3 origin) gridBounds)
@@ -71,7 +74,11 @@ namespace CursedOnion.Game.Systems.Grid
             
             return true;
         }
-        
+        void SpawnLevelManager(LevelAsset levelAsset)
+        {
+            GameObject levelManager = Instantiate(levelManagerPrefab);
+            levelManager.GetComponent<LevelManager>().Initialize(levelAsset);
+        }
         /*
          public void TestSaveBinary()
          {
