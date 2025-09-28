@@ -4,7 +4,7 @@ using CursedOnion.Game.Systems.Files;
 using CursedOnion.ScriptableObjects;
 using UnityEngine;
 
-namespace CursedOnion.Game.Systems.Files
+namespace CursedOnion.Tools
 {
     public class CombinedMesh
     {
@@ -15,6 +15,7 @@ namespace CursedOnion.Game.Systems.Files
             
         private readonly List<Material> materials  = new();
             public Material[] MaterialsArray => materials.ToArray();
+            
         
         public CombinedMesh(MeshFilter[] filters)
         {
@@ -34,6 +35,8 @@ namespace CursedOnion.Game.Systems.Files
                     Material material = meshRenderer.sharedMaterial;
                     if (!meshMaterialDictionary.ContainsKey(material))
                         meshMaterialDictionary.Add(material, new List<CombineInstance>());
+                    
+                    filter.transform.GetComponent<MeshRenderer>().sharedMaterial = material;
 
                     CombineInstance combineInstance = new CombineInstance
                     {
@@ -41,7 +44,7 @@ namespace CursedOnion.Game.Systems.Files
                         mesh = filter.sharedMesh,
                         transform = filter.transform.localToWorldMatrix
                     };
-
+                    
                     meshMaterialDictionary[material].Add(combineInstance);
                 }
                 return meshMaterialDictionary;

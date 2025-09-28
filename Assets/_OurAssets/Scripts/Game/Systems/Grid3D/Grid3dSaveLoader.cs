@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.ScriptableObjects;
+using CursedOnion.Tools;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -10,6 +12,7 @@ namespace CursedOnion.Game.Systems.Grid
 {
     public class Grid3dSaveLoader : MonoBehaviour
     {
+        
         [Button]
         public void GenerateGrid3DFile()
         {
@@ -71,7 +74,6 @@ namespace CursedOnion.Game.Systems.Grid
             
             return true;
         }
-        
         /*
          public void TestSaveBinary()
          {

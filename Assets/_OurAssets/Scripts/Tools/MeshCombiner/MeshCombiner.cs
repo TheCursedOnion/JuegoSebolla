@@ -4,7 +4,7 @@ using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace CursedOnion.Game.Systems.Files
+namespace CursedOnion.Tools
 {
     public class MeshCombiner : MonoBehaviour
     {
