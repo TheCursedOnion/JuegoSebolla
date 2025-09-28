@@ -19,7 +19,10 @@ namespace CursedOnion
         [SerializeField] private int movement;
         [SerializeField] private int price;
 
-        public string CharacterName { get { return characterName; } }
+        public string SetCharacterName()
+        { 
+            return characterName; 
+        }
 
         public int SetRandomHP()
         {
@@ -27,7 +30,7 @@ namespace CursedOnion
         }
         public int SetRandomSpeed()
         {
-            return Random.Range(minSpeed, maxSpeed + 1); 
+            return Random.Range(minSpeed, maxSpeed + 1);
         }
         public int SetRandomAttack()
         {

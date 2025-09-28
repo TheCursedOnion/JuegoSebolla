@@ -10,11 +10,47 @@ namespace CursedOnion
         [SerializeField] private int numberOfCharacters = 15;
 
         private List<Character> characters = new List<Character>();
+        private List<Character> orderedCharacters = new List<Character>();
+
+        private int currentCharacterIndex = 0;
+        private int turnCount = 1;
+        private bool waitingForInput = true;
 
         void Start()
         {
             GenerateCharacters();
             PrintStats();
+            StartTurn();
+        }
+
+        private void StartTurn()
+        {
+            if (characters.Count > 0)
+            {
+                Debug.Log("Turno " + turnCount + " comienza.");
+                orderedCharacters[currentCharacterIndex].DoTurn();
+            }
+        }
+
+        void Update()
+        {
+            if (waitingForInput && Input.GetKeyDown(KeyCode.Space))
+            {
+                NextTurn();
+            }
+        }
+
+        void NextTurn()
+        {
+            currentCharacterIndex++;
+
+            if (currentCharacterIndex >= orderedCharacters.Count)
+            {
+                currentCharacterIndex = 0;
+                turnCount++;
+                Debug.Log("Turno " + turnCount + " comienza.");
+            }
+            orderedCharacters[currentCharacterIndex].DoTurn();
         }
 
         void GenerateCharacters()
@@ -27,6 +63,7 @@ namespace CursedOnion
                 Character character = charObj.AddComponent<Character>();
                 CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
                 character.data = randomType;
+                character.id = i;
                 character.SetCharacterData();
 
                 characters.Add(character);
@@ -36,12 +73,13 @@ namespace CursedOnion
         void PrintStats()
         {
             Debug.Log("==== Initiatives ====");
-            var orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
+            orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
 
             foreach (Character c in orderedCharacters)
             {
-                Debug.Log($"{c.data.CharacterName} -> {c.speedStat}\nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
+                Debug.Log($"{c.characterName} -> {c.speedStat}\nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
             }
+
         }
     }
 }
