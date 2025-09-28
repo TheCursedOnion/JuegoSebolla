@@ -10,7 +10,7 @@ namespace CursedOnion.Game.Systems.Grid
         {
             get
             {
-                var defaultTile = new AirTile();
+                var defaultTile = new Tile3d();
                 defaultTile.Descriptor = Tile3dDescriptor.Default;
                 return defaultTile;
             }
@@ -26,25 +26,12 @@ namespace CursedOnion.Game.Systems.Grid
     }
     
     [System.Serializable]
-    public class AirTile : ITile3d
+    public class Tile3d : ITile3d
     {
         public Tile3dDescriptor Descriptor { get; set; }
         public ITile3d Clone()
         {
-            var clone = new AirTile();
-            clone.Descriptor = Descriptor;
-            
-            return clone;
-        }
-    }
-    
-    [System.Serializable]
-    public class GrassTile : ITile3d
-    {
-        public Tile3dDescriptor Descriptor { get; set; }
-        public ITile3d Clone()
-        {
-            var clone = new GrassTile();
+            var clone = new Tile3d();
             clone.Descriptor = Descriptor;
             
             return clone;

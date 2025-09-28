@@ -21,7 +21,7 @@ namespace CursedOnion.Game.Systems.Grid
             MeshCombiner meshCombiner = GetComponent<MeshCombiner>();
             if(meshCombiner == null) return;
 
-            CombinedMesh combinedMesh = meshCombiner.CombineTilemapMeshes(false);
+            CombinedMesh combinedMesh = meshCombiner.CombineTilemapMeshes(true);
             Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, layers);
             
             LevelAsset levelAsset = ScriptableObject.CreateInstance<LevelAsset>();

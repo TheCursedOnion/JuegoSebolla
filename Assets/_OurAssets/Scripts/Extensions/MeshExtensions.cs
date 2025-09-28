@@ -8,6 +8,10 @@ namespace CursedOnion.Extensions
         {
             mesh.CombineMeshes(combiners, mergeSubMeshes, useMatrices);
             mesh.CenterMesh();
+            
+            mesh.RecalculateTangents();
+            mesh.RecalculateTangents();
+            mesh.RecalculateBounds();
             return mesh;
         }
         public static Mesh CenterMesh(this Mesh mesh)
