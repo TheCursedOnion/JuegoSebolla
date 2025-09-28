@@ -7,14 +7,14 @@ namespace CursedOnion
     public class TurnSystem : MonoBehaviour
     {
         [SerializeField] private CharacterData[] characterTypes;
-        [SerializeField] private int numberOfCharacters = 7;
+        [SerializeField] private int numberOfCharacters = 15;
 
         private List<Character> characters = new List<Character>();
 
         void Start()
         {
             GenerateCharacters();
-            PrintInitiatives();
+            PrintStats();
         }
 
         void GenerateCharacters()
@@ -27,20 +27,20 @@ namespace CursedOnion
                 Character character = charObj.AddComponent<Character>();
                 CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
                 character.data = randomType;
-                character.initiative = character.data.GetRandomSpeed();
+                character.SetCharacterData();
 
                 characters.Add(character);
             }
         }
 
-        void PrintInitiatives()
+        void PrintStats()
         {
             Debug.Log("==== Initiatives ====");
-            var orderedCharacters = characters.OrderByDescending(c => c.initiative).ToList();
+            var orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
 
             foreach (Character c in orderedCharacters)
             {
-                Debug.Log($"{c.data.CharacterName} -> {c.initiative}");
+                Debug.Log($"{c.data.CharacterName} -> {c.speedStat}\nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
             }
         }
     }
