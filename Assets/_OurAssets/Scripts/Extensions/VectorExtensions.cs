@@ -4,9 +4,14 @@ namespace CursedOnion.Extensions
 {
     public static class VectorExtensions
     {
-        public static Vector3Int ConvertToVectorInt(this Vector3 vector)
+        public static Vector3Int ObtainVectorInt(this Vector3 vector)
         {
             return new Vector3Int((int)vector.x, (int)vector.y, (int)vector.z);
+        }
+
+        public static void Truncate(ref this Vector3 vector)
+        {
+            vector = new Vector3((int)vector.x, (int)vector.y, (int)vector.z);
         }
         public static void Round(ref this Vector3 vector)
         {

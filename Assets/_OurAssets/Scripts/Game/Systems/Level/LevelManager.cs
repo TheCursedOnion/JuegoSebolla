@@ -2,6 +2,7 @@ using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Helpers;
 using CursedOnion.ScriptableObjects;
+using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -14,10 +15,14 @@ namespace CursedOnion
 
         [SerializeField] private Vector3[] gridPositions;
         private Mesh mesh;
+        [ShowNonSerializedField] private Vector3 levelOffset;
 
         void Awake()
         {
             mesh = GetComponent<MeshFilter>().sharedMesh;
+            
+            Renderer meshRenderer = GetComponent<Renderer>();
+            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
         }
         public void Initialize(LevelAsset levelAsset)
         {
@@ -37,15 +42,23 @@ namespace CursedOnion
                     if (grid.IsGridPositionInBounds(pos))
                         grid.GetTileAtGridPosition(pos).Paint(Color.red);
                 }
-                /*var tile = levelAsset.Grid.GetTileAtGridPosition(gridPos);
-                var tile2 = levelAsset.Grid.GetTileAtGridPosition(gridPos2);
-                if(tile == null || tile2 == null) return;
-                
-                var mesh = GetComponent<MeshFilter>().mesh;
-                var range = tile.VertexInGridRange;
-                var range2 = tile2.VertexInGridRange;
-                
-                mesh.Color32Vertices(new IntRange[]{range, range2}, Color.red);*/
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                mesh.FillColor32(Color.white);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    Grid3d grid = levelAsset.Grid;
+                    Debug.Log("Hit");
+                    Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
+                    if (grid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
+                    {
+                        Debug.Log("A Pintar en: " + gridPosition);
+                        grid.GetTileAtGridPosition(gridPosition).Paint(Color.red);
+                    }
+                }
             }
         }
 
