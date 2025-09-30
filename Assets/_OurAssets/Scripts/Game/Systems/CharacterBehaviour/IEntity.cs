@@ -5,7 +5,7 @@ namespace CursedOnion
     public interface IEntity
     {
         void DoTurn();
-        void Attack();
+        void Attack(IEntity target);
         void Move();
     }
 }

@@ -6,4 +6,10 @@ namespace CursedOnion
     {
         void Execute();
     }
+
+    public interface IStackableCommand : ICommand
+    {
+        void Undo();
+        void Redo();
+    }
 }
