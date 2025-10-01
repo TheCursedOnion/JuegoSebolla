@@ -1,11 +1,14 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.TextCore.Text;
+using static UnityEngine.GraphicsBuffer;
 
 namespace CursedOnion
 {
     public class TurnSystem : MonoBehaviour
     {
+        [SerializeField] private CommandManager commandManager;
         [SerializeField] private CharacterData[] characterTypes;
         [SerializeField] private int numberOfCharacters = 15;
 
@@ -37,6 +40,24 @@ namespace CursedOnion
             if (waitingForInput && Input.GetKeyDown(KeyCode.Space))
             {
                 NextTurn();
+            }
+            if (waitingForInput && Input.GetKeyDown(KeyCode.A))
+            {
+                var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], orderedCharacters[currentCharacterIndex - 1]);
+                commandManager.ExecuteCommand(attackCmd);
+            }
+            if (waitingForInput && Input.GetKeyDown(KeyCode.M))
+            {
+                var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex]);
+                commandManager.ExecuteCommand(moveCmd);
+            }
+            if (waitingForInput && Input.GetKeyDown(KeyCode.U))
+            {
+                commandManager.Undo();
+            }
+            if (waitingForInput && Input.GetKeyDown(KeyCode.R))
+            {
+                commandManager.Redo();
             }
         }
 
