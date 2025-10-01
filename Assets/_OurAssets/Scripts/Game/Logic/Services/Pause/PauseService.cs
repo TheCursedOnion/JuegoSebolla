@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CursedOnion.Game.Logic.Services.Pause
+namespace CursedOnion.Game.Logic.Services
 {
     public class PauseService : IService
     { 
@@ -42,6 +42,9 @@ namespace CursedOnion.Game.Logic.Services.Pause
         public void UnpauseCurrentLevel()
         {
             pauseStack.Pop();
+            
+            if(pauseStack.Count == 0) pauseStack.Push((int)PauseLevel.None);
+            
             InvokeUpdate((PauseLevel)pauseStack.Peek());
         }
         public void UnpauseAll()
