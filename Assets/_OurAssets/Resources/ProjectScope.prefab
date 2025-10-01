@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 616762658163991034}
   - component: {fileID: 979247418095118750}
   - component: {fileID: 5493217466176316034}
+  - component: {fileID: 1313842257537342209}
+  - component: {fileID: 1194208409827338728}
   m_Layer: 0
   m_Name: ProjectScope
   m_TagString: Untagged
@@ -57,4 +59,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489ec9df4a2078247b02861e507d29c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputReader: {fileID: 1313842257537342209}
   gameSettings: {fileID: 11400000, guid: ea8b2400e388d7049bc61f5820a25dd8, type: 2}
+--- !u!114 &1313842257537342209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645404175983655882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1081077c1393d7a40956c8876e315570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 1194208409827338728}
+--- !u!114 &1194208409827338728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645404175983655882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 534de7494aa754e44a23965f3c38b7d9, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Battle
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}

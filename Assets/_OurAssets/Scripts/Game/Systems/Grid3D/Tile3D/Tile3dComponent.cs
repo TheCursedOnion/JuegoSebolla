@@ -6,6 +6,7 @@ namespace CursedOnion.Game.Systems.Grid
 {
     public class Tile3dComponent : MonoBehaviour
     {
+        [Expandable]
         public ScriptableTile3d tile;
     }
 }

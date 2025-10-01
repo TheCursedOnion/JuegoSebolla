@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CursedOnion.Extensions
 {
-    public static class VectorExtensions
+    public static class Vector3Extensions
     {
         public static Vector3Int ObtainVectorInt(this Vector3 vector)
         {
@@ -32,6 +32,11 @@ namespace CursedOnion.Extensions
             vector.x = Mathf.Ceil(vector.x);
             vector.y = Mathf.Ceil(vector.y);
             vector.z = Mathf.Ceil(vector.z);
+        }
+
+        public static Vector3 SwizzleXZY(this Vector3 vector)
+        {
+            return new Vector3(vector.x, vector.z, vector.y);
         }
     }
 }

@@ -379,6 +379,7 @@ GameObject:
   - component: {fileID: 245254941}
   - component: {fileID: 245254940}
   - component: {fileID: 245254943}
+  - component: {fileID: 245254944}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -504,6 +505,19 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &245254944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245254939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f776d0eab384302b5f22cb73f857b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <UsedMap>k__BackingField: Battle
 --- !u!1 &600460801
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,6 +981,7 @@ GameObject:
   - component: {fileID: 1669937746}
   - component: {fileID: 1669937745}
   - component: {fileID: 1669937747}
+  - component: {fileID: 1669937748}
   m_Layer: 0
   m_Name: DeviceDetector
   m_TagString: Untagged
@@ -1068,7 +1083,19 @@ MonoBehaviour:
     m_ActionId: 6f0c794c-9089-4f4d-b835-b83b5c4bb5ca
     m_ActionName: 'Battle/MovePointer[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CursedOnion.InputManager, Assembly-CSharp
+        m_MethodName: OnSelect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 605f0316-ea5a-48ab-8045-46a539b33cc4
     m_ActionName: 'Battle/Select[/Mouse/leftButton]'
   - m_PersistentCalls:
@@ -1076,7 +1103,19 @@ MonoBehaviour:
     m_ActionId: 196f7054-d4c2-44a0-8420-367aae39f46b
     m_ActionName: 'Battle/Inspect[/Mouse/rightButton]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CursedOnion.InputManager, Assembly-CSharp
+        m_MethodName: OnSelect2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f1b54775-037e-4332-91d5-321f2c28c9df
     m_ActionName: UI/New action
   m_NeverAutoSwitchControlSchemes: 0
@@ -1084,6 +1123,19 @@ MonoBehaviour:
   m_DefaultActionMap: Battle
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1669937748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669937744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d477bc9be254a97a1714e9ec021dc87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <UsedMap>k__BackingField: Battle
 --- !u!1 &1741995918
 GameObject:
   m_ObjectHideFlags: 0

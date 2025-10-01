@@ -12,11 +12,6 @@ namespace CursedOnion.Testing
     public class PauseTest : MonoBehaviour, IPausable
     {
         [Inject] PauseService _pauseService;
-        [Inject] readonly IEnumerable<string> strings;
-        void Start()
-        {
-            Debug.Log(string.Join(" ", strings));
-        }
         
         [ReadOnly][SerializeField] int currentPauseLevel = 0;
         int pauseLevelCount = Enum.GetValues(typeof(PauseLevel)).Length;
