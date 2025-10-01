@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CursedOnion
 {
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour, IEntity
     {
         // Character type 
         public CharacterData data;
@@ -30,7 +30,17 @@ namespace CursedOnion
 
         public void DoTurn()
         {
-            Debug.Log(characterName + " id: " + id + " está haciendo su turno...");
+            Debug.Log(characterName + " id: " + id + " estï¿½ haciendo su turno...");
+        }
+
+        public void Attack(IEntity target)
+        {
+            Debug.Log(characterName + id + " Attacking!");
+        }
+
+        public void Move() 
+        {
+            Debug.Log(characterName + id + " Moving!");
         }
     }
 }
