@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.GraphicsBuffer;
@@ -8,7 +9,7 @@ namespace CursedOnion
 {
     public class TurnSystem : MonoBehaviour
     {
-        [SerializeField] private CommandManager commandManager;
+        [Inject] private CommandManager commandManager;
         [SerializeField] private CharacterData[] characterTypes;
         [SerializeField] private int numberOfCharacters = 15;
 

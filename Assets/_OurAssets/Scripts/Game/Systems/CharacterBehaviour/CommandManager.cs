@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CursedOnion
 {
-    public class CommandManager : MonoBehaviour
+    public class CommandManager
     {
         private Stack<IStackableCommand> undoStack = new Stack<IStackableCommand>();
         private Stack<IStackableCommand> redoStack = new Stack<IStackableCommand>();
