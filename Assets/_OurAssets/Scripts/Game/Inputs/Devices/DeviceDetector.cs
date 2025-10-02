@@ -11,7 +11,6 @@ namespace CursedOnion.Game.Inputs
     public class DeviceDetector : MonoBehaviour
     {
         [Inject] GameSettings gameSettings;
-        [Inject] InputReader inputReader;
         
         private PlayerInput playerInput;
         void Awake()

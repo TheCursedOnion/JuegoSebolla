@@ -7,27 +7,21 @@ namespace CursedOnion.Game.Inputs
 {
     public class MockPlayable : MonoBehaviour, IPlayable
     {
-        [Inject] public InputReader InputReader { get; set; }
-        [field: SerializeField] public string UsedMap { get; set; }
-        
+        [Inject] public InputReaderCollection InputReaderCollection { get; set; }
 
         public void OnEnable()
         {
-            if(InputReader == null) return;
-            
-            InputAction selectAction = InputReader.FindMapAction(UsedMap,"Select");
-            selectAction.performed += Test;
+            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
+            reader.Select += Test;
         }
 
         public void OnDisable()
         {
-            if(InputReader == null) return;
-            
-            InputAction selectAction = InputReader.FindMapAction(UsedMap,"Select");
-            selectAction.performed -= Test;
+            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
+            reader.Select += Test;
         }
 
-        void Test(InputAction.CallbackContext context)
+        void Test()
         {
             Debug.Log("Hola");
         }

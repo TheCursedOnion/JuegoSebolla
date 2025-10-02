@@ -10,13 +10,13 @@ namespace CursedOnion.Installers
 {
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
-        [SerializeField] InputReader inputReader;
+        [Expandable, SerializeField] InputReaderCollection InputReaderCollection;
         [Expandable, SerializeField] GameSettings gameSettings;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             containerBuilder.AddSingleton(new PauseService(), typeof(PauseService));
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
-            containerBuilder.AddSingleton(inputReader, typeof(InputReader));
+            containerBuilder.AddSingleton(InputReaderCollection, typeof(InputReaderCollection));
         }
     }
 }

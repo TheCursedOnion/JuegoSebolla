@@ -7,31 +7,29 @@ namespace CursedOnion.Game.Inputs
 {
     public class CameraPlayable : MonoBehaviour, IPlayable
     {
-        [Inject] public InputReader InputReader { get; set; }
-        [field: SerializeField] public string UsedMap { get; set; }
-        
-
+        [Inject] public InputReaderCollection InputReaderCollection { get; set; }
+        Vector2 moveInput;
         public void OnEnable()
         {
-            if(InputReader == null) return;
+            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
+            reader.MovePointer += MoveCamera;
             
-            InputAction selectAction = InputReader.FindMapAction(UsedMap,"MovePointer");
-            selectAction.started += MoveCamera;
+            reader.Enable();
         }
 
         public void OnDisable()
         {
-            if(InputReader == null) return;
-            
-            InputAction selectAction = InputReader.FindMapAction(UsedMap,"MovePointer");
-            selectAction.started -= MoveCamera;
+            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
+            reader.MovePointer -= MoveCamera;
         }
 
-        void MoveCamera(InputAction.CallbackContext context)
+        void MoveCamera(Vector2 direction)
         {
-            Vector3 direction = context.ReadValue<Vector2>();
-            direction = direction.SwizzleXZY();
-            this.transform.Translate(direction.normalized);
+            moveInput = direction;
+            
+            Vector3 direction3D = moveInput;
+            direction3D = direction3D.SwizzleXZY();
+            transform.Translate(direction3D.normalized);
         }
     }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 616762658163991034}
   - component: {fileID: 979247418095118750}
   - component: {fileID: 5493217466176316034}
-  - component: {fileID: 1313842257537342209}
   - component: {fileID: 1194208409827338728}
   m_Layer: 0
   m_Name: ProjectScope
@@ -59,21 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489ec9df4a2078247b02861e507d29c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputReader: {fileID: 1313842257537342209}
+  InputReaderCollection: {fileID: 11400000, guid: 0e75955ee8557ea489dd8882fea332db, type: 2}
   gameSettings: {fileID: 11400000, guid: ea8b2400e388d7049bc61f5820a25dd8, type: 2}
---- !u!114 &1313842257537342209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7645404175983655882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1081077c1393d7a40956c8876e315570, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInput: {fileID: 1194208409827338728}
 --- !u!114 &1194208409827338728
 MonoBehaviour:
   m_ObjectHideFlags: 0
