@@ -6,6 +6,8 @@ namespace CursedOnion.Helpers
     [System.Serializable]
     public class IntRange
     {
+        public static IntRange Default => new IntRange(-1, -1);
+        
         public int Start;
         public int End;
         public IntRange(int start, int end)

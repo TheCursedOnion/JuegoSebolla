@@ -11,7 +11,7 @@ namespace CursedOnion
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] LevelAsset levelAsset;
+        [Expandable, SerializeField] LevelAsset levelAsset;
 
         [SerializeField] private Vector3[] gridPositions;
         private Mesh mesh;
@@ -26,9 +26,11 @@ namespace CursedOnion
         }
         public void Initialize(LevelAsset levelAsset)
         {
+            this.gameObject.name = "LevelManager";
             this.levelAsset = levelAsset;
             GetComponent<MeshFilter>().sharedMesh = levelAsset.Mesh;
             GetComponent<MeshRenderer>().sharedMaterials = levelAsset.MeshMaterials;
+            GetComponent<MeshCollider>().sharedMesh = levelAsset.Mesh;
         }
 
         void Update()
@@ -53,7 +55,7 @@ namespace CursedOnion
                     Grid3d grid = levelAsset.Grid;
                     Debug.Log("Hit");
                     Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
-                    if (grid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
+                    if (VectorConversions.TryWorldToGridPosition(hitPoint, grid, out Vector3 gridPosition))
                     {
                         Debug.Log("A Pintar en: " + gridPosition);
                         grid.GetTileAtGridPosition(gridPosition).Paint(Color.red);

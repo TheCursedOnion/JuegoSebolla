@@ -10,53 +10,62 @@ namespace CursedOnion.Game.Systems.Grid
     [System.Serializable]
     public class Tile3d
     {
+        [SerializeField] Tile3dDescriptor descriptor = Tile3dDescriptor.Default;
+        [SerializeField] Mesh gridMesh;
+        [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
+        IEntity containedEntity;
         public static Tile3d Default
         {
             get
             {
-                var defaultTile = new Tile3d(null);
-                defaultTile.Descriptor = Tile3dDescriptor.Default;
+                var defaultTile = new Tile3d
+                {
+                    descriptor = Tile3dDescriptor.Default,
+                    gridMesh = null,
+                    correspondingVerticesInMesh = IntRange.Default,
+                    containedEntity = null
+                };
                 return defaultTile;
             }
         }
         
-        [SerializeField] Mesh gridMesh;
-        [SerializeField] IntRange correspondingVerticesRange;
+        #region Getters & Setters
+        public Tile3dDescriptor GetTileDescriptor() => descriptor;
+        public IntRange CorrespondingVerticesInMesh => correspondingVerticesInMesh;
+        public IEntity ContainedEntity => containedEntity;
         
-        public Tile3dDescriptor Descriptor;
+        public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)
+        {
+            this.descriptor = tileDescriptor;
+        }
+        public void SetTileMeshProperties(Mesh combinedGridMesh, IntRange verticesInMesh)
+        {
+            gridMesh = combinedGridMesh;
+            correspondingVerticesInMesh = verticesInMesh;
+        }
+        #endregion
         
-        public Tile3d(Mesh gridMesh)
-        {
-            correspondingVerticesRange = new IntRange(-1, -1);
-            Descriptor = Tile3dDescriptor.Default;
-            this.gridMesh = gridMesh;
-        }
-        public void SetVerticesRange(IntRange verticesRange)
-        {
-            correspondingVerticesRange = verticesRange;
-        }
-        
-        public void ReplaceAttributes(Tile3d tile)
-        {
-            this.Descriptor = tile.Descriptor;
-        }
         public void Paint(Color color)
         {
             if(gridMesh != null)
-                gridMesh.Color32Vertices(correspondingVerticesRange, color);
+                gridMesh.Color32Vertices(correspondingVerticesInMesh, color);
         }
-        
         public Tile3d Clone()
         {
-            var clone = new Tile3d(gridMesh);
-            clone.correspondingVerticesRange = correspondingVerticesRange;
-            clone.Descriptor = Descriptor;
-            
+            var clone = new Tile3d();
+            clone.ReplaceAttributes(this);
             return clone;
+        }
+        public void ReplaceAttributes(Tile3d tile)
+        {
+            this.descriptor = tile.descriptor;
+            this.gridMesh = tile.gridMesh;
+            this.correspondingVerticesInMesh = tile.correspondingVerticesInMesh;
+            this.containedEntity = tile.ContainedEntity;
         }
         public void DebugTile()
         {
-            Debug.Log($"Tile Debug: {Descriptor.Id}; [{correspondingVerticesRange.Start}, {correspondingVerticesRange.End}]");
+            Debug.Log($"Tile Debug: {descriptor.Id}; [{correspondingVerticesInMesh.Start}, {correspondingVerticesInMesh.End}]");
         }
         
     }

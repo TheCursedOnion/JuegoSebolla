@@ -7,12 +7,11 @@ namespace CursedOnion.Game.Systems.Grid.Scriptable
     public class ScriptableTile3d : ScriptableObject
     {
         public Tile3dDescriptor TileDescriptor;
-        public Tile3d ProduceTileForMesh(Mesh gridMesh)
+        public Tile3d ProduceTile()
         {
-            var tile3d = new Tile3d(gridMesh)
-            {
-                Descriptor = TileDescriptor
-            };
+            var tile3d = new Tile3d();
+            tile3d.SetTileDescriptor(TileDescriptor);
+            
             return tile3d.Clone();
         }
     }

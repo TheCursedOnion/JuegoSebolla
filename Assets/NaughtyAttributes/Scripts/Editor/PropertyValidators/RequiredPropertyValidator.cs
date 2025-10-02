@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace NaughtyAttributes.Editor
 {
@@ -12,19 +13,19 @@ namespace NaughtyAttributes.Editor
             {
                 if (property.objectReferenceValue == null)
                 {
-                    string errorMessage = property.name + " is required";
+                    string errorMessage = property.name + " is required at " + property.serializedObject.targetObject.name;
                     if (!string.IsNullOrEmpty(requiredAttribute.Message))
                     {
                         errorMessage = requiredAttribute.Message;
                     }
 
-                    NaughtyEditorGUI.HelpBox_Layout(errorMessage, MessageType.Error, context: property.serializedObject.targetObject);
+                    NaughtyEditorGUI.HelpBox_Layout(errorMessage, MessageType.Error, context: property.serializedObject.targetObject, logToConsole: true);
                 }
             }
             else
             {
                 string warning = requiredAttribute.GetType().Name + " works only on reference types";
-                NaughtyEditorGUI.HelpBox_Layout(warning, MessageType.Warning, context: property.serializedObject.targetObject);
+                NaughtyEditorGUI.HelpBox_Layout(warning, MessageType.Warning, context: property.serializedObject.targetObject, logToConsole: true);
             }
         }
     }
