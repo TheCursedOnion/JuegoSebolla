@@ -7,7 +7,10 @@ namespace CursedOnion
         IEntity target;
         int previousHP;
 
-        public AttackCommand(IEntity character, IEntity target) : base(character) { }
+        public AttackCommand(IEntity character, IEntity target) : base(character) 
+        {
+            this.target = target;
+        }
 
         public override void Execute()
         {
