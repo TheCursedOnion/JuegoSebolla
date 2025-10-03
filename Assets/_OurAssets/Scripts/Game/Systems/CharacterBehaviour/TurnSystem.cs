@@ -49,7 +49,7 @@ namespace CursedOnion
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.M))
             {
-                var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex]);
+                var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], new Vector3 (1,1,1));
                 commandManager.ExecuteCommand(moveCmd);
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.U))
@@ -99,7 +99,7 @@ namespace CursedOnion
 
             foreach (Character c in orderedCharacters)
             {
-                Debug.Log($"{c.characterName} -> {c.speedStat}\nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
+                Debug.Log($"{c.characterName} -> {c.speedStat}\nID -> {c.id} \nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
             }
 
         }

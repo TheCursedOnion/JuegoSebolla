@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace CursedOnion
 {
     public class MoveCommand : CharacterCommand
     {
-        private Vector3 previousPosition;
+        private Vector3 newPosition, previousPosition;
 
-        public MoveCommand(IEntity character) : base(character) { }
+        public MoveCommand(IEntity character, Vector3 newPosition) : base(character) 
+        {
+            this.newPosition = newPosition;
+        }
 
         public override void Execute()
         {
@@ -14,7 +18,7 @@ namespace CursedOnion
             if (characterObj != null)
             {
                 previousPosition = characterObj.transform.position;
-                characterObj.Move();
+                characterObj.Move(newPosition);
             }
         }
 

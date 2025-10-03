@@ -35,12 +35,13 @@ namespace CursedOnion
 
         public void Attack(IEntity target)
         {
-            Debug.Log(characterName + id + " Attacking!");
+            var targetObj = target as Character;
+            Debug.Log(characterName + id + " Attacking! " + targetObj.characterName + targetObj.id);
         }
 
-        public void Move() 
+        public void Move(Vector3 newPosition) 
         {
-            Debug.Log(characterName + id + " Moving!");
+            Debug.Log(characterName + id + " Moving to " + newPosition);
         }
     }
 }
