@@ -1,6 +1,10 @@
+using CursedOnion.Extensions;
+using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Helpers;
+using CursedOnion.ScriptableObjects;
+using Reflex.Attributes;
 using System.Collections.Generic;
 using System.Linq;
-using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.GraphicsBuffer;
@@ -10,8 +14,13 @@ namespace CursedOnion
     public class TurnSystem : MonoBehaviour
     {
         [Inject] private CommandManager commandManager;
+        [Inject] private LevelAsset levelAsset;
+
         [SerializeField] private CharacterData[] characterTypes;
         [SerializeField] private int numberOfCharacters = 15;
+        //tests
+        [SerializeField] private GameObject characterModel3DTest;
+        [SerializeField] private Vector3 levelOffset;
 
         private List<Character> characters = new List<Character>();
         private List<Character> orderedCharacters = new List<Character>();
@@ -22,6 +31,9 @@ namespace CursedOnion
 
         void Start()
         {
+            Renderer meshRenderer = GetComponent<Renderer>();
+            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
+
             GenerateCharacters();
             PrintStats();
             StartTurn();
@@ -49,7 +61,7 @@ namespace CursedOnion
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.M))
             {
-                var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex]);
+                var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], new Vector3(1, 1, 1));
                 commandManager.ExecuteCommand(moveCmd);
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.U))
@@ -77,31 +89,62 @@ namespace CursedOnion
 
         void GenerateCharacters()
         {
-            for (int i = 0; i < numberOfCharacters; i++)
+            // This is all Test code to generate characters in the level
+            var levelGrid = levelAsset.Grid;
+            var gridSize = levelGrid.Size;      // Vector3Int (x, y, z)
+            var gridOrigin = levelGrid.Origin;  // Vector3
+
+            int spawned = 0;
+            for (int x = 0; x < gridSize.x && spawned < numberOfCharacters; x++)
             {
-                GameObject charObj = new GameObject("Character_" + i);
-                charObj.transform.parent = this.transform;
+                for (int y = 0; y < gridSize.y && spawned < numberOfCharacters; y++)
+                {
+                    for (int z = 0; z < gridSize.z && spawned < numberOfCharacters; z++)
+                    {
+                        Vector3 gridPosition = new Vector3(x, y, z);
+                        Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
 
-                Character character = charObj.AddComponent<Character>();
-                CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
-                character.data = randomType;
-                character.id = i;
-                character.SetCharacterData();
+                        if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
+                        {
+                            GameObject charObj = new GameObject("Character_" + spawned);
 
-                characters.Add(character);
+                            charObj.transform.parent = this.transform;
+                            worldPosition -= levelOffset;
+                            charObj.transform.position = worldPosition.Center();
+
+                            Character character = charObj.AddComponent<Character>();
+                            character.characterModel3D = characterModel3DTest;
+                            
+                            GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
+                            modelInstance.transform.localPosition = Vector3.zero;
+
+                            CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
+                            character.characterModel3D = characterModel3DTest; 
+                            character.data = randomType;
+                            character.id = spawned;
+                            character.SetCharacterData();
+
+                            //tile.containedEntity = character; 
+
+                            characters.Add(character);
+                            spawned++;
+                        }
+
+                    }
+                }
             }
         }
 
-        void PrintStats()
-        {
-            Debug.Log("==== Initiatives ====");
-            orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
+                    void PrintStats()
+                    {
+                        Debug.Log("==== Initiatives ====");
+                        orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
 
-            foreach (Character c in orderedCharacters)
-            {
-                Debug.Log($"{c.characterName} -> {c.speedStat}\nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
+                        foreach (Character c in orderedCharacters)
+                        {
+                            Debug.Log($"{c.characterName} -> {c.speedStat}\nID -> {c.id} \nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
+                        }
+
+                    }
+                }
             }
-
-        }
-    }
-}

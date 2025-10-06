@@ -6,6 +6,6 @@ namespace CursedOnion
     {
         void DoTurn();
         void Attack(IEntity target);
-        void Move();
+        void Move(Vector3 newPosition);
     }
 }
