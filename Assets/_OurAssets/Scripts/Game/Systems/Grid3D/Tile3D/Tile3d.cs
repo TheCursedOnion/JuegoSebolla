@@ -34,7 +34,11 @@ namespace CursedOnion.Game.Systems.Grid
         public IntRange CorrespondingVerticesInMesh => correspondingVerticesInMesh;
         
         public IEntity GetContainedEntity() => containedEntity;
-        public void SetContainedEntity(IEntity newContainedEntity) => containedEntity = newContainedEntity;
+        public void SetContainedEntity(IEntity newContainedEntity) 
+        { 
+            containedEntity = newContainedEntity;
+            Debug.Log("Entity asigniada");
+        }
         
         public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)
         {

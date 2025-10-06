@@ -84,7 +84,9 @@ namespace CursedOnion.Game.Systems.Grid
         }
         public bool TryGridToWorldPosition(Vector3 gridPosition, out Vector3 worldPosition)
         {
-            return VectorConversions.TryGridToWorldPosition(gridPosition - startingOffset, this, out worldPosition);
+            bool result = VectorConversions.TryGridToWorldPosition(gridPosition, this, out worldPosition);
+            worldPosition -= startingOffset;
+            return result;
         }
         public bool TryWorldPositionToGridIndex(Vector3 worldPosition, out int gridIndex)
         {

@@ -61,25 +61,7 @@ namespace CursedOnion
             }
             if (waitingForInput && Input.GetKey(KeyCode.M) && Input.GetMouseButtonDown(0))
             {
-                Tile3d tile = null;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    var levelGrid = levelAsset.Grid;
-                    var gridSize = levelGrid.Size;
-                    Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
-                    if (VectorConversions.TryWorldToGridPosition(hitPoint, levelGrid, out Vector3 gridPosition))
-                    {
-                        tile = levelGrid.GetTileAtGridPosition(gridPosition);
-                    }
-                    if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
-                    {
-                        worldPosition -= levelOffset;
-
-                        var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f));
-                        commandManager.ExecuteCommand(moveCmd);
-                    }
-                }
+                TryToMoveCharacter();
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.U))
             {
@@ -114,39 +96,73 @@ namespace CursedOnion
             int spawned = 0;
             for (int x = 0; x < gridSize.x && spawned < numberOfCharacters; x++)
             {
-                for (int y = 0; y < gridSize.y && spawned < numberOfCharacters; y++)
+
+                for (int z = 0; z < gridSize.z && spawned < numberOfCharacters; z++)
                 {
-                    for (int z = 0; z < gridSize.z && spawned < numberOfCharacters; z++)
+                    Vector3 gridPosition = new Vector3(x, 1.0f, z);
+                    Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
+
+                    if (tile != null && levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
                     {
-                        Vector3 gridPosition = new Vector3(x, y, z);
-                        Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
+                        GameObject charObj = new GameObject("Character_" + spawned);
 
-                        if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
+                        charObj.transform.parent = this.transform;
+                        charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
+
+                        Character character = charObj.AddComponent<Character>();
+                        character.characterModel3D = characterModel3DTest;
+
+                        GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
+                        modelInstance.transform.localPosition = Vector3.zero;
+
+                        CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
+                        character.characterModel3D = characterModel3DTest;
+                        character.data = randomType;
+                        character.id = spawned;
+                        character.SetCharacterData();
+
+                        tile.SetContainedEntity(character);
+
+                        characters.Add(character);
+                        spawned++;
+                    }
+
+                }
+            }
+        }
+
+
+        private void TryToMoveCharacter()
+        {
+            Debug.Log("Trying to move character...");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                var levelGrid = levelAsset.Grid;
+                Vector3 hitPoint = hit.point - hit.normal * 0.1f;
+
+                if (levelGrid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
+                {
+                    Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
+
+                    if (tile != null && tile.GetContainedEntity() == null)
+                    {
+                        if (levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
                         {
-                            GameObject charObj = new GameObject("Character_" + spawned);
-
-                            charObj.transform.parent = this.transform;
-                            worldPosition -= levelOffset;
-                            charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
-
-                            Character character = charObj.AddComponent<Character>();
-                            character.characterModel3D = characterModel3DTest;
-
-                            GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
-                            modelInstance.transform.localPosition = Vector3.zero;
-
-                            CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
-                            character.characterModel3D = characterModel3DTest;
-                            character.data = randomType;
-                            character.id = spawned;
-                            character.SetCharacterData();
-
-                            //tile.containedEntity = character; 
-
-                            characters.Add(character);
-                            spawned++;
+                            Debug.Log("Moving to grid position: " + gridPosition + " at world position: " + worldPosition.Center());
+                        }
+                        else
+                        {
+                            Debug.Log("Failed to convert grid position to world position: " + gridPosition + worldPosition + levelGrid.StartingOffset);
+                            return;
                         }
 
+                        var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f), levelGrid);
+                        commandManager.ExecuteCommand(moveCmd);
+                    }
+                    else
+                    {
+                        Debug.Log("Not valid tile: " + gridPosition);
                     }
                 }
             }
