@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Files
@@ -25,12 +27,14 @@ namespace CursedOnion.Game.Systems.Files
 
         public void SaveAsset()
         {
+            #if UNITY_EDITOR
             if (FilePanelWindow.TryGetProjectPath(this, out string path))
             {
                 AssetDatabase.CreateAsset(AssetObject, path);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
+            #endif
         }
     }
 }

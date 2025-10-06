@@ -14,6 +14,8 @@ namespace CursedOnion.Installers
         [Expandable, SerializeField] GameSettings gameSettings;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
+            InputReaderCollection.Initialize();
+            
             containerBuilder.AddSingleton(new PauseService(), typeof(PauseService));
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
             containerBuilder.AddSingleton(InputReaderCollection, typeof(InputReaderCollection));
