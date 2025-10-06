@@ -11,7 +11,7 @@ namespace CursedOnion.Game.Systems.Grid.Scriptable
         {
             var tile3d = new Tile3d();
             tile3d.SetTileDescriptor(TileDescriptor);
-            
+                
             return tile3d.Clone();
         }
     }

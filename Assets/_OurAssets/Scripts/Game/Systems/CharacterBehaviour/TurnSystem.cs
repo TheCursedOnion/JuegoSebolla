@@ -1,6 +1,5 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Helpers;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using System.Collections.Generic;
@@ -31,9 +30,6 @@ namespace CursedOnion
 
         void Start()
         {
-            Renderer meshRenderer = GetComponent<Renderer>();
-            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
-
             GenerateCharacters();
             PrintStats();
             StartTurn();
@@ -103,13 +99,12 @@ namespace CursedOnion
                         Vector3 gridPosition = new Vector3(x, y, z);
                         Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
 
-                        if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
+                        if (tile != null && levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
                         {
                             GameObject charObj = new GameObject("Character_" + spawned);
 
                             charObj.transform.parent = this.transform;
-                            worldPosition -= levelOffset;
-                            charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
+                            charObj.transform.position = worldPosition.Center();
 
                             Character character = charObj.AddComponent<Character>();
                             character.characterModel3D = characterModel3DTest;

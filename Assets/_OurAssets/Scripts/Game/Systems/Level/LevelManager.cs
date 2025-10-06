@@ -11,28 +11,34 @@ namespace CursedOnion
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
-        [Expandable, SerializeField] LevelAsset levelAsset;
+        [Expandable, SerializeField, Inject] LevelAsset levelAsset;
 
         [SerializeField] private Vector3[] gridPositions;
         private Mesh mesh;
-        [ShowNonSerializedField] private Vector3 levelOffset;
+        private Renderer meshRenderer;
 
         void Awake()
         {
             mesh = GetComponent<MeshFilter>().sharedMesh;
             
-            Renderer meshRenderer = GetComponent<Renderer>();
-            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
+            meshRenderer = GetComponent<Renderer>();
+            UpdateOffset();
         }
-        public void Initialize(LevelAsset levelAsset)
+        public void Initialize(LevelAsset asset)
         {
-            this.gameObject.name = "LevelManager";
-            this.levelAsset = levelAsset;
-            GetComponent<MeshFilter>().sharedMesh = levelAsset.Mesh;
-            GetComponent<MeshRenderer>().sharedMaterials = levelAsset.MeshMaterials;
-            GetComponent<MeshCollider>().sharedMesh = levelAsset.Mesh;
+            gameObject.name = "LevelManager";
+            levelAsset = asset;
+            
+            GetComponent<MeshCollider>().sharedMesh = asset.Grid.Mesh;
+            GetComponent<MeshFilter>().sharedMesh = asset.Grid.Mesh;
+            
+            GetComponent<MeshRenderer>().sharedMaterials = asset.MeshMaterials;
         }
 
+        void UpdateOffset()
+        {
+            levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
+        }
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.C))
@@ -48,14 +54,15 @@ namespace CursedOnion
 
             if (Input.GetMouseButtonDown(0))
             {
+                UpdateOffset();
                 mesh.FillColor32(Color.white);
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     Grid3d grid = levelAsset.Grid;
                     Debug.Log("Hit");
-                    Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
-                    if (VectorConversions.TryWorldToGridPosition(hitPoint, grid, out Vector3 gridPosition))
+                    Vector3 hitPoint = hit.point - hit.normal * 0.1f;
+                    if (grid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
                     {
                         Debug.Log("A Pintar en: " + gridPosition);
                         grid.GetTileAtGridPosition(gridPosition).Paint(Color.red);

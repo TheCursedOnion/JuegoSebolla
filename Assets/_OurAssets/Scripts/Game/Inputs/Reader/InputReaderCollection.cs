@@ -10,10 +10,15 @@ namespace CursedOnion.Game.Inputs
     public class InputReaderCollection : ScriptableObject
     {
         //TODO: Hacer el resto
-        [Required, SerializeField] BattleInputReader BattleInputReader;
+        [Expandable, Required, SerializeField] BattleInputReader BattleInputReader;
         
-        private Dictionary<Type, IInputReader> inputReaders = new Dictionary<Type, IInputReader>();
+        private Dictionary<Type, IInputReader> inputReaders;
 
+        public void Initialize()
+        {
+            inputReaders = new();
+            if(BattleInputReader != null) inputReaders.Add(typeof(BattleInputReader), BattleInputReader);
+        }
         public T GetReader<T>() where T : IInputReader
         {
             return inputReaders.ContainsKey(typeof(T)) ? (T)inputReaders[typeof(T)] : default;
@@ -34,15 +39,6 @@ namespace CursedOnion.Game.Inputs
                 reader?.Disable();
             }
         }
-        
-        #if UNITY_EDITOR
-        public void OnValidate()
-        {
-            inputReaders.Clear();
-            
-            if(BattleInputReader != null) inputReaders.Add(typeof(BattleInputReader), BattleInputReader);
-        }
-        #endif
         
     }
 }

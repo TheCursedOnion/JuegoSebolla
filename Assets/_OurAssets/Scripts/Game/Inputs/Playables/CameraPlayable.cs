@@ -1,4 +1,5 @@
-﻿using CursedOnion.Extensions;
+﻿using System;
+using CursedOnion.Extensions;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,14 +10,21 @@ namespace CursedOnion.Game.Inputs
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
         Vector2 moveInput;
+
         public void OnEnable()
         {
             BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
+            if (InputReaderCollection == null)
+            {
+                transform.localEulerAngles = new Vector3(-30, 0, 0);
+                return;
+            }
+                
             reader.MovePointer += MoveCamera;
             
             reader.Enable();
         }
-
+        
         public void OnDisable()
         {
             BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();

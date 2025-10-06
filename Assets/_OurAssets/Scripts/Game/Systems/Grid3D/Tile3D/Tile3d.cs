@@ -32,7 +32,9 @@ namespace CursedOnion.Game.Systems.Grid
         #region Getters & Setters
         public Tile3dDescriptor GetTileDescriptor() => descriptor;
         public IntRange CorrespondingVerticesInMesh => correspondingVerticesInMesh;
-        public IEntity ContainedEntity => containedEntity;
+        
+        public IEntity GetContainedEntity() => containedEntity;
+        public void SetContainedEntity(IEntity newContainedEntity) => containedEntity = newContainedEntity;
         
         public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)
         {
@@ -61,7 +63,7 @@ namespace CursedOnion.Game.Systems.Grid
             this.descriptor = tile.descriptor;
             this.gridMesh = tile.gridMesh;
             this.correspondingVerticesInMesh = tile.correspondingVerticesInMesh;
-            this.containedEntity = tile.ContainedEntity;
+            this.containedEntity = tile.containedEntity;
         }
         public void DebugTile()
         {

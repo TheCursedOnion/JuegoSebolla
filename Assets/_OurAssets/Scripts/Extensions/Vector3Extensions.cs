@@ -4,7 +4,7 @@ namespace CursedOnion.Extensions
 {
     public static class Vector3Extensions
     {
-        public static Vector3Int ObtainVectorInt(this Vector3 vector)
+        public static Vector3Int CastToVectorInt(this Vector3 vector)
         {
             return new Vector3Int((int)vector.x, (int)vector.y, (int)vector.z);
         }
