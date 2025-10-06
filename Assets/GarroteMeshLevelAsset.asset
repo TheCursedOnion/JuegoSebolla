@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6fa3a885419b7d4bb39f16c096bf1d3, type: 3}
   m_Name: GarroteMeshLevelAsset
   m_EditorClassIdentifier: 
-  Mesh: {fileID: 4300000, guid: 6220670155eb58d48bfd30a00af8470b, type: 2}
   MeshMaterials:
   - {fileID: 2100000, guid: 19668f4e32a870140a34ebdf76ab5a8d, type: 2}
   Grid:
+    mesh: {fileID: 4300000, guid: 6220670155eb58d48bfd30a00af8470b, type: 2}
+    startingOffset: {x: 0, y: 0, z: 0}
     origin: {x: -5, y: 0, z: -3}
     size: {x: 7, y: 1, z: 7}
     tiles:

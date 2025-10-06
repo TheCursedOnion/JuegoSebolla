@@ -46,7 +46,7 @@ namespace CursedOnion.Helpers
         private static int GridPositionToIndex(Vector3 gridPosition, Grid3d grid)
         {
             Vector3Int size = grid.Size;
-            Vector3Int vectorIndex = gridPosition.ObtainVectorInt();
+            Vector3Int vectorIndex = gridPosition.CastToVectorInt();
             return vectorIndex.x + vectorIndex.z * size.x + vectorIndex.y * size.x * size.z;
         }
     }

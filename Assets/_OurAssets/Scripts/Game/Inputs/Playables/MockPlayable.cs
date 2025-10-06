@@ -9,13 +9,13 @@ namespace CursedOnion.Game.Inputs
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
 
-        public void Enable()
+        public void OnEnable()
         {
             BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
             reader.Select += Test;
         }
 
-        public void Disable()
+        public void OnDisable()
         {
             BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
             reader.Select += Test;

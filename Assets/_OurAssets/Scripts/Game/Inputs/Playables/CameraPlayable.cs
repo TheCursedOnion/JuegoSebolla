@@ -13,11 +13,6 @@ namespace CursedOnion.Game.Inputs
 
         public void OnEnable()
         {
-            Enable();
-        }
-
-        public void Enable()
-        {
             BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
             if (InputReaderCollection == null)
             {
@@ -32,12 +27,8 @@ namespace CursedOnion.Game.Inputs
         
         public void OnDisable()
         {
-            //Disable();
-        }
-        public void Disable()
-        {
-            /*BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
-            reader.MovePointer -= MoveCamera;*/
+            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
+            reader.MovePointer -= MoveCamera;
         }
 
         void MoveCamera(Vector2 direction)
