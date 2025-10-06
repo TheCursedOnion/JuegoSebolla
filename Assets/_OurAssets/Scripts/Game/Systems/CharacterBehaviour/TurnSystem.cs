@@ -54,15 +54,14 @@ namespace CursedOnion
             {
                 NextTurn();
             }
-            if (waitingForInput && Input.GetKeyDown(KeyCode.A))
+            if (waitingForInput && Input.GetKey(KeyCode.A) && Input.GetMouseButtonDown(0))
             {
                 var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], orderedCharacters[currentCharacterIndex - 1]);
                 commandManager.ExecuteCommand(attackCmd);
             }
-            if (waitingForInput && Input.GetKeyDown(KeyCode.M))
+            if (waitingForInput && Input.GetKey(KeyCode.M) && Input.GetMouseButtonDown(0))
             {
-                var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], new Vector3(1, 1, 1));
-                commandManager.ExecuteCommand(moveCmd);
+                TryMoveCurrentCharacterToMouseTile();
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.U))
             {
@@ -110,16 +109,16 @@ namespace CursedOnion
 
                             charObj.transform.parent = this.transform;
                             worldPosition -= levelOffset;
-                            charObj.transform.position = worldPosition.Center();
+                            charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
 
                             Character character = charObj.AddComponent<Character>();
                             character.characterModel3D = characterModel3DTest;
-                            
+
                             GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
                             modelInstance.transform.localPosition = Vector3.zero;
 
                             CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
-                            character.characterModel3D = characterModel3DTest; 
+                            character.characterModel3D = characterModel3DTest;
                             character.data = randomType;
                             character.id = spawned;
                             character.SetCharacterData();
@@ -135,16 +134,40 @@ namespace CursedOnion
             }
         }
 
-                    void PrintStats()
+        private void TryMoveCurrentCharacterToMouseTile()
+        {
+            Tile3d tile = null;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                var levelGrid = levelAsset.Grid;
+                var gridSize = levelGrid.Size;
+                Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
+
+                if (VectorConversions.TryWorldToGridPosition(hitPoint, levelGrid, out Vector3 gridPosition))
+                {
+                    tile = levelGrid.GetTileAtGridPosition(gridPosition);
+
+                    if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
                     {
-                        Debug.Log("==== Initiatives ====");
-                        orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
-
-                        foreach (Character c in orderedCharacters)
-                        {
-                            Debug.Log($"{c.characterName} -> {c.speedStat}\nID -> {c.id} \nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
-                        }
-
+                        worldPosition -= levelOffset;
+                        var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f));
+                        commandManager.ExecuteCommand(moveCmd);
                     }
                 }
             }
+        }
+
+        void PrintStats()
+        {
+            Debug.Log("==== Initiatives ====");
+            orderedCharacters = characters.OrderByDescending(c => c.speedStat).ToList();
+
+            foreach (Character c in orderedCharacters)
+            {
+                Debug.Log($"{c.characterName} -> {c.speedStat}\nID -> {c.id} \nHP -> {c.HP}\nattack -> {c.attackStat}\ndefense -> {c.defenseStat}\nmovement -> {c.movementStat}\nprice -> {c.priceStat}");
+            }
+
+        }
+    }
+}

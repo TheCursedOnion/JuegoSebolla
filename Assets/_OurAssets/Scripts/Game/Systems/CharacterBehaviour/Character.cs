@@ -45,6 +45,7 @@ namespace CursedOnion
         public void Move(Vector3 newPosition) 
         {
             Debug.Log(characterName + id + " Moving to " + newPosition);
+            transform.position = newPosition;
         }
     }
 }
