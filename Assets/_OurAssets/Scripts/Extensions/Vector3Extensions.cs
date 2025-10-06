@@ -38,5 +38,10 @@ namespace CursedOnion.Extensions
         {
             return new Vector3(vector.x, vector.z, vector.y);
         }
+
+        public static Vector3 Center(ref this Vector3 vector)
+        {
+            return vector + new Vector3(0.5f, 0.5f, 0.5f);
+        }
     }
 }

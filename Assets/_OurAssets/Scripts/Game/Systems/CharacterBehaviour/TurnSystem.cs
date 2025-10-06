@@ -1,4 +1,6 @@
+using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Helpers;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace CursedOnion
         [SerializeField] private int numberOfCharacters = 15;
         //tests
         [SerializeField] private GameObject characterModel3DTest;
+        [SerializeField] private Vector3 levelOffset;
 
         private List<Character> characters = new List<Character>();
         private List<Character> orderedCharacters = new List<Character>();
@@ -28,6 +31,9 @@ namespace CursedOnion
 
         void Start()
         {
+            Renderer meshRenderer = GetComponent<Renderer>();
+            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
+
             GenerateCharacters();
             PrintStats();
             StartTurn();
@@ -95,16 +101,16 @@ namespace CursedOnion
                 {
                     for (int z = 0; z < gridSize.z && spawned < numberOfCharacters; z++)
                     {
-                        Vector3 gridPosition = new Vector3(x, y, z) + gridOrigin;
+                        Vector3 gridPosition = new Vector3(x, y, z);
                         Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
 
-                        if (tile != null)
+                        if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
                         {
                             GameObject charObj = new GameObject("Character_" + spawned);
 
                             charObj.transform.parent = this.transform;
-                            Vector3 characterPosition = gridPosition + new Vector3(0, 1.0f, 0);
-                            charObj.transform.position = characterPosition;
+                            worldPosition -= levelOffset;
+                            charObj.transform.position = worldPosition.Center();
 
                             Character character = charObj.AddComponent<Character>();
                             character.characterModel3D = characterModel3DTest;

@@ -17,11 +17,21 @@ namespace CursedOnion.Helpers
 
             return false;
         }
+        public static bool TryGridToWorldPosition(Vector3 gridPosition, Grid3d grid, out Vector3 worldPosition)
+        {
+            worldPosition = gridPosition + grid.Origin;
+            if (grid.IsGridPositionInBounds(gridPosition))
+            {
+                return true;
+            }
+
+            return false;
+        }
         public static bool TryWorldPositionToGridIndex(Vector3 worldPosition, Grid3d grid, out int gridIndex)
         {
             gridIndex = -1;
-            if(!TryWorldToGridPosition(worldPosition, grid, out var gridPosition)) return false;
-            
+            if (!TryWorldToGridPosition(worldPosition, grid, out var gridPosition)) return false;
+
             gridIndex = GridPositionToIndex(gridPosition, grid);
             return true;
         }
