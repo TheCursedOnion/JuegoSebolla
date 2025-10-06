@@ -7,6 +7,9 @@ namespace CursedOnion
         // Character type 
         public CharacterData data;
 
+        // Character Model (test)
+        public GameObject characterModel3D;
+
         // Character Stats
         public string characterName { get; set; }
         public int HP { get; set; }
