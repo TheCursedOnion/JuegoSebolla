@@ -1,5 +1,6 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Helpers;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using System.Collections.Generic;
@@ -30,6 +31,9 @@ namespace CursedOnion
 
         void Start()
         {
+            Renderer meshRenderer = GetComponent<Renderer>();
+            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
+
             GenerateCharacters();
             PrintStats();
             StartTurn();
@@ -50,14 +54,32 @@ namespace CursedOnion
             {
                 NextTurn();
             }
-            if (waitingForInput && Input.GetKey(KeyCode.A) && Input.GetMouseButtonDown(0))
+            if (waitingForInput && Input.GetKeyDown(KeyCode.A))
             {
                 var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], orderedCharacters[currentCharacterIndex - 1]);
                 commandManager.ExecuteCommand(attackCmd);
             }
             if (waitingForInput && Input.GetKey(KeyCode.M) && Input.GetMouseButtonDown(0))
             {
-                TryMoveCurrentCharacterToMouseTile();
+                Tile3d tile = null;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    var levelGrid = levelAsset.Grid;
+                    var gridSize = levelGrid.Size;
+                    Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
+                    if (VectorConversions.TryWorldToGridPosition(hitPoint, levelGrid, out Vector3 gridPosition))
+                    {
+                        tile = levelGrid.GetTileAtGridPosition(gridPosition);
+                    }
+                    if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
+                    {
+                        worldPosition -= levelOffset;
+
+                        var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f));
+                        commandManager.ExecuteCommand(moveCmd);
+                    }
+                }
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.U))
             {
@@ -99,12 +121,13 @@ namespace CursedOnion
                         Vector3 gridPosition = new Vector3(x, y, z);
                         Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
 
-                        if (tile != null && levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
+                        if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
                         {
                             GameObject charObj = new GameObject("Character_" + spawned);
 
                             charObj.transform.parent = this.transform;
-                            charObj.transform.position = worldPosition.Center();
+                            worldPosition -= levelOffset;
+                            charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
 
                             Character character = charObj.AddComponent<Character>();
                             character.characterModel3D = characterModel3DTest;
@@ -124,30 +147,6 @@ namespace CursedOnion
                             spawned++;
                         }
 
-                    }
-                }
-            }
-        }
-
-        private void TryMoveCurrentCharacterToMouseTile()
-        {
-            Tile3d tile = null;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                var levelGrid = levelAsset.Grid;
-                var gridSize = levelGrid.Size;
-                Vector3 hitPoint = hit.point + levelOffset - hit.normal * 0.1f;
-
-                if (VectorConversions.TryWorldToGridPosition(hitPoint, levelGrid, out Vector3 gridPosition))
-                {
-                    tile = levelGrid.GetTileAtGridPosition(gridPosition);
-
-                    if (tile != null && VectorConversions.TryGridToWorldPosition(gridPosition, levelGrid, out Vector3 worldPosition))
-                    {
-                        worldPosition -= levelOffset;
-                        var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f));
-                        commandManager.ExecuteCommand(moveCmd);
                     }
                 }
             }
