@@ -13,6 +13,8 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] Tile3dDescriptor descriptor = Tile3dDescriptor.Default;
         [SerializeField] Mesh gridMesh;
         [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
+        
+        [SerializeField] DirectionFlags blockedEntryDirections = DirectionFlags.None;
         IEntity containedEntity;
         public static Tile3d Default
         {
@@ -37,8 +39,14 @@ namespace CursedOnion.Game.Systems.Grid
         public void SetContainedEntity(IEntity newContainedEntity) 
         { 
             containedEntity = newContainedEntity;
-            Debug.Log("Entity asignada: " + newContainedEntity);
         }
+        
+        
+        //Como es una flag, hay que emplear operaciones de bits :)
+        public DirectionFlags GetBlockedEntryDirections() => blockedEntryDirections;
+        public void SetBlockedEntryDirections(DirectionFlags flags) =>  blockedEntryDirections = flags;
+        public void BlockEntryDirection(DirectionFlags direction) => blockedEntryDirections |= direction;
+        public void UnblockEntryDirection(DirectionFlags direction) => blockedEntryDirections &= ~direction;
         
         public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)
         {
@@ -68,6 +76,7 @@ namespace CursedOnion.Game.Systems.Grid
             this.gridMesh = tile.gridMesh;
             this.correspondingVerticesInMesh = tile.correspondingVerticesInMesh;
             this.containedEntity = tile.containedEntity;
+            this.blockedEntryDirections = tile.blockedEntryDirections;
         }
         public void DebugTile()
         {

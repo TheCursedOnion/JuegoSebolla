@@ -21,6 +21,7 @@ namespace CursedOnion.Game.Systems.Grid
         public uint Id;
         public int Cost;
 
-        [AllowNesting] public DirectionFlags possibleNeighbours;
+        public DirectionFlags allowedExitDirections;
+        public DirectionFlags allowedEntryDirections;
     }
 }

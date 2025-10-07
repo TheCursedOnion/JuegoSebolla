@@ -11,10 +11,10 @@ namespace CursedOnion.Helpers
         
         Right       = 1 << 0,
         Left        = 1 << 1,
-        Up          = 1 << 2,
-        Down        = 1 << 3,
         Forward     = 1 << 4,
         Back        = 1 << 5,
+        Up          = 1 << 2,
+        Down        = 1 << 3,
         
         ForwardUp   = 1 << 6, 
         ForwardDown = 1 << 7, 
