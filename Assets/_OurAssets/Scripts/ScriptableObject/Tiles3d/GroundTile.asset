@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c491ae68ad91f4183976ca5c10e91f, type: 3}
   m_Name: GroundTile
   m_EditorClassIdentifier: 
-  descriptor:
-    Id: 1
+  TileDescriptor:
+    Id: 0
     Cost: 0
+    allowedExitDirections: 51
+    allowedEntryDirections: 51
