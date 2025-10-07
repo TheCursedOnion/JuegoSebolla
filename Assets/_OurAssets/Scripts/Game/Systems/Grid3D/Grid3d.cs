@@ -117,54 +117,57 @@ namespace CursedOnion.Game.Systems.Grid
         #endregion
         
         #region Tile Getters & Setters
-            public Tile3d GetTileAtWorldPosition(Vector3 worldPosition)
+        public Tile3d GetTileAtWorldPosition(Vector3 worldPosition)
+        {
+            TryWorldToGridPosition(worldPosition, out Vector3 gridPosition);
+            Debug.Log(gridPosition);
+            
+            if (TryWorldPositionToGridIndex(worldPosition, out int gridIndex))
             {
-                if (TryWorldPositionToGridIndex(worldPosition, out int gridIndex))
-                {
-                    return tiles[gridIndex] ??= Tile3d.Default;
-                }
-                return null;
+                return tiles[gridIndex] ??= Tile3d.Default;
             }
-            public Tile3d GetTileAtGridPosition(Vector3 gridPosition)
+            return null;
+        }
+        public Tile3d GetTileAtGridPosition(Vector3 gridPosition)
+        {
+            if (TryGridPositionToIndex(gridPosition, out int gridIndex))
             {
-                if (TryGridPositionToIndex(gridPosition, out int gridIndex))
-                {
-                    return tiles[gridIndex] ??= Tile3d.Default;
-                }
-                return null;
+                return tiles[gridIndex] ??= Tile3d.Default;
             }
-            public void SetTileAtWorldPosition(Vector3 worldPosition, Tile3d tile)
+            return null;
+        }
+        public void SetTileAtWorldPosition(Vector3 worldPosition, Tile3d tile)
+        {
+            if (TryWorldPositionToGridIndex(worldPosition, out int gridIndex))
             {
-                if (TryWorldPositionToGridIndex(worldPosition, out int gridIndex))
-                {
-                    SetOrReplaceTile(gridIndex, tile);
-                }
+                SetOrReplaceTile(gridIndex, tile);
             }
-            public void SetTileAtGridPosition(Vector3 gridPosition, Tile3d tile)
+        }
+        public void SetTileAtGridPosition(Vector3 gridPosition, Tile3d tile)
+        {
+            if (TryGridPositionToIndex(gridPosition, out int gridIndex))
             {
-                if (TryGridPositionToIndex(gridPosition, out int gridIndex))
-                {
-                    SetOrReplaceTile(gridIndex, tile);
-                }
+                SetOrReplaceTile(gridIndex, tile);
             }
-            public void SetTileAtIndex(int index, Tile3d tile)
+        }
+        public void SetTileAtIndex(int index, Tile3d tile)
+        {
+            if (IsIndexInBounds(index))
             {
-                if (IsIndexInBounds(index))
-                {
-                    SetOrReplaceTile(index, tile);
-                }
+                SetOrReplaceTile(index, tile);
             }
-            private void SetOrReplaceTile(int index, Tile3d tile)
+        }
+        private void SetOrReplaceTile(int index, Tile3d tile)
+        {
+            if (tiles[index] != null)
             {
-                if (tiles[index] != null)
-                {
-                    tiles[index].ReplaceAttributes(tile);
-                }
-                else
-                {
-                    tiles[index] = tile;
-                }
+                tiles[index].ReplaceAttributes(tile);
             }
+            else
+            {
+                tiles[index] = tile;
+            }
+        }
         #endregion
         public void DebugGrid()
         {

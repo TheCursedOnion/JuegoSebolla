@@ -37,7 +37,7 @@ namespace CursedOnion.Game.Systems.Grid
         public void SetContainedEntity(IEntity newContainedEntity) 
         { 
             containedEntity = newContainedEntity;
-            Debug.Log("Entity asigniada");
+            Debug.Log("Entity asignada: " + newContainedEntity);
         }
         
         public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)

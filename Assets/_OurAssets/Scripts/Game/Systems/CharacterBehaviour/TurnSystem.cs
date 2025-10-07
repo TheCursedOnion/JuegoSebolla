@@ -96,17 +96,15 @@ namespace CursedOnion
             int spawned = 0;
             for (int x = 0; x < gridSize.x && spawned < numberOfCharacters; x++)
             {
-
                 for (int z = 0; z < gridSize.z && spawned < numberOfCharacters; z++)
                 {
-                    Vector3 gridPosition = new Vector3(x, 1.0f, z);
+                    Vector3 gridPosition = new Vector3(x, 0, z);
                     Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
 
                     if (tile != null && levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
                     {
                         GameObject charObj = new GameObject("Character_" + spawned);
-
-                        charObj.transform.parent = this.transform;
+                        
                         charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
 
                         Character character = charObj.AddComponent<Character>();
@@ -143,9 +141,10 @@ namespace CursedOnion
 
                 if (levelGrid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
                 {
-                    Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
-
-                    if (tile != null && tile.GetContainedEntity() == null)
+                    Tile3d floorTile = levelGrid.GetTileAtGridPosition(gridPosition);
+                    Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
+                    
+                    if (aboveTile != null && aboveTile.GetContainedEntity() == null)
                     {
                         if (levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
                         {

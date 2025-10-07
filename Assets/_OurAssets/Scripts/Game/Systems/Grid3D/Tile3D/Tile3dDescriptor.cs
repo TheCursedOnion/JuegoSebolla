@@ -1,4 +1,7 @@
-﻿namespace CursedOnion.Game.Systems.Grid
+﻿using CursedOnion.Helpers;
+using NaughtyAttributes;
+
+namespace CursedOnion.Game.Systems.Grid
 {
     [System.Serializable]
     public class Tile3dDescriptor
@@ -17,5 +20,7 @@
         }
         public uint Id;
         public int Cost;
+
+        [AllowNesting] public DirectionFlags possibleNeighbours;
     }
 }

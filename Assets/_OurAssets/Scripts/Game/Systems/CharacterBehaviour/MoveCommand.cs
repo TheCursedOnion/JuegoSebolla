@@ -24,18 +24,10 @@ namespace CursedOnion
             if (characterObj != null)
             {
                 previousPosition = characterObj.transform.position;
-
-                if (grid.TryWorldToGridPosition(previousPosition, out Vector3 prevGridPos))
-                {
-                    Debug.Log("Previous Grid Position: " + prevGridPos);
-                    previousTile = grid.GetTileAtGridPosition(prevGridPos);
-                }
-
-                if (grid.TryWorldToGridPosition(targetPosition, out Vector3 newGridPos))
-                {
-                    Debug.Log("New Grid Position: " + newGridPos);
-                    newTile = grid.GetTileAtGridPosition(newGridPos);
-                }
+                
+                previousTile = grid.GetTileAtWorldPosition(previousPosition);
+                newTile = grid.GetTileAtWorldPosition(targetPosition);
+                
                 Debug.Log(characterObj.characterName + characterObj.id + " Moving from " + previousPosition + " to " + targetPosition);
 
                 previousTile?.SetContainedEntity(null);

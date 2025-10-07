@@ -60,13 +60,14 @@ namespace CursedOnion
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     Grid3d grid = levelAsset.Grid;
-                    Debug.Log("Hit");
+                    
                     Vector3 hitPoint = hit.point - hit.normal * 0.1f;
                     if (grid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
                     {
                         Debug.Log("A Pintar en: " + gridPosition);
                         grid.GetTileAtGridPosition(gridPosition).Paint(Color.red);
                     }
+                    Debug.Log("Hit en " + hit.point + "grid "+ gridPosition);
                 }
             }
         }
