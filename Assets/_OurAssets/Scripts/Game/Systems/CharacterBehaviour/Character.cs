@@ -20,6 +20,9 @@ namespace CursedOnion
         public int priceStat { get; set; }
         public int id { get; set; }
 
+        // Character Variables
+        public bool hasDied = false;
+
         public void SetCharacterData()
         {
             characterName = data.SetCharacterName();
@@ -40,12 +43,25 @@ namespace CursedOnion
         {
             var targetObj = target as Character;
             Debug.Log(characterName + id + " Attacking! " + targetObj.characterName + targetObj.id);
+            targetObj.HP -= Mathf.Max(1, this.attackStat - targetObj.defenseStat);
+            Debug.Log(targetObj.characterName + targetObj.id + "was Attacked " + "HP now: " + targetObj.HP);
+            if (targetObj.HP <= 0)
+            {
+                targetObj.hasDied = true;
+                targetObj.Die();
+            }
         }
 
         public void Move(Vector3 newPosition) 
         {
             Debug.Log(characterName + id + " Moving to " + newPosition);
             transform.position = newPosition;
+        }
+
+        public void Die()
+        {
+            Debug.Log(characterName + id + " has died.");
+            this.gameObject.SetActive(false);
         }
     }
 }

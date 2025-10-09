@@ -54,10 +54,9 @@ namespace CursedOnion
             {
                 NextTurn();
             }
-            if (waitingForInput && Input.GetKeyDown(KeyCode.A))
+            if (waitingForInput && Input.GetKey(KeyCode.A) && Input.GetMouseButtonDown(0))
             {
-                var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], orderedCharacters[currentCharacterIndex - 1]);
-                commandManager.ExecuteCommand(attackCmd);
+                TryToAttackCharacter();
             }
             if (waitingForInput && Input.GetKey(KeyCode.M) && Input.GetMouseButtonDown(0))
             {
@@ -75,14 +74,18 @@ namespace CursedOnion
 
         void NextTurn()
         {
-            currentCharacterIndex++;
-
-            if (currentCharacterIndex >= orderedCharacters.Count)
+            do
             {
-                currentCharacterIndex = 0;
-                turnCount++;
-                Debug.Log("Turno " + turnCount + " comienza.");
+                currentCharacterIndex++;
+                if (currentCharacterIndex >= orderedCharacters.Count)
+                {
+                    currentCharacterIndex = 0;
+                    turnCount++;
+                    Debug.Log("Turno " + turnCount + " comienza.");
+                }
             }
+            while (orderedCharacters[currentCharacterIndex].hasDied);
+
             orderedCharacters[currentCharacterIndex].DoTurn();
         }
 
@@ -141,7 +144,6 @@ namespace CursedOnion
 
                 if (levelGrid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
                 {
-                    Tile3d floorTile = levelGrid.GetTileAtGridPosition(gridPosition);
                     Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
                     
                     if (aboveTile != null && aboveTile.GetContainedEntity() == null)
@@ -158,6 +160,32 @@ namespace CursedOnion
 
                         var moveCmd = CharacterCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f), levelGrid);
                         commandManager.ExecuteCommand(moveCmd);
+                    }
+                    else
+                    {
+                        Debug.Log("Not valid tile: " + gridPosition);
+                    }
+                }
+            }
+        }
+
+        private void TryToAttackCharacter()
+        {
+            Debug.Log("Trying to attack character...");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                var levelGrid = levelAsset.Grid;
+                Vector3 hitPoint = hit.point - hit.normal * 0.1f;
+
+                if (levelGrid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
+                {
+                    Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
+
+                    if (aboveTile != null && aboveTile.GetContainedEntity() != null)
+                    {
+                        var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], aboveTile.GetContainedEntity(), levelGrid);
+                        commandManager.ExecuteCommand(attackCmd);
                     }
                     else
                     {
