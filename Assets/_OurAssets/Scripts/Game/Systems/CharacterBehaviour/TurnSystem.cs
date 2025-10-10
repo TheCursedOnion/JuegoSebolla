@@ -17,7 +17,7 @@ namespace CursedOnion
         [Inject] private LevelAsset levelAsset;
 
         [SerializeField] private CharacterData[] characterTypes;
-        [SerializeField] private int numberOfCharacters = 15;
+
         //tests
         [SerializeField] private GameObject characterModel3DTest;
         [SerializeField] private Vector3 levelOffset;
@@ -28,14 +28,13 @@ namespace CursedOnion
         private int currentCharacterIndex = 0;
         private int turnCount = 1;
         private bool waitingForInput = true;
+        private int spawned = 0;
 
         void Start()
         {
             Renderer meshRenderer = GetComponent<Renderer>();
             levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
 
-            GenerateCharacters();
-            PrintStats();
             StartTurn();
         }
 
@@ -53,6 +52,22 @@ namespace CursedOnion
             if (waitingForInput && Input.GetKeyDown(KeyCode.Space))
             {
                 NextTurn();
+            }
+            if (waitingForInput && Input.GetKeyDown(KeyCode.Return))
+            {
+                if (characters.Count == 0)
+                {
+                    Debug.Log("Theres NO Characters");
+                }
+                else
+                {
+                    PrintStats();
+                    StartTurn();
+                }
+            }
+            if (waitingForInput && Input.GetKey(KeyCode.G) && Input.GetMouseButtonDown(0))
+            {
+                TryToSpawnCharacter();
             }
             if (waitingForInput && Input.GetKey(KeyCode.A) && Input.GetMouseButtonDown(0))
             {
@@ -86,52 +101,44 @@ namespace CursedOnion
             }
             while (orderedCharacters[currentCharacterIndex].hasDied);
 
+            commandManager.ClearTurn();
             orderedCharacters[currentCharacterIndex].DoTurn();
         }
 
-        void GenerateCharacters()
+        void TryToSpawnCharacter()
         {
-            // This is all Test code to generate characters in the level
-            var levelGrid = levelAsset.Grid;
-            var gridSize = levelGrid.Size;      // Vector3Int (x, y, z)
-            var gridOrigin = levelGrid.Origin;  // Vector3
-
-            int spawned = 0;
-            for (int x = 0; x < gridSize.x && spawned < numberOfCharacters; x++)
+            Debug.Log("Trying to Spawn character...");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                for (int z = 0; z < gridSize.z && spawned < numberOfCharacters; z++)
+                var levelGrid = levelAsset.Grid;
+                Vector3 hitPoint = hit.point - hit.normal * 0.1f;
+
+                if (levelGrid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
                 {
-                    Vector3 gridPosition = new Vector3(x, 0, z);
-                    Tile3d tile = levelGrid.GetTileAtGridPosition(gridPosition);
+                    Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
 
-                    if (tile != null && levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
+                    if (aboveTile != null && aboveTile.GetContainedEntity() == null)
                     {
-                        GameObject charObj = new GameObject("Character_" + spawned);
-                        
-                        charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
+                        if (levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
+                        {
+                            Debug.Log("Spawning Cahracter in grid position: " + gridPosition + " at world position: " + worldPosition.Center());
+                        }
+                        else
+                        {
+                            Debug.Log("Failed to convert grid position to world position: " + gridPosition + worldPosition + levelGrid.StartingOffset);
+                            return;
+                        }
 
-                        Character character = charObj.AddComponent<Character>();
-                        character.characterModel3D = characterModel3DTest;
-
-                        GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
-                        modelInstance.transform.localPosition = Vector3.zero;
-
-                        CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
-                        character.characterModel3D = characterModel3DTest;
-                        character.data = randomType;
-                        character.id = spawned;
-                        character.SetCharacterData();
-
-                        tile.SetContainedEntity(character);
-
-                        characters.Add(character);
-                        spawned++;
+                        SpawnRandomCharacter(worldPosition, aboveTile);
                     }
-
+                    else
+                    {
+                        Debug.Log("Not valid tile: " + gridPosition);
+                    }
                 }
             }
         }
-
 
         private void TryToMoveCharacter()
         {
@@ -145,7 +152,7 @@ namespace CursedOnion
                 if (levelGrid.TryWorldToGridPosition(hitPoint, out Vector3 gridPosition))
                 {
                     Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
-                    
+
                     if (aboveTile != null && aboveTile.GetContainedEntity() == null)
                     {
                         if (levelGrid.TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
@@ -182,7 +189,7 @@ namespace CursedOnion
                 {
                     Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
 
-                    if (aboveTile != null && aboveTile.GetContainedEntity() != null)
+                    if (aboveTile != null && aboveTile.GetContainedEntity() != null && (aboveTile.GetContainedEntity() as Character).id != orderedCharacters[currentCharacterIndex].id)
                     {
                         var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], aboveTile.GetContainedEntity(), levelGrid);
                         commandManager.ExecuteCommand(attackCmd);
@@ -194,6 +201,30 @@ namespace CursedOnion
                 }
             }
         }
+        void SpawnRandomCharacter(Vector3 worldPosition, Tile3d tile)
+        {
+            GameObject charObj = new GameObject("Character_" + spawned);
+
+            charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
+
+            Character character = charObj.AddComponent<Character>();
+            character.characterModel3D = characterModel3DTest;
+
+            GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
+            modelInstance.transform.localPosition = Vector3.zero;
+
+            CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
+            character.characterModel3D = characterModel3DTest;
+            character.data = randomType;
+            character.id = spawned;
+            character.SetCharacterData();
+
+            tile.SetContainedEntity(character);
+
+            characters.Add(character);
+            spawned++;
+        }
+
 
         void PrintStats()
         {
