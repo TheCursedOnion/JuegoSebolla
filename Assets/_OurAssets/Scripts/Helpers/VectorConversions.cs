@@ -8,6 +8,7 @@ namespace CursedOnion.Helpers
     {
         public static bool TryWorldToGridPosition(Vector3 worldPosition, Grid3d grid, out Vector3 gridPosition)
         {
+            worldPosition.Floor();
             gridPosition = worldPosition - grid.Origin;
             gridPosition.Truncate();
             if (grid.IsGridPositionInBounds(gridPosition))

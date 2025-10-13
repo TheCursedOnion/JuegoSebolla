@@ -18,6 +18,8 @@ namespace CursedOnion.Game.Inputs
         {
             inputReaders = new();
             if(BattleInputReader != null) inputReaders.Add(typeof(BattleInputReader), BattleInputReader);
+            
+            BattleInputReader.Enable();
         }
         public T GetReader<T>() where T : IInputReader
         {

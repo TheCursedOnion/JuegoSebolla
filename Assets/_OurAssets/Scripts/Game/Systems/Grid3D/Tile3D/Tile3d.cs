@@ -78,6 +78,11 @@ namespace CursedOnion.Game.Systems.Grid
             this.containedEntity = tile.containedEntity;
             this.blockedEntryDirections = tile.blockedEntryDirections;
         }
+
+        public bool IsEmptyTile()
+        {
+            return descriptor == null || descriptor.Id == 0;
+        }
         public void DebugTile()
         {
             Debug.Log($"Tile Debug: {descriptor.Id}; [{correspondingVerticesInMesh.Start}, {correspondingVerticesInMesh.End}]");

@@ -51,7 +51,10 @@ namespace CursedOnion.Game.Inputs
         #region Action Callbacks
         public void OnMovePointer(InputAction.CallbackContext context)
         {
-            MovePointer.Invoke(context.ReadValue<Vector2>());
+            switch (context.phase)
+            {
+                case InputActionPhase.Started: MovePointer.Invoke(context.ReadValue<Vector2>()); break;
+            }
         }
 
         public void OnSelect(InputAction.CallbackContext context)
@@ -64,7 +67,10 @@ namespace CursedOnion.Game.Inputs
 
         public void OnInspect(InputAction.CallbackContext context)
         {
-            //TODO
+            switch (context.phase)
+            {
+                case InputActionPhase.Started: Inspect.Invoke(); break;
+            }
         }
         #endregion
     }

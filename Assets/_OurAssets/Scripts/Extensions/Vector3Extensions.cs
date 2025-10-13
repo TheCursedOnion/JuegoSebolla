@@ -44,5 +44,10 @@ namespace CursedOnion.Extensions
             vector.Floor();
             return vector + new Vector3(0.5f, 0.5f, 0.5f);
         }
+        public static Vector3 CenterOnTile(ref this Vector3 vector)
+        {
+            vector.Floor();
+            return vector + new Vector3(0.5f, 0, 0.5f);
+        }
     }
 }
