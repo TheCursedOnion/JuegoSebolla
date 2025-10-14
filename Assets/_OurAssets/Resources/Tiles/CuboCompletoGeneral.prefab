@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: ce1fe7ae5b2b74c098b74d97e949d7a1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: e171b53bb6fdc401dac7e11701c325dc, type: 2}
+      objectReference: {fileID: 2100000, guid: 6d3ebbe84a4da4b08aad49d86d197b8d, type: 2}
     - target: {fileID: 919132149155446097, guid: ce1fe7ae5b2b74c098b74d97e949d7a1, type: 3}
       propertyPath: m_Name
       value: CuboCompletoGeneral
@@ -59,5 +59,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ce1fe7ae5b2b74c098b74d97e949d7a1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6287193783442838437}
   m_SourcePrefab: {fileID: 100100000, guid: ce1fe7ae5b2b74c098b74d97e949d7a1, type: 3}
+--- !u!1 &6409519182724551285 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ce1fe7ae5b2b74c098b74d97e949d7a1, type: 3}
+  m_PrefabInstance: {fileID: 6066989082915139364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6287193783442838437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409519182724551285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 11400000, guid: 723bc886e30cf406b919a4f265a3f5d9, type: 2}
