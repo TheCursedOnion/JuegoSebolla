@@ -118,6 +118,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""d22ca3b7-e758-4ada-a617-b52345cfae16"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -263,6 +272,105 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Inspect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""1b120482-dcb1-485b-9ae4-b9875ff2baff"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""af2f454d-bb2d-46d9-a3af-521ea45ec812"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2af6513f-7068-428e-8595-a72ca0d3695d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""5bf41aa4-3cfb-4276-b8fd-fa7b0fe56fff"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""047355d3-d97d-4fca-a4a2-ba27d40704f8"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""a2962c49-5949-4909-9dde-40c4d4abfd3f"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""396a25a0-0ea2-469c-bf6a-2fa1aeea34df"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""74bb7e6f-c57e-4d15-aab8-2bc1d10358fd"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2c1ca32f-b5e4-4511-a24a-eaea940f14d8"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -278,6 +386,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf114c74-2050-4df9-bdfa-efc678cb57a3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,6 +406,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
                     ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92f34fb5-ff1d-4527-afc1-46006f42124c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -341,9 +469,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Battle_MovePointer = m_Battle.FindAction("MovePointer", throwIfNotFound: true);
         m_Battle_Select = m_Battle.FindAction("Select", throwIfNotFound: true);
         m_Battle_Inspect = m_Battle.FindAction("Inspect", throwIfNotFound: true);
+        m_Battle_RotateCamera = m_Battle.FindAction("RotateCamera", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
+        m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -428,6 +558,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Battle_MovePointer;
     private readonly InputAction m_Battle_Select;
     private readonly InputAction m_Battle_Inspect;
+    private readonly InputAction m_Battle_RotateCamera;
     /// <summary>
     /// Provides access to input actions defined in input action map "Battle".
     /// </summary>
@@ -451,6 +582,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Battle/Inspect".
         /// </summary>
         public InputAction @Inspect => m_Wrapper.m_Battle_Inspect;
+        /// <summary>
+        /// Provides access to the underlying input action "Battle/RotateCamera".
+        /// </summary>
+        public InputAction @RotateCamera => m_Wrapper.m_Battle_RotateCamera;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -486,6 +621,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inspect.started += instance.OnInspect;
             @Inspect.performed += instance.OnInspect;
             @Inspect.canceled += instance.OnInspect;
+            @RotateCamera.started += instance.OnRotateCamera;
+            @RotateCamera.performed += instance.OnRotateCamera;
+            @RotateCamera.canceled += instance.OnRotateCamera;
         }
 
         /// <summary>
@@ -506,6 +644,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inspect.started -= instance.OnInspect;
             @Inspect.performed -= instance.OnInspect;
             @Inspect.canceled -= instance.OnInspect;
+            @RotateCamera.started -= instance.OnRotateCamera;
+            @RotateCamera.performed -= instance.OnRotateCamera;
+            @RotateCamera.canceled -= instance.OnRotateCamera;
         }
 
         /// <summary>
@@ -544,6 +685,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_Select;
+    private readonly InputAction m_UI_Newaction;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -559,6 +701,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/Select".
         /// </summary>
         public InputAction @Select => m_Wrapper.m_UI_Select;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/Newaction".
+        /// </summary>
+        public InputAction @Newaction => m_Wrapper.m_UI_Newaction;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -588,6 +734,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
         }
 
         /// <summary>
@@ -602,6 +751,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
         }
 
         /// <summary>
@@ -702,6 +854,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInspect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCamera(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
@@ -717,5 +876,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }

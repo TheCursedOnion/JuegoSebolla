@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CursedOnion.Helpers
 {
     [Flags]
-    public enum DirectionFlags
+    public enum DirectionFlag
     {
         None        = 0,
         
@@ -27,34 +27,34 @@ namespace CursedOnion.Helpers
     }
     public static class DirectionHelper
     {
-        private static readonly Dictionary<DirectionFlags, Vector3Int> Directions = new()
+        private static readonly Dictionary<DirectionFlag, Vector3Int> Directions = new()
         {
-            { DirectionFlags.Right,       new( 1, 0,  0) },
-            { DirectionFlags.Left,        new(-1, 0,  0) },
-            { DirectionFlags.Up,          new( 0, 1,  0) },
-            { DirectionFlags.Down,        new( 0,-1,  0) },
-            { DirectionFlags.Forward,     new( 0, 0,  1) },
-            { DirectionFlags.Back,        new( 0, 0, -1) },
+            { DirectionFlag.Right,       new( 1, 0,  0) },
+            { DirectionFlag.Left,        new(-1, 0,  0) },
+            { DirectionFlag.Up,          new( 0, 1,  0) },
+            { DirectionFlag.Down,        new( 0,-1,  0) },
+            { DirectionFlag.Forward,     new( 0, 0,  1) },
+            { DirectionFlag.Back,        new( 0, 0, -1) },
         
-            { DirectionFlags.ForwardUp,   new( 0, 1,  1) },
-            { DirectionFlags.ForwardDown, new( 0,-1,  1) },
-            { DirectionFlags.BackUp,      new( 0, 1, -1) },
-            { DirectionFlags.BackDown,    new( 0,-1, -1) },
-            { DirectionFlags.RightUp,     new( 1, 1,  0) },
-            { DirectionFlags.RightDown,   new( 1,-1,  0) },
-            { DirectionFlags.LeftUp,      new(-1, 1,  0) },
-            { DirectionFlags.LeftDown,    new(-1,-1,  0) },
+            { DirectionFlag.ForwardUp,   new( 0, 1,  1) },
+            { DirectionFlag.ForwardDown, new( 0,-1,  1) },
+            { DirectionFlag.BackUp,      new( 0, 1, -1) },
+            { DirectionFlag.BackDown,    new( 0,-1, -1) },
+            { DirectionFlag.RightUp,     new( 1, 1,  0) },
+            { DirectionFlag.RightDown,   new( 1,-1,  0) },
+            { DirectionFlag.LeftUp,      new(-1, 1,  0) },
+            { DirectionFlag.LeftDown,    new(-1,-1,  0) },
         };
         
-        public static Vector3Int GetDirectionVector(DirectionFlags flag) => Directions.TryGetValue(flag, out var vector) ? vector : Vector3Int.zero;
+        public static Vector3Int GetDirectionVector(DirectionFlag flag) => Directions.TryGetValue(flag, out var vector) ? vector : Vector3Int.zero;
 
-        public static DirectionFlags GetDirectionFlag(Vector3Int dir)
+        public static DirectionFlag GetDirectionFlag(Vector3Int dir)
         {
             foreach (var pair in Directions)
             {
                 if (pair.Value == dir) return pair.Key;
             }
-            return DirectionFlags.None;
+            return DirectionFlag.None;
         }
     }
 }

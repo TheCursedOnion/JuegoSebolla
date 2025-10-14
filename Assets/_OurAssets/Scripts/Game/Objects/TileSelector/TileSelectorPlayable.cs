@@ -11,6 +11,7 @@ namespace CursedOnion.Game.Objects
     {
         TileSelector tileSelector;
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
+        [Inject] private LevelManager levelManager;
 
         void Awake()
         {
@@ -35,6 +36,12 @@ namespace CursedOnion.Game.Objects
         {
             Vector3 direction3D = direction.normalized;
             direction3D = direction3D.SwizzleXZY();
+
+            float rotateAngle = levelManager.GetCameraPanAngles();
+            rotateAngle = Mathf.Round(rotateAngle % 90) == 0 ? rotateAngle : rotateAngle + 45;
+            Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
+            direction3D = rotation * direction3D;
+            
             tileSelector.MovePosition(direction3D);
         }
 

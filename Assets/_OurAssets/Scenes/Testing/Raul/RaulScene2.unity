@@ -561,7 +561,10 @@ GameObject:
   - component: {fileID: 100693247}
   - component: {fileID: 100693250}
   - component: {fileID: 100693249}
+  - component: {fileID: 100693251}
   - component: {fileID: 100693248}
+  - component: {fileID: 100693252}
+  - component: {fileID: 100693253}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -577,13 +580,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100693246}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.3007058, y: 0, z: 0, w: 0.95371693}
   m_LocalPosition: {x: 0, y: -5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 867239199}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.06, y: 0, z: 0}
 --- !u!114 &100693248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,7 +599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0, z: -5}
+  Offset: {x: 0, y: 0, z: -6}
   ApplyAfter: 1
   PreserveComposition: 0
 --- !u!114 &100693249
@@ -661,6 +664,71 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &100693251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100693246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d54399b04b4fa48a73e121d4937dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReferenceFrame: 0
+  RecenterTarget: 0
+  PanAxis:
+    Value: 0
+    Center: 0
+    Range: {x: -180, y: 180}
+    Wrap: 1
+    Recentering:
+      Enabled: 1
+      Wait: 0
+      Time: 0.5
+    Restrictions: 0
+  TiltAxis:
+    Value: 35
+    Center: 35
+    Range: {x: -70, y: 70}
+    Wrap: 0
+    Recentering:
+      Enabled: 1
+      Wait: 1
+      Time: 2
+    Restrictions: 0
+--- !u!114 &100693252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100693246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f776d0eab384302b5f22cb73f857b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &100693253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100693246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0544e7b14d134a1449e61175446cfb95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 3
+  Tilt: 0
+  Pan: 0
+  Dutch: 0
+  ZoomScale: 1
+  FollowAttachment: 1
+  LookAtAttachment: 1
 --- !u!1001 &120970667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2061,9 +2129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab08939fba12ae54c86dd0da2cbea989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelAsset: {fileID: 11400000, guid: 17997588bdc468843a0e278eb0265dbb, type: 2}
-  gridPositions:
-  - {x: 0, y: 0, z: 0}
+  cameraPanAngles: 0
 --- !u!23 &575365797
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2204,6 +2270,14 @@ PrefabInstance:
       propertyPath: levelAsset
       value: 
       objectReference: {fileID: 11400000, guid: 17997588bdc468843a0e278eb0265dbb, type: 2}
+    - target: {fileID: 8153010518465287433, guid: 135354f4c02dffd49a1a690ffccfa706, type: 3}
+      propertyPath: levelManager
+      value: 
+      objectReference: {fileID: 575365796}
+    - target: {fileID: 8153010518465287433, guid: 135354f4c02dffd49a1a690ffccfa706, type: 3}
+      propertyPath: cameraPlayable
+      value: 
+      objectReference: {fileID: 100693252}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2984,7 +3058,7 @@ GameObject:
   m_Component:
   - component: {fileID: 867239199}
   m_Layer: 0
-  m_Name: GameCamera
+  m_Name: LevelCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6836,8 +6910,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2055708834}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: -1.4644661, z: 1.4644661}
+  m_LocalRotation: {x: 0.3007058, y: 0, z: 0, w: 0.953717}
+  m_LocalPosition: {x: 0, y: -1.5585418, z: 0.085087776}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

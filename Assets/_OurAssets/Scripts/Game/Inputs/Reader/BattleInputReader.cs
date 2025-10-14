@@ -1,3 +1,4 @@
+using CursedOnion.Helpers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -17,7 +18,8 @@ namespace CursedOnion.Game.Inputs
             //public bool IsSelectPressed => InputActions.Battle.Select.IsPressed();
             
         public event UnityAction Inspect = delegate { };
-
+        
+        public event UnityAction<DirectionFlag> RotateCamera = delegate { };
         #region Enable & Disable
         static void SetupInputReader(BattleInputReader inputReader)
         {
@@ -72,6 +74,20 @@ namespace CursedOnion.Game.Inputs
                 case InputActionPhase.Started: Inspect.Invoke(); break;
             }
         }
+
+        public void OnRotateCamera(InputAction.CallbackContext context)
+        {
+            float value = context.ReadValue<float>();
+            if(value < 0.1f && value > -0.1f) return;
+            
+            DirectionFlag direction = value < 0 ? DirectionFlag.Left : DirectionFlag.Right;
+            
+            switch (context.phase)
+            {
+                case InputActionPhase.Started: RotateCamera.Invoke(direction); break;
+            }
+        }
+
         #endregion
     }
 }

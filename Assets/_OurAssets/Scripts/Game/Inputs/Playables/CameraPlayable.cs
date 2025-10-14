@@ -1,6 +1,9 @@
 ﻿using System;
 using CursedOnion.Extensions;
+using CursedOnion.Helpers;
+using NaughtyAttributes;
 using Reflex.Attributes;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +12,13 @@ namespace CursedOnion.Game.Inputs
     public class CameraPlayable : MonoBehaviour, IPlayable
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
-        Vector2 moveInput;
+        [Inject] LevelManager levelManager;
+        
+        CinemachinePanTilt cinemachinePanTilt;
+        private void Awake()
+        {
+            cinemachinePanTilt = GetComponent<CinemachinePanTilt>();
+        }
 
         public void OnEnable()
         {
@@ -20,24 +29,26 @@ namespace CursedOnion.Game.Inputs
                 return;
             }
                 
-            reader.MovePointer += MoveCamera;
-            
-            reader.Enable();
+            reader.RotateCamera += RotateCamera;
         }
         
         public void OnDisable()
         {
             BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
-            reader.MovePointer -= MoveCamera;
+            reader.RotateCamera -= RotateCamera;
         }
 
-        void MoveCamera(Vector2 direction)
+        void RotateCamera(DirectionFlag direction)
         {
-            moveInput = direction;
+            float rotateAmmount = direction == DirectionFlag.Left ? 45 : -45;
             
-            Vector3 direction3D = moveInput;
-            direction3D = direction3D.SwizzleXZY();
-            transform.Translate(direction3D.normalized);
+            cinemachinePanTilt.PanAxis.Center += rotateAmmount;
+            
+            cinemachinePanTilt.PanAxis.Center %= 360f;
+            if (cinemachinePanTilt.PanAxis.Center < 0)
+                cinemachinePanTilt.PanAxis.Center += 360f;
+            
+            levelManager.UpdateCameraPanAngles(cinemachinePanTilt.PanAxis.Center);
         }
     }
 }

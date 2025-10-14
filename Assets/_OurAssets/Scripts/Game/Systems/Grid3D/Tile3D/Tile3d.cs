@@ -14,7 +14,7 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] Mesh gridMesh;
         [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
         
-        [SerializeField] DirectionFlags blockedEntryDirections = DirectionFlags.None;
+        [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
         IEntity containedEntity;
         public static Tile3d Default
         {
@@ -43,10 +43,10 @@ namespace CursedOnion.Game.Systems.Grid
         
         
         //Como es una flag, hay que emplear operaciones de bits :)
-        public DirectionFlags GetBlockedEntryDirections() => blockedEntryDirections;
-        public void SetBlockedEntryDirections(DirectionFlags flags) =>  blockedEntryDirections = flags;
-        public void BlockEntryDirection(DirectionFlags direction) => blockedEntryDirections |= direction;
-        public void UnblockEntryDirection(DirectionFlags direction) => blockedEntryDirections &= ~direction;
+        public DirectionFlag GetBlockedEntryDirections() => blockedEntryDirections;
+        public void SetBlockedEntryDirections(DirectionFlag flag) =>  blockedEntryDirections = flag;
+        public void BlockEntryDirection(DirectionFlag direction) => blockedEntryDirections |= direction;
+        public void UnblockEntryDirection(DirectionFlag direction) => blockedEntryDirections &= ~direction;
         
         public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)
         {
