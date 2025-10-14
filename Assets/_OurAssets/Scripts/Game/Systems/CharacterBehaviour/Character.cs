@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace CursedOnion
 {
@@ -13,6 +14,10 @@ namespace CursedOnion
         // Character Model (test)
         public GameObject characterModel3D;
 
+        // Character UI (test)
+        public GameObject characterUI;
+        public CharacterUI uiScript;
+
         // Character Stats
         public string characterName { get; set; }
         public int HP { get; set; }
@@ -22,6 +27,7 @@ namespace CursedOnion
         public int movementStat { get; set; }
         public int priceStat { get; set; }
         public int id { get; set; }
+        public bool isEnemy { get; set; }
 
         // Character Variables
         public bool hasDied = false;
@@ -38,11 +44,15 @@ namespace CursedOnion
             speedStat = data.SetRandomSpeed();
             movementStat = data.SetMovement();
             priceStat = data.SetPrice();
+            characterModel3D = data.SetModel();
+            characterUI = data.SetUI();
+            CreateCharacterUI();
         }
 
         public void DoTurn()
         {
             Debug.Log(characterName + " id: " + id + " est� haciendo su turno...");
+            uiScript.gameObject.SetActive(true);
         }
 
         public void Attack(IEntity target)
@@ -73,6 +83,22 @@ namespace CursedOnion
             this.gameObject.SetActive(false);
         }
 
+        public void CreateCharacterUI()
+        {
+            if (characterUI != null)
+            {
+                GameObject uiInstance = Instantiate(characterUI, transform);
+
+                uiScript = uiInstance.GetComponent<CharacterUI>();
+                if (uiScript != null)
+                {
+                    uiScript.SetCharacter(this);
+                    uiScript.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        #region PathFinding
         // Pathfinding method (Bresenham's 3D line algorithm)
         public static List<Vector3> GetPath(Vector3 start, Vector3 end) // From repository with MIT License
         {
@@ -171,6 +197,6 @@ namespace CursedOnion
                 yield return new WaitForSeconds(0.5f);
             }
         }
-
+        #endregion
     }
 }

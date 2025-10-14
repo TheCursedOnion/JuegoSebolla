@@ -18,6 +18,8 @@ namespace CursedOnion
         [SerializeField] private int maxSpeed;
         [SerializeField] private int movement;
         [SerializeField] private int price;
+        [SerializeField] private GameObject model;
+        [SerializeField] private GameObject characterUI;
 
         public string SetCharacterName()
         { 
@@ -47,6 +49,14 @@ namespace CursedOnion
         public int SetPrice()
         {
             return price;
+        }
+        public GameObject SetModel()
+        {
+            return model;
+        }
+        public GameObject SetUI()
+        {
+            return characterUI;
         }
     }
 }

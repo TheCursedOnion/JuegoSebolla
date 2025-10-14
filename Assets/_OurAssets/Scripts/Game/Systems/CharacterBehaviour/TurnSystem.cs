@@ -15,12 +15,9 @@ namespace CursedOnion
     {
         [Inject] private CommandManager commandManager;
         [Inject] private LevelAsset levelAsset;
+        [Inject] private LevelManager levelManager;
 
         [SerializeField] private CharacterData[] characterTypes;
-
-        //tests
-        [SerializeField] private GameObject characterModel3DTest;
-        [SerializeField] private Vector3 levelOffset;
 
         private List<Character> characters = new List<Character>();
         private List<Character> orderedCharacters = new List<Character>();
@@ -32,10 +29,6 @@ namespace CursedOnion
 
         void Start()
         {
-            Renderer meshRenderer = GetComponent<Renderer>();
-            levelOffset = levelAsset.Grid.Origin - meshRenderer.bounds.min;
-
-            StartTurn();
         }
 
         private void StartTurn()
@@ -91,6 +84,7 @@ namespace CursedOnion
         {
             do
             {
+                orderedCharacters[currentCharacterIndex].uiScript.gameObject.SetActive(false);
                 currentCharacterIndex++;
                 if (currentCharacterIndex >= orderedCharacters.Count)
                 {
@@ -189,10 +183,29 @@ namespace CursedOnion
                 {
                     Tile3d aboveTile = levelGrid.GetTileAtGridPosition(gridPosition + Vector3.up);
 
-                    if (aboveTile != null && aboveTile.GetContainedEntity() != null && (aboveTile.GetContainedEntity() as Character).id != orderedCharacters[currentCharacterIndex].id)
+
+                    if (aboveTile != null && aboveTile.GetContainedEntity() != null)
                     {
-                        var attackCmd = CharacterCommand.Create<AttackCommand>(orderedCharacters[currentCharacterIndex], aboveTile.GetContainedEntity(), levelGrid);
-                        commandManager.ExecuteCommand(attackCmd);
+                        Character targetChar = aboveTile.GetContainedEntity() as Character;
+                        Character attacker = orderedCharacters[currentCharacterIndex];
+
+                        if (targetChar != null && targetChar.id != attacker.id)
+                        {
+
+                            if (attacker.isEnemy != targetChar.isEnemy)
+                            {
+                                var attackCmd = CharacterCommand.Create<AttackCommand>(attacker, targetChar, levelGrid);
+                                commandManager.ExecuteCommand(attackCmd);
+                            }
+                            else
+                            {
+                                Debug.Log("Same team attacking. Not valid Action.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Not valid target: " + gridPosition);
+                        }
                     }
                     else
                     {
@@ -208,16 +221,33 @@ namespace CursedOnion
             charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
 
             Character character = charObj.AddComponent<Character>();
-            character.characterModel3D = characterModel3DTest;
+            CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
+
+            character.data = randomType;
+            character.id = spawned;
+            character.SetCharacterData();
 
             GameObject modelInstance = Instantiate(character.characterModel3D, character.transform);
             modelInstance.transform.localPosition = Vector3.zero;
 
-            CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
-            character.characterModel3D = characterModel3DTest;
-            character.data = randomType;
-            character.id = spawned;
-            character.SetCharacterData();
+
+            if (spawned % 2 == 0)
+            {
+                character.isEnemy = true;
+            }
+            else
+            {
+                character.isEnemy = false;
+            }
+
+            Renderer renderer = modelInstance.GetComponentInChildren<Renderer>();
+            if (renderer != null)
+            {
+                if (character.isEnemy)
+                    renderer.material.color = Color.red;
+                else
+                    renderer.material.color = Color.blue;
+            }
 
             tile.SetContainedEntity(character);
 
