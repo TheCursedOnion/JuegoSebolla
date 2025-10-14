@@ -11,14 +11,20 @@ namespace CursedOnion
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
-        //[Expandable, SerializeField, Inject] LevelAsset levelAsset;
+        [SerializeField, Inject, ReadOnly] LevelAsset levelAsset;
         public void Initialize(LevelAsset asset)
         {
             gameObject.name = "LevelManager";
             
+            levelAsset = asset;
             GetComponent<MeshCollider>().sharedMesh = asset.Grid.Mesh;
             GetComponent<MeshFilter>().sharedMesh = asset.Grid.Mesh;
             GetComponent<MeshRenderer>().sharedMaterials = asset.MeshMaterials;
+        }
+
+        void Awake()
+        {
+            levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - GetComponent<MeshRenderer>().bounds.min;
         }
 
         #region  Level Logic
