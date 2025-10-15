@@ -62,21 +62,25 @@ namespace CursedOnion
             {
                 TryToSpawnCharacter();
             }
-            if (waitingForInput && Input.GetKey(KeyCode.A) && Input.GetMouseButtonDown(0))
+
+            if (orderedCharacters.Count > 0)
             {
-                TryToAttackCharacter();
-            }
-            if (waitingForInput && Input.GetKey(KeyCode.M) && Input.GetMouseButtonDown(0))
-            {
-                TryToMoveCharacter();
-            }
-            if (waitingForInput && Input.GetKeyDown(KeyCode.U))
-            {
-                commandManager.Undo();
-            }
-            if (waitingForInput && Input.GetKeyDown(KeyCode.R))
-            {
-                commandManager.Redo();
+                if (waitingForInput && orderedCharacters[currentCharacterIndex].canAttack && Input.GetMouseButtonDown(0))
+                {
+                    TryToAttackCharacter();
+                }
+                if (waitingForInput && orderedCharacters[currentCharacterIndex].canMove && Input.GetMouseButtonDown(0))
+                {
+                    TryToMoveCharacter();
+                }
+                if (waitingForInput && Input.GetKeyDown(KeyCode.U))
+                {
+                    commandManager.Undo();
+                }
+                if (waitingForInput && Input.GetKeyDown(KeyCode.R))
+                {
+                    commandManager.Redo();
+                }
             }
         }
 
@@ -164,6 +168,8 @@ namespace CursedOnion
                     }
                     else
                     {
+                        orderedCharacters[currentCharacterIndex].canMove = true;
+                        orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                         Debug.Log("Not valid tile: " + gridPosition);
                     }
                 }
@@ -199,16 +205,22 @@ namespace CursedOnion
                             }
                             else
                             {
+                                orderedCharacters[currentCharacterIndex].canAttack = true;
+                                orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                                 Debug.Log("Same team attacking. Not valid Action.");
                             }
                         }
                         else
                         {
+                            orderedCharacters[currentCharacterIndex].canAttack = true;
+                            orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                             Debug.Log("Not valid target: " + gridPosition);
                         }
                     }
                     else
                     {
+                        orderedCharacters[currentCharacterIndex].canAttack = true;
+                        orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                         Debug.Log("Not valid tile: " + gridPosition);
                     }
                 }

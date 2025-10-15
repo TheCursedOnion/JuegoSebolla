@@ -38,6 +38,10 @@ namespace CursedOnion
 
         public override void Undo()
         {
+            var characterObj = character as Character;
+            characterObj.canAttack = true;
+            characterObj.UpdateCharacterUI();
+
             Debug.Log("El comando de ataque se ha DESHECHO");
             var targetObj = target as Character;
             if (targetObj != null)

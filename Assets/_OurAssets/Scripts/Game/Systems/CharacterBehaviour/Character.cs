@@ -31,6 +31,8 @@ namespace CursedOnion
 
         // Character Variables
         public bool hasDied = false;
+        public bool canMove = false;
+        public bool canAttack = false;
 
         // Pathfinding
         private Coroutine moveCoroutine;
@@ -66,11 +68,14 @@ namespace CursedOnion
                 targetObj.hasDied = true;
                 targetObj.Die();
             }
+            canAttack = false;
+            UpdateCharacterUI();
         }
 
         public void Move(Vector3 newPosition) 
         {
             Debug.Log(characterName + id + " Moving to " + newPosition);
+            canMove = false;
             if (moveCoroutine != null)
                 StopCoroutine(moveCoroutine);
 
@@ -96,6 +101,11 @@ namespace CursedOnion
                     uiScript.gameObject.SetActive(false);
                 }
             }
+        }
+
+        public void UpdateCharacterUI() 
+        {
+            uiScript.UpdateUI();
         }
 
         #region PathFinding
@@ -196,6 +206,8 @@ namespace CursedOnion
                 transform.position = new Vector3(pos.x, pos.y, pos.z);
                 yield return new WaitForSeconds(0.5f);
             }
+            
+            UpdateCharacterUI();
         }
         #endregion
     }
