@@ -3,6 +3,7 @@ using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Helpers;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,15 +27,24 @@ namespace CursedOnion
         private int turnCount = 1;
         private bool waitingForInput = true;
         private int spawned = 0;
+        public bool canSpawnUnit = false;
+
+        public event Action OnSpawnPhaseEnded;
 
         void Start()
         {
+            Debug.Log("Placing units phase starts!");
+            canSpawnUnit = false;
         }
 
         private void StartTurn()
         {
             if (characters.Count > 0)
             {
+                canSpawnUnit = false;
+                Debug.Log("Termina la fase de colocación de unidades");
+                OnSpawnPhaseEnded?.Invoke();
+
                 Debug.Log("Turno " + turnCount + " comienza.");
                 orderedCharacters[currentCharacterIndex].DoTurn();
             }
@@ -58,7 +68,7 @@ namespace CursedOnion
                     StartTurn();
                 }
             }
-            if (waitingForInput && Input.GetKey(KeyCode.G) && Input.GetMouseButtonDown(0))
+            if (waitingForInput && canSpawnUnit && Input.GetMouseButtonDown(0))
             {
                 TryToSpawnCharacter();
             }
@@ -233,7 +243,7 @@ namespace CursedOnion
             charObj.transform.position = worldPosition.Center() + new Vector3(0f, 1.0f, 0f);
 
             Character character = charObj.AddComponent<Character>();
-            CharacterData randomType = characterTypes[Random.Range(0, characterTypes.Length)];
+            CharacterData randomType = characterTypes[UnityEngine.Random.Range(0, characterTypes.Length)];
 
             character.data = randomType;
             character.id = spawned;

@@ -45,6 +45,12 @@ namespace CursedOnion
             }
         }
 
+        public void SetButtonsFalse()
+        {
+            attackButton.gameObject.SetActive(false);
+            moveButton.gameObject.SetActive(false);
+        }
+
         public void SetTextTutoAttack()
         {
             attackButton.gameObject.SetActive(false);

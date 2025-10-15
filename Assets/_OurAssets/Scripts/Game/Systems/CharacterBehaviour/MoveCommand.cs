@@ -44,7 +44,7 @@ namespace CursedOnion
             if (characterObj != null)
             {
                 characterObj.canMove = true;
-                characterObj.UpdateCharacterUI();
+                characterObj.uiScript.SetButtonsFalse();
                 newTile?.SetContainedEntity(null);
                 characterObj.Move(previousPosition);
                 previousTile?.SetContainedEntity(characterObj);

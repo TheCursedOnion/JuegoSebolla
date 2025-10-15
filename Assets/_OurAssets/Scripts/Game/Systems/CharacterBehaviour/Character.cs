@@ -74,6 +74,7 @@ namespace CursedOnion
 
         public void Move(Vector3 newPosition) 
         {
+            uiScript.SetButtonsFalse();
             Debug.Log(characterName + id + " Moving to " + newPosition);
             canMove = false;
             if (moveCoroutine != null)
