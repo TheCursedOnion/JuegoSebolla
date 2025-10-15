@@ -12,12 +12,7 @@ namespace CursedOnion.Tools
         public CombinedMesh CombineTilemapMeshes(bool spawnObject = true)
         {
             MeshFilter[] filters = GetComponentsInChildren<MeshFilter>();
-
             CombinedMesh combinedMesh = new CombinedMesh(filters);
-            
-            #if UNITY_EDITOR
-                combinedMesh.Save();
-            #endif
             
             return combinedMesh;
         }

@@ -17,9 +17,12 @@ namespace CursedOnion.Installers
             InputReaderCollection.Initialize();
             
             containerBuilder.AddSingleton(new PauseService(), typeof(PauseService));
+            containerBuilder.AddSingleton(new SceneService(), typeof(SceneService));
+            
+            containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
+            
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
             containerBuilder.AddSingleton(InputReaderCollection, typeof(InputReaderCollection));
-            containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
         }
     }
 }
