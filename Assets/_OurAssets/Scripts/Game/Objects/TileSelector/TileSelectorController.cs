@@ -1,34 +1,41 @@
 ﻿using CursedOnion.Extensions;
-using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Inputs;
+using CursedOnion.Game.Settings;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace CursedOnion.Game.Objects
 {
-    public class TileSelectorPlayable : MonoBehaviour, IPlayable
+    public class TileSelectorController : MonoBehaviour, IController
     {
         TileSelector tileSelector;
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
-        [Inject] private LevelManager levelManager;
+        [Inject] private RuntimeSettings runtimeSettings;
 
         void Awake()
         {
             tileSelector = GetComponent<TileSelector>();
         }
-        public void OnEnable()
+
+        private void OnEnable() => Enable();
+        public void Enable()
         {
-            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
-            reader.MovePointer += MoveSelector;
+            runtimeSettings.GlobalCamera.CinemachineContainer.CinemachineCamera.Follow = this.gameObject.transform;
+            
+            TileSelectorInputReader reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
+            reader.MoveSelector += MoveSelector;
             reader.Select += PlaceSelector;
             reader.Inspect += Inspect;
         }
-
-        public void OnDisable()
+        
+        private void OnDisable() => Disable();
+        public void Disable()
         {
-            BattleInputReader reader = InputReaderCollection.GetReader<BattleInputReader>();
-            reader.MovePointer -= MoveSelector;
+            TileSelectorInputReader reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
+            reader.MoveSelector -= MoveSelector;
             reader.Select -= PlaceSelector;
         }
 
@@ -37,7 +44,7 @@ namespace CursedOnion.Game.Objects
             Vector3 direction3D = direction.normalized;
             direction3D = direction3D.SwizzleXZY();
 
-            float rotateAngle = levelManager.GetCameraPanAngles();
+            float rotateAngle = runtimeSettings.GlobalCamera.GetCameraPanAngles();
             rotateAngle = Mathf.Round(rotateAngle % 90) == 0 ? rotateAngle : rotateAngle + 45;
             Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
             direction3D = rotation * direction3D;

@@ -75,7 +75,8 @@ namespace BehaviourAPI.UnityToolkit
         /// </summary>
         /// <returns>The list of available smart objects</returns>
         public List<SmartObject> GetSmartObjects() => _availableSmartObjects;
-
+        
+    #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
             UnityEditor.Handles.color = gizmoColor;
@@ -88,5 +89,7 @@ namespace BehaviourAPI.UnityToolkit
 
             OnDrawGizmosSelected();
         }
+    #endif
     }
+    
 }

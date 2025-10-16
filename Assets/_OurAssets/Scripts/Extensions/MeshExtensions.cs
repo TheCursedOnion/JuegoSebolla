@@ -1,4 +1,5 @@
 using System;
+using CursedOnion.Game;
 using CursedOnion.Helpers;
 using UnityEngine;
 

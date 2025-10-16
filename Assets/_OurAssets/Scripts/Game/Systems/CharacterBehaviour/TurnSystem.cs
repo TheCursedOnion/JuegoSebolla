@@ -1,6 +1,6 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Helpers;
+using CursedOnion.Game;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using System;

@@ -1,9 +1,9 @@
 namespace CursedOnion.Game.Inputs
 {
-    public interface IPlayable
+    public interface IController
     {
         public InputReaderCollection InputReaderCollection { get; set; }
-        public void OnEnable();
-        public void OnDisable();
+        public void Enable();
+        public void Disable();
     }
 }

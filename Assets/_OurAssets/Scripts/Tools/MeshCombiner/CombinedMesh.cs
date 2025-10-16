@@ -72,30 +72,6 @@ namespace CursedOnion.Tools
                 
                 mesh.CentricCombineMeshes(combineInstances.ToArray());
             }
-
-        public void Save()
-        {
-            /*AssetFile file = AssetFile.DefaultFile;
-            
-            file.SetObject(mesh, "asset");
-            file.SaveTitle = "Guardar Mesh combinado";
-            file.SaveMessage = "Elige dónde guardar el mesh combinado";
-            
-            if(FilePanelWindow.TryGetAssetDatabasePath(ref file, out string meshPath))
-            {
-                file.SaveAsset(meshPath);
-            }
-            
-            MaterialArrayAsset materialArrayAsset = ScriptableObject.CreateInstance<MaterialArrayAsset>();
-            materialArrayAsset.materials = materials.ToArray();
-                file.SetObject(materialArrayAsset, "asset");
-                file.SaveTitle = "Guardar Materials Asset";
-                file.SaveMessage = "Elige dónde guardar el Asset de Materiales";
-                
-            if(FilePanelWindow.TryGetAssetDatabasePath(ref file, out string materialPath))
-            {
-                file.SaveAsset(materialPath);
-            }*/
-        }
+        
     }
 }

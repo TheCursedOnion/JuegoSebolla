@@ -27,7 +27,6 @@ namespace CursedOnion.Installers
         
         void InstallExtra(Scene scene, ContainerBuilder builder)
         {
-                
         }
     }
 }

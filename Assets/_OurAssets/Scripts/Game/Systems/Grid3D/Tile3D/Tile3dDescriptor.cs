@@ -1,4 +1,5 @@
-﻿using CursedOnion.Helpers;
+﻿using CursedOnion.Game;
+using CursedOnion.Helpers;
 using NaughtyAttributes;
 
 namespace CursedOnion.Game.Systems.Grid

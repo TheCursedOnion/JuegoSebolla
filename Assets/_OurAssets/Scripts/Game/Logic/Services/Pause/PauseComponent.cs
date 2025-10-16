@@ -1,10 +1,10 @@
 using System;
-using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Logic.Services.Pause;
+using CursedOnion.Game.Logic.Services;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Logic.Services
 {
     public class PauseComponent : MonoBehaviour
     {
