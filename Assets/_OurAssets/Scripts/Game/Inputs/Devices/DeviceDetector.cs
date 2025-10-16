@@ -1,30 +1,37 @@
-using CursedOnion.Game.Inputs;
-using CursedOnion.Game.Settings;
-using Reflex.Attributes;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
+﻿using UnityEngine;
+using System.Runtime.InteropServices;
+using TMPro;
 
 namespace CursedOnion.Game.Inputs
 {
-    [RequireComponent(typeof(PlayerInput))]
     public class DeviceDetector : MonoBehaviour
     {
-        [Inject] GameSettings gameSettings;
-        
-        private PlayerInput playerInput;
-        void Awake()
+        [SerializeField] TextMeshProUGUI textMesh;
+        #if !UNITY_EDITOR && UNITY_WEBGL
+            [System.Runtime.InteropServices.DllImport("__Internal")]
+            private static extern bool IsMobile();
+        #endif
+        private void CheckIfMobile()
         {
-            DontDestroyOnLoad(this.gameObject.transform.root.gameObject);
-            playerInput = GetComponent<PlayerInput>();
+            bool isMobile = false;
+
+            #if !UNITY_EDITOR && UNITY_WEBGL
+                isMobile = IsMobile();
+            #else
+                isMobile = Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer;
+            #endif
+
+            textMesh.text = isMobile ? "Mobile" : "PC";
+            
+            if (isMobile)
+                Debug.Log("✅ Móvil o tablet detectado");
+            else
+                Debug.Log("💻 PC detectado");
         }
-        
-        public void OnControlsChanged(PlayerInput obj)
+
+        void Start()
         {
-            var device = obj.devices[0];
-            gameSettings.DeviceSettings.CurrentDevice = device;
-            Debug.Log($"Dispositivo cambiado a: {device.displayName} ({device.deviceId})");
+            CheckIfMobile();
         }
-        
     }
 }

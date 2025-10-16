@@ -1,6 +1,6 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Helpers;
+using CursedOnion.Game;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -26,15 +26,7 @@ namespace CursedOnion
         {
             levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - GetComponent<MeshRenderer>().bounds.min;
         }
-
-        #region  Level Logic
-
-        [SerializeField, ReadOnly] float cameraPanAngles;
-        public void UpdateCameraPanAngles(float cameraPanAngles) => this.cameraPanAngles = cameraPanAngles;
-        public float GetCameraPanAngles() => this.cameraPanAngles;
-
-
-        #endregion
+        
 
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CursedOnion.Game.Inputs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -10,16 +9,20 @@ namespace CursedOnion.Game.Inputs
     public class InputReaderCollection : ScriptableObject
     {
         //TODO: Hacer el resto
-        [Expandable, Required, SerializeField] BattleInputReader BattleInputReader;
+        [Expandable, SerializeField] TileSelectorInputReader tileSelectorInputReader;
+        [Expandable, SerializeField] CameraInputReader cameraInputReader;
         
         private Dictionary<Type, IInputReader> inputReaders;
 
         public void Initialize()
         {
             inputReaders = new();
-            if(BattleInputReader != null) inputReaders.Add(typeof(BattleInputReader), BattleInputReader);
             
-            BattleInputReader.Enable();
+            if(tileSelectorInputReader != null) inputReaders.Add(typeof(TileSelectorInputReader), tileSelectorInputReader);
+            if(cameraInputReader != null) inputReaders.Add(typeof(CameraInputReader), cameraInputReader);
+            
+            tileSelectorInputReader.Enable();
+            cameraInputReader.Enable();
         }
         public T GetReader<T>() where T : IInputReader
         {

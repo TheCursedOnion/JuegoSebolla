@@ -1,5 +1,6 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
@@ -13,7 +14,7 @@ namespace CursedOnion.Game.Objects
     {
         [SerializeField, ReadOnly] Vector3 gridPosition;
         [Inject] LevelAsset levelAsset;
-        [Inject] LevelCamera levelCamera;
+        [Inject] RuntimeSettings levelCamera;
         
         public void MovePosition(Vector3 moveDirection)
         {
@@ -29,7 +30,7 @@ namespace CursedOnion.Game.Objects
 
         public void PlaceAtMousePosition()
         {
-            Ray ray = levelCamera.Camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = levelCamera.GlobalCamera.Camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Grid3d grid = levelAsset.Grid;

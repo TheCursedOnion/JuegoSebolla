@@ -1,6 +1,6 @@
 using System;
-using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Logic.Services.Pause;
+using CursedOnion.Game.Logic.Services;
 using Reflex.Attributes;
 using UnityEngine;
 

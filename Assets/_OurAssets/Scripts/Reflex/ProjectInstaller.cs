@@ -11,7 +11,9 @@ namespace CursedOnion.Installers
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
         [Expandable, SerializeField] InputReaderCollection InputReaderCollection;
+        
         [Expandable, SerializeField] GameSettings gameSettings;
+        [SerializeField] RuntimeSettings runtimeSettings;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             InputReaderCollection.Initialize();
@@ -22,6 +24,7 @@ namespace CursedOnion.Installers
             containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
             
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
+            containerBuilder.AddSingleton(runtimeSettings, typeof(RuntimeSettings));
             containerBuilder.AddSingleton(InputReaderCollection, typeof(InputReaderCollection));
         }
     }
