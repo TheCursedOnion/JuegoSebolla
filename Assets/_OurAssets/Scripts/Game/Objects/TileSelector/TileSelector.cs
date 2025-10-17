@@ -3,7 +3,7 @@ using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
-using CursedOnion; // cambiar mas tarde
+using CursedOnion.Locators;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -20,13 +20,13 @@ namespace CursedOnion.Game.Objects
             
         [SerializeField, ReadOnly] Vector3 gridPosition;
         [Inject] LevelAsset levelAsset;
-        [Inject] RuntimeSettings runtimeSettings;
         [SerializeField] TurnSystem turnSystem;
+        [Inject] CameraLocator cameraLocator;
         private GlobalCamera globalCamera;
 
         public void Awake()
         {
-            globalCamera = runtimeSettings.GlobalCamera;
+            globalCamera = cameraLocator.GlobalCamera;
             globalCamera.CinemachineContainer.SetTarget(transform, CameraOffset);
             globalCamera.CinemachineContainer.SetTiltCenterAndValue(35);
             globalCamera.CameraBehaviours.ChangeToFixedMode();
@@ -36,7 +36,7 @@ namespace CursedOnion.Game.Objects
         {
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
-            //Debug.Log("Resultado: " + result);
+
             switch (result)
             {
                 case 1: MovePosition(moveDirection - Vector3.up); break;

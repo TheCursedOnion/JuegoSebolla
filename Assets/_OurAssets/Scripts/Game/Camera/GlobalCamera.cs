@@ -2,37 +2,40 @@ using System;
 using CursedOnion.Behaviours;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Settings;
+using CursedOnion.Locators;
+using NaughtyAttributes;
 using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
 
 namespace CursedOnion.Game.Cameras
 {
     [RequireComponent(typeof(CameraController))]
     public class GlobalCamera : MonoBehaviour
     {
-        [Inject] RuntimeSettings runtimeSettings;
+        [Inject] CameraLocator cameraLocator;
         
-        public Camera Camera;
+        [BoxGroup("UI Interactions"), SerializeField] private EventSystem eventSystem;
         
-        [SerializeField] Inputs.CameraController cameraController;
-        public Inputs.CameraController CameraController => cameraController;
+        [BoxGroup("Default Camera Variables")] public Camera Camera;
+        [BoxGroup("Default Camera Variables"), SerializeField] private AudioListener audioListener; 
+        
+        [BoxGroup("Camera Controls"),SerializeField] CameraController cameraController;
+        public CameraController CameraController => cameraController;
+        
+        [BoxGroup("Camera Controls"),SerializeField] CameraBehaviours cameraBehaviours;
+        public CameraBehaviours CameraBehaviours => cameraBehaviours;
         
         
-        [SerializeField] CinemachineContainer cinemachineContainer;
+        [BoxGroup("Cinemachine"),SerializeField] CinemachineContainer cinemachineContainer;
         public CinemachineContainer CinemachineContainer => cinemachineContainer;
         public float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
-        
-        [SerializeField] CameraBehaviours cameraBehaviours;
-        public CameraBehaviours CameraBehaviours => cameraBehaviours;
 
         #region Initialization & Destruction
         void Awake()
         {
-            var instancedCamera = runtimeSettings.GlobalCamera;
+            var instancedCamera = cameraLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera != this)
             {
                 instancedCamera.PlaceTransform(this.transform);
@@ -46,7 +49,10 @@ namespace CursedOnion.Game.Cameras
         void Initialize()
         {
             DontDestroyOnLoad(gameObject);
-            runtimeSettings.GlobalCamera = this;
+            cameraLocator.GlobalCamera = this;
+            
+            eventSystem.enabled = true;
+            audioListener.enabled = true;
             
             cameraController.Initialize(cinemachineContainer);
             cameraController.Enable();
@@ -60,13 +66,18 @@ namespace CursedOnion.Game.Cameras
         }
         void OnDisable()
         {
-            var instancedCamera = runtimeSettings.GlobalCamera;
+            var instancedCamera = cameraLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera == this)
             {
-                runtimeSettings.GlobalCamera = null;
+                cameraLocator.GlobalCamera = null;
                 cameraController.Disable();
             }
         }
         #endregion
+        
+        public void SwitchCameraModes()
+        {
+            cameraBehaviours.SwitchCameraModes();
+        }
     }
 }
