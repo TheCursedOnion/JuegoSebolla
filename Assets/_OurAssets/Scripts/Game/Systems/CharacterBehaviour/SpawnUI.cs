@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 namespace CursedOnion
