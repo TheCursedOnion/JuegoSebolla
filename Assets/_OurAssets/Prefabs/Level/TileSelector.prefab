@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 4706067090142355285}
   - component: {fileID: 4900046234636989473}
   - component: {fileID: 399680188619815184}
+  - component: {fileID: 8716212812798102155}
   m_Layer: 0
   m_Name: TileSelector
   m_TagString: Untagged
@@ -304,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0469984578c9d14a91f5bb77067039e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraOffset: {x: 0, y: 1, z: -5}
   gridPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &399680188619815184
 MonoBehaviour:
@@ -315,6 +317,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16c5959a186d4ac6b11b307642ad4b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8716212812798102155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723169174483445520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fdde0a0566b603489eedd186a32eecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6126757579829251379
