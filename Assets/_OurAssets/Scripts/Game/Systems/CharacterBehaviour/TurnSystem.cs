@@ -1,12 +1,13 @@
 using CursedOnion.Extensions;
-using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game;
+using CursedOnion.Game.Systems.Grid;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.GraphicsBuffer;
 
@@ -54,6 +55,11 @@ namespace CursedOnion
         {
             if (waitingForInput && Input.GetKeyDown(KeyCode.Space))
             {
+                orderedCharacters[currentCharacterIndex].EndTurn();
+                foreach (var c in characters)
+                {
+                    c.uiScript?.HideUI();
+                }
                 NextTurn();
             }
             if (waitingForInput && Input.GetKeyDown(KeyCode.Return))
@@ -115,6 +121,11 @@ namespace CursedOnion
 
         void TryToSpawnCharacter()
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Click sobre UI: ignorando intento de ataque.");
+                return;
+            }
             Debug.Log("Trying to Spawn character...");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -150,6 +161,11 @@ namespace CursedOnion
 
         private void TryToMoveCharacter()
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Click sobre UI: ignorando intento de ataque.");
+                return;
+            }
             Debug.Log("Trying to move character...");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -188,6 +204,11 @@ namespace CursedOnion
 
         private void TryToAttackCharacter()
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Click sobre UI: ignorando intento de ataque.");
+                return;
+            }
             Debug.Log("Trying to attack character...");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -255,11 +276,11 @@ namespace CursedOnion
 
             if (spawned % 2 == 0)
             {
-                character.isEnemy = true;
+                character.isEnemy = false;
             }
             else
             {
-                character.isEnemy = false;
+                character.isEnemy = true;
             }
 
             Renderer renderer = modelInstance.GetComponentInChildren<Renderer>();
@@ -289,5 +310,29 @@ namespace CursedOnion
             }
 
         }
+
+        public void HandleEntitySelection(IEntity entity)
+        {
+            if (entity == null) return;
+            if (orderedCharacters == null || orderedCharacters.Count == 0) return;
+
+            var selectedCharacter = entity as Character;
+
+            foreach (var c in characters)
+            {
+                c.uiScript?.HideUI();
+            }
+
+            var current = orderedCharacters[currentCharacterIndex];
+            bool isCurrentTurn = selectedCharacter.id == current.id;
+
+            if (selectedCharacter.uiScript != null)
+            {
+                selectedCharacter.uiScript.ShowForSelection(isCurrentTurn);
+            }
+
+        }
+
+
     }
 }

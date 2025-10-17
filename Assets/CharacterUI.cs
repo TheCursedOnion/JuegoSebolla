@@ -10,62 +10,124 @@ namespace CursedOnion
         public TextMeshProUGUI idText;
 
         public TextMeshProUGUI tutoText;
+        public TextMeshProUGUI StatsText;
 
         public Button attackButton;
         public Button moveButton;
 
         private Character character;
 
-        public void Start()
+        int currentHP;
+        int maxHP;
+
+        void Awake()
         {
-            attackButton.gameObject.SetActive(true);
-            moveButton.gameObject.SetActive(true);
+            if (tutoText != null) tutoText.gameObject.SetActive(false);
+            if (StatsText != null) StatsText.gameObject.SetActive(false);
+            if (attackButton != null) attackButton.gameObject.SetActive(false);
+            if (moveButton != null) moveButton.gameObject.SetActive(false);
         }
 
         public void SetCharacter(Character c)
         {
             character = c;
 
+            maxHP = character.HP;
+            currentHP = character.HP;
+
             if (nameText != null)
                 nameText.text = character.characterName;
 
             if (idText != null)
-            {
                 idText.text = character.id.ToString();
-            }
+
+            UpdateStatsDisplay();
         }
 
-        public void UpdateUI()
+        public void UpdateStatsDisplay()
         {
-            if (character != null)
+            if (character == null || StatsText == null) return;
+
+            currentHP = character.HP;
+            //maxHP = Mathf.Max(1, maxHP); // seguridad
+            StatsText.text = ($"{character.characterName} -> {character.speedStat}\nID -> {character.id} \nHP -> {currentHP}/{maxHP}\nattack -> {character.attackStat}\ndefense -> {character.defenseStat}\nmovement -> {character.movementStat}\nprice -> {character.priceStat}");
+        }
+
+        public void SetStatsTrue()
+        {
+            UpdateStatsDisplay();
+            if (StatsText != null) StatsText.gameObject.SetActive(true);
+        }
+
+        public void SetStatsFalse()
+        {
+            if (StatsText != null) StatsText.gameObject.SetActive(false);
+        }
+
+        public void SetButtonsTrue()
+        {
+            if (tutoText != null) tutoText.gameObject.SetActive(false);
+            if (attackButton != null)
             {
-                tutoText.gameObject.SetActive(false);
                 attackButton.gameObject.SetActive(true);
+                attackButton.interactable = character != null && character.canAttack;
+            }
+            if (moveButton != null)
+            {
                 moveButton.gameObject.SetActive(true);
+                moveButton.interactable = character != null && character.canMove;
             }
         }
 
         public void SetButtonsFalse()
         {
-            attackButton.gameObject.SetActive(false);
-            moveButton.gameObject.SetActive(false);
+            if (attackButton != null) attackButton.gameObject.SetActive(false);
+            if (moveButton != null) moveButton.gameObject.SetActive(false);
+            if (tutoText != null) tutoText.gameObject.SetActive(false);
         }
 
         public void SetTextTutoAttack()
         {
-            attackButton.gameObject.SetActive(false);
-            moveButton.gameObject.SetActive(false);
-            tutoText.gameObject.SetActive(true);
-            character.canAttack = true;
-            tutoText.text = "Click at valid tile to Attack an Enemy!";
+            SetButtonsFalse();
+            if (tutoText != null) tutoText.gameObject.SetActive(true);
+            if (character != null) character.canAttack = true;
+            if (tutoText != null) tutoText.text = "Click at valid tile to Attack an Enemy!";
         }
         public void SetTextTutoMove()
         {
-            attackButton.gameObject.SetActive(false);
-            moveButton.gameObject.SetActive(false);
-            tutoText.gameObject.SetActive(true);
-            character.canMove = true;
-            tutoText.text = "Click at valid tile to Move!";
+            SetButtonsFalse();
+            if (tutoText != null) tutoText.gameObject.SetActive(true);
+            if (character != null) character.canMove = true;
+            if (tutoText != null) tutoText.text = "Click at valid tile to Move!";
+        }
+
+        public void ShowForTurn()
+        {
+            gameObject.SetActive(true);
+            UpdateStatsDisplay();
+            SetButtonsTrue();
+            SetStatsTrue();
+            if (tutoText != null) tutoText.gameObject.SetActive(false);
+        }
+
+        public void ShowForSelection(bool isCurrentTurn)
+        {
+            gameObject.SetActive(true);
+            if (isCurrentTurn)
+            {
+                ShowForTurn();
+            }
+            else
+            {
+                SetButtonsFalse();
+                SetStatsTrue();
+                if (tutoText != null) tutoText.gameObject.SetActive(false);
+            }
+        }
+
+        public void HideUI()
+        {
+            gameObject.SetActive(false);
         }
 
     }

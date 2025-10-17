@@ -3,6 +3,7 @@ using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion; // cambiar mas tarde
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -20,6 +21,7 @@ namespace CursedOnion.Game.Objects
         [SerializeField, ReadOnly] Vector3 gridPosition;
         [Inject] LevelAsset levelAsset;
         [Inject] RuntimeSettings runtimeSettings;
+        [SerializeField] TurnSystem turnSystem;
         private GlobalCamera globalCamera;
 
         public void Awake()
@@ -34,7 +36,7 @@ namespace CursedOnion.Game.Objects
         {
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
-            Debug.Log("Resultado: " + result);
+            //Debug.Log("Resultado: " + result);
             switch (result)
             {
                 case 1: MovePosition(moveDirection - Vector3.up); break;
@@ -81,7 +83,8 @@ namespace CursedOnion.Game.Objects
             IEntity entity = tile.GetContainedEntity();
             if (entity != null)
             {
-                Debug.Log(tile.GetContainedEntity());
+                //Debug.Log(tile.GetContainedEntity());
+                turnSystem.HandleEntitySelection(entity);
             }
             else
             {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -14,7 +15,7 @@ namespace CursedOnion
         // Character Model (test)
         public GameObject characterModel3D;
 
-        // Character UI (test)
+        // Character UI 
         public GameObject characterUI;
         public CharacterUI uiScript;
 
@@ -54,7 +55,9 @@ namespace CursedOnion
         public void DoTurn()
         {
             Debug.Log(characterName + " id: " + id + " est� haciendo su turno...");
-            uiScript.gameObject.SetActive(true);
+            canMove = true;
+            canAttack = true;
+            uiScript?.ShowForTurn();
         }
 
         public void Attack(IEntity target)
@@ -68,6 +71,7 @@ namespace CursedOnion
                 targetObj.hasDied = true;
                 targetObj.Die();
             }
+            targetObj.UpdateCharacterUI();
             canAttack = false;
             UpdateCharacterUI();
         }
@@ -89,6 +93,11 @@ namespace CursedOnion
             this.gameObject.SetActive(false);
         }
 
+        public void EndTurn()
+        {
+            //uiScript?.HideUI();
+        }
+
         public void CreateCharacterUI()
         {
             if (characterUI != null)
@@ -106,7 +115,14 @@ namespace CursedOnion
 
         public void UpdateCharacterUI() 
         {
-            uiScript.UpdateUI();
+            if (uiScript == null) return;
+
+            uiScript.UpdateStatsDisplay();
+
+            if (canMove || canAttack)
+                uiScript.SetButtonsTrue();
+            else
+                uiScript.SetButtonsFalse();
         }
 
         #region PathFinding
