@@ -637,7 +637,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 7164482751841062474}
   m_PlaneDistance: 0.2
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1799,6 +1799,7 @@ GameObject:
   - component: {fileID: 1450210524}
   - component: {fileID: 1450210523}
   - component: {fileID: 1450210522}
+  - component: {fileID: 1450210525}
   - component: {fileID: 1450210521}
   m_Layer: 5
   m_Name: Play
@@ -1839,6 +1840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9547f774b2c4fe0adbb31d91b0e98f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiTransition: {fileID: 0}
   onSceneLoadCalled:
     _PersistentCalls: []
   onSceneLoadCompleted:
@@ -1887,11 +1889,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1450210521}
-        m_TargetAssemblyTypeName: CursedOnion.Game.Logic.Services.SceneComponent,
-          Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
+      - m_Target: {fileID: 1450210525}
+        m_TargetAssemblyTypeName: CursedOnion.UI.UIButton, Assembly-CSharp
+        m_MethodName: InvokeOnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1938,6 +1939,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1450210519}
   m_CullTransparentMesh: 1
+--- !u!114 &1450210525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450210519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClick:
+    _PersistentCalls:
+    - _Target: {fileID: 1450210521}
+      _MemberName: ChangeScene
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: RaulScene2
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 1
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 1
+        _String: CursedOnion.UI.TransitionType, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!1 &1474945241
 GameObject:
   m_ObjectHideFlags: 0
@@ -3255,6 +3306,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+--- !u!20 &7164482751841062474 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6587477183772208224, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+  m_PrefabInstance: {fileID: 7164482751841062473}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

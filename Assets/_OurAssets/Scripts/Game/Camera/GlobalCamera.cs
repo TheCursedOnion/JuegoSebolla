@@ -2,16 +2,21 @@ using System;
 using CursedOnion.Behaviours;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Settings;
+using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace CursedOnion.Game.Cameras
 {
     [RequireComponent(typeof(CameraController))]
     public class GlobalCamera : MonoBehaviour
     {
-        [Inject] RuntimeSettings runtimeSettings;
+        [Inject] CameraLocator cameraLocator;
+        
+        [BoxGroup("UI Interactions"), SerializeField] private EventSystem eventSystem;
         
         [BoxGroup("Default Camera Variables")] public Camera Camera;
         [BoxGroup("Default Camera Variables"), SerializeField] private AudioListener audioListener; 
@@ -30,7 +35,7 @@ namespace CursedOnion.Game.Cameras
         #region Initialization & Destruction
         void Awake()
         {
-            var instancedCamera = runtimeSettings.GlobalCamera;
+            var instancedCamera = cameraLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera != this)
             {
                 instancedCamera.PlaceTransform(this.transform);
@@ -44,8 +49,9 @@ namespace CursedOnion.Game.Cameras
         void Initialize()
         {
             DontDestroyOnLoad(gameObject);
-            runtimeSettings.GlobalCamera = this;
+            cameraLocator.GlobalCamera = this;
             
+            eventSystem.enabled = true;
             audioListener.enabled = true;
             
             cameraController.Initialize(cinemachineContainer);
@@ -60,10 +66,10 @@ namespace CursedOnion.Game.Cameras
         }
         void OnDisable()
         {
-            var instancedCamera = runtimeSettings.GlobalCamera;
+            var instancedCamera = cameraLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera == this)
             {
-                runtimeSettings.GlobalCamera = null;
+                cameraLocator.GlobalCamera = null;
                 cameraController.Disable();
             }
         }

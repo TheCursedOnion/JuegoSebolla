@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CursedOnion.Installers
 {
-    public class ServiceInstaller : MonoBehaviour, IInstaller
+    public class ProjectServiceInstaller : MonoBehaviour, IInstaller
     {
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
