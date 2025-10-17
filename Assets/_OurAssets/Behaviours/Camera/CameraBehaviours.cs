@@ -1,65 +1,71 @@
 using CursedOnion.Game.Inputs;
+using CursedOnion.Game.Logic;
 using CursedOnion.Helpers;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace CursedOnion.Behaviours
 {
+    public enum CameraMode
+    {
+        None = 0,
+        FreeMode = 1,
+        FixedMode = 2,
+    }
     public class CameraBehaviours : MonoBehaviour
     {
-        [FormerlySerializedAs("cameraPlayable")] [SerializeField] Game.Inputs.CameraController CameraController;
+        [Inject] MediatorEvents mediatorEvents;
+        
+        CameraController cameraController;
         TransitionIndex transitionIndex = new TransitionIndex();
         
-        bool isNone = false;
-        bool isFreeMode = false;
-        public void ChangeToNone() => transitionIndex.SetTransitionIndex(0);
-        public bool CanChangeToNone() => transitionIndex.IsIndexEquals(0);
+        CameraMode currentMode = CameraMode.None;
+        public void Initialize(CameraController cameraController)
+        {
+            this.cameraController = cameraController;
+        }
+        public void ChangeToNone() => transitionIndex.SetTransitionIndex((int)CameraMode.None);
+        public bool CanChangeToNone() => transitionIndex.IsIndexEquals((int)CameraMode.None);
         public void EnterNone()
         {
-            ResetControls();
-            
-            isNone = true;
+            cameraController.DisableAll();
+
+            currentMode = CameraMode.None;
+            mediatorEvents.OnCameraModeModified(currentMode);
         }
         
-        public void ChangeToFreeMode() => transitionIndex.SetTransitionIndex(1);
-        public bool CanChangeToFreeMode() => transitionIndex.IsIndexEquals(1);
+        public void ChangeToFreeMode() => transitionIndex.SetTransitionIndex((int)CameraMode.FreeMode);
+        public bool CanChangeToFreeMode() => transitionIndex.IsIndexEquals((int)CameraMode.FreeMode) || transitionIndex.IsIndexEquals(4);
         public void EnterFreeMode()
         {
-            ResetControls();
-            CameraController.EnableMove(true);
-            CameraController.EnableRotate(true);
+            cameraController.DisableAll();
             
-            isNone = false;
-            isFreeMode = true;
-        }
-        
-        public void ChangeToFixedMode() => transitionIndex.SetTransitionIndex(2);
-        public bool CanChangeToFixedMode() => transitionIndex.IsIndexEquals(2);
-        public void EnterFixedMode()
-        {
-            ResetControls();
-            CameraController.EnableFollow(true);
-            CameraController.EnableRotate(true);
+            cameraController.EnableMove(true);
+            cameraController.EnableRotate(true);
             
-            isNone = false;
-            isFreeMode = false;
+            currentMode = CameraMode.FreeMode;
+            mediatorEvents.OnCameraModeModified(currentMode);
         }
 
-        void ResetControls()
+        public void ChangeToFixedMode() => transitionIndex.SetTransitionIndex((int)CameraMode.FixedMode);
+        public bool CanChangeToFixedMode() => transitionIndex.IsIndexEquals((int)CameraMode.FixedMode) || transitionIndex.IsIndexEquals(4);
+        public void EnterFixedMode()
         {
-            CameraController.EnableFollow(false);
-            CameraController.EnableMove(false);
-            CameraController.EnableRotate(false);
+            cameraController.DisableAll();
+            
+            cameraController.EnableFollow(true);
+            cameraController.EnableRotate(true);
+            
+            currentMode = CameraMode.FixedMode;
+            mediatorEvents.OnCameraModeModified(currentMode);
         }
 
         public void SwitchCameraModes()
         {
-            if (!isNone)
+            if (currentMode != CameraMode.None)
             {
-                if (isFreeMode)
-                    ChangeToFixedMode();
-                else
-                    ChangeToFreeMode();
+                transitionIndex.SetTransitionIndex(4);
             }
         }
         void Update()

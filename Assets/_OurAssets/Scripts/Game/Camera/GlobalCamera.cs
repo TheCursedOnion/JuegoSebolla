@@ -1,10 +1,10 @@
 using System;
+using CursedOnion.Behaviours;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Settings;
 using Reflex.Attributes;
 using Reflex.Core;
 using Reflex.Extensions;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -18,11 +18,16 @@ namespace CursedOnion.Game.Cameras
         
         public Camera Camera;
         
-        [FormerlySerializedAs("cameraPlayable")] [SerializeField] Inputs.CameraController CameraController;
+        [SerializeField] Inputs.CameraController cameraController;
+        public Inputs.CameraController CameraController => cameraController;
+        
         
         [SerializeField] CinemachineContainer cinemachineContainer;
         public CinemachineContainer CinemachineContainer => cinemachineContainer;
-        public float GetCameraPanAngles() => cinemachineContainer.CinemachinePanTilt.PanAxis.Center;
+        public float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
+        
+        [SerializeField] CameraBehaviours cameraBehaviours;
+        public CameraBehaviours CameraBehaviours => cameraBehaviours;
 
         #region Initialization & Destruction
         void Awake()
@@ -43,8 +48,10 @@ namespace CursedOnion.Game.Cameras
             DontDestroyOnLoad(gameObject);
             runtimeSettings.GlobalCamera = this;
             
-            CameraController.Initialize(cinemachineContainer);
-            CameraController.Enable();
+            cameraController.Initialize(cinemachineContainer);
+            cameraController.Enable();
+            
+            cameraBehaviours.Initialize(cameraController);
         }
         void PlaceTransform(Transform other)
         {
@@ -57,18 +64,9 @@ namespace CursedOnion.Game.Cameras
             if (instancedCamera != null && instancedCamera == this)
             {
                 runtimeSettings.GlobalCamera = null;
-                
-                CameraController.Disable();
+                cameraController.Disable();
             }
         }
         #endregion
-    }
-
-    [System.Serializable]
-    public class CinemachineContainer
-    {
-        public CinemachineCamera CinemachineCamera;
-        public CinemachinePanTilt CinemachinePanTilt;
-        public CinemachineFollow CinemachineFollow;
     }
 }

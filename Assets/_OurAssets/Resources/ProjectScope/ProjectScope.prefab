@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 616762658163991034}
   - component: {fileID: 979247418095118750}
+  - component: {fileID: 3232736068254021715}
   - component: {fileID: 5493217466176316034}
   - component: {fileID: 1194208409827338728}
   m_Layer: 0
@@ -46,6 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238ee66aa2bafad47bf60938e98aebca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3232736068254021715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645404175983655882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb414836eca64c7bbcdc383137817b9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5493217466176316034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +74,7 @@ MonoBehaviour:
   InputReaderCollection: {fileID: 11400000, guid: 0e75955ee8557ea489dd8882fea332db, type: 2}
   gameSettings: {fileID: 11400000, guid: ea8b2400e388d7049bc61f5820a25dd8, type: 2}
   runtimeSettings: {fileID: 11400000, guid: 819a3d69242c2dc45a59d85ab28a849e, type: 2}
+  mediatorEvents: {fileID: 11400000, guid: bf9a6efca6ef40940a6f4e3c9432567f, type: 2}
 --- !u!114 &1194208409827338728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,6 +102,6 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: Battle
+  m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

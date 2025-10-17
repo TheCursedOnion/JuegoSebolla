@@ -323,7 +323,6 @@ GameObject:
   - component: {fileID: 730611507529193680}
   - component: {fileID: 3337645738524908298}
   - component: {fileID: 9155578524250271822}
-  - component: {fileID: 7914616678419326120}
   m_Layer: 0
   m_Name: GameCamera
   m_TagString: Untagged
@@ -362,11 +361,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 6587477183772208224}
-  CameraController: {fileID: 730611507529193680}
+  cameraController: {fileID: 730611507529193680}
   cinemachineContainer:
     CinemachineCamera: {fileID: 5489487318748723867}
-    CinemachinePanTilt: {fileID: 8023546002002281699}
-    CinemachineFollow: {fileID: 2953126380328841513}
+    PanTilt: {fileID: 8023546002002281699}
+    Follow: {fileID: 2953126380328841513}
+    Offset: {fileID: 8949739770279147249}
+  cameraBehaviours: {fileID: 3337645738524908298}
 --- !u!114 &730611507529193680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4464e4a8df22740bc4ecce528dc64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraController: {fileID: 730611507529193680}
 --- !u!114 &9155578524250271822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,19 +411,6 @@ MonoBehaviour:
     debugStatusChanges: 0
     identifier: 
   System: {fileID: 11400000, guid: 29050a586c319734faa19273876edb1a, type: 2}
---- !u!114 &7914616678419326120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375360451385869988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 105d09c5890f3c344b7c5c8b73e4baab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 0
 --- !u!1 &443472272150469883
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443472272150469883}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3007058, y: 0, z: 0, w: 0.95371693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -547,8 +534,8 @@ MonoBehaviour:
       Time: 0.5
     Restrictions: 0
   TiltAxis:
-    Value: 35
-    Center: 35
+    Value: 0
+    Center: 0
     Range: {x: -70, y: 70}
     Wrap: 0
     Recentering:
@@ -568,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 0, z: -6}
+  Offset: {x: 0, y: 0, z: -5}
   ApplyAfter: 1
   PreserveComposition: 0
 --- !u!114 &1924427288549622469
@@ -1413,18 +1400,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: RaulScene2
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7557760867539143459}
-        m_TargetAssemblyTypeName: CursedOnion.Game.UI.CanvasController, Assembly-CSharp
-        m_MethodName: SetTransitionIndex
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &8087636800322984052
@@ -2557,7 +2532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &801804605099498656
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2591,13 +2566,13 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 6587477183772208224}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 0.2
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -4173,8 +4148,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9215874080584177426}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3007058, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: -4.5, y: -1.5585418, z: 0.085087776}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

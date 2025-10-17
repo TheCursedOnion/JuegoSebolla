@@ -18,34 +18,36 @@ namespace CursedOnion.Game.Inputs
         private CameraInputReader reader;
         
         private CinemachineContainer cinemachineContainer;
-        float GetCameraPanAngles() => cinemachineContainer.CinemachinePanTilt.PanAxis.Center;
+        float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
         
 
         public void Initialize(CinemachineContainer cinemachineContainer)
         {
             this.cinemachineContainer = cinemachineContainer;
+            reader = InputReaderCollection.GetReader<CameraInputReader>();
         }
         public void Enable()
         {
-            reader = InputReaderCollection.GetReader<CameraInputReader>();
-            Debug.Log(reader != null);
+            reader.Move += MoveCamera;
+            reader.RotateCamera += RotateCamera;
         }
         public void Disable()
         {
-            if (reader != null)
-            {
-                reader.Move -= MoveCamera;
-                reader.RotateCamera -= RotateCamera;
-            }
+            reader.Move -= MoveCamera;
+            reader.RotateCamera -= RotateCamera;
+        }
+        public void DisableAll()
+        {
+            EnableFollow(false);
+            EnableMove(false);
+            EnableRotate(false);
         }
         
+        bool canMove = true;
         public void EnableMove(bool enable)
         {
-            
-            if(enable)
-                reader.Move += MoveCamera;
-            else
-                reader.Move -= MoveCamera;
+            canMove = enable;
+            //if(!canMove) moveDir = Vector3.zero;
         }
         public void EnableRotate(bool enable)
         {
@@ -56,7 +58,7 @@ namespace CursedOnion.Game.Inputs
         }
         public void EnableFollow(bool enable)
         {
-            cinemachineContainer.CinemachineFollow.enabled = enable;
+            cinemachineContainer.Follow.enabled = enable;
         }
 
         private Vector3 moveDir;
@@ -82,9 +84,9 @@ namespace CursedOnion.Game.Inputs
         }
         void RotateCamera(DirectionFlag direction)
         {
-            float rotateAmount = direction == DirectionFlag.Left ? -45 : 45;
+            float rotateAmount = direction == DirectionFlag.Left ? 45 : -45;
 
-            var cinemachinePanTilt = cinemachineContainer.CinemachinePanTilt;
+            var cinemachinePanTilt = cinemachineContainer.PanTilt;
             
             cinemachinePanTilt.PanAxis.Center += rotateAmount;
             
@@ -95,7 +97,7 @@ namespace CursedOnion.Game.Inputs
 
         void Update()
         {
-            transform.position += moveDir * (moveSpeed * Time.deltaTime);
+           if(canMove) transform.position += moveDir * (moveSpeed * Time.deltaTime);
         }
     }
 }

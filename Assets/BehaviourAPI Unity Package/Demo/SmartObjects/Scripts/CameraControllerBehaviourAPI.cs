@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraControllerBehaviourAPI : MonoBehaviour
 {
     [SerializeField] float _speed;
     Camera m_Camera;

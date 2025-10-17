@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using CursedOnion.Game.Inputs;
+using CursedOnion.Game.Logic;
 using Reflex.Core;
 using UnityEngine;
 using CursedOnion.Game.Logic.Services;
@@ -11,21 +13,16 @@ namespace CursedOnion.Installers
     public class ProjectInstaller : MonoBehaviour, IInstaller
     {
         [Expandable, SerializeField] InputReaderCollection InputReaderCollection;
-        
         [Expandable, SerializeField] GameSettings gameSettings;
-        [SerializeField] RuntimeSettings runtimeSettings;
+        [Expandable, SerializeField] RuntimeSettings runtimeSettings;
+        [Expandable, SerializeField] MediatorEvents mediatorEvents;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             InputReaderCollection.Initialize();
-            
-            containerBuilder.AddSingleton(new PauseService(), typeof(PauseService));
-            containerBuilder.AddSingleton(new SceneService(), typeof(SceneService));
-            
-            containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
-            
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
             containerBuilder.AddSingleton(runtimeSettings, typeof(RuntimeSettings));
             containerBuilder.AddSingleton(InputReaderCollection, typeof(InputReaderCollection));
+            containerBuilder.AddSingleton(mediatorEvents, typeof(MediatorEvents));
         }
     }
 }

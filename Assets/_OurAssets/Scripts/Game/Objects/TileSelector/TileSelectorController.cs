@@ -2,6 +2,7 @@
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Inputs;
+using CursedOnion.Game.Logic;
 using CursedOnion.Game.Settings;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
@@ -14,29 +15,32 @@ namespace CursedOnion.Game.Objects
         TileSelector tileSelector;
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
         [Inject] private RuntimeSettings runtimeSettings;
-
+        TileSelectorInputReader reader;
         void Awake()
         {
+            reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
             tileSelector = GetComponent<TileSelector>();
         }
 
-        private void OnEnable() => Enable();
+        private void OnEnable()
+        {
+            reader.Select += PlaceSelector;
+        }
         public void Enable()
         {
-            runtimeSettings.GlobalCamera.CinemachineContainer.CinemachineCamera.Follow = this.gameObject.transform;
-            
-            TileSelectorInputReader reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
             reader.MoveSelector += MoveSelector;
-            reader.Select += PlaceSelector;
             reader.Inspect += Inspect;
         }
-        
-        private void OnDisable() => Disable();
+
+        private void OnDisable()
+        {
+            Disable();
+            reader.Select -= PlaceSelector;
+        }
         public void Disable()
         {
-            TileSelectorInputReader reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
             reader.MoveSelector -= MoveSelector;
-            reader.Select -= PlaceSelector;
+            reader.Inspect -= Inspect;
         }
 
         void MoveSelector(Vector2 direction)
@@ -54,7 +58,7 @@ namespace CursedOnion.Game.Objects
 
         void PlaceSelector()
         {
-            tileSelector.PlaceAtMousePosition();
+            tileSelector.AttemptToPlaceAtPointerPosition();
         }
 
         void Inspect()
