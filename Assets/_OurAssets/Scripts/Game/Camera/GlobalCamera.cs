@@ -2,12 +2,9 @@ using System;
 using CursedOnion.Behaviours;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Settings;
+using NaughtyAttributes;
 using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace CursedOnion.Game.Cameras
 {
@@ -16,18 +13,19 @@ namespace CursedOnion.Game.Cameras
     {
         [Inject] RuntimeSettings runtimeSettings;
         
-        public Camera Camera;
+        [BoxGroup("Default Camera Variables")] public Camera Camera;
+        [BoxGroup("Default Camera Variables"), SerializeField] private AudioListener audioListener; 
         
-        [SerializeField] Inputs.CameraController cameraController;
-        public Inputs.CameraController CameraController => cameraController;
+        [BoxGroup("Camera Controls"),SerializeField] CameraController cameraController;
+        public CameraController CameraController => cameraController;
+        
+        [BoxGroup("Camera Controls"),SerializeField] CameraBehaviours cameraBehaviours;
+        public CameraBehaviours CameraBehaviours => cameraBehaviours;
         
         
-        [SerializeField] CinemachineContainer cinemachineContainer;
+        [BoxGroup("Cinemachine"),SerializeField] CinemachineContainer cinemachineContainer;
         public CinemachineContainer CinemachineContainer => cinemachineContainer;
         public float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
-        
-        [SerializeField] CameraBehaviours cameraBehaviours;
-        public CameraBehaviours CameraBehaviours => cameraBehaviours;
 
         #region Initialization & Destruction
         void Awake()
@@ -47,6 +45,8 @@ namespace CursedOnion.Game.Cameras
         {
             DontDestroyOnLoad(gameObject);
             runtimeSettings.GlobalCamera = this;
+            
+            audioListener.enabled = true;
             
             cameraController.Initialize(cinemachineContainer);
             cameraController.Enable();
@@ -68,5 +68,10 @@ namespace CursedOnion.Game.Cameras
             }
         }
         #endregion
+        
+        public void SwitchCameraModes()
+        {
+            cameraBehaviours.SwitchCameraModes();
+        }
     }
 }

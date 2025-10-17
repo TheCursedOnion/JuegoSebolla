@@ -4,19 +4,22 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion.Game.UI
+namespace CursedOnion.UI
 {
     public class CanvasCameraFinder : MonoBehaviour
     {
-        [SerializeField] private Canvas canvas;
+        [SerializeField] private float planeDistance = 0.2f;
         
         [Inject] RuntimeSettings runtimeSettings;
         GlobalCamera globalCamera;
+        Canvas canvas;
         void Awake()
         {
             globalCamera = runtimeSettings.GlobalCamera;
+            canvas = GetComponent<Canvas>();
+            
+            canvas.worldCamera = globalCamera.Camera;
+            canvas.planeDistance = planeDistance;
         }
-        
-        
     }
 }

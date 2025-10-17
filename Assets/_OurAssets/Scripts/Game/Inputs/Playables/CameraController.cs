@@ -28,12 +28,12 @@ namespace CursedOnion.Game.Inputs
         }
         public void Enable()
         {
-            reader.Move += MoveCamera;
+            reader.Move += Move;
             reader.RotateCamera += RotateCamera;
         }
         public void Disable()
         {
-            reader.Move -= MoveCamera;
+            reader.Move -= Move;
             reader.RotateCamera -= RotateCamera;
         }
         public void DisableAll()
@@ -62,7 +62,7 @@ namespace CursedOnion.Game.Inputs
         }
 
         private Vector3 moveDir;
-        void MoveCamera(Vector2 direction)
+        void Move(Vector2 direction)
         {
             Vector3 direction3D = direction;
             direction3D = direction3D.SwizzleXZY();
@@ -74,15 +74,11 @@ namespace CursedOnion.Game.Inputs
             moveDir = transform.forward * direction3D.z + transform.right * direction3D.x;
         }
 
-        public void RotateLeft()
+        public void RotateCamera(DirectionFlag direction)
         {
-            RotateCamera(DirectionFlag.Left);
+            Rotate(direction);
         }
-        public void RotateRight()
-        {
-            RotateCamera(DirectionFlag.Right);
-        }
-        void RotateCamera(DirectionFlag direction)
+        private void Rotate(DirectionFlag direction)
         {
             float rotateAmount = direction == DirectionFlag.Left ? 45 : -45;
 

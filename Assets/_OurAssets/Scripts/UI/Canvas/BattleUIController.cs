@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using CursedOnion.UI;
+using UnityEngine;
 
-namespace CursedOnion.Game.UI
+namespace CursedOnion.UI
 {
     public class BattleUIController : MonoBehaviour, IUIController
     {

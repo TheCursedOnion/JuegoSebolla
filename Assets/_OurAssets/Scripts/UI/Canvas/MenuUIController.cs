@@ -2,7 +2,7 @@ using CursedOnion.Game;
 using CursedOnion.Helpers;
 using UnityEngine;
 
-namespace CursedOnion.Game.UI
+namespace CursedOnion.UI
 {
     public class MenuUIController : MonoBehaviour, IUIController
     {

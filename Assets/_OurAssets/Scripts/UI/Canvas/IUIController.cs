@@ -1,4 +1,4 @@
-﻿namespace CursedOnion.Game.UI
+﻿namespace CursedOnion.UI
 {
     public interface IUIController
     {

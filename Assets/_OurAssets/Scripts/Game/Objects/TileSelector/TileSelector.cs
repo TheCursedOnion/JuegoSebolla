@@ -34,7 +34,6 @@ namespace CursedOnion.Game.Objects
         {
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
-            Debug.Log("Resultado: " + result);
             switch (result)
             {
                 case 1: MovePosition(moveDirection - Vector3.up); break;
