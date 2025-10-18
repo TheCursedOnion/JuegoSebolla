@@ -5,7 +5,7 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion.UI
+namespace CursedOnion.UI.Transitions
 {
     public class StripeTransition : UITransition
     {
@@ -26,7 +26,7 @@ namespace CursedOnion.UI
             yield return AnimateStripe(halfDuration, 0f, alphaStripeRange.x, alphaStripeRange.y);
             MidPointAction?.Invoke();
             
-            yield return new WaitForSecondsRealtime(InBetweenTime);
+            yield return new WaitForSecondsRealtime(TransitionData.InBetweenTime);
             
             yield return AnimateStripe(halfDuration, 1f, alphaStripeRange.y, alphaStripeRange.x);
             EndPointAction?.Invoke();
@@ -43,7 +43,7 @@ namespace CursedOnion.UI
             }
             else
             {
-                yield return new WaitForSecondsRealtime(InBetweenTime);
+                yield return new WaitForSecondsRealtime(TransitionData.InBetweenTime);
                 yield return AnimateStripe(duration, 1f, alphaStripeRange.y, alphaStripeRange.x);
                 EndPointAction?.Invoke();
                 DoingTransition = false;
@@ -70,8 +70,10 @@ namespace CursedOnion.UI
         {
             MidPointAction = null;
             EndPointAction = null;
-            Image.color = Color.black;
-            InBetweenTime = 0.2f;
+            Image.color =  TransitionData.Color = Color.black;
+            TransitionData.InBetweenTime = 0.2f;
+            
+            MaterialInstance.SetFloat(ReverseRotation, 0);
         }
     }
 }

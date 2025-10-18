@@ -1,7 +1,7 @@
 using UltEvents;
 using UnityEngine;
 
-namespace CursedOnion.UI
+namespace CursedOnion.UI.Buttons
 {
     public class UIButton : MonoBehaviour
     {

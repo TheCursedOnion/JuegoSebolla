@@ -37,5 +37,12 @@ namespace CursedOnion.Game.Cameras
         {
             PanTilt.TiltAxis.Center = tiltValue;
         }
+
+        public void MatchWith(CinemachineContainer other)
+        {
+            this.SetTiltCenterAndValue(other.PanTilt.TiltAxis.Center);
+            this.SetPanCenterAndValue(other.PanTilt.PanAxis.Center);
+            this.SetTarget(other.CinemachineCamera.Follow, other.Offset.Offset);
+        }
     }
 }

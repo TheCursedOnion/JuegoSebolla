@@ -3,13 +3,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion.UI
+namespace CursedOnion.UI.Transitions
 {
     public enum TransitionType
     {
         None,
         Stripe,
     }
+
     public abstract class UITransition : MonoBehaviour
     {
         protected Action MidPointAction;
@@ -17,10 +18,11 @@ namespace CursedOnion.UI
         
         protected Image Image;
         protected Material MaterialInstance;
+
+        protected readonly UITransitionData TransitionData = new UITransitionData();
         
-        protected float InBetweenTime = 0.5f;
+        protected bool DoingTransition;
         
-        protected bool DoingTransition = false;
         #region Set Up
         protected virtual void Awake()
         {
@@ -34,11 +36,12 @@ namespace CursedOnion.UI
         #region Builder
         public UITransition SetInBetweenTime(float betweenTime)
         {
-            this.InBetweenTime = betweenTime;
+            TransitionData.InBetweenTime = betweenTime;
             return this;
         }
         public UITransition SetColor(Color color)
         {
+            TransitionData.Color = color;
             Image.color = color;
             return this;
         }
@@ -59,7 +62,7 @@ namespace CursedOnion.UI
         {
             if(DoingTransition) return;
             
-            PrepareTransition(() => StartCoroutine(HandleFullTransition(duration)));
+            PrepareTransition(duration,() => StartCoroutine(HandleFullTransition(duration)));
         }
             protected abstract IEnumerator HandleFullTransition(float duration);
         
@@ -68,19 +71,21 @@ namespace CursedOnion.UI
         {
             if(DoingTransition) return;
             
-            PrepareTransition(() => StartCoroutine(HandleHalfTransition(duration, true)));
+            PrepareTransition(duration,() => StartCoroutine(HandleHalfTransition(duration, true)));
         }
         public void StartCloseTransition(float duration)
         {
             if(!DoingTransition) return;
-
-            PrepareTransition(() => StartCoroutine(HandleHalfTransition(duration, false)));
+            
+            PrepareTransition(duration,() => StartCoroutine(HandleHalfTransition(duration, false)));
         }
             protected abstract IEnumerator HandleHalfTransition(float duration, bool isOpening);
 
             
-        void PrepareTransition(Action transitionAction)
+        void PrepareTransition(float duration, Action transitionAction)
         {
+            TransitionData.Duration = duration;
+            
             EndPointAction += ResetProperties;
             DoingTransition = true;
             transitionAction.Invoke();

@@ -38,7 +38,7 @@ namespace CursedOnion.Game.Cameras
             var instancedCamera = cameraLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera != this)
             {
-                instancedCamera.PlaceTransform(this.transform);
+                instancedCamera.MatchWith(this);
                 Destroy(gameObject);
             }
             else
@@ -59,10 +59,12 @@ namespace CursedOnion.Game.Cameras
             
             cameraBehaviours.Initialize(cameraController);
         }
-        void PlaceTransform(Transform other)
+        void MatchWith(GlobalCamera other)
         {
-            transform.position = other.position;
-            transform.rotation = other.rotation;
+            transform.position = other.transform.position;
+            transform.rotation = other.transform.rotation;
+            
+            cinemachineContainer.MatchWith(other.cinemachineContainer);
         }
         void OnDisable()
         {

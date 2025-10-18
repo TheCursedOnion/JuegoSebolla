@@ -494,7 +494,7 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: OpenOptionsScreen
         reset:
           componentName: 
@@ -512,7 +512,7 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: OpenMainScreen
         reset:
           componentName: 
@@ -527,13 +527,13 @@ MonoBehaviour:
       type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         method:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: SetOptionsScreen
     - rid: 8979361058904080465
       type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         method:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: SetMainScreen
     - rid: 8979361058904080466
       type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
@@ -542,7 +542,7 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: OpenCreditsScreen
         reset:
           componentName: 
@@ -557,7 +557,7 @@ MonoBehaviour:
       type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         method:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: SetCreditsScreen
     - rid: 8979361058904080468
       type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
@@ -570,7 +570,7 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: OpenMainScreen
         reset:
           componentName: 
@@ -585,7 +585,7 @@ MonoBehaviour:
       type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         method:
-          componentName: MenuUIController
+          componentName: MenuUICanvas
           methodName: SetMainScreen
 --- !u!114 &149342998
 MonoBehaviour:
@@ -1979,6 +1979,15 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 1
+        _String: CursedOnion.UI.Transitions.TransitionType, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
       - _Type: 10
         _Int: 0
         _String: 
@@ -1986,15 +1995,6 @@ MonoBehaviour:
         _Y: 0
         _Z: 0
         _W: 1
-        _Object: {fileID: 0}
-      - _Type: 4
-        _Int: 1
-        _String: CursedOnion.UI.TransitionType, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
         _Object: {fileID: 0}
 --- !u!1 &1474945241
 GameObject:

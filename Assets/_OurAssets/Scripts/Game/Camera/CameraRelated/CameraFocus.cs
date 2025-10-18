@@ -23,6 +23,7 @@ namespace CursedOnion.Game.Cameras
             CinemachineContainer container = cameraLocator.GlobalCamera.CinemachineContainer;
             container.SetTarget(this.transform, distanceOffset);
             container.SetTiltCenter(tiltOnFocus);
+            cameraLocator.GlobalCamera.CameraBehaviours.ChangeToFixedMode();
         }
     }
 }
