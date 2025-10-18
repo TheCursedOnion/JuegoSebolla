@@ -2,9 +2,9 @@ using CursedOnion.Game;
 using CursedOnion.Helpers;
 using UnityEngine;
 
-namespace CursedOnion.UI
+namespace CursedOnion.UI.Canvases
 {
-    public class MenuUIController : MonoBehaviour, IUIController
+    public class MenuUICanvas : MonoBehaviour, IUICanvas
     {
         [SerializeField] private GameObject MenuUIParent;
         
@@ -14,12 +14,6 @@ namespace CursedOnion.UI
 
         private readonly TransitionIndex transitionIndex = new TransitionIndex();
         public void SetTransitionIndex(int value) => transitionIndex.SetTransitionIndex(value);
-
-        public void SetEnabled(bool enabled)
-        {
-            MenuUIParent.SetActive(enabled);
-            if(enabled) SetMainScreen();
-        }
 
         public bool OpenMainScreen()
         {

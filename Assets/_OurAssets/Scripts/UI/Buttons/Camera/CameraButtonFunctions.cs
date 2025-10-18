@@ -4,7 +4,7 @@ using CursedOnion.Locators;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace CursedOnion.UI
+namespace CursedOnion.UI.Buttons.Functions
 {
     public class CameraButtonFunctions : MonoBehaviour
 

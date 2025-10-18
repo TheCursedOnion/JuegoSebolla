@@ -3273,8 +3273,8 @@ GameObject:
   - component: {fileID: 269115204}
   - component: {fileID: 269115203}
   - component: {fileID: 269115202}
+  - component: {fileID: 269115205}
   - component: {fileID: 269115201}
-  - component: {fileID: 269115200}
   - component: {fileID: 269115199}
   m_Layer: 5
   m_Name: MapCanvas
@@ -3296,19 +3296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planeDistance: 0.2
---- !u!114 &269115200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 269115198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d39755f81b4415acc406042f4afa39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BattleUIParent: {fileID: 2120971710}
 --- !u!114 &269115201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3392,6 +3379,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &269115205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269115198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79871036bb494b219dd5d04653eea0ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayLevelButton: {fileID: 2122381115}
 --- !u!4 &281720024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8470264880036326994, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
@@ -23962,7 +23962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e8d62d289a40843aedda9de56b2e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapManager: {fileID: 1956031856}
+  mapManager: {fileID: 2020141338}
 --- !u!1001 &1602952315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26566,7 +26566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelInformation:
     LevelID: 1
-    Name: Inicio
+    Name: Prueba1
     Description: 
     levelScene: RaulScene2
 --- !u!4 &1852697331 stripped
@@ -27806,9 +27806,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelInformation:
     LevelID: 0
-    Name: Prueba1
+    Name: Inicio
     Description: 
-    levelScene: BootScene
+    levelScene: 
 --- !u!4 &1952618629 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8470264880036326994, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
@@ -27953,7 +27953,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1956031855}
-  - component: {fileID: 1956031856}
   m_Layer: 0
   m_Name: ---LevelPlatforms---
   m_TagString: Untagged
@@ -27976,19 +27975,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1956031856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956031854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cb5579ba5651e34d95bd562fd853c78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levels: []
 --- !u!1001 &1958742404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28556,6 +28542,7 @@ GameObject:
   - component: {fileID: 2020141336}
   - component: {fileID: 2020141335}
   - component: {fileID: 2020141334}
+  - component: {fileID: 2020141338}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -28653,6 +28640,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2020141338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020141333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb5579ba5651e34d95bd562fd853c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels: []
 --- !u!1001 &2020361911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30376,17 +30376,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnClick:
     _PersistentCalls:
-    - _Target: {fileID: 1520572253}
-      _MemberName: ChangeScene
+    - _Target: {fileID: 1520572252}
+      _MemberName: PlayLevel
       _PersistentArguments:
-      - _Type: 2
-        _Int: 0
-        _String: RaulScene2
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
       - _Type: 5
         _Int: 0
         _String: 
@@ -30403,6 +30395,15 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 1
+        _String: CursedOnion.UI.Transitions.TransitionType, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
       - _Type: 10
         _Int: 0
         _String: 
@@ -30410,15 +30411,6 @@ MonoBehaviour:
         _Y: 0
         _Z: 0
         _W: 1
-        _Object: {fileID: 0}
-      - _Type: 4
-        _Int: 1
-        _String: CursedOnion.UI.TransitionType, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
         _Object: {fileID: 0}
 --- !u!114 &2122381118
 MonoBehaviour:
@@ -31066,9 +31058,9 @@ SceneRoots:
   - {fileID: 629487554}
   - {fileID: 1689204177}
   - {fileID: 7733063887894691692}
-  - {fileID: 269115204}
   - {fileID: 326302385}
   - {fileID: 2020141337}
+  - {fileID: 269115204}
   - {fileID: 547377992}
   - {fileID: 1097633563}
   - {fileID: 1956031855}

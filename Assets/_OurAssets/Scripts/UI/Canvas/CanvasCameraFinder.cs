@@ -5,7 +5,7 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion.UI
+namespace CursedOnion.UI.Canvases
 {
     public class CanvasCameraFinder : MonoBehaviour
     {

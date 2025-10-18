@@ -1,5 +1,5 @@
 ﻿using CursedOnion.Locators;
-using CursedOnion.UI;
+using CursedOnion.UI.Transitions;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using UltEvents;
@@ -23,29 +23,34 @@ namespace CursedOnion.Game.Logic.Services
             sceneService.OnSceneLoadCall -= InvokeOnSceneLoadCalled;
             sceneService.OnSceneLoadComplete -= InvokeOnSceneLoadCompleted;
         }
-        public void ChangeScene(string sceneName, float transitionDuration, float transitionInBetweenTime, Color transitionColor, TransitionType transitionType)
+
+        public void ChangeScene(string sceneName, float duration, float inBetweenTime, TransitionType type, Color color)
         {
-            if(transitionType == TransitionType.None)
+            UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color);
+            ChangeScene(sceneName, transitionData);
+        }
+        public void ChangeScene(string sceneName, UITransitionData uiTransitionData)
+        {
+            if(uiTransitionData.Type == TransitionType.None)
                 _ = sceneService.ChangeScene(sceneName);
             else
             {
-                float halfDuration = transitionDuration / 2f;
+                float halfDuration = uiTransitionData.Duration / 2f;
                 var transitionLocator = gameObject.scene.GetSceneContainer().Resolve<UITransitionLocator>();
-                UITransition transition = transitionLocator.GetTransition(transitionType);
+                UITransition transition = transitionLocator.GetTransition(uiTransitionData.Type);
 
                 if (transition != null)
                 {
                     transition
-                        .SetInBetweenTime(transitionInBetweenTime)
-                        .SetColor(transitionColor)
+                        .SetInBetweenTime(uiTransitionData.InBetweenTime)
+                        .SetColor(uiTransitionData.Color)
                         .SetMidAction(() =>
                             {
-                                sceneService.ChangeScene(sceneName);
+                                _ = sceneService.ChangeScene(sceneName);
                                 transition.StartCloseTransition(halfDuration);
                             }
                         )
                         .StartOpenTransition(halfDuration);
-                    Debug.Log($"Getting transition {transitionType}");
                 }
             }
         }

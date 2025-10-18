@@ -13,7 +13,7 @@ namespace CursedOnion.Game.Objects
         public string Name;
         public string Description;
         
-        [Scene] public string levelScene;
+        public string levelScene;
     }
     public class LevelPlatform : MonoBehaviour
     {
@@ -24,6 +24,11 @@ namespace CursedOnion.Game.Objects
         private void Awake()
         {
             mapManager.AddLevel(this);
+        }
+        
+        public bool IsEmptyLevel()
+        {
+            return LevelInformation == null || LevelInformation.LevelID == 0 || string.IsNullOrEmpty(LevelInformation.levelScene);
         }
     }
 }

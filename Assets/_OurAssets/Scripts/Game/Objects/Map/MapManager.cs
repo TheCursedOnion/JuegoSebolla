@@ -27,6 +27,16 @@ namespace CursedOnion.Game.Objects
             //TODO: Conocer el último nivel completado/jugado
         }
 
+        void Start()
+        {
+            mediatorEvents.OnLevelInspectionChanged(levels[selectedLevel]);
+        }
+
+        public bool TryGetSelectedLevelScene(out string levelSceneName)
+        {
+            levelSceneName = levels[selectedLevel].LevelInformation.levelScene;
+            return !string.IsNullOrEmpty(levelSceneName) && !string.IsNullOrWhiteSpace(levelSceneName);
+        }
         public void MoveToNextLevel()
         {
             MoveLevelIndex(1);
