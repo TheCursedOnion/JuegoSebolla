@@ -1,5 +1,6 @@
 using System;
 using CursedOnion.Behaviours;
+using CursedOnion.Game.Objects;
 using UnityEngine;
 
 namespace CursedOnion.Game.Logic
@@ -8,7 +9,8 @@ namespace CursedOnion.Game.Logic
     public class MediatorEvents : ScriptableObject
     {
         public event Action<CameraMode> OnModifyCameraMode;
-        
+        public event Action<LevelPlatform> OnLevelInspectionChange;
         public void OnCameraModeModified(CameraMode newMode) => OnModifyCameraMode?.Invoke(newMode);
+        public void OnLevelInspectionChanged(LevelPlatform newLevel) => OnLevelInspectionChange?.Invoke(newLevel);
     }
 }

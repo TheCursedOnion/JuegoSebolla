@@ -1,5 +1,6 @@
 using System.Collections;
 using CursedOnion.Locators;
+using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ namespace CursedOnion.UI
     public class StripeTransition : UITransition
     {
         [Inject] UITransitionLocator transitionLocator;
+        [SerializeField, MinMaxSlider(-3, 3f)] private Vector2 alphaStripeRange;
         protected override void Awake()
         {
             base.Awake();
@@ -21,9 +23,12 @@ namespace CursedOnion.UI
         {
             float halfDuration = duration * 0.5f;
 
-            yield return AnimateStripe(halfDuration, 0f, 0.4f, 1f);
+            yield return AnimateStripe(halfDuration, 0f, alphaStripeRange.x, alphaStripeRange.y);
             MidPointAction?.Invoke();
-            yield return AnimateStripe(halfDuration, 1f, 1f, 0.4f);
+            
+            yield return new WaitForSecondsRealtime(InBetweenTime);
+            
+            yield return AnimateStripe(halfDuration, 1f, alphaStripeRange.y, alphaStripeRange.x);
             EndPointAction?.Invoke();
             DoingTransition = false;
         }
@@ -33,12 +38,13 @@ namespace CursedOnion.UI
             Debug.Log("Open: " + isOpening);
             if (isOpening)
             {
-                yield return AnimateStripe(duration, 0f, 0.4f, 1f);
+                yield return AnimateStripe(duration, 0f, alphaStripeRange.x, alphaStripeRange.y);
                 MidPointAction?.Invoke();
             }
             else
             {
-                yield return AnimateStripe(duration, 1f, 1f, 0.4f);
+                yield return new WaitForSecondsRealtime(InBetweenTime);
+                yield return AnimateStripe(duration, 1f, alphaStripeRange.y, alphaStripeRange.x);
                 EndPointAction?.Invoke();
                 DoingTransition = false;
             }
@@ -65,6 +71,7 @@ namespace CursedOnion.UI
             MidPointAction = null;
             EndPointAction = null;
             Image.color = Color.black;
+            InBetweenTime = 0.2f;
         }
     }
 }

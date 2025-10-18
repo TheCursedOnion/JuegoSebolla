@@ -18,6 +18,8 @@ namespace CursedOnion.UI
         protected Image Image;
         protected Material MaterialInstance;
         
+        protected float InBetweenTime = 0.5f;
+        
         protected bool DoingTransition = false;
         #region Set Up
         protected virtual void Awake()
@@ -28,7 +30,13 @@ namespace CursedOnion.UI
             Image.material = MaterialInstance;
         }
         #endregion
+        
         #region Builder
+        public UITransition SetInBetweenTime(float betweenTime)
+        {
+            this.InBetweenTime = betweenTime;
+            return this;
+        }
         public UITransition SetColor(Color color)
         {
             Image.color = color;
@@ -53,8 +61,9 @@ namespace CursedOnion.UI
             
             PrepareTransition(() => StartCoroutine(HandleFullTransition(duration)));
         }
-        protected abstract IEnumerator HandleFullTransition(float duration);
+            protected abstract IEnumerator HandleFullTransition(float duration);
         
+            
         public void StartOpenTransition(float duration)
         {
             if(DoingTransition) return;
@@ -67,8 +76,9 @@ namespace CursedOnion.UI
 
             PrepareTransition(() => StartCoroutine(HandleHalfTransition(duration, false)));
         }
-        protected abstract IEnumerator HandleHalfTransition(float duration, bool isOpening);
+            protected abstract IEnumerator HandleHalfTransition(float duration, bool isOpening);
 
+            
         void PrepareTransition(Action transitionAction)
         {
             EndPointAction += ResetProperties;
