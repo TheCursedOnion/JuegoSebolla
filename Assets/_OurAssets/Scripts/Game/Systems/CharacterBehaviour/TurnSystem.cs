@@ -379,17 +379,17 @@ namespace CursedOnion
             if (enemyWon == true)
             {
                 Debug.Log("EndGame: Los ENEMIGOS han ganado.");
-                SceneManager.LoadScene("RaulScene2");
+                SceneManager.LoadScene("MapScene");
             }
             else if (enemyWon == false)
             {
                 Debug.Log("EndGame: Los ALIADOS han ganado.");
-                SceneManager.LoadScene("RaulScene2");
+                SceneManager.LoadScene("MapScene");
             }
             else
             {
                 Debug.Log("EndGame: Empate, no quedan unidades.");
-                SceneManager.LoadScene("RaulScene2");
+                SceneManager.LoadScene("MapScene");
             }
         }
 
