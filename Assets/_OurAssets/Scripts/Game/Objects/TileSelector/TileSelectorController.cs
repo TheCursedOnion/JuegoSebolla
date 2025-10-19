@@ -21,6 +21,7 @@ namespace CursedOnion.Game.Objects
         {
             reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
             tileSelector = GetComponent<TileSelector>();
+            Enable();
         }
 
         private void OnEnable()
