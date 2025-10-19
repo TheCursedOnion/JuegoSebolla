@@ -12,6 +12,8 @@ namespace CursedOnion
         private Grid3d grid;
         private Vector3 targetPosition;
 
+        private bool previousHasMoved;
+
         public MoveCommand(IEntity character, Vector3 newPosition, Grid3d levelgrid) : base(character)
         {
             this.targetPosition = newPosition;
@@ -24,7 +26,8 @@ namespace CursedOnion
             if (characterObj != null)
             {
                 previousPosition = characterObj.transform.position;
-                
+                previousHasMoved = characterObj.hasMoved;
+
                 previousTile = grid.GetTileAtWorldPosition(previousPosition);
                 newTile = grid.GetTileAtWorldPosition(targetPosition);
                 
@@ -43,11 +46,17 @@ namespace CursedOnion
             var characterObj = character as Character;
             if (characterObj != null)
             {
-                characterObj.canMove = true;
+                characterObj.StopAllCoroutines();
+
                 characterObj.uiScript.SetButtonsFalse();
+
                 newTile?.SetContainedEntity(null);
-                characterObj.Move(previousPosition);
                 previousTile?.SetContainedEntity(characterObj);
+
+                characterObj.Move(previousPosition);
+
+                characterObj.hasMoved = previousHasMoved;
+                characterObj.UpdateCharacterUI();
             }
         }
 

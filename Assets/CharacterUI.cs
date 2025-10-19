@@ -70,13 +70,13 @@ namespace CursedOnion
             if (attackButton != null)
             {
                 attackButton.gameObject.SetActive(true);
-                attackButton.interactable = character != null && character.canAttack;
             }
             if (moveButton != null)
             {
                 moveButton.gameObject.SetActive(true);
-                moveButton.interactable = character != null && character.canMove;
             }
+            RefreshButtonsState(character != null && character.hasMoved, character != null && character.hasAttacked, character != null && character.canMove, character != null && character.canAttack);
+
         }
 
         public void SetButtonsFalse()
@@ -85,6 +85,25 @@ namespace CursedOnion
             if (moveButton != null) moveButton.gameObject.SetActive(false);
             if (tutoText != null) tutoText.gameObject.SetActive(false);
         }
+
+        public void RefreshButtonsState(bool hasMoved, bool hasAttacked, bool canMove, bool canAttack)
+        {
+            if (attackButton != null)
+            {
+                attackButton.interactable = !hasAttacked;
+            }
+
+            if (moveButton != null)
+            {
+                moveButton.interactable = !hasMoved;
+            }
+
+            if (tutoText != null)
+            {
+                tutoText.gameObject.SetActive(canAttack || canMove);
+            }
+        }
+
 
         public void SetTextTutoAttack()
         {

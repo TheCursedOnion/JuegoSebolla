@@ -1,4 +1,5 @@
 using CursedOnion.Game.Systems.Grid;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace CursedOnion
@@ -10,6 +11,8 @@ namespace CursedOnion
         private Grid3d grid;
         private Tile3d previousTile;
         private bool wasDeadBefore;
+
+        private bool attackerPreviousHasAttacked;
 
         public AttackCommand(IEntity character, IEntity target, Grid3d levelgrid) : base(character) 
         {
@@ -27,6 +30,12 @@ namespace CursedOnion
 
                 previousTile = grid.GetTileAtWorldPosition(targetObj.transform.position);
             }
+
+            var characterObj = character as Character;
+            if (characterObj != null)
+            {
+                attackerPreviousHasAttacked = characterObj.hasAttacked;
+            }
             character.Attack(target);
 
             var targetChar = target as Character;
@@ -39,11 +48,16 @@ namespace CursedOnion
         public override void Undo()
         {
             var characterObj = character as Character;
-            characterObj.canAttack = true;
-            characterObj.UpdateCharacterUI();
+            var targetObj = target as Character;
 
             Debug.Log("El comando de ataque se ha DESHECHO");
-            var targetObj = target as Character;
+
+            if (characterObj != null)
+            {
+                characterObj.hasAttacked = attackerPreviousHasAttacked;
+                characterObj.UpdateCharacterUI();
+            }
+
             if (targetObj != null)
             {
                 targetObj.HP = previousHP;
@@ -53,8 +67,9 @@ namespace CursedOnion
                 {
                     previousTile.SetContainedEntity(targetObj);
                     targetObj.gameObject.SetActive(true);
-                    Debug.Log(targetObj.characterName + targetObj.id + " has been revived to HP: " + targetObj.HP);
+                    Debug.Log(targetObj.characterName + targetObj.id + " has been healed to HP: " + targetObj.HP);
                 }
+                targetObj.UpdateCharacterUI();
             }
         }
 

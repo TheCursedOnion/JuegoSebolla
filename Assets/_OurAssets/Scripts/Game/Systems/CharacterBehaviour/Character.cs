@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,9 @@ namespace CursedOnion
 {
     public class Character : MonoBehaviour, IEntity
     {
+        // Event for character death
+        public static event Action<Character> OnCharacterDied;
+
         // Character type 
         public CharacterData data;
 
@@ -34,6 +38,8 @@ namespace CursedOnion
         public bool hasDied = false;
         public bool canMove = false;
         public bool canAttack = false;
+        public bool hasAttacked = false;
+        public bool hasMoved = false;
 
         // Pathfinding
         private Coroutine moveCoroutine;
@@ -55,8 +61,10 @@ namespace CursedOnion
         public void DoTurn()
         {
             Debug.Log(characterName + " id: " + id + " est� haciendo su turno...");
-            canMove = true;
-            canAttack = true;
+            canMove = false;
+            canAttack = false;
+            hasMoved = false;
+            hasAttacked = false;
             uiScript?.ShowForTurn();
         }
 
@@ -66,14 +74,20 @@ namespace CursedOnion
             Debug.Log(characterName + id + " Attacking! " + targetObj.characterName + targetObj.id);
             targetObj.HP -= Mathf.Max(1, this.attackStat - targetObj.defenseStat);
             Debug.Log(targetObj.characterName + targetObj.id + "was Attacked " + "HP now: " + targetObj.HP);
-            if (targetObj.HP <= 0)
-            {
-                targetObj.hasDied = true;
-                targetObj.Die();
-            }
-            targetObj.UpdateCharacterUI();
+
+            hasAttacked = true;
             canAttack = false;
             UpdateCharacterUI();
+
+            if (targetObj.HP <= 0)
+            {
+                targetObj.Die();
+            }
+            else
+            {
+                targetObj.UpdateCharacterUI();
+            }
+
         }
 
         public void Move(Vector3 newPosition) 
@@ -81,6 +95,7 @@ namespace CursedOnion
             uiScript.SetButtonsFalse();
             Debug.Log(characterName + id + " Moving to " + newPosition);
             canMove = false;
+            hasMoved = true;
             if (moveCoroutine != null)
                 StopCoroutine(moveCoroutine);
 
@@ -89,13 +104,16 @@ namespace CursedOnion
 
         public void Die()
         {
+            hasDied = true;
             Debug.Log(characterName + id + " has died.");
+            OnCharacterDied?.Invoke(this);
             this.gameObject.SetActive(false);
         }
 
         public void EndTurn()
         {
-            //uiScript?.HideUI();
+            canMove = false;
+            canAttack = false;
         }
 
         public void CreateCharacterUI()
@@ -119,10 +137,7 @@ namespace CursedOnion
 
             uiScript.UpdateStatsDisplay();
 
-            if (canMove || canAttack)
-                uiScript.SetButtonsTrue();
-            else
-                uiScript.SetButtonsFalse();
+            uiScript.RefreshButtonsState(hasMoved, hasAttacked, canMove, canAttack);
         }
 
         #region PathFinding
@@ -223,7 +238,7 @@ namespace CursedOnion
                 transform.position = new Vector3(pos.x, pos.y, pos.z);
                 yield return new WaitForSeconds(0.5f);
             }
-            
+
             UpdateCharacterUI();
         }
         #endregion

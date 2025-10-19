@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.GraphicsBuffer;
 
@@ -30,12 +31,20 @@ namespace CursedOnion
         private int spawned = 0;
         public bool canSpawnUnit = false;
 
+        private bool gameEnded = false;
+
         public event Action OnSpawnPhaseEnded;
 
         void Start()
         {
             Debug.Log("Placing units phase starts!");
             canSpawnUnit = false;
+            Character.OnCharacterDied += HandleCharacterDied;
+        }
+
+        void OnDestroy()
+        {
+            Character.OnCharacterDied -= HandleCharacterDied;
         }
 
         private void StartTurn()
@@ -53,6 +62,8 @@ namespace CursedOnion
 
         void Update()
         {
+            if (gameEnded) return;
+
             if (waitingForInput && Input.GetKeyDown(KeyCode.Space))
             {
                 orderedCharacters[currentCharacterIndex].EndTurn();
@@ -102,6 +113,7 @@ namespace CursedOnion
 
         void NextTurn()
         {
+            if (gameEnded) return;
             do
             {
                 orderedCharacters[currentCharacterIndex].uiScript.gameObject.SetActive(false);
@@ -194,7 +206,7 @@ namespace CursedOnion
                     }
                     else
                     {
-                        orderedCharacters[currentCharacterIndex].canMove = true;
+                        orderedCharacters[currentCharacterIndex].canMove = false;
                         orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                         Debug.Log("Not valid tile: " + gridPosition);
                     }
@@ -236,21 +248,21 @@ namespace CursedOnion
                             }
                             else
                             {
-                                orderedCharacters[currentCharacterIndex].canAttack = true;
+                                orderedCharacters[currentCharacterIndex].canAttack = false;
                                 orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                                 Debug.Log("Same team attacking. Not valid Action.");
                             }
                         }
                         else
                         {
-                            orderedCharacters[currentCharacterIndex].canAttack = true;
+                            orderedCharacters[currentCharacterIndex].canAttack = false;
                             orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                             Debug.Log("Not valid target: " + gridPosition);
                         }
                     }
                     else
                     {
-                        orderedCharacters[currentCharacterIndex].canAttack = true;
+                        orderedCharacters[currentCharacterIndex].canAttack = false;
                         orderedCharacters[currentCharacterIndex].UpdateCharacterUI();
                         Debug.Log("Not valid tile: " + gridPosition);
                     }
@@ -331,6 +343,54 @@ namespace CursedOnion
                 selectedCharacter.uiScript.ShowForSelection(isCurrentTurn);
             }
 
+        }
+
+        private void HandleCharacterDied(Character c)
+        {
+            Debug.Log($"TurnSystem: personaje muerto -> {c.characterName} (id {c.id}). Comprobando fin de juego...");
+            CheckForEndGame();
+        }
+
+        private void CheckForEndGame()
+        {
+            if (gameEnded) return;
+
+            int aliveAllies = characters.Count(ch => !ch.isEnemy && !ch.hasDied);
+            int aliveEnemies = characters.Count(ch => ch.isEnemy && !ch.hasDied);
+
+            if (aliveAllies == 0 && aliveEnemies == 0)
+            {
+                EndGame(null); 
+            }
+            else if (aliveAllies == 0)
+            {
+                EndGame(true); 
+            }
+            else if (aliveEnemies == 0)
+            {
+                EndGame(false); 
+            }
+        }
+
+        private void EndGame(bool? enemyWon)
+        {
+            gameEnded = true;
+
+            if (enemyWon == true)
+            {
+                Debug.Log("EndGame: Los ENEMIGOS han ganado.");
+                SceneManager.LoadScene("RaulScene2");
+            }
+            else if (enemyWon == false)
+            {
+                Debug.Log("EndGame: Los ALIADOS han ganado.");
+                SceneManager.LoadScene("RaulScene2");
+            }
+            else
+            {
+                Debug.Log("EndGame: Empate, no quedan unidades.");
+                SceneManager.LoadScene("RaulScene2");
+            }
         }
 
 
