@@ -1,3 +1,4 @@
+using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,35 +7,41 @@ namespace CursedOnion
 {
     public class SpawnUI : MonoBehaviour
     {
-        [SerializeField] private TurnSystem turnSystem;
+        [Inject] private LevelManager levelManager;
+        TurnSystem turnSystem;
+        
         [SerializeField] private Button spawnButton;
-        [SerializeField] private GameObject placingText; 
+        [SerializeField] private GameObject placingText;
 
-        private void Start()
+        void Awake()
         {
-            turnSystem.OnSpawnPhaseEnded += HandleSpawnPhaseEnded;
+            turnSystem = levelManager.GetTurnSystem();
+            Initialize();
+        }
 
-            spawnButton.onClick.AddListener(OnSpawnButtonClicked);
-
+        void Initialize()
+        {
             spawnButton.gameObject.SetActive(true);
             placingText.SetActive(false);
         }
-
-        private void OnSpawnButtonClicked()
+        
+        private void OnEnable()
+        {
+            turnSystem.OnSpawnPhaseEnded += HandleSpawnPhaseEnded;
+        }
+        public void OnSpawnButtonClicked()
         {
             turnSystem.canSpawnUnit = true;
-
             spawnButton.gameObject.SetActive(false);
             placingText.SetActive(true);
         }
-
         private void HandleSpawnPhaseEnded()
         {
             spawnButton.gameObject.SetActive(false);
             placingText.SetActive(false);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             turnSystem.OnSpawnPhaseEnded -= HandleSpawnPhaseEnded;
         }

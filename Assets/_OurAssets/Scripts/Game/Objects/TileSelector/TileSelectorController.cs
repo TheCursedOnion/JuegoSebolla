@@ -30,6 +30,7 @@ namespace CursedOnion.Game.Objects
         }
         public void Enable()
         {
+            Disable(); //Si no estaba suscrito, no pasa nada, y si lo estaba, evita que se suscriba más de una vez
             reader.MoveSelector += MoveSelector;
             reader.Inspect += Inspect;
         }
