@@ -21,9 +21,9 @@ namespace CursedOnion.Game.Inputs
         float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
         
 
-        public void Initialize(CinemachineContainer cinemachineContainer)
+        public void Initialize(GlobalCamera globalCamera)
         {
-            this.cinemachineContainer = cinemachineContainer;
+            this.cinemachineContainer = globalCamera.CinemachineContainer;
             reader = InputReaderCollection.GetReader<CameraInputReader>();
         }
         public void Enable()

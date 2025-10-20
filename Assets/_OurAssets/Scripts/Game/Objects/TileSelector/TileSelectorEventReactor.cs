@@ -1,32 +1,36 @@
 using CursedOnion.Behaviours;
-using CursedOnion.Game.Logic;
+using CursedOnion.Game.Events;
+using CursedOnion.Locators;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace CursedOnion.Game.Objects
 {
-    public class TileSelectorMediative : MonoBehaviour, IMediative
+    public class TileSelectorEventReactor : MonoBehaviour
     {
-        [Inject] public MediatorEvents MediatorEvents { get; set; }
+        [Inject] CameraLocator cameraLocator;
+        CameraEvents cameraEvents;
         
         TileSelectorController tileSelectorController;
         void Awake()
         {
             tileSelectorController = GetComponent<TileSelectorController>();
+            cameraEvents = cameraLocator.GlobalCamera.CameraEvents;
         }
         
         void OnEnable()
         {
-            MediatorEvents.OnModifyCameraMode += OnCameraModification;
+            cameraEvents.OnModifyCameraMode += OnCameraModification;
         }
 
         void OnDisable()
         {
-            MediatorEvents.OnModifyCameraMode -= OnCameraModification;
+            cameraEvents.OnModifyCameraMode -= OnCameraModification;
         }
 
         void OnCameraModification(CameraMode cameraMode)
         {
+            Debug.Log($"Camera mode changed to {cameraMode}");
             switch (cameraMode)
             {
                 case CameraMode.FreeMode: tileSelectorController.Disable(); break;

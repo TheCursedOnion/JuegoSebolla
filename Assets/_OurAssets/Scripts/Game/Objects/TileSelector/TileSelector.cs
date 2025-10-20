@@ -1,6 +1,7 @@
 using System;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Locators;
@@ -17,12 +18,14 @@ namespace CursedOnion.Game.Objects
     public class TileSelector : MonoBehaviour
     {
         [SerializeField] Vector3 CameraOffset;
-            
         [SerializeField, ReadOnly] Vector3 gridPosition;
+        
         [Inject] LevelAsset levelAsset;
-        [SerializeField] TurnSystem turnSystem;
+        
         [Inject] CameraLocator cameraLocator;
         private GlobalCamera globalCamera;
+        
+        [Inject] LevelEvents levelEvents;
 
         public void Awake()
         {
@@ -81,15 +84,7 @@ namespace CursedOnion.Game.Objects
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
 
             IEntity entity = tile.GetContainedEntity();
-            if (entity != null)
-            {
-                //Debug.Log(tile.GetContainedEntity());
-                turnSystem.HandleEntitySelection(entity);
-            }
-            else
-            {
-                Debug.Log("Aquí no hay nada");
-            }
+            levelEvents.OnEntityInspection(entity);
             
         }
         int TrySetAtPosition(Vector3 position)

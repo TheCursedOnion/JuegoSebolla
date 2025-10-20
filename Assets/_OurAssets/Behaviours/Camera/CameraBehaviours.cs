@@ -1,9 +1,8 @@
+using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Inputs;
-using CursedOnion.Game.Logic;
 using CursedOnion.Helpers;
-using Reflex.Attributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace CursedOnion.Behaviours
 {
@@ -15,15 +14,16 @@ namespace CursedOnion.Behaviours
     }
     public class CameraBehaviours : MonoBehaviour
     {
-        [Inject] MediatorEvents mediatorEvents;
-        
+        CameraEvents cameraEvents;
         CameraController cameraController;
+        
         TransitionIndex transitionIndex = new TransitionIndex();
         
         CameraMode currentMode = CameraMode.None;
-        public void Initialize(CameraController cameraController)
+        public void Initialize(GlobalCamera globalCamera)
         {
-            this.cameraController = cameraController;
+            this.cameraController = globalCamera.CameraController;
+            this.cameraEvents = globalCamera.CameraEvents;
         }
         public void ChangeToNone() => transitionIndex.SetTransitionIndex((int)CameraMode.None);
         public bool CanChangeToNone() => transitionIndex.IsIndexEquals((int)CameraMode.None);
@@ -32,7 +32,7 @@ namespace CursedOnion.Behaviours
             cameraController.DisableAll();
 
             currentMode = CameraMode.None;
-            mediatorEvents.OnCameraModeModified(currentMode);
+            cameraEvents.OnCameraModeModified(currentMode);
         }
         
         public void ChangeToFreeMode() => transitionIndex.SetTransitionIndex((int)CameraMode.FreeMode);
@@ -45,7 +45,7 @@ namespace CursedOnion.Behaviours
             cameraController.EnableRotate(true);
             
             currentMode = CameraMode.FreeMode;
-            mediatorEvents.OnCameraModeModified(currentMode);
+            cameraEvents.OnCameraModeModified(currentMode);
         }
 
         public void ChangeToFixedMode() => transitionIndex.SetTransitionIndex((int)CameraMode.FixedMode);
@@ -58,7 +58,7 @@ namespace CursedOnion.Behaviours
             cameraController.EnableRotate(true);
             
             currentMode = CameraMode.FixedMode;
-            mediatorEvents.OnCameraModeModified(currentMode);
+            cameraEvents.OnCameraModeModified(currentMode);
         }
 
         public void SwitchCameraModes()
@@ -67,14 +67,6 @@ namespace CursedOnion.Behaviours
             {
                 transitionIndex.SetTransitionIndex(4);
             }
-        }
-        void Update()
-        {
-            if(Input.GetKeyDown(KeyCode.Alpha0)) ChangeToNone();
-            else if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeToFreeMode();
-            else if(Input.GetKeyDown(KeyCode.Alpha2)) ChangeToFixedMode();
-            
-            //Debug.LogWarning(transitionIndex.transitionIndex);
         }
     }
 }

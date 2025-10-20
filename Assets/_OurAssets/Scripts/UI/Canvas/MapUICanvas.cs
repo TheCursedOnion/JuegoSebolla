@@ -1,4 +1,5 @@
-﻿using CursedOnion.Game.Logic;
+﻿using CursedOnion.Game.Events;
+using CursedOnion.Game.Logic;
 using CursedOnion.Game.Objects;
 using Reflex.Attributes;
 using UnityEngine;
@@ -7,16 +8,16 @@ namespace CursedOnion.UI.Canvases
 {
     public class MapUICanvas : MonoBehaviour, IUICanvas
     {
-        [Inject] MediatorEvents mediatorEvents;
+        [Inject] MapEvents mapEvents;
         
         [SerializeField] private GameObject PlayLevelButton;
         void Awake()
         {
-            mediatorEvents.OnLevelInspectionChange += UpdateMapCanvas;
+            mapEvents.OnLevelPlatformChange += UpdateMapCanvas;
         }
         void OnDestroy()
         {
-            mediatorEvents.OnLevelInspectionChange -= UpdateMapCanvas;
+            mapEvents.OnLevelPlatformChange -= UpdateMapCanvas;
         }
 
         void UpdateMapCanvas(LevelPlatform inspectedLevel)

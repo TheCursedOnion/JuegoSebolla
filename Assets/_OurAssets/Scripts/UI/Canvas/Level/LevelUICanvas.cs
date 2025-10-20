@@ -1,9 +1,9 @@
 ﻿using CursedOnion.UI;
 using UnityEngine;
 
-namespace CursedOnion.UI.Canvases
+namespace CursedOnion.UI.Canvases.Level
 {
-    public class BattleUICanvas : MonoBehaviour, IUICanvas
+    public class LevelUICanvas : MonoBehaviour, IUICanvas
     {
         [SerializeField] private GameObject BattleUIParent;
     }

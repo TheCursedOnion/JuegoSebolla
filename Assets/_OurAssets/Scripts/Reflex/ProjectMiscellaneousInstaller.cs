@@ -15,13 +15,11 @@ namespace CursedOnion.Installers
     {
         [Expandable, SerializeField] InputReaderCollection inputReaderCollection;
         [Expandable, SerializeField] GameSettings gameSettings;
-        [Expandable, SerializeField] MediatorEvents mediatorEvents;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             inputReaderCollection.Initialize();
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
             containerBuilder.AddSingleton(inputReaderCollection, typeof(InputReaderCollection));
-            containerBuilder.AddSingleton(mediatorEvents, typeof(MediatorEvents));
         }
     }
 }

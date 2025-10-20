@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -9,7 +10,7 @@ namespace CursedOnion.Game.Objects
 {
     public class MapManager : MonoBehaviour
     {
-        [Inject] private MediatorEvents mediatorEvents;
+        [Inject] private MapEvents mapEvents;
         [SerializeField, ReadOnly] List<LevelPlatform> levels = new List<LevelPlatform>();
         
         int selectedLevel;
@@ -29,7 +30,7 @@ namespace CursedOnion.Game.Objects
 
         void Start()
         {
-            mediatorEvents.OnLevelInspectionChanged(levels[selectedLevel]);
+            mapEvents.OnLevelPlatformChanged(levels[selectedLevel]);
         }
 
         public bool TryGetSelectedLevelScene(out string levelSceneName)
@@ -51,7 +52,7 @@ namespace CursedOnion.Game.Objects
         {
             if (moveIndex == 1 && selectedLevel == levels.Count - 1 || moveIndex == -1 && selectedLevel == 0) return;
             selectedLevel += moveIndex;
-            mediatorEvents.OnLevelInspectionChanged(levels[selectedLevel]);
+            mapEvents.OnLevelPlatformChanged(levels[selectedLevel]);
         }
         
     }

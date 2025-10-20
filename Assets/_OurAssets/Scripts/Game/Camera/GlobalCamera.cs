@@ -1,13 +1,14 @@
 using System;
-using CursedOnion.Behaviours;
-using CursedOnion.Game.Inputs;
-using CursedOnion.Game.Settings;
-using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
+
+using CursedOnion.Behaviours;
+using CursedOnion.Game.Inputs;
+using CursedOnion.Game.Events;
+using CursedOnion.Locators;
 
 namespace CursedOnion.Game.Cameras
 {
@@ -31,6 +32,8 @@ namespace CursedOnion.Game.Cameras
         [BoxGroup("Cinemachine"),SerializeField] CinemachineContainer cinemachineContainer;
         public CinemachineContainer CinemachineContainer => cinemachineContainer;
         public float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
+        
+        public CameraEvents CameraEvents;
 
         #region Initialization & Destruction
         void Awake()
@@ -54,10 +57,12 @@ namespace CursedOnion.Game.Cameras
             eventSystem.enabled = true;
             audioListener.enabled = true;
             
-            cameraController.Initialize(cinemachineContainer);
-            cameraController.Enable();
+            CameraEvents = new CameraEvents(true);
             
-            cameraBehaviours.Initialize(cameraController);
+
+            cameraBehaviours.Initialize(this);
+            cameraController.Initialize(this);
+            cameraController.Enable();
         }
         void MatchWith(GlobalCamera other)
         {

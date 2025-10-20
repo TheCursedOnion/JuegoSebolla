@@ -1,3 +1,4 @@
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Objects;
 using NaughtyAttributes;
 using Reflex.Core;
@@ -13,6 +14,7 @@ namespace CursedOnion.Installers
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             containerBuilder.AddSingleton(mapManager, typeof(MapManager));
+            containerBuilder.AddSingleton(new MapEvents(true), typeof(MapEvents));
         }
     }
 }
