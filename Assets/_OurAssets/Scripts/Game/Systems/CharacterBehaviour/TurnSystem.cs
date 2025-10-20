@@ -6,6 +6,9 @@ using Reflex.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CursedOnion.Game.Logic.Services;
+using CursedOnion.UI.Transitions;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -21,6 +24,9 @@ namespace CursedOnion
         [Inject] private LevelManager levelManager;
 
         [SerializeField] private CharacterData[] characterTypes;
+
+        [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
+        [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
 
         private List<Character> characters = new List<Character>();
         private List<Character> orderedCharacters = new List<Character>();
@@ -52,7 +58,7 @@ namespace CursedOnion
             if (characters.Count > 0)
             {
                 canSpawnUnit = false;
-                Debug.Log("Termina la fase de colocación de unidades");
+                Debug.Log("Termina la fase de colocaciï¿½n de unidades");
                 OnSpawnPhaseEnded?.Invoke();
 
                 Debug.Log("Turno " + turnCount + " comienza.");
@@ -375,22 +381,28 @@ namespace CursedOnion
         private void EndGame(bool? enemyWon)
         {
             gameEnded = true;
-
+            SceneServiceUser sceneServiceUser = GetComponent<SceneServiceUser>();
+            Color transitionColor;
+            string endMessage;
             if (enemyWon == true)
             {
-                Debug.Log("EndGame: Los ENEMIGOS han ganado.");
-                SceneManager.LoadScene("MapScene");
+                endMessage = "EndGame: Los ENEMIGOS han ganado.";
+                transitionColor = Color.red;
             }
             else if (enemyWon == false)
             {
-                Debug.Log("EndGame: Los ALIADOS han ganado.");
-                SceneManager.LoadScene("MapScene");
+                endMessage = "EndGame: Los ALIADOS han ganado.";
+                transitionColor = Color.green;
             }
             else
             {
-                Debug.Log("EndGame: Empate, no quedan unidades.");
-                SceneManager.LoadScene("MapScene");
+                endMessage = "EndGame: Empate, no quedan unidades.";
+                transitionColor = Color.gray;
             }
+            
+            Debug.Log(endMessage);
+            transitionData.Color = transitionColor;
+            sceneServiceUser.ChangeScene(resetScene, transitionData);
         }
 
 

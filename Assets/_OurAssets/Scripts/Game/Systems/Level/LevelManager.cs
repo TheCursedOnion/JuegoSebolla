@@ -12,6 +12,10 @@ namespace CursedOnion
     public class LevelManager : MonoBehaviour
     {
         [SerializeField, Inject, ReadOnly] LevelAsset levelAsset;
+        
+        [SerializeField] TurnSystem turnSystem;
+        public TurnSystem GetTurnSystem() => turnSystem;
+        
         public void Initialize(LevelAsset asset)
         {
             gameObject.name = "LevelManager";
