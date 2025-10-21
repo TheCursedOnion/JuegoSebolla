@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6d066510aa24147e4b7d9decfabd6b80, type: 2}
     - target: {fileID: 919132149155446097, guid: 89af6e43318d84d77aaf57453b55562f, type: 3}
       propertyPath: m_Name
-      value: CuboCompletoGeneral
+      value: CiudadGrecia
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63,6 +63,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89af6e43318d84d77aaf57453b55562f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4490323940230928542}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89af6e43318d84d77aaf57453b55562f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7757913829712878208}
   m_SourcePrefab: {fileID: 100100000, guid: 89af6e43318d84d77aaf57453b55562f, type: 3}
 --- !u!1 &7397149912376972948 stripped
 GameObject:
@@ -81,4 +84,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 11400000, guid: 4f32a904cca42054f95b4679fd4bde0f, type: 2}
+  tile: {fileID: 11400000, guid: 8a8a77629f9bb4ee4b6e1df1f2e1b8d7, type: 2}
+--- !u!114 &-7757913829712878208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7397149912376972948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 0}
