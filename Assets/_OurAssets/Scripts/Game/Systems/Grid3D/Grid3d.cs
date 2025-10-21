@@ -4,6 +4,7 @@ using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Helpers;
+using CursedOnion.Tools;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -29,14 +30,12 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] private Tile3d[] tiles;
             
         #region Constructor
-        public Grid3d(Vector3 size, Vector3 origin, Mesh mesh, Tilemap[] layers)
+        public Grid3d(Vector3 size, Vector3 origin, Tilemap[] layers)
         {
             this.size = size.CastToVectorInt();
             
             origin.Floor();
             this.origin = origin;
-            
-            this.mesh = mesh;
             
             InitializeTiles();
             PlaceLayers(layers);
@@ -48,33 +47,30 @@ namespace CursedOnion.Game.Systems.Grid
             for(int index = 0; index < tiles.Length; index++)
             {
                 Tile3d tile = Tile3d.Default;
-                tile.SetTileMeshProperties(mesh, IntRange.Default);
                 SetTileAtIndex(index, tile);
             }
         }
-
         void PlaceLayers(Tilemap[] layers)
         {
             if(layers == null || layers.Length == 0) return;
-            
-            int vertexCount = 0;
+
             foreach (var layer in layers)
             {
                 foreach (Transform transform in layer.transform)
                 {
                     Vector3 worldPositon = transform.position;
-                    Mesh tileMesh = transform.GetComponent<MeshFilter>().sharedMesh;
-                    
+
                     ScriptableTile3d tileDefinition = transform.gameObject.GetComponent<Tile3dComponent>()?.tile;
                     Tile3d tile = tileDefinition != null ? tileDefinition.ProduceTile() : Tile3d.Default;
-                    
-                    int lastVertexIndex = vertexCount + tileMesh.vertices.Length - 1;
-                    tile.SetTileMeshProperties(mesh, new IntRange(vertexCount, lastVertexIndex));
-                    
+
                     SetTileAtWorldPosition(worldPositon, tile);
-                    vertexCount += tileMesh.vertices.Length;
                 }
             }
+        }
+
+        public void SetMeshForGrid(Mesh gridMesh)
+        {
+            mesh = gridMesh;
         }
         #endregion
 
@@ -169,6 +165,33 @@ namespace CursedOnion.Game.Systems.Grid
                 tiles[index] = tile;
             }
         }
+        #endregion
+
+        #region Painting
+
+        public void PaintTileAtGridPosition(Mesh mesh, Vector3 gridPosition, Color color)
+        {
+            if (TryGridPositionToIndex(gridPosition, out int gridIndex))
+            {
+                tiles[gridIndex].Paint(mesh, color);
+            }
+        }
+        
+        public void PaintAll(Mesh mesh, Color color)
+        {
+            for(int index = 0; index < tiles.Length; index++)
+            {
+                tiles[index].Paint(mesh, color);
+            }
+        }
+        public void ResetPaint()
+        {
+            for(int index = 0; index < tiles.Length; index++)
+            {
+                tiles[index].Paint(mesh, Color.white);
+            }
+        }
+
         #endregion
         public void DebugGrid()
         {

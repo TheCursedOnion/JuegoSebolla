@@ -22,14 +22,15 @@ namespace CursedOnion.Game.Systems.Grid
             if(!TryGetGridBounds(layers, out var gridBounds))
                 return;
 
-            MeshCombiner meshCombiner = GetComponent<MeshCombiner>();
-            if(meshCombiner == null) return;
-
-            CombinedMesh combinedMesh = meshCombiner.CombineTilemapMeshes(true);
-            Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, combinedMesh.Mesh, layers);
+            MeshGenerator meshGenerator = GetComponent<MeshGenerator>();
+            if(meshGenerator == null) return;
+        
+            Grid3d grid3d = new Grid3d(gridBounds.size, gridBounds.origin, layers);
+            GridMesh gridMesh = meshGenerator.GenerateGridMesh(grid3d);
+            
             
             LevelAsset levelAsset = ScriptableObject.CreateInstance<LevelAsset>();
-            levelAsset.SetupLevelAsset(combinedMesh, grid3d);
+            levelAsset.SetupLevelAsset(gridMesh, grid3d);
             
             levelAsset.Save();
             SpawnLevelManager(levelAsset);

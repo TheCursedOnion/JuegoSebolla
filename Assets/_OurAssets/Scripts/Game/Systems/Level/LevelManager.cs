@@ -29,6 +29,14 @@ namespace CursedOnion
         void Awake()
         {
             levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - GetComponent<MeshRenderer>().bounds.min;
+            
+            Mesh mesh = GetComponent<MeshFilter>().mesh;
+            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(0,0,0), Color.red);
+            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(1,0,0), Color.blue);
+            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(2,0,0), Color.yellow);
+            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(3,0,0), Color.green);
+            
+            //levelAsset.Grid.PaintAll(mesh, Color.white);
         }
         
 

@@ -43,23 +43,15 @@ namespace CursedOnion.Extensions
                 colors = (Color32[])mesh.colors32.Clone();
             }
             
+            Debug.Log(colors.Length + "("+vertexRange.Start + ","+  vertexRange.End+")");
             if(!vertexRange.BoundedInArray(colors)) return;
                 
             for (int i = vertexRange.Start; i <= vertexRange.End; i++)
             {
                 colors[i] = color;
+                Debug.Log("Paint");
             }
             mesh.colors32 = colors;
-
-            /*Action<int> tryPaintInRange = (i) => colors[i] = i >= vertexRange.Start && i <= vertexRange.End ? color : Color.white;
-            Action<int> defaultPaint = (i) => colors[i] = Color.white;
-            
-            Action<int> paintAtIndexAction = vertexRange.BoundedInArray(colors) ? tryPaintInRange : defaultPaint;
-            
-            for (int i = 0; i < mesh.vertices.Length; i++)
-            {
-                paintAtIndexAction(i);
-            }*/
         }
         public static void Color32Vertices(this Mesh mesh, IntRange[] vertexRanges, Color color)
         {
@@ -101,6 +93,32 @@ namespace CursedOnion.Extensions
                 colors32[i] = color;
             }
             mesh.colors32 = colors32;
+        }
+
+        public static Mesh Clone(this Mesh original)
+        {
+            Mesh clone = new Mesh();
+
+            clone.vertices = original.vertices;
+            clone.normals = original.normals;
+            clone.uv = original.uv;
+            clone.triangles = original.triangles;
+            clone.tangents = original.tangents;
+            clone.colors = original.colors;
+
+            return clone;
+        }
+
+        public static void SetMeshData(this Mesh mesh, Vector3[] vertices, int[] triangles, Vector2[] uvs, Vector3[] normals)
+        {
+            mesh.Clear();
+            mesh.vertices = vertices;
+            if (uvs.Length > 0) mesh.uv = uvs;
+            if (normals.Length > 0) mesh.normals = normals;
+
+            mesh.triangles = triangles;
+            mesh.RecalculateBounds();
+            mesh.RecalculateNormals();
         }
         
     }

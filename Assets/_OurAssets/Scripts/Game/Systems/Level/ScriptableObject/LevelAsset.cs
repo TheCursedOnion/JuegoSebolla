@@ -15,9 +15,9 @@ namespace CursedOnion.ScriptableObjects
         [HorizontalLine(color : EColor.Blue, height: 4)]
         public Grid3d Grid;
 
-        public void SetupLevelAsset(CombinedMesh combinedMesh, Grid3d grid3d)
+        public void SetupLevelAsset(GridMesh gridMesh, Grid3d grid3d)
         {
-            this.MeshMaterials = combinedMesh.MaterialsArray;
+            this.MeshMaterials = gridMesh.MaterialsArray;
             this.Grid = grid3d;
         }
         public void Save()

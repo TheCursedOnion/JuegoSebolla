@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using CursedOnion.Extensions;
+using CursedOnion.Game.Systems.Grid;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using UnityEngine;
 
 namespace CursedOnion.Tools
 {
-    public class MeshCombiner : MonoBehaviour
+    public class MeshGenerator : MonoBehaviour
     {
-        [Button]
-        public CombinedMesh CombineTilemapMeshes(bool spawnObject = true)
+        public GridMesh GenerateGridMesh(Grid3d gridData)
         {
             MeshFilter[] filters = GetComponentsInChildren<MeshFilter>();
-            CombinedMesh combinedMesh = new CombinedMesh(filters);
-            
-            return combinedMesh;
+            GridMesh gridMesh = new GridMesh(filters, gridData);
+            gridData.SetMeshForGrid(gridMesh.Mesh);
+            return gridMesh;
         }
             
     }

@@ -12,7 +12,6 @@ namespace CursedOnion.Game.Systems.Grid
     public class Tile3d
     {
         [SerializeField] Tile3dDescriptor descriptor = Tile3dDescriptor.Default;
-        [SerializeField] Mesh gridMesh;
         [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
         
         [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
@@ -24,7 +23,6 @@ namespace CursedOnion.Game.Systems.Grid
                 var defaultTile = new Tile3d
                 {
                     descriptor = Tile3dDescriptor.Default,
-                    gridMesh = null,
                     correspondingVerticesInMesh = IntRange.Default,
                     containedEntity = null
                 };
@@ -41,7 +39,10 @@ namespace CursedOnion.Game.Systems.Grid
         { 
             containedEntity = newContainedEntity;
         }
-        
+        public void SetTileVertices(IntRange verticesInMesh)
+        {
+            correspondingVerticesInMesh = verticesInMesh;
+        }
         
         //Como es una flag, hay que emplear operaciones de bits :)
         public DirectionFlag GetBlockedEntryDirections() => blockedEntryDirections;
@@ -53,17 +54,11 @@ namespace CursedOnion.Game.Systems.Grid
         {
             this.descriptor = tileDescriptor;
         }
-        public void SetTileMeshProperties(Mesh combinedGridMesh, IntRange verticesInMesh)
-        {
-            gridMesh = combinedGridMesh;
-            correspondingVerticesInMesh = verticesInMesh;
-        }
         #endregion
         
-        public void Paint(Color color)
+        public void Paint(Mesh mesh, Color color)
         {
-            if(gridMesh != null)
-                gridMesh.Color32Vertices(correspondingVerticesInMesh, color);
+            mesh.Color32Vertices(correspondingVerticesInMesh, color);
         }
         public Tile3d Clone()
         {
@@ -74,7 +69,6 @@ namespace CursedOnion.Game.Systems.Grid
         public void ReplaceAttributes(Tile3d tile)
         {
             this.descriptor = tile.descriptor;
-            this.gridMesh = tile.gridMesh;
             this.correspondingVerticesInMesh = tile.correspondingVerticesInMesh;
             this.containedEntity = tile.containedEntity;
             this.blockedEntryDirections = tile.blockedEntryDirections;
