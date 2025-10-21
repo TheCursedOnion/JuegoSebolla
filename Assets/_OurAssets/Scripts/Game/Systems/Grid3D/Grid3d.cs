@@ -169,27 +169,34 @@ namespace CursedOnion.Game.Systems.Grid
 
         #region Painting
 
-        public void PaintTileAtGridPosition(Mesh mesh, Vector3 gridPosition, Color color)
+        public Mesh PaintTile(Tile3d tile, Color color)
+        {
+            mesh.Color32Vertices(tile.CorrespondingVerticesInMesh, color);
+            return mesh;
+        }
+        public Mesh PaintTileAtGridPosition(Vector3 gridPosition, Color color)
         {
             if (TryGridPositionToIndex(gridPosition, out int gridIndex))
             {
-                tiles[gridIndex].Paint(mesh, color);
+                var vertexRange = tiles[gridIndex].CorrespondingVerticesInMesh;
+                mesh.Color32Vertices(vertexRange, color);
             }
+
+            return mesh;
         }
         
-        public void PaintAll(Mesh mesh, Color color)
+        public Mesh PaintAllTiles(Color color)
         {
             for(int index = 0; index < tiles.Length; index++)
             {
-                tiles[index].Paint(mesh, color);
+                var vertexRange = tiles[index].CorrespondingVerticesInMesh;
+                mesh.Color32Vertices(vertexRange, color);
             }
+            return mesh;
         }
-        public void ResetPaint()
+        public Mesh ResetPaint()
         {
-            for(int index = 0; index < tiles.Length; index++)
-            {
-                tiles[index].Paint(mesh, Color.white);
-            }
+            return PaintAllTiles(Color.white);
         }
 
         #endregion

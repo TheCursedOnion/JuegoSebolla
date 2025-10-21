@@ -1,6 +1,7 @@
 ﻿using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Game;
+using CursedOnion.Game.Entity;
 using CursedOnion.Helpers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -56,10 +57,6 @@ namespace CursedOnion.Game.Systems.Grid
         }
         #endregion
         
-        public void Paint(Mesh mesh, Color color)
-        {
-            mesh.Color32Vertices(correspondingVerticesInMesh, color);
-        }
         public Tile3d Clone()
         {
             var clone = new Tile3d();

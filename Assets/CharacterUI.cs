@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace CursedOnion
+
+namespace CursedOnion.Game.Entity.UI
 {
     public class CharacterUI : MonoBehaviour
     {
@@ -27,30 +28,13 @@ namespace CursedOnion
             if (attackButton != null) attackButton.gameObject.SetActive(false);
             if (moveButton != null) moveButton.gameObject.SetActive(false);
         }
-
-        public void SetCharacter(Character c)
-        {
-            character = c;
-
-            maxHP = character.HP;
-            currentHP = character.HP;
-
-            if (nameText != null)
-                nameText.text = character.characterName;
-
-            if (idText != null)
-                idText.text = character.id.ToString();
-
-            UpdateStatsDisplay();
-        }
-
         public void UpdateStatsDisplay()
         {
             if (character == null || StatsText == null) return;
 
-            currentHP = character.HP;
+            currentHP = character.Stats.CurrentHealthStat;;
             //maxHP = Mathf.Max(1, maxHP); // seguridad
-            StatsText.text = ($"{character.characterName} -> {character.speedStat}\nID -> {character.id} \nHP -> {currentHP}/{maxHP}\nattack -> {character.attackStat}\ndefense -> {character.defenseStat}\nmovement -> {character.movementStat}\nprice -> {character.priceStat}");
+            //StatsText.text = ($"{character.characterName} -> {character.speedStat}\nID -> {character.id} \nHP -> {currentHP}/{maxHP}\nattack -> {character.attackStat}\ndefense -> {character.defenseStat}\nmovement -> {character.movementStat}\nprice -> {character.priceStat}");
         }
 
         public void SetStatsTrue()
@@ -75,8 +59,7 @@ namespace CursedOnion
             {
                 moveButton.gameObject.SetActive(true);
             }
-            RefreshButtonsState(character != null && character.hasMoved, character != null && character.hasAttacked, character != null && character.canMove, character != null && character.canAttack);
-
+            //RefreshButtonsState(character != null && character.hasMoved, character != null && character.hasAttacked, character != null && character.canMove, character != null && character.canAttack);
         }
 
         public void SetButtonsFalse()
@@ -109,14 +92,14 @@ namespace CursedOnion
         {
             SetButtonsFalse();
             if (tutoText != null) tutoText.gameObject.SetActive(true);
-            if (character != null) character.canAttack = true;
+            //if (character != null) character.canAttack = true;
             if (tutoText != null) tutoText.text = "Click at valid tile to Attack an Enemy!";
         }
         public void SetTextTutoMove()
         {
             SetButtonsFalse();
             if (tutoText != null) tutoText.gameObject.SetActive(true);
-            if (character != null) character.canMove = true;
+            //if (character != null) character.canMove = true;
             if (tutoText != null) tutoText.text = "Click at valid tile to Move!";
         }
 

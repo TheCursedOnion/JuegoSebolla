@@ -1,10 +1,11 @@
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Commands
 {
-    public class MoveCommand : CharacterCommand
+    public class MoveCommand : EntityCommand
     {
         private Vector3 previousPosition;
         private Tile3d previousTile;
@@ -14,7 +15,7 @@ namespace CursedOnion
 
         private bool previousHasMoved;
 
-        public MoveCommand(IEntity character, Vector3 newPosition, Grid3d levelgrid) : base(character)
+        public MoveCommand(ICommandEntity entity, Vector3 newPosition, Grid3d levelgrid) : base(entity)
         {
             this.targetPosition = newPosition;
             this.grid = levelgrid;
@@ -22,20 +23,19 @@ namespace CursedOnion
 
         public override void Execute()
         {
-            var characterObj = character as Character;
-            if (characterObj != null)
+            if (Entity != null)
             {
-                previousPosition = characterObj.transform.position;
-                previousHasMoved = characterObj.hasMoved;
+                previousPosition = Entity.Transform.position;
+                previousHasMoved = Entity.Flags.HasMoved;
 
                 previousTile = grid.GetTileAtWorldPosition(previousPosition);
                 newTile = grid.GetTileAtWorldPosition(targetPosition);
                 
-                Debug.Log(characterObj.characterName + characterObj.id + " Moving from " + previousPosition + " to " + targetPosition);
+                Debug.Log(Entity.Name + " Moving from " + previousPosition + " to " + targetPosition);
 
                 previousTile?.SetContainedEntity(null);
-                characterObj.Move(targetPosition);
-                newTile?.SetContainedEntity(characterObj);
+                Entity.Move(targetPosition);
+                newTile?.SetContainedEntity(Entity);
             }
         }
 
@@ -43,20 +43,19 @@ namespace CursedOnion
         public override void Undo()
         {
             Debug.Log("El comando de movimiento se ha DESHECHO");
-            var characterObj = character as Character;
-            if (characterObj != null)
+            var character = Entity as Character;
+            if (character != null)
             {
-                characterObj.StopAllCoroutines();
+                character.StopAllCoroutines();
 
-                characterObj.uiScript.SetButtonsFalse();
+                character.uiScript.SetButtonsFalse();
 
                 newTile?.SetContainedEntity(null);
-                previousTile?.SetContainedEntity(characterObj);
+                previousTile?.SetContainedEntity(character);
 
-                characterObj.Move(previousPosition);
+                character.Move(previousPosition);
 
-                characterObj.hasMoved = previousHasMoved;
-                characterObj.UpdateCharacterUI();
+                character.Flags.HasMoved = previousHasMoved;
             }
         }
 

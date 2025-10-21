@@ -1,4 +1,5 @@
 ﻿using System;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic;
 using Reflex.Attributes;
@@ -42,13 +43,15 @@ namespace CursedOnion.UI.Canvases.Level
         void UpdateStatsDisplayCharacter(Character character)
         {
             if (statsText == null) return;
-            statsText.text = $"{character.characterName} -> {character.speedStat}\n" +
-                              $"ID -> {character.id}\n" +
-                              $"HP -> {character.HP}\n" +
-                              $"attack -> {character.attackStat}\n" +
-                              $"defense -> {character.defenseStat}\n" +
-                              $"movement -> {character.movementStat}\n" +
-                              $"price -> {character.priceStat}";
+            
+            EntityStats stats = character.Stats;
+            statsText.text = $"{character.Name} -> {stats.InitiativeStat}\n" +
+                              $"HP -> {stats.CurrentHealthStat}\n" +
+                              $"MaxHP -> {stats.MaxHealthStat}\n" +
+                              $"attack -> {stats.AttackStat}\n" +
+                              $"defense -> {stats.DefenseStat}\n" +
+                              $"movement -> {stats.MovementStat}\n" +
+                              $"price -> {stats.PriceStat}";
         }
     }
 }

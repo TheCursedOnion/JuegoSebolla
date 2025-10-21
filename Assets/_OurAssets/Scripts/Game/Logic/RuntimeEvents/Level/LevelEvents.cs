@@ -1,4 +1,5 @@
 using System;
+using CursedOnion.Game.Entity;
 using UnityEngine;
 
 namespace CursedOnion.Game.Events

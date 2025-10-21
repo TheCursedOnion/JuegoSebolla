@@ -1,6 +1,7 @@
 using System;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
