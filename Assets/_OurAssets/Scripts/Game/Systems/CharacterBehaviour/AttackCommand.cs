@@ -1,81 +1,54 @@
+using System;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Commands
 {
-    public class AttackCommand : CharacterCommand
+    public class AttackCommand : EntityCommand
     {
-        IEntity target;
-        int previousHP;
-        private Grid3d grid;
-        private Tile3d previousTile;
-        private bool wasDeadBefore;
+        private readonly SimpleEntity target;
+        
+        private bool targetHasDied = false;
+        private int previousHp;
+        
 
         private bool attackerPreviousHasAttacked;
-
-        public AttackCommand(IEntity character, IEntity target, Grid3d levelgrid) : base(character) 
+        
+        public static AttackCommand Create(CommandableEntity commandSubject, SimpleEntity target)
+        {
+            if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
+            if(!target) throw new ArgumentException($"Target cannot be null");
+            
+            return new AttackCommand(commandSubject, target);
+        }
+        private AttackCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
         {
             this.target = target;
-            this.grid = levelgrid;
         }
 
         public override void Execute()
         {
-            var targetObj = target as Character;
-            if (targetObj != null)
-            {
-                previousHP = targetObj.HP;
-                wasDeadBefore = targetObj.hasDied;
-
-                previousTile = grid.GetTileAtWorldPosition(targetObj.transform.position);
-            }
-
-            var characterObj = character as Character;
-            if (characterObj != null)
-            {
-                attackerPreviousHasAttacked = characterObj.hasAttacked;
-            }
-            character.Attack(target);
-
-            var targetChar = target as Character;
-            if (targetChar != null && targetChar.hasDied && previousTile != null)
-            {
-                previousTile.SetContainedEntity(null);
-            }
+            previousHp = target.GetStats().CurrentHealthStat;
+            CommandSubject.Attack(target);
+            targetHasDied = target.HasDied();
         }
 
         public override void Undo()
         {
-            var characterObj = character as Character;
-            var targetObj = target as Character;
-
             Debug.Log("El comando de ataque se ha DESHECHO");
 
-            if (characterObj != null)
+            if (targetHasDied)
             {
-                characterObj.hasAttacked = attackerPreviousHasAttacked;
-                characterObj.UpdateCharacterUI();
+                target.Revive(previousHp);
             }
-
-            if (targetObj != null)
-            {
-                targetObj.HP = previousHP;
-                targetObj.hasDied = wasDeadBefore;
-
-                if (!wasDeadBefore && previousTile != null)
-                {
-                    previousTile.SetContainedEntity(targetObj);
-                    targetObj.gameObject.SetActive(true);
-                    Debug.Log(targetObj.characterName + targetObj.id + " has been healed to HP: " + targetObj.HP);
-                }
-                targetObj.UpdateCharacterUI();
-            }
+            CommandSubject.UndoAttack(target);
         }
 
         public override void Redo()
         {
             Debug.Log("El comando de ataque se ha VOLVIDO A HACER");
-            character.Attack(target);
+            Execute();
         }
     }
 

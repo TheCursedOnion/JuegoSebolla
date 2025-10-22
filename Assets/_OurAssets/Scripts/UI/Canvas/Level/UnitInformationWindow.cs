@@ -1,4 +1,5 @@
 ﻿using System;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic;
 using Reflex.Attributes;
@@ -21,7 +22,7 @@ namespace CursedOnion.UI.Canvases.Level
             levelEvents.OnEntityInspected -= UpdateStatsDisplay;
         }
 
-        public void UpdateStatsDisplay(IEntity entity)
+        public void UpdateStatsDisplay(SimpleEntity entity)
         {
             if (entity == null)
             {
@@ -29,7 +30,7 @@ namespace CursedOnion.UI.Canvases.Level
                 return;
             }
             
-            if (entity is Character character)
+            if (entity is Unit character)
             {
                 UpdateStatsDisplayCharacter(character);
             }
@@ -39,16 +40,18 @@ namespace CursedOnion.UI.Canvases.Level
             if (statsText == null) return;
             statsText.text = "";
         }
-        void UpdateStatsDisplayCharacter(Character character)
+        void UpdateStatsDisplayCharacter(Unit unit)
         {
             if (statsText == null) return;
-            statsText.text = $"{character.characterName} -> {character.speedStat}\n" +
-                              $"ID -> {character.id}\n" +
-                              $"HP -> {character.HP}\n" +
-                              $"attack -> {character.attackStat}\n" +
-                              $"defense -> {character.defenseStat}\n" +
-                              $"movement -> {character.movementStat}\n" +
-                              $"price -> {character.priceStat}";
+            
+            ExtendedEntityStats stats = unit.GetStats();
+            statsText.text = $"{unit.Data.GetName()} -> {stats.InitiativeStat}\n" +
+                              $"HP -> {stats.CurrentHealthStat}\n" +
+                              $"MaxHP -> {stats.MaxHealthStat}\n" +
+                              $"attack -> {stats.AttackStat}\n" +
+                              $"defense -> {stats.DefenseStat}\n" +
+                              $"movement -> {stats.MovementStat}\n" +
+                              $"price -> {stats.PriceStat}";
         }
     }
 }

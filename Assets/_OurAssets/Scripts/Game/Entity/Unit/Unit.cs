@@ -2,95 +2,59 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
+using CursedOnion.Game.Entity.UI;
+using CursedOnion.Game.Systems.Grid;
+using CursedOnion.ScriptableObjects;
+using Reflex.Extensions;
 using UnityEngine;
-using UnityEngine.Splines;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Entity
 {
-    public class Character : MonoBehaviour, IEntity
+    public class Unit : CommandableEntity
     {
-        // Event for character death
-        public static event Action<Character> OnCharacterDied;
-
-        // Character type 
-        public CharacterData data;
-
-        // Character Model (test)
-        public GameObject characterModel3D;
-
         // Character UI 
-        public GameObject characterUI;
         public CharacterUI uiScript;
-
-        // Character Stats
-        public string characterName { get; set; }
-        public int HP { get; set; }
-        public int attackStat { get; set; }
-        public int defenseStat { get; set; }
-        public int speedStat { get; set; }
-        public int movementStat { get; set; }
-        public int priceStat { get; set; }
-        public int id { get; set; }
-        public bool isEnemy { get; set; }
-
-        // Character Variables
-        public bool hasDied = false;
-        public bool canMove = false;
-        public bool canAttack = false;
-        public bool hasAttacked = false;
-        public bool hasMoved = false;
+        
+        public bool IsEnemy;
+        public UnitController UnitController;
 
         // Pathfinding
         private Coroutine moveCoroutine;
-
-        public void SetCharacterData()
+        
+        private Grid3d levelGrid;
+        private TurnSystem turnSystem;
+        public void Awake()
         {
-            characterName = data.SetCharacterName();
-            HP = data.SetRandomHP();
-            attackStat = data.SetRandomAttack();
-            defenseStat = data.SetRandomDefense();
-            speedStat = data.SetRandomSpeed();
-            movementStat = data.SetMovement();
-            priceStat = data.SetPrice();
-            characterModel3D = data.SetModel();
-            characterUI = data.SetUI();
-            CreateCharacterUI();
+            var container = this.gameObject.scene.GetSceneContainer();
+            
+            var levelAsset = container.Resolve<LevelAsset>();
+            levelGrid = levelAsset.Grid;
+            
+            var levelManager = container.Resolve<LevelManager>();
+            turnSystem = levelManager.GetTurnSystem();
         }
 
-        public void DoTurn()
+        public override void Damage(int damage)
         {
-            Debug.Log(characterName + " id: " + id + " est� haciendo su turno...");
-            canMove = false;
-            canAttack = false;
-            hasMoved = false;
-            hasAttacked = false;
-            uiScript?.ShowForTurn();
+            int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
+            
+            Stats.CurrentHealthStat -= finalDamage;
+            if (Stats.CurrentHealthStat <= 0) Die();
         }
 
-        public void Attack(IEntity target)
+        protected override void DoAttack(SimpleEntity target, bool undo)
         {
-            var targetObj = target as Character;
-            Debug.Log(characterName + id + " Attacking! " + targetObj.characterName + targetObj.id);
-            targetObj.HP -= Mathf.Max(1, this.attackStat - targetObj.defenseStat);
-            Debug.Log(targetObj.characterName + targetObj.id + "was Attacked " + "HP now: " + targetObj.HP);
-
-            hasAttacked = true;
-            canAttack = false;
-            UpdateCharacterUI();
-
-            if (targetObj.HP <= 0)
+            if (undo)
             {
-                targetObj.Die();
+                
             }
             else
             {
-                targetObj.UpdateCharacterUI();
+                target.Damage(GetStats().AttackStat);
             }
-
         }
 
-        public void Move(Vector3 newPosition) 
+        /*public void Move(Vector3 newPosition) 
         {
             uiScript.SetButtonsFalse();
             Debug.Log(characterName + id + " Moving to " + newPosition);
@@ -100,46 +64,20 @@ namespace CursedOnion
                 StopCoroutine(moveCoroutine);
 
             moveCoroutine = StartCoroutine(MoveAlongPath(GetPath(transform.position, newPosition)));
-        }
+        }*/
 
-        public void Die()
+        protected override void DoMove(Vector3 newPosition, bool undo)
         {
-            hasDied = true;
-            Debug.Log(characterName + id + " has died.");
-            OnCharacterDied?.Invoke(this);
-            this.gameObject.SetActive(false);
-        }
-
-        public void EndTurn()
-        {
-            canMove = false;
-            canAttack = false;
-        }
-
-        public void CreateCharacterUI()
-        {
-            if (characterUI != null)
+            if (undo)
             {
-                GameObject uiInstance = Instantiate(characterUI, transform);
-
-                uiScript = uiInstance.GetComponent<CharacterUI>();
-                if (uiScript != null)
-                {
-                    uiScript.SetCharacter(this);
-                    uiScript.gameObject.SetActive(false);
-                }
+                transform.position = newPosition;
+            }
+            else
+            {
+                
             }
         }
-
-        public void UpdateCharacterUI() 
-        {
-            if (uiScript == null) return;
-
-            uiScript.UpdateStatsDisplay();
-
-            uiScript.RefreshButtonsState(hasMoved, hasAttacked, canMove, canAttack);
-        }
-
+        
         #region PathFinding
         // Pathfinding method (Bresenham's 3D line algorithm)
         public static List<Vector3> GetPath(Vector3 start, Vector3 end) // From repository with MIT License
@@ -239,8 +177,10 @@ namespace CursedOnion
                 yield return new WaitForSeconds(0.5f);
             }
 
-            UpdateCharacterUI();
+            //UpdateCharacterUI();
         }
         #endregion
+
+
     }
 }

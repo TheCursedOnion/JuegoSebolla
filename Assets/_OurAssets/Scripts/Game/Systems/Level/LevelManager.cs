@@ -1,3 +1,4 @@
+using System;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game;
@@ -16,6 +17,7 @@ namespace CursedOnion
         
         [SerializeField] TurnSystem turnSystem;
         public TurnSystem GetTurnSystem() => turnSystem;
+        public Vector3 LevelManagerOrigin => GetComponent<MeshRenderer>().bounds.min;
         public void Initialize(LevelAsset asset)
         {
             gameObject.name = "LevelManager";
@@ -28,17 +30,20 @@ namespace CursedOnion
 
         void Awake()
         {
-            levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - GetComponent<MeshRenderer>().bounds.min;
+            levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - LevelManagerOrigin;
             
-            Mesh mesh = GetComponent<MeshFilter>().mesh;
-            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(0,0,0), Color.red);
-            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(1,0,0), Color.blue);
-            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(2,0,0), Color.yellow);
-            levelAsset.Grid.PaintTileAtGridPosition(mesh, new Vector3(3,0,0), Color.green);
+            /*Mesh mesh = GetComponent<MeshFilter>().mesh;
+            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(0,0,0), Color.red);
+            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(1,0,0), Color.blue);
+            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(2,0,0), Color.yellow);
+            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(3,0,0), Color.green);
             
-            //levelAsset.Grid.PaintAll(mesh, Color.white);
+            GetComponent<MeshFilter>().mesh = levelAsset.Grid.PaintAllTiles(Color.magenta);*/
         }
-        
 
+        private void OnDisable()
+        {
+            levelAsset.Grid.ResetPaint();
+        }
     }
 }

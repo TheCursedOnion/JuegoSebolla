@@ -1,6 +1,7 @@
 using System;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
@@ -83,7 +84,7 @@ namespace CursedOnion.Game.Objects
             Grid3d grid = levelAsset.Grid;
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
 
-            IEntity entity = tile.GetContainedEntity();
+            Entity.SimpleEntity entity = tile.GetContainedEntity();
             levelEvents.OnEntityInspection(entity);
             
         }

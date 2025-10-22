@@ -1,4 +1,5 @@
 using System;
+using CursedOnion.Game.Entity;
 using UnityEngine;
 
 namespace CursedOnion.Game.Events
@@ -9,8 +10,8 @@ namespace CursedOnion.Game.Events
         {
         }
 
-        public event Action<IEntity> OnEntityInspected;
-        public void OnEntityInspection(IEntity inspectedEntity)
+        public event Action<Entity.SimpleEntity> OnEntityInspected;
+        public void OnEntityInspection(Entity.SimpleEntity inspectedEntity)
         {
             if (!Enabled) return;
             OnEntityInspected?.Invoke(inspectedEntity);

@@ -18,7 +18,7 @@ namespace BehaviourAPI.UnityToolkit.Demos
         protected override void Init()
         {
             _rb = GetComponent<Rigidbody>();
-            _radar = FindObjectOfType<RadarFSMRunner>();
+            _radar = FindFirstObjectByType<RadarFSMRunner>();
             _speed = Random.Range(10f, 30f);
             _debugger = GetComponent<BSRuntimeDebugger>();
             base.Init();

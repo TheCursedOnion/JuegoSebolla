@@ -25,7 +25,7 @@ namespace BehaviourAPI.UnityToolkit.Demos
 
         protected override void Init()
         {
-            _door = FindObjectOfType<Door>();
+            _door = FindFirstObjectByType<Door>();
             _audioSource = GetComponent<AudioSource>();
             meshAgent = GetComponent<NavMeshAgent>();
             _debugger = GetComponent<BSRuntimeDebugger>();

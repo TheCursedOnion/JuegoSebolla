@@ -1,6 +1,7 @@
 ﻿using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Game;
+using CursedOnion.Game.Entity;
 using CursedOnion.Helpers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -15,7 +16,7 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
         
         [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
-        IEntity containedEntity;
+        Entity.SimpleEntity containedEntity;
         public static Tile3d Default
         {
             get
@@ -34,8 +35,8 @@ namespace CursedOnion.Game.Systems.Grid
         public Tile3dDescriptor GetTileDescriptor() => descriptor;
         public IntRange CorrespondingVerticesInMesh => correspondingVerticesInMesh;
         
-        public IEntity GetContainedEntity() => containedEntity;
-        public void SetContainedEntity(IEntity newContainedEntity) 
+        public Entity.SimpleEntity GetContainedEntity() => containedEntity;
+        public void SetContainedEntity(Entity.SimpleEntity newContainedEntity) 
         { 
             containedEntity = newContainedEntity;
         }
@@ -56,10 +57,6 @@ namespace CursedOnion.Game.Systems.Grid
         }
         #endregion
         
-        public void Paint(Mesh mesh, Color color)
-        {
-            mesh.Color32Vertices(correspondingVerticesInMesh, color);
-        }
         public Tile3d Clone()
         {
             var clone = new Tile3d();

@@ -1,68 +1,43 @@
+using System;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Commands
 {
-    public class MoveCommand : CharacterCommand
+    public class MoveCommand : EntityCommand
     {
         private Vector3 previousPosition;
-        private Tile3d previousTile;
-        private Tile3d newTile;
-        private Grid3d grid;
         private Vector3 targetPosition;
 
         private bool previousHasMoved;
 
-        public MoveCommand(IEntity character, Vector3 newPosition, Grid3d levelgrid) : base(character)
+        public static MoveCommand Create(CommandableEntity commandSubject, Vector3 newPosition)
+        {
+            if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
+            return new MoveCommand(commandSubject, newPosition);
+        }
+        private MoveCommand(CommandableEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {
             this.targetPosition = newPosition;
-            this.grid = levelgrid;
         }
 
         public override void Execute()
         {
-            var characterObj = character as Character;
-            if (characterObj != null)
-            {
-                previousPosition = characterObj.transform.position;
-                previousHasMoved = characterObj.hasMoved;
-
-                previousTile = grid.GetTileAtWorldPosition(previousPosition);
-                newTile = grid.GetTileAtWorldPosition(targetPosition);
-                
-                Debug.Log(characterObj.characterName + characterObj.id + " Moving from " + previousPosition + " to " + targetPosition);
-
-                previousTile?.SetContainedEntity(null);
-                characterObj.Move(targetPosition);
-                newTile?.SetContainedEntity(characterObj);
-            }
+            previousPosition = CommandSubject.transform.position;
+            CommandSubject.Move(targetPosition);
         }
-
 
         public override void Undo()
         {
             Debug.Log("El comando de movimiento se ha DESHECHO");
-            var characterObj = character as Character;
-            if (characterObj != null)
-            {
-                characterObj.StopAllCoroutines();
-
-                characterObj.uiScript.SetButtonsFalse();
-
-                newTile?.SetContainedEntity(null);
-                previousTile?.SetContainedEntity(characterObj);
-
-                characterObj.Move(previousPosition);
-
-                characterObj.hasMoved = previousHasMoved;
-                characterObj.UpdateCharacterUI();
-            }
+            CommandSubject.UndoMove(previousPosition);
         }
 
         public override void Redo()
         {
-            Debug.Log("El comando de movimiento se ha VOLVIDO A HACER");
+            Debug.Log("El comando de movimiento se ha VUELTO A HACER");
             Execute();
         }
     }
