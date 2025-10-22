@@ -84,7 +84,7 @@ namespace CursedOnion.Game.Objects
             Grid3d grid = levelAsset.Grid;
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
 
-            IEntity entity = tile.GetContainedEntity();
+            Entity.SimpleEntity entity = tile.GetContainedEntity();
             levelEvents.OnEntityInspection(entity);
             
         }

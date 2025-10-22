@@ -1,3 +1,4 @@
+using System;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
@@ -6,69 +7,48 @@ namespace CursedOnion.Game.Commands
 {
     public class AttackCommand : EntityCommand
     {
-        IEntity target;
-        int previousHP;
-        private Grid3d grid;
-        private Tile3d previousTile;
-        private bool wasDeadBefore;
+        private readonly SimpleEntity target;
+        
+        private bool targetHasDied = false;
+        private int previousHp;
+        
 
         private bool attackerPreviousHasAttacked;
-
-        public AttackCommand(ICommandEntity entity, IEntity target, Grid3d levelgrid) : base(entity) 
+        
+        public static AttackCommand Create(CommandableEntity commandSubject, SimpleEntity target)
+        {
+            if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
+            if(!target) throw new ArgumentException($"Target cannot be null");
+            
+            return new AttackCommand(commandSubject, target);
+        }
+        private AttackCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
         {
             this.target = target;
-            this.grid = levelgrid;
         }
 
         public override void Execute()
         {
-            if (target != null)
-            {
-                previousHP = target.Stats.CurrentHealthStat;
-                wasDeadBefore = target.Flags.HasDied;
-
-                previousTile = grid.GetTileAtWorldPosition(target.Transform.position);
-            }
-            
-            attackerPreviousHasAttacked = Entity.Flags.HasAttacked;
-            
-            Entity.Attack(target);
-
-            /*var targetChar = target as Character;
-            if (targetChar != null && targetChar.hasDied && previousTile != null)
-            {
-                previousTile.SetContainedEntity(null);
-            }*/
+            previousHp = target.GetStats().CurrentHealthStat;
+            CommandSubject.Attack(target);
+            targetHasDied = target.HasDied();
         }
 
         public override void Undo()
         {
             Debug.Log("El comando de ataque se ha DESHECHO");
 
-            if (Entity != null)
+            if (targetHasDied)
             {
-                Entity.Flags.HasAttacked = attackerPreviousHasAttacked;
+                target.Revive(previousHp);
             }
-
-            if (target != null)
-            {
-                target.Stats.CurrentHealthStat = previousHP;
-                target.Flags.HasDied = wasDeadBefore;
-
-                /*if (!wasDeadBefore && previousTile != null)
-                {
-                    previousTile.SetContainedEntity(targetObj);
-                    targetObj.gameObject.SetActive(true);
-                    Debug.Log(targetObj.characterName + targetObj.id + " has been healed to HP: " + targetObj.HP);
-                }
-                targetObj.UpdateCharacterUI();*/
-            }
+            CommandSubject.UndoAttack(target);
         }
 
         public override void Redo()
         {
             Debug.Log("El comando de ataque se ha VOLVIDO A HACER");
-            Entity.Attack(target);
+            Execute();
         }
     }
 

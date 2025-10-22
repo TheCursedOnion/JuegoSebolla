@@ -22,7 +22,7 @@ namespace CursedOnion.UI.Canvases.Level
             levelEvents.OnEntityInspected -= UpdateStatsDisplay;
         }
 
-        public void UpdateStatsDisplay(IEntity entity)
+        public void UpdateStatsDisplay(SimpleEntity entity)
         {
             if (entity == null)
             {
@@ -30,7 +30,7 @@ namespace CursedOnion.UI.Canvases.Level
                 return;
             }
             
-            if (entity is Character character)
+            if (entity is Unit character)
             {
                 UpdateStatsDisplayCharacter(character);
             }
@@ -40,12 +40,12 @@ namespace CursedOnion.UI.Canvases.Level
             if (statsText == null) return;
             statsText.text = "";
         }
-        void UpdateStatsDisplayCharacter(Character character)
+        void UpdateStatsDisplayCharacter(Unit unit)
         {
             if (statsText == null) return;
             
-            EntityStats stats = character.Stats;
-            statsText.text = $"{character.Name} -> {stats.InitiativeStat}\n" +
+            ExtendedEntityStats stats = unit.GetStats();
+            statsText.text = $"{unit.Data.GetName()} -> {stats.InitiativeStat}\n" +
                               $"HP -> {stats.CurrentHealthStat}\n" +
                               $"MaxHP -> {stats.MaxHealthStat}\n" +
                               $"attack -> {stats.AttackStat}\n" +

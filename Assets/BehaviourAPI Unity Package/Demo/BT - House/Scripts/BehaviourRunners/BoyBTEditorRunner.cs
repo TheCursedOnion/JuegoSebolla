@@ -22,7 +22,7 @@ namespace BehaviourAPI.UnityToolkit.Demos
 
         protected override void Init()
         {
-            _door = FindObjectOfType<Door>();
+            _door = FindFirstObjectByType<Door>();
             _audioSource = GetComponent<AudioSource>();
             _meshAgent = GetComponent<NavMeshAgent>();
             base.Init();

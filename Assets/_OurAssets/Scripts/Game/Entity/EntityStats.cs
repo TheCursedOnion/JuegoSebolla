@@ -4,13 +4,19 @@
     {
         public int CurrentHealthStat;
         public int MaxHealthStat;
-        
+        public virtual void SetStats(EntityData data)
+        {
+            CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
+        }
+    }
+    public class ExtendedEntityStats : EntityStats
+    {
         public int AttackStat;
         public int DefenseStat;
         public int InitiativeStat;
         public int MovementStat;
         public int PriceStat;
-        public void SetStats(EntityData data)
+        public override void SetStats(EntityData data)
         {
             CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
             AttackStat = data.GetRandomAttack();
@@ -19,5 +25,6 @@
             MovementStat = data.GetMovement();
             PriceStat = data.GetPrice();
         }
+        
     }
 }

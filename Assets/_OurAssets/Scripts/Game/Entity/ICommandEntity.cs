@@ -2,18 +2,65 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    public interface IEntity
+    public class SimpleEntity : MonoBehaviour
     {
-        public string Name { get; set; }
-        public Transform Transform { get; set; }
-        public EntityData Data { get; set; }
-        public EntityStats Stats { get; set; }
-        public EntityFlags Flags { get; set; }
+        public EntityData Data;
+        protected virtual EntityStats Stats { get; } = new EntityStats();
+        public EntityStats GetStats() => Stats;
+        
+        protected bool IsDead = false;
+        public bool HasDied() => IsDead;
+
+        public virtual void Damage(int damage)
+        {
+            Stats.CurrentHealthStat -= damage;
+            if (Stats.CurrentHealthStat <= 0) Die();
+        }
+        public virtual void Die()
+        {
+            IsDead = true;
+        }
+
+        public virtual void Revive(int newHealth)
+        {
+            Stats.CurrentHealthStat = newHealth;
+            IsDead = false;
+        }
+
+        public virtual void Debug(){}
     }
-    public interface ICommandEntity : IEntity
+    
+    public abstract class CommandableEntity : SimpleEntity
     {
-        void DoTurn();
-        void Attack(IEntity target);
-        void Move(Vector3 newPosition);
+        [SerializeField] 
+        protected override EntityStats Stats { get; } = new ExtendedEntityStats();
+        public new ExtendedEntityStats GetStats() => Stats as ExtendedEntityStats;
+
+        #region Basic Commands
+        public void Attack(SimpleEntity target)
+        {
+            DoAttack(target, undo: false);
+        }
+
+        public void UndoAttack(SimpleEntity target)
+        {
+            DoAttack(target, undo: true);
+        }
+
+        protected abstract void DoAttack(SimpleEntity target, bool undo);
+        
+        
+        public void Move(Vector3 newPosition)
+        {
+            DoMove(newPosition, undo: false);
+        }
+
+        public void UndoMove(Vector3 previousPosition)
+        {
+            DoMove(previousPosition, undo: true);
+        }
+        protected abstract void DoMove(Vector3 newPosition, bool undo);
+        
+        #endregion
     }
 }

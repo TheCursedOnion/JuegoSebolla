@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Entity
 
     public class EntityData : ScriptableObject
     {
-        [SerializeField] private string characterName;
+        [SerializeField] private string entityName;
 
         [SerializeField, MinMaxSlider(0, Single.MaxValue)] private Vector2Int hpRange;
         [SerializeField, MinMaxSlider(0, Single.MaxValue)] private Vector2Int attackRange;
@@ -22,7 +22,7 @@ namespace CursedOnion.Game.Entity
 
         public string GetName()
         { 
-            return characterName; 
+            return entityName;
         }
         public int GetRandomHP()
         {

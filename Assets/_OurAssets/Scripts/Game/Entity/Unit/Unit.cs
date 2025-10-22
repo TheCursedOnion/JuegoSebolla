@@ -10,110 +10,74 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    public class Character : MonoBehaviour, ICommandEntity
+    public class Unit : CommandableEntity
     {
-        // Event for character death
-        public static event Action<Character> OnCharacterDied;
-
-        // Character type 
-        
-
         // Character UI 
-        public GameObject characterUI;
         public CharacterUI uiScript;
         
-        public string Name { get; set; }
-        public Transform Transform { get; set; }
-        public EntityData Data { get; set; }
-        public EntityStats Stats { get; set; }
-        public EntityFlags Flags { get; set; }
-
-        public bool isEnemy;
-
-        // Character Variables
-
+        public bool IsEnemy;
+        public UnitController UnitController;
 
         // Pathfinding
         private Coroutine moveCoroutine;
         
-        private Grid3d grid;
+        private Grid3d levelGrid;
+        private TurnSystem turnSystem;
         public void Awake()
         {
             var container = this.gameObject.scene.GetSceneContainer();
+            
             var levelAsset = container.Resolve<LevelAsset>();
-            grid = levelAsset.Grid;
-        }
-        public void SetCharacterData()
-        {
-            Name = Data.GetName();
-            Stats.SetStats(Data);
+            levelGrid = levelAsset.Grid;
             
-            characterUI = Data.GetUI();
+            var levelManager = container.Resolve<LevelManager>();
+            turnSystem = levelManager.GetTurnSystem();
         }
 
-        public void DoTurn()
+        public override void Damage(int damage)
         {
-            Debug.Log(Name + " está haciendo su turno...");
-            Flags.ResetFlags();
+            int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
             
-            uiScript?.ShowForTurn();
+            Stats.CurrentHealthStat -= finalDamage;
+            if (Stats.CurrentHealthStat <= 0) Die();
         }
 
-        public void Attack(IEntity target)
+        protected override void DoAttack(SimpleEntity target, bool undo)
         {
-            /*targetObj.HP -= Mathf.Max(1, this.attackStat - targetObj.defenseStat);
-            Debug.Log(targetObj.characterName + targetObj.id + "was Attacked " + "HP now: " + targetObj.HP);
-
-            hasAttacked = true;
-            canAttack = false;
-            UpdateCharacterUI();
-
-            if (targetObj.HP <= 0)
+            if (undo)
             {
-                targetObj.Die();
+                
             }
             else
             {
-                targetObj.UpdateCharacterUI();
-            }*/
-
+                target.Damage(GetStats().AttackStat);
+            }
         }
 
-        public void Move(Vector3 newPosition) 
+        /*public void Move(Vector3 newPosition) 
         {
-            /*uiScript.SetButtonsFalse();
+            uiScript.SetButtonsFalse();
             Debug.Log(characterName + id + " Moving to " + newPosition);
             canMove = false;
             hasMoved = true;
             if (moveCoroutine != null)
                 StopCoroutine(moveCoroutine);
 
-            moveCoroutine = StartCoroutine(MoveAlongPath(GetPath(transform.position, newPosition)));*/
-        }
-
-        public void Die()
-        {
-            Flags.HasDied = true;
-            Debug.Log(Name + " has died.");
-            OnCharacterDied?.Invoke(this);
-            this.gameObject.SetActive(false);
-        }
-
-        public void EndTurn()
-        {
-            Flags.CanMove = false;
-            Flags.CanAttack = false;
-        }
-
-        /*public void UpdateCharacterUI() 
-        {
-            if (uiScript == null) return;
-
-            uiScript.UpdateStatsDisplay();
-
-            uiScript.RefreshButtonsState(hasMoved, hasAttacked, canMove, canAttack);
+            moveCoroutine = StartCoroutine(MoveAlongPath(GetPath(transform.position, newPosition)));
         }*/
 
+        protected override void DoMove(Vector3 newPosition, bool undo)
+        {
+            if (undo)
+            {
+                transform.position = newPosition;
+            }
+            else
+            {
+                
+            }
+        }
+        
         #region PathFinding
         // Pathfinding method (Bresenham's 3D line algorithm)
         public static List<Vector3> GetPath(Vector3 start, Vector3 end) // From repository with MIT License

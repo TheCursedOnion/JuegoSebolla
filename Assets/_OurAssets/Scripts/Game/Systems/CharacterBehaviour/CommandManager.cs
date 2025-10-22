@@ -35,7 +35,7 @@ namespace CursedOnion
             }
         }
 
-        public void ClearTurn()
+        public void Clear()
         {
             redoStack.Clear();
             undoStack.Clear();

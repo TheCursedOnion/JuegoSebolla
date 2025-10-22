@@ -23,109 +23,117 @@ namespace CursedOnion
         [Inject] private CommandManager commandManager;
         [Inject] private LevelAsset levelAsset;
         [Inject] private LevelManager levelManager;
-
-        [SerializeField] private EntityStats[] characterTypes;
-
+        
         [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
         [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
-
-        private List<Character> characters = new List<Character>();
-        private List<Character> orderedCharacters = new List<Character>();
-
-        private int currentCharacterIndex = 0;
-        private int turnCount = 1;
-        private bool waitingForInput = true;
-        private int spawned = 0;
-        public bool canSpawnUnit = false;
-
-        private bool gameEnded = false;
         
+        int currentInitiative = 0;
+        
+        private List<Unit> allies = new List<Unit>();
+        private List<Unit> enemies = new List<Unit>();
+        
+        private List<Unit> activeUnits;
 
-        void Start()
+        public void AddUnit(Unit unit)
         {
-            Debug.Log("Placing units phase starts!");
-            canSpawnUnit = false;
-        }
-
-        private void StartTurn()
-        {
-            if (characters.Count > 0)
+            if (unit.IsEnemy)
             {
-                canSpawnUnit = false;
-                Debug.Log("Termina la fase de colocaci�n de unidades");
-
-                Debug.Log("Turno " + turnCount + " comienza.");
-                orderedCharacters[currentCharacterIndex].DoTurn();
+                if(!enemies.Contains(unit)) enemies.Add(unit);
+            }
+            else
+            {
+                if (!allies.Contains(unit)) allies.Add(unit);
             }
         }
-
-        void Update()
+        public void RemoveUnit(Unit unit)
         {
-            if (gameEnded) return;
+            if(allies.Contains(unit)) allies.Remove(unit);
+            if(enemies.Contains(unit)) enemies.Remove(unit);
+        }
 
-            if (waitingForInput && Input.GetKeyDown(KeyCode.Space))
+        public void StartRound()
+        { 
+            if(allies.Count == 0 || enemies.Count == 0) return;
+            
+            allies = allies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
+            enemies = enemies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
+
+            var maxAllyInitiative = allies[0].GetStats().InitiativeStat;
+            var maxEnemyInitiative = enemies[0].GetStats().InitiativeStat;
+            currentInitiative = Mathf.Max(maxEnemyInitiative, maxAllyInitiative) + 1;
+            
+            NextTurn();
+        }
+
+        private bool CallPlayerTurn()
+        {
+            return CallTurn(false);
+        }
+        private bool CallEnemyTurn()
+        {
+            return CallTurn(true);
+        }
+        private bool CallTurn(bool forPlayer)
+        {
+            if (forPlayer)
             {
-                orderedCharacters[currentCharacterIndex].EndTurn();
-                foreach (var c in characters)
-                {
-                    c.uiScript?.HideUI();
-                }
+                activeUnits = allies.Where(u=> currentInitiative == u.GetStats().InitiativeStat).ToList();
+            }
+            else
+            {
+                activeUnits = enemies.Where(u=> currentInitiative == u.GetStats().InitiativeStat).ToList();
+            }
+
+            foreach (var unit in activeUnits)
+            {
+                unit.UnitController.ProcessTurn();
+            }
+            
+            bool result = activeUnits.Count > 0;
+            return result;
+        }
+
+
+        public void EndTurnForUnit(Unit unit)
+        {
+            if (activeUnits.Contains(unit)) activeUnits.Remove(unit);
+
+            if (activeUnits.Count == 0)
+            {
                 NextTurn();
             }
-            if (waitingForInput && Input.GetKeyDown(KeyCode.Return))
-            {
-                if (characters.Count == 0)
-                {
-                    Debug.Log("Theres NO Characters");
-                }
-                else
-                {
-                    StartTurn();
-                }
-            }
+        }
 
-            if (orderedCharacters.Count > 0)
-            {
-                if (waitingForInput && orderedCharacters[currentCharacterIndex].Flags.CanAttack && Input.GetMouseButtonDown(0))
-                {
-                    TryToAttackCharacter();
-                }
-                if (waitingForInput && orderedCharacters[currentCharacterIndex].Flags.CanMove && Input.GetMouseButtonDown(0))
-                {
-                    TryToMoveCharacter();
-                }
-                if (waitingForInput && Input.GetKeyDown(KeyCode.U))
-                {
-                    commandManager.Undo();
-                }
-                if (waitingForInput && Input.GetKeyDown(KeyCode.R))
-                {
-                    commandManager.Redo();
-                }
-            }
+        public void EndTurn()
+        {
+            activeUnits.Clear();
+            NextTurn();
         }
 
         void NextTurn()
         {
-            if (gameEnded) return;
-            do
+            commandManager.Clear();
+            
+            bool hasActiveUnits = false;
+            while (!hasActiveUnits)
             {
-                orderedCharacters[currentCharacterIndex].uiScript.gameObject.SetActive(false);
-                currentCharacterIndex++;
-                if (currentCharacterIndex >= orderedCharacters.Count)
-                {
-                    currentCharacterIndex = 0;
-                    turnCount++;
-                    Debug.Log("Turno " + turnCount + " comienza.");
-                }
+                UpdateIniciative();
+                
+                hasActiveUnits = CallPlayerTurn();
+                if (!hasActiveUnits) CallEnemyTurn();
+                
+                if (currentInitiative == 0) break;
             }
-            while (orderedCharacters[currentCharacterIndex].Flags.HasDied);
-
-            commandManager.ClearTurn();
-            orderedCharacters[currentCharacterIndex].DoTurn();
+            
+            if(!hasActiveUnits && allies.Count > 0 && enemies.Count > 0) StartRound();
+        }
+        
+        void UpdateIniciative()
+        {
+            currentInitiative--;
         }
 
-        private void TryToMoveCharacter()
+        /*private void TryToMoveCharacter()
         {
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             {
@@ -155,12 +163,12 @@ namespace CursedOnion
                             return;
                         }
 
-                        var moveCmd = EntityCommand.Create<MoveCommand>(orderedCharacters[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f), levelGrid);
+                        var moveCmd = EntityCommand.Create<MoveCommand>(units[currentCharacterIndex], worldPosition.Center() + new Vector3(0f, 1.0f, 0f), levelGrid);
                         commandManager.ExecuteCommand(moveCmd);
                     }
                     else
                     {
-                        orderedCharacters[currentCharacterIndex].Flags.CanMove = false;
+                        units[currentCharacterIndex].Flags.CanMove = false;
                         Debug.Log("Not valid tile: " + gridPosition);
                     }
                 }
@@ -187,36 +195,36 @@ namespace CursedOnion
                     
                     if (aboveTile != null && aboveTile.GetContainedEntity() != null)
                     {
-                        Character targetChar = aboveTile.GetContainedEntity() as Character;
-                        Character attacker = orderedCharacters[currentCharacterIndex];
+                        Unit targetChar = aboveTile.GetContainedEntity() as Unit;
+                        Unit attacker = units[currentCharacterIndex];
 
                         if (targetChar != null && targetChar != attacker)
                         {
-                            if (attacker.isEnemy != targetChar.isEnemy)
+                            if (attacker.IsEnemy != targetChar.IsEnemy)
                             {
                                 var attackCmd = EntityCommand.Create<AttackCommand>(attacker, targetChar, levelGrid);
                                 commandManager.ExecuteCommand(attackCmd);
                             }
                             else
                             {
-                                orderedCharacters[currentCharacterIndex].Flags.CanAttack = false;
+                                units[currentCharacterIndex].Flags.CanAttack = false;
                                 Debug.Log("Same team attacking. Not valid Action.");
                             }
                         }
                         else
                         {
-                            orderedCharacters[currentCharacterIndex].Flags.CanAttack = false;
+                            units[currentCharacterIndex].Flags.CanAttack = false;
                             Debug.Log("Not valid target: " + gridPosition);
                         }
                     }
                     else
                     {
-                        orderedCharacters[currentCharacterIndex].Flags.CanAttack = false;
+                        units[currentCharacterIndex].Flags.CanAttack = false;
                         Debug.Log("Not valid tile: " + gridPosition);
                     }
                 }
             }
-        }
+        }*/
 
         /*public void HandleEntitySelection(IEntity entity)
         {

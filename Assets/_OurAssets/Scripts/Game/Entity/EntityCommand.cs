@@ -6,15 +6,10 @@ namespace CursedOnion.Game.Commands
 {
     public abstract class EntityCommand : IStackableCommand
     {
-        public ICommandEntity Entity;
-        protected EntityCommand(ICommandEntity entity)
+        protected readonly CommandableEntity CommandSubject;
+        protected EntityCommand(CommandableEntity commandSubject)
         {
-            this.Entity = entity;
-        }
-
-        public static T Create<T>(params object[] args) where T : EntityCommand
-        {
-            return (T)System.Activator.CreateInstance(typeof(T), args);
+            this.CommandSubject = commandSubject;
         }
 
         public abstract void Execute();

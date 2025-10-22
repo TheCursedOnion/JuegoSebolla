@@ -16,7 +16,7 @@ namespace CursedOnion.Game.Entity.UI
         public Button attackButton;
         public Button moveButton;
 
-        private Character character;
+        private Unit unit;
 
         int currentHP;
         int maxHP;
@@ -30,9 +30,9 @@ namespace CursedOnion.Game.Entity.UI
         }
         public void UpdateStatsDisplay()
         {
-            if (character == null || StatsText == null) return;
+            if (unit == null || StatsText == null) return;
 
-            currentHP = character.Stats.CurrentHealthStat;;
+            currentHP = unit.GetStats().CurrentHealthStat;;
             //maxHP = Mathf.Max(1, maxHP); // seguridad
             //StatsText.text = ($"{character.characterName} -> {character.speedStat}\nID -> {character.id} \nHP -> {currentHP}/{maxHP}\nattack -> {character.attackStat}\ndefense -> {character.defenseStat}\nmovement -> {character.movementStat}\nprice -> {character.priceStat}");
         }
