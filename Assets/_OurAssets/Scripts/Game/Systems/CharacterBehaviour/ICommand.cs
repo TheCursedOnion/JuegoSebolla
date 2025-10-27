@@ -4,6 +4,6 @@ namespace CursedOnion
 {
     public interface ICommand
     {
-        void Execute();
+        bool Execute();
     }
 }

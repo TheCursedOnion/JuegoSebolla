@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
     public class SimpleEntity : MonoBehaviour
     {
+        public Action OnEntityUpdate;
+
         public EntityData Data;
         protected virtual EntityStats Stats { get; } = new EntityStats();
         public EntityStats GetStats() => Stats;
@@ -27,7 +30,7 @@ namespace CursedOnion.Game.Entity
             IsDead = false;
         }
 
-        public virtual void Debug(){}
+        public virtual void DebugEntity(){}
     }
     
     public abstract class CommandableEntity : SimpleEntity
@@ -46,9 +49,9 @@ namespace CursedOnion.Game.Entity
         {
             DoAttack(target, undo: true);
         }
-
-        protected abstract void DoAttack(SimpleEntity target, bool undo);
         
+        protected abstract void DoAttack(SimpleEntity target, bool undo);
+        public abstract bool ValidateAttack(SimpleEntity target);
         
         public void Move(Vector3 newPosition)
         {
@@ -60,6 +63,7 @@ namespace CursedOnion.Game.Entity
             DoMove(previousPosition, undo: true);
         }
         protected abstract void DoMove(Vector3 newPosition, bool undo);
+        public abstract bool ValidateMove(Vector3 newPosition);
         
         #endregion
     }

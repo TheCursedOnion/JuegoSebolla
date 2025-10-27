@@ -1,4 +1,5 @@
-﻿using CursedOnion.Game.Logic.Services;
+﻿using CursedOnion.Game.Commands;
+using CursedOnion.Game.Logic.Services;
 using Reflex.Core;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ namespace CursedOnion.Installers
         {
             containerBuilder.AddSingleton(new PauseService(), typeof(PauseService));
             containerBuilder.AddSingleton(new SceneService(), typeof(SceneService));
-            containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
         }
     }
 }

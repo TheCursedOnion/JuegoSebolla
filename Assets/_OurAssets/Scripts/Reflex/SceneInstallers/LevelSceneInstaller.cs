@@ -1,10 +1,13 @@
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Commands;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Handlers;
 using CursedOnion.Game.Inputs;
 using CursedOnion.ScriptableObjects;
 using CursedOnion.UI.Canvases.Level;
 using NaughtyAttributes;
 using Reflex.Core;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Installers
@@ -19,7 +22,6 @@ namespace CursedOnion.Installers
             containerBuilder.AddSingleton(levelAsset, typeof(LevelAsset));
             containerBuilder.AddSingleton(levelManager,  typeof(LevelManager));
             containerBuilder.AddSingleton(levelUICanvas, typeof(LevelUICanvas));
-            containerBuilder.AddSingleton(new LevelEvents(true), typeof(LevelEvents));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace CursedOnion.Installers
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             containerBuilder.AddSingleton(mapManager, typeof(MapManager));
-            containerBuilder.AddSingleton(new MapEvents(true), typeof(MapEvents));
+            containerBuilder.AddSingleton(new MapEvents(), typeof(MapEvents));
         }
     }
 }

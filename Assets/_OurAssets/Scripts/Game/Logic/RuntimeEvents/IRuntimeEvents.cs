@@ -9,9 +9,9 @@ namespace CursedOnion.Game.Events
     public class RuntimeEvents : IRuntimeEvents
     {
         protected bool Enabled;
-        public RuntimeEvents(bool startEnabled)
+        public RuntimeEvents()
         {
-            EnableEvents(startEnabled);   
+            EnableEvents(true);   
         }
         
         public void EnableEvents(bool enable) => Enabled = enable;

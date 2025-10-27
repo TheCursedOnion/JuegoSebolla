@@ -20,7 +20,6 @@ namespace CursedOnion
 {
     public class TurnSystem : MonoBehaviour
     {
-        [Inject] private CommandManager commandManager;
         [Inject] private LevelAsset levelAsset;
         [Inject] private LevelManager levelManager;
         
@@ -112,7 +111,7 @@ namespace CursedOnion
 
         void NextTurn()
         {
-            commandManager.Clear();
+            levelManager.CommandHandler.ClearCommandStack();
             
             bool hasActiveUnits = false;
             while (!hasActiveUnits)

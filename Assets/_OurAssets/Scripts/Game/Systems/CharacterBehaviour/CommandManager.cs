@@ -1,18 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Commands
 {
     public class CommandManager
     {
         private Stack<IStackableCommand> undoStack = new Stack<IStackableCommand>();
         private Stack<IStackableCommand> redoStack = new Stack<IStackableCommand>();
 
-        public void ExecuteCommand(IStackableCommand command)
+        public bool ExecuteCommand(IStackableCommand command)
         {
-            command.Execute();
-            undoStack.Push(command);
-            redoStack.Clear();
+            bool success = command.Execute();
+            if (success)
+            {
+                undoStack.Push(command);
+                redoStack.Clear();
+            }
+            return success;
         }
 
         public void Undo()

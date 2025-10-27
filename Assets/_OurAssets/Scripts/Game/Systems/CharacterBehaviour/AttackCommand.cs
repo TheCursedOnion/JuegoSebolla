@@ -7,7 +7,7 @@ namespace CursedOnion.Game.Commands
 {
     public class AttackCommand : EntityCommand
     {
-        private readonly SimpleEntity target;
+        private SimpleEntity target;
         
         private bool targetHasDied = false;
         private int previousHp;
@@ -19,7 +19,6 @@ namespace CursedOnion.Game.Commands
         {
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
             if(!target) throw new ArgumentException($"Target cannot be null");
-            
             return new AttackCommand(commandSubject, target);
         }
         private AttackCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
@@ -27,11 +26,16 @@ namespace CursedOnion.Game.Commands
             this.target = target;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
-            previousHp = target.GetStats().CurrentHealthStat;
-            CommandSubject.Attack(target);
-            targetHasDied = target.HasDied();
+            bool success = CommandSubject.ValidateAttack(target);
+            if (success)
+            {
+                previousHp = target.GetStats().CurrentHealthStat;
+                CommandSubject.Attack(target);
+                targetHasDied = target.HasDied();
+            }
+            return success;
         }
 
         public override void Undo()

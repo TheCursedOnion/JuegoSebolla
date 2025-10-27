@@ -20,13 +20,12 @@ namespace CursedOnion.Game.Objects
     {
         [SerializeField] Vector3 CameraOffset;
         [SerializeField, ReadOnly] Vector3 gridPosition;
+        [SerializeField, ReadOnly] TileSelectorController controller;
         
         [Inject] LevelAsset levelAsset;
         
         [Inject] CameraLocator cameraLocator;
         private GlobalCamera globalCamera;
-        
-        [Inject] LevelEvents levelEvents;
 
         public void Awake()
         {
@@ -36,7 +35,7 @@ namespace CursedOnion.Game.Objects
             globalCamera.CameraBehaviours.ChangeToFixedMode();
         }
 
-        public void MovePosition(Vector3 moveDirection)
+        public bool MovePosition(Vector3 moveDirection)
         {
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
@@ -46,26 +45,20 @@ namespace CursedOnion.Game.Objects
                 case 1: MovePosition(moveDirection - Vector3.up); break;
                 case 2: MovePosition(moveDirection + Vector3.up); break;
             }
+            return result == 0; // 0 = success
         }
-        
-        bool processPlacingNextFrame = false;
-        public void AttemptToPlaceAtPointerPosition()
+        public bool PlaceAtPointerPosition()
         {
-            processPlacingNextFrame = true;
-        }
-
-        void PlaceAtPointerPosition()
-        {
-            if (IsPointerOverUI()) return;
+            if (IsPointerOverUI()) return false;
             
             Ray ray = globalCamera.Camera.ScreenPointToRay(Input.mousePosition);
+            int result = -1;
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector3 hitPoint = hit.point + hit.normal * 0.1f;
-                int result = TrySetAtPosition(hitPoint);
-                
-                if(result == 0) InspectSelectedElement();
+                result = TrySetAtPosition(hitPoint);
             }
+            return result == 0;
         }
         bool IsPointerOverUI()
         {
@@ -79,14 +72,11 @@ namespace CursedOnion.Game.Objects
 
             return false;
         }
-        public void InspectSelectedElement()
+        public (Vector3 gridPosition, Tile3d tile) SelectTile()
         {
             Grid3d grid = levelAsset.Grid;
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
-
-            Entity.SimpleEntity entity = tile.GetContainedEntity();
-            levelEvents.OnEntityInspection(entity);
-            
+            return (gridPosition, tile);
         }
         int TrySetAtPosition(Vector3 position)
         {
@@ -112,13 +102,6 @@ namespace CursedOnion.Game.Objects
             return 0;
         }
         
-        void Update()
-        {
-            if (processPlacingNextFrame)
-            {
-                processPlacingNextFrame = false;
-                PlaceAtPointerPosition();
-            }
-        }
+        
     }
 }

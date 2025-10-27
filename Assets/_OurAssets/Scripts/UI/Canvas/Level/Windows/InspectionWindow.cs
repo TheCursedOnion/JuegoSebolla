@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CursedOnion.UI.Canvases.Level
 {
-    public class UnitWindow : MonoBehaviour
+    public class InspectionWindow : MonoBehaviour
     {
         [SerializeField] private GameObject unitTurnOrder;
         [SerializeField] private GameObject unitInfo;

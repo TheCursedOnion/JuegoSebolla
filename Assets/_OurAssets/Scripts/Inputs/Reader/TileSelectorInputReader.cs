@@ -50,22 +50,22 @@ namespace CursedOnion.Game.Inputs
             }
         }
         
-        public event UnityAction Select = delegate { };
+        public event UnityAction PlaceSelector = delegate { };
         //public bool IsSelectPressed => InputActions.TileSelector.Select.IsPressed();
+        public void OnPlaceSelector(InputAction.CallbackContext context)
+        {
+            switch (context.phase)
+            {
+                case InputActionPhase.Started: PlaceSelector.Invoke(); break;
+            }
+        }
+
+        public event UnityAction Select = delegate { };
         public void OnSelect(InputAction.CallbackContext context)
         {
             switch (context.phase)
             {
                 case InputActionPhase.Started: Select.Invoke(); break;
-            }
-        }
-        
-        public event UnityAction Inspect = delegate { };
-        public void OnInspect(InputAction.CallbackContext context)
-        {
-            switch (context.phase)
-            {
-                case InputActionPhase.Started: Inspect.Invoke(); break;
             }
         }
 
