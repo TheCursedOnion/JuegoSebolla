@@ -12,16 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
   m_Name: Archer
   m_EditorClassIdentifier: 
-  characterName: Archer
-  minHP: 18
-  maxHP: 20
-  minAttack: 11
-  maxAttack: 13
-  minDefense: 5
-  maxDefense: 7
-  minSpeed: 12
-  maxSpeed: 16
+  entityName: Archer
+  hpRange: {x: 0, y: 37}
+  attackRange: {x: 0, y: 97}
+  defenseRange: {x: 0, y: 39}
+  initiativeRange: {x: 0, y: 9}
   movement: 5
   price: 10
-  model: {fileID: 6747268755274613508, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}

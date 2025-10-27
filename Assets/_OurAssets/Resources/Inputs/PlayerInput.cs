@@ -282,7 +282,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Select"",
+                    ""name"": ""PlaceSelector"",
                     ""type"": ""Button"",
                     ""id"": ""605f0316-ea5a-48ab-8045-46a539b33cc4"",
                     ""expectedControlType"": """",
@@ -291,7 +291,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Inspect"",
+                    ""name"": ""Select"",
                     ""type"": ""Button"",
                     ""id"": ""196f7054-d4c2-44a0-8420-367aae39f46b"",
                     ""expectedControlType"": """",
@@ -418,7 +418,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Select"",
+                    ""action"": ""PlaceSelector"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -429,7 +429,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse;Keyboard"",
-                    ""action"": ""Select"",
+                    ""action"": ""PlaceSelector"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -440,7 +440,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch;Mobile"",
-                    ""action"": ""Select"",
+                    ""action"": ""PlaceSelector"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -451,7 +451,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Inspect"",
+                    ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -554,8 +554,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // TileSelector
         m_TileSelector = asset.FindActionMap("TileSelector", throwIfNotFound: true);
         m_TileSelector_MoveSelector = m_TileSelector.FindAction("MoveSelector", throwIfNotFound: true);
+        m_TileSelector_PlaceSelector = m_TileSelector.FindAction("PlaceSelector", throwIfNotFound: true);
         m_TileSelector_Select = m_TileSelector.FindAction("Select", throwIfNotFound: true);
-        m_TileSelector_Inspect = m_TileSelector.FindAction("Inspect", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
@@ -750,8 +750,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_TileSelector;
     private List<ITileSelectorActions> m_TileSelectorActionsCallbackInterfaces = new List<ITileSelectorActions>();
     private readonly InputAction m_TileSelector_MoveSelector;
+    private readonly InputAction m_TileSelector_PlaceSelector;
     private readonly InputAction m_TileSelector_Select;
-    private readonly InputAction m_TileSelector_Inspect;
     /// <summary>
     /// Provides access to input actions defined in input action map "TileSelector".
     /// </summary>
@@ -768,13 +768,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @MoveSelector => m_Wrapper.m_TileSelector_MoveSelector;
         /// <summary>
+        /// Provides access to the underlying input action "TileSelector/PlaceSelector".
+        /// </summary>
+        public InputAction @PlaceSelector => m_Wrapper.m_TileSelector_PlaceSelector;
+        /// <summary>
         /// Provides access to the underlying input action "TileSelector/Select".
         /// </summary>
         public InputAction @Select => m_Wrapper.m_TileSelector_Select;
-        /// <summary>
-        /// Provides access to the underlying input action "TileSelector/Inspect".
-        /// </summary>
-        public InputAction @Inspect => m_Wrapper.m_TileSelector_Inspect;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -804,12 +804,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MoveSelector.started += instance.OnMoveSelector;
             @MoveSelector.performed += instance.OnMoveSelector;
             @MoveSelector.canceled += instance.OnMoveSelector;
+            @PlaceSelector.started += instance.OnPlaceSelector;
+            @PlaceSelector.performed += instance.OnPlaceSelector;
+            @PlaceSelector.canceled += instance.OnPlaceSelector;
             @Select.started += instance.OnSelect;
             @Select.performed += instance.OnSelect;
             @Select.canceled += instance.OnSelect;
-            @Inspect.started += instance.OnInspect;
-            @Inspect.performed += instance.OnInspect;
-            @Inspect.canceled += instance.OnInspect;
         }
 
         /// <summary>
@@ -824,12 +824,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @MoveSelector.started -= instance.OnMoveSelector;
             @MoveSelector.performed -= instance.OnMoveSelector;
             @MoveSelector.canceled -= instance.OnMoveSelector;
+            @PlaceSelector.started -= instance.OnPlaceSelector;
+            @PlaceSelector.performed -= instance.OnPlaceSelector;
+            @PlaceSelector.canceled -= instance.OnPlaceSelector;
             @Select.started -= instance.OnSelect;
             @Select.performed -= instance.OnSelect;
             @Select.canceled -= instance.OnSelect;
-            @Inspect.started -= instance.OnInspect;
-            @Inspect.performed -= instance.OnInspect;
-            @Inspect.canceled -= instance.OnInspect;
         }
 
         /// <summary>
@@ -1046,19 +1046,19 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMoveSelector(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "PlaceSelector" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlaceSelector(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelect(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Inspect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnInspect(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

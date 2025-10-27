@@ -11,10 +11,10 @@ namespace CursedOnion.Game.Entity
     {
         [SerializeField] private string entityName;
 
-        [SerializeField, MinMaxSlider(0, Single.MaxValue)] private Vector2Int hpRange;
-        [SerializeField, MinMaxSlider(0, Single.MaxValue)] private Vector2Int attackRange;
-        [SerializeField, MinMaxSlider(0, Single.MaxValue)] private Vector2Int defenseRange;
-        [SerializeField, MinMaxSlider(0, Single.MaxValue)] private Vector2Int initiativeRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int hpRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int attackRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int defenseRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int initiativeRange;
         [SerializeField] private int movement;
         [SerializeField] private int price;
 

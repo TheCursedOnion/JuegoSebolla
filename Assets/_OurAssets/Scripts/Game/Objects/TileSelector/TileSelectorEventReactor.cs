@@ -1,6 +1,7 @@
 using CursedOnion.Behaviours;
 using CursedOnion.Game.Events;
 using CursedOnion.Locators;
+using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -8,9 +9,10 @@ namespace CursedOnion.Game.Objects
 {
     public class TileSelectorEventReactor : MonoBehaviour
     {
+        [Inject] LevelAsset levelAsset;
         [Inject] CameraLocator cameraLocator;
         CameraEvents cameraEvents;
-        
+
         TileSelectorController tileSelectorController;
         void Awake()
         {
@@ -21,6 +23,7 @@ namespace CursedOnion.Game.Objects
         void OnEnable()
         {
             cameraEvents.OnModifyCameraMode += OnCameraModification;
+            //levelAsset.LevelEvents.OnCommandCalled += ;
         }
 
         void OnDisable()

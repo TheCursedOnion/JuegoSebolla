@@ -1,7 +1,10 @@
 ﻿using System;
+using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Handlers;
 using CursedOnion.Game.Logic;
+using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
@@ -10,20 +13,27 @@ namespace CursedOnion.UI.Canvases.Level
 {
     public class UnitInformationWindow : MonoBehaviour
     {
-        [Inject] LevelEvents levelEvents;
         [SerializeField] TextMeshProUGUI statsText;
-
+        
+        [Inject] LevelManager levelManager;
+        EntityCommandHandler entityCommandHandler;
+        
+        void Awake()
+        {
+            entityCommandHandler = levelManager.CommandHandler;
+        }
         private void OnEnable()
         {
-            levelEvents.OnEntityInspected += UpdateStatsDisplay;
+            entityCommandHandler.OnEntitySelected += UpdateStatsDisplay;
         }
         private void OnDisable()
         {
-            levelEvents.OnEntityInspected -= UpdateStatsDisplay;
+            entityCommandHandler.OnEntitySelected -= UpdateStatsDisplay;
         }
-
         public void UpdateStatsDisplay(SimpleEntity entity)
         {
+            if(entityCommandHandler.HasPreparedCommand()) return;
+            
             if (entity == null)
             {
                 ClearStatsDisplay();

@@ -13,7 +13,8 @@ namespace CursedOnion.Game.Entity
     public class Unit : CommandableEntity
     {
         // Character UI 
-        public CharacterUI uiScript;
+        [SerializeField] GameObject unitUI;
+        public GameObject GetUI() => unitUI;
         
         public bool IsEnemy;
         public UnitController UnitController;
@@ -32,6 +33,11 @@ namespace CursedOnion.Game.Entity
             
             var levelManager = container.Resolve<LevelManager>();
             turnSystem = levelManager.GetTurnSystem();
+            
+            levelGrid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
+            
+            Debug.Log("El set de stats es temporal");
+            Stats.SetStats(Data);
         }
 
         public override void Damage(int damage)
@@ -54,6 +60,11 @@ namespace CursedOnion.Game.Entity
             }
         }
 
+        public override bool ValidateAttack(SimpleEntity target)
+        {
+            return true;
+        }
+
         /*public void Move(Vector3 newPosition) 
         {
             uiScript.SetButtonsFalse();
@@ -74,9 +85,15 @@ namespace CursedOnion.Game.Entity
             }
             else
             {
-                
+                Debug.Log($"{gameObject.name}: Me muevo a {newPosition}");
             }
         }
+
+        public override bool ValidateMove(Vector3 newPosition)
+        {
+            return true;
+        }
+
         
         #region PathFinding
         // Pathfinding method (Bresenham's 3D line algorithm)

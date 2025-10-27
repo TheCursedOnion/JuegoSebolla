@@ -18,15 +18,26 @@ namespace CursedOnion.Game.Commands
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
             return new MoveCommand(commandSubject, newPosition);
         }
+        public static MoveCommand ModifyCommand(MoveCommand moveCommand, Vector3 newPosition)
+        {
+            moveCommand.targetPosition = newPosition;
+            return moveCommand;
+        }
         private MoveCommand(CommandableEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {
             this.targetPosition = newPosition;
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
-            previousPosition = CommandSubject.transform.position;
-            CommandSubject.Move(targetPosition);
+            bool success = CommandSubject.ValidateMove(targetPosition);
+
+            if (success)
+            {
+                previousPosition = CommandSubject.transform.position;
+                CommandSubject.Move(targetPosition);
+            }
+            return success;
         }
 
         public override void Undo()

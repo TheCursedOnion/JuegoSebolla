@@ -1,5 +1,6 @@
 ﻿namespace CursedOnion.Game.Entity
 {
+    [System.Serializable]
     public class EntityStats
     {
         public int CurrentHealthStat;
@@ -9,6 +10,8 @@
             CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
         }
     }
+    
+    [System.Serializable]
     public class ExtendedEntityStats : EntityStats
     {
         public int AttackStat;

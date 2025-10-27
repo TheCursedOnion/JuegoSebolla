@@ -43,13 +43,11 @@ namespace CursedOnion.Extensions
                 colors = (Color32[])mesh.colors32.Clone();
             }
             
-            Debug.Log(colors.Length + "("+vertexRange.Start + ","+  vertexRange.End+")");
             if(!vertexRange.BoundedInArray(colors)) return;
                 
             for (int i = vertexRange.Start; i <= vertexRange.End; i++)
             {
                 colors[i] = color;
-                Debug.Log("Paint");
             }
             mesh.colors32 = colors;
         }
