@@ -1,27 +1,22 @@
-using CursedOnion.Extensions;
-using CursedOnion.Game;
-using CursedOnion.Game.Systems.Grid;
+
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
-using CursedOnion.Game.Logic.Services;
+using CursedOnion.Game.Systems.Level;
 using CursedOnion.UI.Transitions;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using static UnityEngine.GraphicsBuffer;
 
 namespace CursedOnion
 {
     public class TurnSystem : MonoBehaviour
     {
         [Inject] private LevelAsset levelAsset;
-        [Inject] private LevelManager levelManager;
+        [Inject] private CommandManager commandManager;
         
         [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
         [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
@@ -111,7 +106,7 @@ namespace CursedOnion
 
         void NextTurn()
         {
-            levelManager.CommandHandler.ClearCommandStack();
+            commandManager.ClearStack();
             
             bool hasActiveUnits = false;
             while (!hasActiveUnits)

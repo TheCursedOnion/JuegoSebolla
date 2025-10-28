@@ -5,43 +5,37 @@ namespace CursedOnion.Game.Commands
 {
     public class CommandManager
     {
-        private Stack<IStackableCommand> undoStack = new Stack<IStackableCommand>();
-        private Stack<IStackableCommand> redoStack = new Stack<IStackableCommand>();
-
-        public bool ExecuteCommand(IStackableCommand command)
+        private Stack<ICommand> undoStack = new Stack<ICommand>();
+        public bool ExecuteCommand(ICommand command)
         {
             bool success = command.Execute();
-            if (success)
-            {
-                undoStack.Push(command);
-                redoStack.Clear();
-            }
+            
+            if (success) 
+                switch (command)
+                {
+                    case IStackableCommand:
+                        Debug.Log("Pusheo al Stack");
+                        undoStack.Push(command);
+                        break;
+                    case IClearStackCommand:
+                        ClearStack();
+                        break;
+                }
+            
             return success;
         }
-
         public void Undo()
         {
             if (undoStack.Count > 0)
             {
-                var command = undoStack.Pop();
+                var command = (IStackableCommand) undoStack.Pop();
                 command.Undo();
-                redoStack.Push(command);
             }
         }
 
-        public void Redo()
+        public void ClearStack()
         {
-            if (redoStack.Count > 0)
-            {
-                var command = redoStack.Pop();
-                command.Redo();
-                undoStack.Push(command);
-            }
-        }
-
-        public void Clear()
-        {
-            redoStack.Clear();
+            Debug.Log("Borro el Stack");
             undoStack.Clear();
         }
     }

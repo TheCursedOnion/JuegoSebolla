@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using CursedOnion.Game.Commands;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Logic;
 using Reflex.Core;
@@ -20,6 +22,7 @@ namespace CursedOnion.Installers
             inputReaderCollection.Initialize();
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
             containerBuilder.AddSingleton(inputReaderCollection, typeof(InputReaderCollection));
+            containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
         }
     }
 }

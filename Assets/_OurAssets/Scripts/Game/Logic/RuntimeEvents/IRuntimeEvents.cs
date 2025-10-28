@@ -2,11 +2,7 @@
 
 namespace CursedOnion.Game.Events
 {
-    interface IRuntimeEvents
-    {
-        public void EnableEvents(bool enable);
-    }
-    public class RuntimeEvents : IRuntimeEvents
+    public class RuntimeEvents
     {
         protected bool Enabled;
         public RuntimeEvents()

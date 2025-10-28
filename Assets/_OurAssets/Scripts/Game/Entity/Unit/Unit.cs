@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
 using Reflex.Extensions;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace CursedOnion.Game.Entity
         
         private Grid3d levelGrid;
         private TurnSystem turnSystem;
-        public void Awake()
+        public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
             
@@ -62,7 +63,7 @@ namespace CursedOnion.Game.Entity
 
         public override bool ValidateAttack(SimpleEntity target)
         {
-            return true;
+            return target != null;
         }
 
         /*public void Move(Vector3 newPosition) 

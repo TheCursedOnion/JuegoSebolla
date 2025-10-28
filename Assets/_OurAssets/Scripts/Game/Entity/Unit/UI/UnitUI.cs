@@ -1,5 +1,6 @@
 using CursedOnion.Game.Commands;
-using CursedOnion.Game.Handlers;
+using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Level;
 using Reflex.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,13 +9,14 @@ namespace CursedOnion.Game.Entity.UI
 {
     public class UnitUI : MonoBehaviour
     {
-        EntityCommandHandler commandHandler;
+        LevelEvents levelEvents;
+        
         Unit associatedUnit;
         [SerializeField] private Button moveButton;
         [SerializeField] private Button attackButton;
         public void Initialize()
         {
-            commandHandler = gameObject.scene.GetSceneContainer().Resolve<LevelManager>().CommandHandler;
+            levelEvents = gameObject.scene.GetSceneContainer().Resolve<LevelEvents>();
         }
 
         public void AssociateUnit(Unit unit)
@@ -32,12 +34,12 @@ namespace CursedOnion.Game.Entity.UI
         
         public void MoveUnit()
         {
-            commandHandler.PrepareEntityCommand<MoveCommand>();
+            levelEvents.CallPrepareCommand<MoveCommand>();
         }
 
         public void AttackUnit()
         {
-            commandHandler.PrepareEntityCommand<AttackCommand>();
+            levelEvents.CallPrepareCommand<AttackCommand>();
         }
     }
 }

@@ -1,37 +1,36 @@
 ﻿using System;
 using CursedOnion.Extensions;
-using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Commands;
-using CursedOnion.Game.Entity;
+using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Events;
-using CursedOnion.Game.Handlers;
 using CursedOnion.Game.Inputs;
-using CursedOnion.Game.Logic;
-using CursedOnion.Game.Settings;
+using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
+using Reflex.Core;
+using Reflex.Extensions;
+using Reflex.Injectors;
 using UnityEngine;
 
 namespace CursedOnion.Game.Objects
 {
     public class TileSelectorController : MonoBehaviour, IController
     {
-        TileSelector tileSelector;
-        
-        [Inject] LevelManager levelManager;
-        EntityCommandHandler entityCommandHandler;
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
         [Inject] private CameraLocator cameraLocator;
+        [Inject] private LevelEvents levelEvents;
+        
+        TileSelector tileSelector;
+        EntityCommandHandler entityCommandHandler;
+
         
         TileSelectorInputReader reader;
         void Awake()
         {
             reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
             tileSelector = GetComponent<TileSelector>();
-            
-            entityCommandHandler = levelManager.CommandHandler;
+
+            entityCommandHandler = new EntityCommandHandler(gameObject.scene.GetSceneContainer());
             
             Enable();
         }
@@ -59,13 +58,6 @@ namespace CursedOnion.Game.Objects
         }
         #endregion
         
-        #region Command Sender
-        void SendCommand(Vector3 gridPosition, Tile3d tile)
-        {
-            EntityCommandParameters commandParameters = new(gridPosition, tile.GetContainedEntity());
-            entityCommandHandler.LaunchPreparedCommandWithParameters(commandParameters);
-        }
-        #endregion
         void MoveSelector(Vector2 direction)
         {
             Vector3 direction3D = direction.normalized;
@@ -93,12 +85,17 @@ namespace CursedOnion.Game.Objects
             var entity = selectedTile.tile.GetContainedEntity();
             if (entityCommandHandler.HasPreparedCommand())
             {
-                SendCommand(selectedTile.gridPosition, selectedTile.tile);
+                LaunchCommand(selectedTile.gridPosition, selectedTile.tile);
             }
             else
             {
-                entityCommandHandler.TrySelectEntity(entity);
+                levelEvents.SelectEntity(entity);
             }
+        }
+        void LaunchCommand(Vector3 gridPosition, Tile3d tile)
+        {
+            EntityCommandParameters commandParameters = new(gridPosition, tile.GetContainedEntity());
+            entityCommandHandler.LaunchCommand(commandParameters);
         }
         
         void Update()

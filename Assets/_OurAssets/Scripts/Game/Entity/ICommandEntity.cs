@@ -8,11 +8,14 @@ namespace CursedOnion.Game.Entity
         public Action OnEntityUpdate;
 
         public EntityData Data;
+        
+        //Stats (They Get Defined)
         protected virtual EntityStats Stats { get; } = new EntityStats();
         public EntityStats GetStats() => Stats;
         
-        protected bool IsDead = false;
-        public bool HasDied() => IsDead;
+        //Flags
+        protected virtual EntityFlags Flags { get; } = new EntityFlags();
+        public EntityFlags GetFlags() => Flags;
 
         public virtual void Damage(int damage)
         {
@@ -21,24 +24,32 @@ namespace CursedOnion.Game.Entity
         }
         public virtual void Die()
         {
-            IsDead = true;
+            GetFlags().HasDied = true;
+            
+            OnEntityUpdate?.Invoke();
         }
 
         public virtual void Revive(int newHealth)
         {
             Stats.CurrentHealthStat = newHealth;
-            IsDead = false;
+            GetFlags().HasDied = false;
+            
+            OnEntityUpdate?.Invoke();
         }
-
-        public virtual void DebugEntity(){}
     }
+    
     
     public abstract class CommandableEntity : SimpleEntity
     {
-        [SerializeField] 
+        //Stats (They Get Defined)
         protected override EntityStats Stats { get; } = new ExtendedEntityStats();
         public new ExtendedEntityStats GetStats() => Stats as ExtendedEntityStats;
-
+        
+        //Flags
+        protected override EntityFlags Flags { get; } = new ExtendedEntityFlags();
+        public new ExtendedEntityFlags GetFlags() => Flags as ExtendedEntityFlags;
+        
+        
         #region Basic Commands
         public void Attack(SimpleEntity target)
         {

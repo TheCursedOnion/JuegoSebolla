@@ -6,7 +6,7 @@ using UnityEngine.Splines;
 
 namespace CursedOnion.Game.Commands
 {
-    public class MoveCommand : EntityCommand
+    public class MoveCommand : EntityCommand, IStackableCommand
     {
         private Vector3 previousPosition;
         private Vector3 targetPosition;
@@ -18,17 +18,12 @@ namespace CursedOnion.Game.Commands
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
             return new MoveCommand(commandSubject, newPosition);
         }
-        public static MoveCommand ModifyCommand(MoveCommand moveCommand, Vector3 newPosition)
-        {
-            moveCommand.targetPosition = newPosition;
-            return moveCommand;
-        }
         private MoveCommand(CommandableEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {
             this.targetPosition = newPosition;
         }
 
-        public override bool Execute()
+        public bool Execute()
         {
             bool success = CommandSubject.ValidateMove(targetPosition);
 
@@ -40,16 +35,10 @@ namespace CursedOnion.Game.Commands
             return success;
         }
 
-        public override void Undo()
+        public void Undo()
         {
             Debug.Log("El comando de movimiento se ha DESHECHO");
             CommandSubject.UndoMove(previousPosition);
-        }
-
-        public override void Redo()
-        {
-            Debug.Log("El comando de movimiento se ha VUELTO A HACER");
-            Execute();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Commands
 {
-    public class AttackCommand : EntityCommand
+    public class AttackCommand : EntityCommand, IClearStackCommand
     {
         private SimpleEntity target;
         
@@ -18,7 +18,6 @@ namespace CursedOnion.Game.Commands
         public static AttackCommand Create(CommandableEntity commandSubject, SimpleEntity target)
         {
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
-            if(!target) throw new ArgumentException($"Target cannot be null");
             return new AttackCommand(commandSubject, target);
         }
         private AttackCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
@@ -26,33 +25,16 @@ namespace CursedOnion.Game.Commands
             this.target = target;
         }
 
-        public override bool Execute()
+        public bool Execute()
         {
             bool success = CommandSubject.ValidateAttack(target);
             if (success)
             {
                 previousHp = target.GetStats().CurrentHealthStat;
                 CommandSubject.Attack(target);
-                targetHasDied = target.HasDied();
+                targetHasDied = target.GetFlags().HasDied;
             }
             return success;
-        }
-
-        public override void Undo()
-        {
-            Debug.Log("El comando de ataque se ha DESHECHO");
-
-            if (targetHasDied)
-            {
-                target.Revive(previousHp);
-            }
-            CommandSubject.UndoAttack(target);
-        }
-
-        public override void Redo()
-        {
-            Debug.Log("El comando de ataque se ha VOLVIDO A HACER");
-            Execute();
         }
     }
 

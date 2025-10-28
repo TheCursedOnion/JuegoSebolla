@@ -1,5 +1,7 @@
 ﻿using System;
 using CursedOnion.Game.Entity;
+using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
 using CursedOnion.UI;
 using Reflex.Attributes;
@@ -9,7 +11,7 @@ namespace CursedOnion.UI.Canvases.Level
 {
     public class LevelUICanvas : MonoBehaviour, IUICanvas
     {
-        [Inject] LevelManager levelManager;
+        [Inject] LevelEvents levelEvents;
         [SerializeField] private UnitActionsWindow actionsWindow;
         
         private SimpleEntity inspectedEntity;
@@ -17,7 +19,7 @@ namespace CursedOnion.UI.Canvases.Level
         
         private void Awake()
         {
-            levelManager.CommandHandler.OnEntitySelected += UpdateWindows;
+            levelEvents.OnEntitySelected += UpdateWindows;
         }
 
         void UpdateWindows(SimpleEntity inspectedEntity)

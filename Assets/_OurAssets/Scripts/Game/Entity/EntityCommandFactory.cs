@@ -1,22 +1,19 @@
 using System;
 using System.Collections.Generic;
 using CursedOnion.Game.Entity;
-using UnityEngine;
 
 namespace CursedOnion.Game.Commands
 {
-    public class EntityCommandParameters
+    public class EntityCommand
     {
-        public Vector3 Position;
-        public SimpleEntity Target;
+        protected readonly CommandableEntity CommandSubject;
 
-        public EntityCommandParameters(Vector3 position, SimpleEntity target)
+        public EntityCommand(CommandableEntity commandSubject)
         {
-            Position = position;
-            Target = target;
+            CommandSubject = commandSubject;
         }
     }
-    public abstract class EntityCommand : IStackableCommand
+    public abstract class EntityCommandFactory
     {
         private static readonly Dictionary<Type, Func<CommandableEntity, EntityCommandParameters, EntityCommand>> factories =
             new()
@@ -26,7 +23,7 @@ namespace CursedOnion.Game.Commands
             };
         
         protected readonly CommandableEntity CommandSubject;
-        protected EntityCommand(CommandableEntity commandSubject)
+        protected EntityCommandFactory(CommandableEntity commandSubject)
         {
             this.CommandSubject = commandSubject;
         }

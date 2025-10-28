@@ -1,24 +1,17 @@
-using System;
-using CursedOnion.Extensions;
-using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Game;
-using CursedOnion.Game.Commands;
 using CursedOnion.Game.Events;
-using CursedOnion.Game.Handlers;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Systems.Level
 {
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
-        public EntityCommandHandler CommandHandler { get; } = new EntityCommandHandler();
-        
         [SerializeField] TurnSystem turnSystem;
         public TurnSystem GetTurnSystem() => turnSystem;
+        
         
         [SerializeField, Inject, ReadOnly] LevelAsset levelAsset;
         public Vector3 LevelManagerOrigin => GetComponent<MeshRenderer>().bounds.min;

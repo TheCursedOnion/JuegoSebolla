@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using CursedOnion.Extensions;
-using CursedOnion.Game.Systems.Files;
-using CursedOnion.Game.Systems.Grid.Scriptable;
+﻿using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
 using CursedOnion.Tools;
 using NaughtyAttributes;
