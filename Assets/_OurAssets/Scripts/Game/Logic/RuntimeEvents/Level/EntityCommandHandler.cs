@@ -14,70 +14,83 @@ namespace CursedOnion.Game.Commands
         [Inject] private readonly CommandManager commandManager;
         
         private SimpleEntity selectedEntity;
+        private CommandableEntity commandSubject;
+        
         private Type preparedCommand;
+        
+        private CommandParameters preparedParameters;
+        
+        
         public EntityCommandHandler(Container sceneContainer)
         {
             AttributeInjector.Inject(this, sceneContainer);
             
             levelEvents.OnEntitySelected += SelectEntity;
-            levelEvents.OnCommandPrepareCalled += PrepareEntityCommand;
+            levelEvents.OnCommandPrepareCalled += PrepareCommand;
+            levelEvents.OnPreparedCommandCancelled += ResetCommand;
         }
         public void Dispose()
         {
             levelEvents.OnEntitySelected -= SelectEntity;
-            levelEvents.OnCommandPrepareCalled -= PrepareEntityCommand;
+            levelEvents.OnCommandPrepareCalled -= PrepareCommand;
+            levelEvents.OnPreparedCommandCancelled -= ResetCommand;
         }
-        
-        public void SelectEntity(SimpleEntity entity)
+        private void SelectEntity(SimpleEntity entity)
         {
-            if(entity == null) return;
-            
-            if(!IsValidCommandSubject(entity)) ResetCommand(true);
-            else if(entity != selectedEntity) commandManager.ClearStack();
-            
             selectedEntity = entity;
+            SetCommandSubject();
         }
-        bool IsValidCommandSubject(SimpleEntity entity)
+        private void SetCommandSubject()
         {
-            var commandableEntity = entity as CommandableEntity;
-            return commandableEntity is not null;
+            var commandableEntity = selectedEntity as CommandableEntity;
+            
+            if(commandableEntity == null) ResetCommand();
+            else if(commandSubject != commandableEntity) commandManager.ClearStack();
+            
+            commandSubject = commandableEntity;
         }
-        
+
         
         public bool HasPreparedCommand()
         {
-            return preparedCommand != null && IsValidCommandSubject(selectedEntity);
+            return preparedCommand != null;
         }
         
-        void PrepareEntityCommand(Type commandType)
+        void PrepareCommand(Type commandType, CommandParameters parameters)
         {
-            if(selectedEntity == null) return;
             preparedCommand = commandType;
+            preparedParameters = parameters;
         }
         
-        public void LaunchCommand(EntityCommandParameters parameters)
+        public void ExecuteCommand(CommandParameters parameters)
         {
-            if(!TryGetCommandSubject(out var commandSubject)) return;
+            LaunchCommand(parameters);
+            ResetCommand();
+        }
+        public void TriggerCommand(CommandParameters parameters)
+        {
+            LaunchCommand(parameters);
+        }
+        void LaunchCommand(CommandParameters parameters)
+        {
+            if(preparedCommand == null) return;
             
-            var createMethod = typeof(EntityCommandFactory).GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
+            var createMethod = typeof(CommandFactory).GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
             var genericMethod = createMethod.MakeGenericMethod(preparedCommand);
-
-            var command = genericMethod.Invoke(null, new object[] { commandSubject, parameters });
+            
+            parameters.Combine(preparedParameters);
+            
+            parameters.Subject = commandSubject;
+            var command = genericMethod.Invoke(null, new object[] { parameters });
 
             commandManager.ExecuteCommand((ICommand)command);
-            ResetCommand(false);
         }
-        bool TryGetCommandSubject(out CommandableEntity commandableEntity)
-        {
-            commandableEntity = selectedEntity as CommandableEntity;
-            return commandableEntity is not null;
-        }
-        private void ResetCommand(bool resetSelectedEntity)
+        private void ResetCommand()
         {
             preparedCommand = null;
+            preparedParameters = null;
             
-            if(resetSelectedEntity) selectedEntity = null;
-            //SelectEntity(null);
+            levelEvents.SelectEntity(null);
         }
         
         public void ClearCommandStack()

@@ -4,15 +4,17 @@ using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Game.Miscellaneous
 {
     public class GridAligner : MonoBehaviour
     { 
-        [Inject] LevelManager levelManager;
-        void Awake()
+        LevelManager levelManager;
+        void Start()
         {
+            levelManager = gameObject.scene.GetSceneContainer().Resolve<LevelManager>();
             Center();
         }
         void Center()

@@ -13,25 +13,26 @@ namespace CursedOnion.Game.Commands
             CommandSubject = commandSubject;
         }
     }
-    public abstract class EntityCommandFactory
+    public abstract class CommandFactory
     {
-        private static readonly Dictionary<Type, Func<CommandableEntity, EntityCommandParameters, EntityCommand>> factories =
+        private static readonly Dictionary<Type, Func<CommandParameters, ICommand>> factories =
             new()
             {
-                { typeof(MoveCommand), (s, p) => MoveCommand.Create(s, p.Position) },
-                { typeof(AttackCommand), (s, p) => AttackCommand.Create(s, p.Target) },
+                { typeof(MoveCommand), (p) => MoveCommand.Create(p.Subject, p.Position.Value) },
+                { typeof(AttackCommand), (p) => AttackCommand.Create(p.Subject, p.Target) },
+                { typeof(SpawnCommand), (p) => SpawnCommand.Create(p.EntityPrefab, p.Position.Value)}
             };
         
         protected readonly CommandableEntity CommandSubject;
-        protected EntityCommandFactory(CommandableEntity commandSubject)
+        protected CommandFactory(CommandableEntity commandSubject)
         {
             this.CommandSubject = commandSubject;
         }
         
-        public static T Create<T>(CommandableEntity commandSubject, EntityCommandParameters parameters) where T : EntityCommand
+        public static T Create<T>(CommandParameters parameters) where T : ICommand
         {
             if (factories.TryGetValue(typeof(T), out var factory))
-                return (T)factory(commandSubject, parameters);
+                return (T)factory(parameters);
 
             throw new NotSupportedException($"Unsupported command type: {typeof(T).Name}");
         }
