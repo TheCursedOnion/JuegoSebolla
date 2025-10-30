@@ -82,7 +82,7 @@ namespace CursedOnion.Game.Entity
             }
 
             // Si salimos del bucle, no hay camino
-            Debug.Log("No se encontró un camino.");
+            Debug.Log("No se encontrï¿½ un camino.");
             return null;
         }
 
@@ -97,10 +97,10 @@ namespace CursedOnion.Game.Entity
             new Vector3( 0, 0, -1),
 
             // Diagonales
-            new Vector3( 1, 0,  1),
-            new Vector3( 1, 0, -1),
-            new Vector3(-1, 0,  1),
-            new Vector3(-1, 0, -1)
+            //new Vector3( 1, 0,  1),
+            //new Vector3( 1, 0, -1),
+            //new Vector3(-1, 0,  1),
+            //new Vector3(-1, 0, -1)
         };
 
             foreach (var dir in directions)
