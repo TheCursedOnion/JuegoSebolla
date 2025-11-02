@@ -18,33 +18,35 @@ namespace CursedOnion.Game.Objects
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
         [Inject] private CameraLocator cameraLocator;
-        [Inject] private LevelEvents levelEvents;
-        
-        TileSelector tileSelector;
-        EntityCommandHandler entityCommandHandler;
 
+        TileSelector tileSelector;
+        TileSelectorBehaviour currentBehaviour;
+        public void SetBehaviour(TileSelectorBehaviour behaviour)
+        {
+            currentBehaviour = behaviour;
+        }
         
         TileSelectorInputReader reader;
-        void Awake()
+        public void Initialize(TileSelector tileSelector, TileSelectorBehaviour startingBehaviour)
         {
-            reader = InputReaderCollection.GetReader<TileSelectorInputReader>();
-            tileSelector = GetComponent<TileSelector>();
-
-            entityCommandHandler = new EntityCommandHandler(gameObject.scene.GetSceneContainer());
+            this.tileSelector = tileSelector;
+            SetBehaviour(startingBehaviour);
             
+            reader ??= InputReaderCollection.GetReader<TileSelectorInputReader>();
             Enable();
         }
 
         #region Activar o Desactivar detección de Inputs
         private void OnEnable()
         {
+            reader ??= InputReaderCollection.GetReader<TileSelectorInputReader>();
             reader.PlaceSelector += PlaceSelector;
         }
         public void Enable()
         {
             Disable(); //Si no estaba suscrito, no pasa nada, y si lo estaba, evita que se suscriba más de una vez
             reader.MoveSelector += MoveSelector;
-            reader.Select += Select;
+            reader.Select += HardSelect;
         }
         private void OnDisable()
         {
@@ -54,7 +56,7 @@ namespace CursedOnion.Game.Objects
         public void Disable()
         {
             reader.MoveSelector -= MoveSelector;
-            reader.Select -= Select;
+            reader.Select -= HardSelect;
         }
         #endregion
         
@@ -69,7 +71,7 @@ namespace CursedOnion.Game.Objects
             direction3D = rotation * direction3D;
             
             bool success = tileSelector.MovePosition(direction3D);
-            if (success && !entityCommandHandler.HasPreparedCommand()) Select();
+            if (success) SoftSelect();
         }
         
         bool processPlacingNextFrame = false;
@@ -78,33 +80,23 @@ namespace CursedOnion.Game.Objects
             processPlacingNextFrame = true;
         }
 
-        void Select()
+        void HardSelect()
         { 
-            var selectedTile = tileSelector.SelectTile();
-            
-            var entity = selectedTile.tile.GetContainedEntity();
-            if (entityCommandHandler.HasPreparedCommand())
-            {
-                LaunchCommand(selectedTile.gridPosition, selectedTile.tile);
-            }
-            else
-            {
-                levelEvents.SelectEntity(entity);
-            }
+            var data = tileSelector.SelectTile();
+            currentBehaviour.HardSelect(data);
         }
-        void LaunchCommand(Vector3 gridPosition, Tile3d tile)
+        void SoftSelect()
         {
-            EntityCommandParameters commandParameters = new(gridPosition, tile.GetContainedEntity());
-            entityCommandHandler.LaunchCommand(commandParameters);
+            var data = tileSelector.SelectTile();
+            currentBehaviour.SoftSelect(data);
         }
-        
         void Update()
         {
             if (processPlacingNextFrame)
             {
                 processPlacingNextFrame = false;
                 bool success = tileSelector.PlaceAtPointerPosition();
-                if (success) Select();
+                if (success) HardSelect();
             }
         }
     }

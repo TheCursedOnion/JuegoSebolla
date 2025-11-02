@@ -13,27 +13,17 @@ namespace CursedOnion.UI.Canvases.Level
     {
         [Inject] LevelEvents levelEvents;
         [SerializeField] private UnitActionsWindow actionsWindow;
-        
-        private SimpleEntity inspectedEntity;
-        public SimpleEntity InspectedEntity => inspectedEntity;
-        
-        private void Awake()
+        private void OnEnable()
         {
-            levelEvents.OnEntitySelected += UpdateWindows;
+            levelEvents.OnEntitySelected += SetEntity;
+            levelEvents.OnNoEntitySelected += SetNullEntity;
         }
-
-        void UpdateWindows(SimpleEntity inspectedEntity)
+        private void OnDisable()
         {
-            this.inspectedEntity = inspectedEntity;
-            if (inspectedEntity == null)
-            {
-                SetNullEntity();
-            }
-            else
-            {
-                SetEntity(inspectedEntity);
-            }
+            levelEvents.OnEntitySelected += SetEntity;
+            levelEvents.OnNoEntitySelected += SetNullEntity;
         }
+        
         void SetNullEntity()
         {
             actionsWindow.SetEntity(null);

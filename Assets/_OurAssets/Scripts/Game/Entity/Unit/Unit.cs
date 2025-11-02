@@ -3,51 +3,88 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using CursedOnion.Game.Entity.UI;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
+using NaughtyAttributes;
+using Reflex.Core;
 using Reflex.Extensions;
+using Reflex.Injectors;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
+    public enum BattleSide
+    {
+        Neutral,
+        Ally,
+        Enemy
+    }
     public class Unit : CommandableEntity
     {
         // Character UI 
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
         
-        public bool IsEnemy;
+        [ReadOnly] public bool PlacedManually = false;
+        
         public UnitController UnitController;
+        
+        public BattleSide Side;
 
-        // Pathfinding
-        private Coroutine moveCoroutine;
+        public bool TrySpawningUnit(LevelEvents levelEvents, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        {
+            if (levelEvents.TakeGold(Data.GetPrice()))
+            {
+                Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
+                spawnedUnit.SetSide(side);
+                spawnedUnit.PlacedManually = true;
+                return true;
+            }
+            return false;
+        }
+        void SetSide(BattleSide side)
+        {
+            Side = side;
+            
+            if (UnitController !=null) Destroy(UnitController);
+            
+            UnitController = Side switch
+            {
+                BattleSide.Enemy => gameObject.AddComponent<AIUnitController>(),
+                BattleSide.Ally => gameObject.AddComponent<PlayerUnitController>(),
+                _ => null
+            };
+        }
+        
+        public bool TryErasingUnit(LevelEvents levelEvents)
+        {
+            if (PlacedManually && Side == BattleSide.Ally)
+            {
+                levelEvents.AddGold(Data.GetPrice());
+                Dispose();
+                return false;
+            }
+            return true;
+        }
         
         private Grid3d levelGrid;
         private TurnSystem turnSystem;
         public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
+            Debug.Log(container);
             
             var levelAsset = container.Resolve<LevelAsset>();
             levelGrid = levelAsset.Grid;
+            
+            Debug.Log(transform);
             
             var levelManager = container.Resolve<LevelManager>();
             turnSystem = levelManager.GetTurnSystem();
             
             levelGrid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
-
-            // Controllers
-            if (UnitController == null)
-            {
-                UnitController = GetComponent<UnitController>();
-                if (UnitController == null)
-                {
-                    UnitController = IsEnemy
-                        ? gameObject.AddComponent<AIUnitController>()
-                        : gameObject.AddComponent<PlayerUnitController>();
-                }
-            }
 
             Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
@@ -89,9 +126,7 @@ namespace CursedOnion.Game.Entity
             else
             {
                 Debug.Log($"{gameObject.name}: Me muevo a {newPosition}");
-                if (moveCoroutine != null)
-                    StopCoroutine(moveCoroutine);
-
+                
                 if (!levelGrid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
                 {
                     Debug.LogError($"TryWorldToGridPosition falló para start world position: {transform.position}");
@@ -105,8 +140,6 @@ namespace CursedOnion.Game.Entity
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
                     return;
                 }
-
-                moveCoroutine = StartCoroutine(MoveAlongPath(path));
             }
         }
 

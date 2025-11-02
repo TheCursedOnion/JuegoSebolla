@@ -16,22 +16,18 @@ namespace CursedOnion.UI.Canvases.Level
         private void OnEnable()
         {
             levelEvents.OnEntitySelected += UpdateStatsDisplay;
+            levelEvents.OnNoEntitySelected += ClearStatsDisplay;
         }
         private void OnDisable()
         {
             levelEvents.OnEntitySelected -= UpdateStatsDisplay;
+            levelEvents.OnNoEntitySelected -= ClearStatsDisplay;       
         }
-        public void UpdateStatsDisplay(SimpleEntity entity)
+        void UpdateStatsDisplay(SimpleEntity entity)
         {
-            if (entity == null)
+            if (entity is Unit unit)
             {
-                ClearStatsDisplay();
-                return;
-            }
-            
-            if (entity is Unit character)
-            {
-                UpdateStatsDisplayCharacter(character);
+                UpdateStatsDisplayUnit(unit);
             }
         }
         void ClearStatsDisplay()
@@ -39,7 +35,7 @@ namespace CursedOnion.UI.Canvases.Level
             if (statsText == null) return;
             statsText.text = "";
         }
-        void UpdateStatsDisplayCharacter(Unit unit)
+        void UpdateStatsDisplayUnit(Unit unit)
         {
             if (statsText == null) return;
             

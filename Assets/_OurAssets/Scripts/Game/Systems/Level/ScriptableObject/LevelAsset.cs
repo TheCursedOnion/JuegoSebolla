@@ -1,12 +1,10 @@
-using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Tools;
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace CursedOnion.ScriptableObjects
+namespace CursedOnion.Game.Systems.Level
 {
     [CreateAssetMenu(fileName = "LevelAsset", menuName = "Game/FileAsset/LevelAsset")]
     public class LevelAsset : ScriptableObject, ISaveableAsset

@@ -24,17 +24,29 @@ namespace CursedOnion.Game.Commands
         {
             this.target = target;
         }
-
+        
+        public bool CanExecute()
+        {
+            if (!CommandSubject)
+            {
+                Debug.LogWarning($"[AttackCommand] No se puede ejecutar: No tiene un CommandSubject");
+                return false;
+            }
+            if (!CommandSubject.ValidateAttack(target))
+            {
+                Debug.LogWarning($"[MoveCommand] No se puede ejecutar: {CommandSubject.name} no puede moverse atacar");
+                return false;
+            }
+            return true;
+        }
         public bool Execute()
         {
-            bool success = CommandSubject.ValidateAttack(target);
-            if (success)
-            {
-                previousHp = target.GetStats().CurrentHealthStat;
-                CommandSubject.Attack(target);
-                targetHasDied = target.GetFlags().HasDied;
-            }
-            return success;
+            if(!CanExecute()) return false;
+
+            previousHp = target.GetStats().CurrentHealthStat;
+            CommandSubject.Attack(target);
+            targetHasDied = target.GetFlags().HasDied;
+            return true;
         }
     }
 

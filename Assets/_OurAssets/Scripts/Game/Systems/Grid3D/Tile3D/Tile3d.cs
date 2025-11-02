@@ -16,7 +16,7 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
         
         [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
-        Entity.SimpleEntity containedEntity;
+        SimpleEntity containedEntity;
         public static Tile3d Default
         {
             get

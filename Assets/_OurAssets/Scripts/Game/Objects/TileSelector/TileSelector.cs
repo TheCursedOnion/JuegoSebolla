@@ -1,45 +1,78 @@
-using System;
-using CursedOnion.Extensions;
-using CursedOnion.Game.Cameras;
-using CursedOnion.Game.Entity;
-using CursedOnion.Game.Events;
-using CursedOnion.Game.Settings;
-using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+using System.Linq;
+
+using CursedOnion.Extensions;
+using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Commands;
+using CursedOnion.Game.Entity;
+using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Systems.Level;
+using CursedOnion.Locators;
 
 namespace CursedOnion.Game.Objects
 {
+    public class SelectionData
+    {
+        public Vector3 GridPosition;
+        public Tile3d Tile;
+        
+        public SelectionData(Vector3 gridPosition, Tile3d tile)
+        {
+            GridPosition = gridPosition;
+            Tile = tile;
+        }
+    }
     public class TileSelector : MonoBehaviour
     {
-        [SerializeField] Vector3 CameraOffset;
         [SerializeField, ReadOnly] Vector3 gridPosition;
-        [SerializeField, ReadOnly] TileSelectorController controller;
+        
         
         [Inject] LevelAsset levelAsset;
+        [Inject] LevelEvents levelEvents;
         
         [Inject] CameraLocator cameraLocator;
         private GlobalCamera globalCamera;
+        
+        [SerializeField] TileSelectorController controller;
 
+        private EntityCommandHandler entityCommandHandler;
+
+        [SerializeReference, SubclassSelector, SerializeField] TileSelectorBehaviour[] behaviours;
+        private T GetBehaviour<T>() where T : TileSelectorBehaviour
+        {
+            return behaviours.OfType<T>().FirstOrDefault();
+        }
+        
         public void Awake()
         {
+            entityCommandHandler = new(gameObject.scene.GetSceneContainer());
+            
             globalCamera = cameraLocator.GlobalCamera;
-            globalCamera.CinemachineContainer.SetTarget(transform, CameraOffset);
-            globalCamera.CinemachineContainer.SetTiltCenterAndValue(35);
-            globalCamera.CameraBehaviours.ChangeToFixedMode();
+
+            foreach (var behaviour in behaviours)
+            {
+                behaviour.Initialize(this, entityCommandHandler);
+            }
+            
+            controller.Initialize(this, GetBehaviour<TileSelectorEditorBehaviour>());
         }
 
+        public void SelectEntity(SimpleEntity entity)
+        {
+            levelEvents.SelectEntity(entity);
+        }
         public bool MovePosition(Vector3 moveDirection)
         {
+            
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
-
+            
             switch (result)
             {
                 case 1: MovePosition(moveDirection - Vector3.up); break;
@@ -72,18 +105,19 @@ namespace CursedOnion.Game.Objects
 
             return false;
         }
-        public (Vector3 gridPosition, Tile3d tile) SelectTile()
+        public SelectionData SelectTile()
         {
             Grid3d grid = levelAsset.Grid;
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
-            return (gridPosition, tile);
+            return new SelectionData(gridPosition, tile);
         }
+        public 
         int TrySetAtPosition(Vector3 position)
         {
             Grid3d grid = levelAsset.Grid;
             
             if (!grid.TryWorldToGridPosition(position, out Vector3 gridPos)) return -1;
-
+            
             Tile3d tile = grid.GetTileAtGridPosition(gridPos);
             if (!tile.IsEmptyTile())
             {
@@ -101,7 +135,6 @@ namespace CursedOnion.Game.Objects
             transform.position = position.CenterOnTile();
             return 0;
         }
-        
         
     }
 }

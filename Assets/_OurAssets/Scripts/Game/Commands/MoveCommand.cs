@@ -15,24 +15,34 @@ namespace CursedOnion.Game.Commands
 
         public static MoveCommand Create(CommandableEntity commandSubject, Vector3 newPosition)
         {
-            if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
             return new MoveCommand(commandSubject, newPosition);
         }
         private MoveCommand(CommandableEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {
             this.targetPosition = newPosition;
         }
-
+        
+        public bool CanExecute()
+        {
+            if (!CommandSubject)
+            {
+                Debug.LogWarning($"[MoveCommand] No se puede ejecutar: No tiene un CommandSubject");
+                return false;
+            }
+            if (!CommandSubject.ValidateMove(targetPosition))
+            {
+                Debug.LogWarning($"[MoveCommand] No se puede ejecutar: {CommandSubject.name} no puede moverse a {targetPosition}");
+                return false;
+            }
+            return true;
+        }
         public bool Execute()
         {
-            bool success = CommandSubject.ValidateMove(targetPosition);
-
-            if (success)
-            {
-                previousPosition = CommandSubject.transform.position;
-                CommandSubject.Move(targetPosition);
-            }
-            return success;
+            if (!CanExecute()) return false;
+            
+            previousPosition = CommandSubject.transform.position;
+            CommandSubject.Move(targetPosition);
+            return true;
         }
 
         public void Undo()
