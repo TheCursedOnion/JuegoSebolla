@@ -116,9 +116,6 @@ namespace CursedOnion.Game.Systems.Grid
         #region Tile Getters & Setters
         public Tile3d GetTileAtWorldPosition(Vector3 worldPosition)
         {
-            TryWorldToGridPosition(worldPosition, out Vector3 gridPosition);
-            Debug.Log(gridPosition);
-            
             if (TryWorldPositionToGridIndex(worldPosition, out int gridIndex))
             {
                 return tiles[gridIndex] ??= Tile3d.Default;

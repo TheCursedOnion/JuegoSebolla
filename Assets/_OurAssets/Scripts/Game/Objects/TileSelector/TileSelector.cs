@@ -1,22 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using CursedOnion.Extensions;
-using CursedOnion.Game.Cameras;
-using CursedOnion.Game.Commands;
-using CursedOnion.Game.Entity;
-using CursedOnion.Game.Events;
-using CursedOnion.Game.Settings;
-using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
+using System.Linq;
+
+using CursedOnion.Extensions;
+using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Commands;
+using CursedOnion.Game.Entity;
+using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Systems.Level;
+using CursedOnion.Locators;
 
 namespace CursedOnion.Game.Objects
 {
@@ -47,7 +44,7 @@ namespace CursedOnion.Game.Objects
         private EntityCommandHandler entityCommandHandler;
 
         [SerializeReference, SubclassSelector, SerializeField] TileSelectorBehaviour[] behaviours;
-        public T? GetBehaviour<T>() where T : TileSelectorBehaviour
+        private T GetBehaviour<T>() where T : TileSelectorBehaviour
         {
             return behaviours.OfType<T>().FirstOrDefault();
         }
@@ -72,9 +69,10 @@ namespace CursedOnion.Game.Objects
         }
         public bool MovePosition(Vector3 moveDirection)
         {
+            
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
-
+            
             switch (result)
             {
                 case 1: MovePosition(moveDirection - Vector3.up); break;
@@ -119,7 +117,7 @@ namespace CursedOnion.Game.Objects
             Grid3d grid = levelAsset.Grid;
             
             if (!grid.TryWorldToGridPosition(position, out Vector3 gridPos)) return -1;
-
+            
             Tile3d tile = grid.GetTileAtGridPosition(gridPos);
             if (!tile.IsEmptyTile())
             {
@@ -137,8 +135,6 @@ namespace CursedOnion.Game.Objects
             transform.position = position.CenterOnTile();
             return 0;
         }
-
-
         
     }
 }

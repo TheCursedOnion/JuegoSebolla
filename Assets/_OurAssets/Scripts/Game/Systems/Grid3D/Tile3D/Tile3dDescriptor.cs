@@ -14,7 +14,8 @@ namespace CursedOnion.Game.Systems.Grid
                 var defaultDescriptor = new Tile3dDescriptor
                 {
                     Id = 0,
-                    Cost = 0
+                    Cost = 0,
+                    CanUnitsSpawnHere = false,
                 };
                 return defaultDescriptor;
             }
@@ -24,5 +25,7 @@ namespace CursedOnion.Game.Systems.Grid
 
         public DirectionFlag allowedExitDirections;
         public DirectionFlag allowedEntryDirections;
+
+        public bool CanUnitsSpawnHere;
     }
 }

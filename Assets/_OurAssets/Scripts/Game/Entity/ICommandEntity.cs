@@ -25,8 +25,8 @@ namespace CursedOnion.Game.Entity
         public virtual void Die()
         {
             GetFlags().HasDied = true;
-            
             OnEntityUpdate?.Invoke();
+            Dispose();
         }
 
         public virtual void Revive(int newHealth)
@@ -35,6 +35,11 @@ namespace CursedOnion.Game.Entity
             GetFlags().HasDied = false;
             
             OnEntityUpdate?.Invoke();
+        }
+        
+        public void Dispose()
+        {
+            Destroy(gameObject);
         }
     }
     

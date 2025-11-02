@@ -4,6 +4,7 @@ using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using Reflex.Attributes;
+using TMPro;
 using UnityEngine;
 
 namespace CursedOnion.Game.Modes.Editor.UI
@@ -12,22 +13,33 @@ namespace CursedOnion.Game.Modes.Editor.UI
     {
         [Inject] LevelEvents levelEvents;
         
+        [SerializeField] private TextMeshProUGUI goldText;
+        
         GameObject selectedUnit;
         private CommandParameters spawnParameters;
+        private CommandParameters eraseParameters;
 
         private void Awake()
         {
             CommandParameters.Builder builder = new CommandParameters.Builder();
+            builder.SetExecuteOnce(false).SetLevelEvents(levelEvents);
+            
             spawnParameters = builder.Build();
+            eraseParameters = builder.Build();
+            
         }
 
         private void OnEnable()
         {
             levelEvents.OnNoEntitySelected += UnselectUnit;
+            
+            levelEvents.OnGoldUpdated += UpdateGoldText;
+            UpdateGoldText(levelEvents.RemainingGold);
         }
         private void OnDisable()
         {
             levelEvents.OnNoEntitySelected -= UnselectUnit;
+            levelEvents.OnGoldUpdated -= UpdateGoldText;
         }
 
         public void ToggleSelectForSpawn(GameObject unitPrefab)
@@ -40,14 +52,32 @@ namespace CursedOnion.Game.Modes.Editor.UI
             }
             
             selectedUnit = unitPrefab;
-            levelEvents.SelectEntity(unitPrefab.GetComponent<Unit>());
-            
             spawnParameters.EntityPrefab = selectedUnit;
+            
+            Unit unit = unitPrefab.GetComponent<Unit>();
+            levelEvents.SelectEntity(unit);
+
             levelEvents.CallPrepareCommand<SpawnCommand>(spawnParameters);
         }
         void UnselectUnit()
         {
             selectedUnit = null;
+        }
+        
+        public void ToggleEraser()
+        {
+            if (selectedUnit != null)
+            {
+                levelEvents.SelectEntity(null);
+                levelEvents.CancelPreparedCommand();
+            }
+
+            levelEvents.CallPrepareCommand<EraseCommand>(eraseParameters);
+        }
+
+        void UpdateGoldText(int gold)
+        {
+            goldText.text = $"Dinero: {gold}";
         }
     }
 }

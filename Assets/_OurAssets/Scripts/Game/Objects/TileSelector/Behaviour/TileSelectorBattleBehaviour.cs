@@ -28,7 +28,7 @@ namespace CursedOnion.Game.Objects
         {
             CommandParameters.Builder builder = new();
             builder.SetPosition(gridPosition);
-            builder.SetTarget(tile.GetContainedEntity());
+            builder.SetTargetEntity(tile.GetContainedEntity());
             
             CommandParameters commandParameters = builder.Build();
             CommandHandler.ExecuteCommand(commandParameters);

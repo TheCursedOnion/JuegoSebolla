@@ -20,7 +20,14 @@ namespace CursedOnion.Game.Commands
             {
                 { typeof(MoveCommand), (p) => MoveCommand.Create(p.Subject, p.Position.Value) },
                 { typeof(AttackCommand), (p) => AttackCommand.Create(p.Subject, p.Target) },
-                { typeof(SpawnCommand), (p) => SpawnCommand.Create(p.EntityPrefab, p.Position.Value)}
+                { typeof(SpawnCommand), (p) =>
+                    {
+                        if(p.Target) return null;
+                        return SpawnCommand.Create(p.LevelEvents, p.EntityPrefab, p.Position.Value, p.TargetTile);
+                    }
+                },
+                { typeof(EraseCommand), (p) => EraseCommand.Create(p.LevelEvents, p.TargetTile)},
+                { typeof(ActionCommand), (p) => ActionCommand.Create(p.ExecuteAction)}
             };
         
         protected readonly CommandableEntity CommandSubject;

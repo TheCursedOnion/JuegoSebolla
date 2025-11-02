@@ -9,9 +9,12 @@ namespace CursedOnion.Game.Objects
     {
         public override void HardSelect(SelectionData data)
         {
-            if (CommandHandler.HasPreparedCommand() && data.Tile.GetContainedEntity() == null)
+            if (CommandHandler.HasPreparedCommand())
             {
-                LaunchCommand(TileSelector.transform.position);
+                CommandParameters.Builder builder = new();
+                builder.SetPosition(TileSelector.transform.position);
+                builder.SetTargetTile(data.Tile);
+                LaunchCommand(builder.Build());
             }
         }
         public override void SoftSelect(SelectionData data)
@@ -19,11 +22,9 @@ namespace CursedOnion.Game.Objects
             if (!CommandHandler.HasPreparedCommand())
                 TileSelector.SelectEntity(data.Tile.GetContainedEntity());
         }
-        void LaunchCommand(Vector3 position)
+        void LaunchCommand(CommandParameters parameters)
         {
-            CommandParameters.Builder builder = new();
-            builder.SetPosition(position);
-            CommandHandler.TriggerCommand(builder.Build());
+            CommandHandler.ExecuteCommand(parameters);
         }
     }
 }

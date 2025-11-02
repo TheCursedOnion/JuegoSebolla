@@ -65,11 +65,8 @@ namespace CursedOnion.Game.Commands
         public void ExecuteCommand(CommandParameters parameters)
         {
             LaunchCommand(parameters);
-            ResetCommand();
-        }
-        public void TriggerCommand(CommandParameters parameters)
-        {
-            LaunchCommand(parameters);
+            
+            if(preparedParameters.ExecuteOnce) ResetCommand();
         }
         void LaunchCommand(CommandParameters parameters)
         {
@@ -78,12 +75,12 @@ namespace CursedOnion.Game.Commands
             var createMethod = typeof(CommandFactory).GetMethod("Create", BindingFlags.Public | BindingFlags.Static);
             var genericMethod = createMethod.MakeGenericMethod(preparedCommand);
             
-            parameters.Combine(preparedParameters);
+            CommandParameters.CombineParameters(parameters, preparedParameters);
             
             parameters.Subject = commandSubject;
             var command = genericMethod.Invoke(null, new object[] { parameters });
-
-            commandManager.ExecuteCommand((ICommand)command);
+            
+            if(command != null) commandManager.ExecuteCommand((ICommand)command);
         }
         private void ResetCommand()
         {

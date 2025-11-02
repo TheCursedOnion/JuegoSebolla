@@ -1,4 +1,6 @@
-﻿namespace CursedOnion.Game.Entity
+﻿using UnityEngine;
+
+namespace CursedOnion.Game.Entity
 {
     [System.Serializable]
     public class EntityStats

@@ -1,5 +1,6 @@
 using CursedOnion.Behaviours;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
 using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;

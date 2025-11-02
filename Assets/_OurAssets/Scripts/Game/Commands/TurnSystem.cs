@@ -30,11 +30,11 @@ namespace CursedOnion
 
         public void AddUnit(Unit unit)
         {
-            if (unit.IsEnemy)
+            if (unit.Side == BattleSide.Enemy)
             {
                 if(!enemies.Contains(unit)) enemies.Add(unit);
             }
-            else
+            else if (unit.Side == BattleSide.Ally)
             {
                 if (!allies.Contains(unit)) allies.Add(unit);
             }
