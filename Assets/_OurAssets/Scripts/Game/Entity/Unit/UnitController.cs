@@ -8,36 +8,23 @@ namespace CursedOnion.Game.Entity
 {
     public abstract class UnitController : MonoBehaviour
     {
-        public AStarPathFinder PathFinder;
-
-        protected virtual void Awake()
-        {
-            if (PathFinder == null)
-                PathFinder = new AStarPathFinder();
-        }
+        [SerializeReference, SubclassSelector] protected AStarPathFinder PathFinder = new AStarPathFinderMod();
+        public AStarPathFinder GetPathFinder() => PathFinder;
         public abstract void ProcessTurn();
     }
 
-    public class PlayerUnitController : UnitController
+    [System.Serializable]
+    public class AStarPathFinderMod : AStarPathFinder
     {
-        public override void ProcessTurn()
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-    public class AIUnitController : UnitController
-    {
-        public override void ProcessTurn()
-        {
-            throw new System.NotImplementedException();
-        }
+        // Clase modificada para pruebas unitarias si es necesario
     }
 
+    [System.Serializable]
     public class AStarPathFinder
     {
         public List<Vector3> FindPath(Vector3 startGrid, Vector3 targetGrid, Grid3d levelGrid)
         {
-       
+
             List<Node> openList = new List<Node>();
             HashSet<Vector3> closedList = new HashSet<Vector3>();
 
