@@ -21,6 +21,7 @@ namespace CursedOnion.Game.Entity
         Ally,
         Enemy
     }
+    
     public class Unit : CommandableEntity
     {
         // Character UI 
@@ -28,9 +29,9 @@ namespace CursedOnion.Game.Entity
         public GameObject GetUI() => unitUI;
         
         [ReadOnly] public bool PlacedManually = false;
-        
+
         public UnitController UnitController;
-        
+        [SubclassSelector, SerializeReference] protected SpecialAbility Ability;
         public BattleSide Side;
 
         public bool TrySpawningUnit(LevelEvents levelEvents, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
@@ -133,13 +134,14 @@ namespace CursedOnion.Game.Entity
                     return;
                 }
 
-                var path = UnitController.PathFinder.FindPath(startGrid, newPosition, levelGrid);
+                var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, levelGrid);
 
                 if (path == null || path.Count == 0)
                 {
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
                     return;
                 }
+                MoveAlongPath(path);
             }
         }
 
