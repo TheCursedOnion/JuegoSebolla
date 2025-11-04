@@ -1,3 +1,4 @@
+using System;
 using CursedOnion.Game.Events;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
@@ -6,6 +7,8 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Level
 {
+    public enum LevelState { InDialog, InBattleEditor, InBattle, Finished }
+
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
@@ -14,6 +17,7 @@ namespace CursedOnion.Game.Systems.Level
         
         
         [SerializeField, Inject, ReadOnly] LevelAsset levelAsset;
+        [SerializeField, ReadOnly] LevelState currentLevelState;
         public Vector3 LevelManagerOrigin => GetComponent<MeshRenderer>().bounds.min;
         
         public void Initialize(LevelAsset asset)
@@ -37,6 +41,11 @@ namespace CursedOnion.Game.Systems.Level
             levelAsset.Grid.PaintTileAtGridPosition(new Vector3(3,0,0), Color.green);
             
             GetComponent<MeshFilter>().mesh = levelAsset.Grid.PaintAllTiles(Color.magenta);*/
+        }
+
+        private void OnEnable()
+        {
+            
         }
 
         private void OnDisable()

@@ -16,12 +16,19 @@ namespace CursedOnion.Installers
         [HorizontalLine(height: 2f , color: EColor.Blue)]
         [SerializeField] LevelManager levelManager;
         [SerializeField] LevelUICanvas levelUICanvas;
+        private LevelEvents levelEvents;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
+            levelEvents = new LevelEvents(levelData);
             containerBuilder.AddSingleton(levelAsset, typeof(LevelAsset));
             containerBuilder.AddSingleton(levelManager,  typeof(LevelManager));
             containerBuilder.AddSingleton(levelUICanvas, typeof(LevelUICanvas));
-            containerBuilder.AddSingleton(new LevelEvents(levelData), typeof(LevelEvents));
+            containerBuilder.AddSingleton(levelEvents, typeof(LevelEvents));
+        }
+
+        void Start()
+        {
+            levelEvents.InvokeInitialCalls();
         }
     }
 }

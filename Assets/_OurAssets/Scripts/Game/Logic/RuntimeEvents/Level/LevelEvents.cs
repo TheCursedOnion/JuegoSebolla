@@ -3,15 +3,25 @@ using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CursedOnion.Game.Events
 {
     public class LevelEvents : RuntimeEvents
     {
+        
         public LevelEvents(LevelData levelData)
         {
             remainingGold = levelData.StartingGold;
+        }
+
+        public void InvokeInitialCalls()
+        {
+            AddGold(0);
+            SelectEntity(null);
+            
+            InvokeLevelState(currentLevelState, false);
         }
 
         private int remainingGold;
@@ -69,11 +79,42 @@ namespace CursedOnion.Game.Events
         {
             OnPreparedCommandCancelled?.Invoke();
         }
+
+        LevelState currentLevelState;
+        
+        public event Action OnLevelDialogStart;
+        public event Action OnLevelDialogFinish;
+        
+        public event Action OnLevelBattleEditorStart;
+        public event Action OnLevelBattleEditorFinish;
         
         public event Action OnLevelBattleStart;
-        public void StartBattle()
+        public event Action OnLevelBattleFinish;
+        public void SetLevelState(LevelState state)
         {
-            OnLevelBattleStart?.Invoke();
+            if(currentLevelState == state) return;
+            InvokeLevelState(state, true);
+            currentLevelState = state;
+            InvokeLevelState(state, false);
+        }
+        
+        void InvokeLevelState(LevelState state, bool finish)
+        {
+            switch (state)
+            {
+                case LevelState.InDialog:
+                        if(finish) OnLevelDialogFinish?.Invoke();
+                        else OnLevelDialogStart?.Invoke();
+                    break;
+                case LevelState.InBattleEditor:
+                        if(finish) OnLevelBattleEditorFinish?.Invoke();
+                        else OnLevelBattleEditorStart?.Invoke();
+                    break;
+                case LevelState.InBattle:
+                    if(finish) OnLevelBattleFinish?.Invoke();
+                    else OnLevelBattleStart?.Invoke();
+                break;
+            }
         }
         
     }

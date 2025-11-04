@@ -17,5 +17,8 @@ namespace CursedOnion.Game.Systems.Level
         
         [SerializeField] private LevelGoal goal;
         public LevelGoal Goal => goal;
+        
+        [SerializeField] private LevelState startingState;
+        public LevelState StartingState => startingState;
     }
 }
