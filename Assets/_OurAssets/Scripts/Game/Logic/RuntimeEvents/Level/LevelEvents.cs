@@ -2,6 +2,7 @@
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
+using NaughtyAttributes;
 using Reflex.Attributes;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,48 +11,17 @@ namespace CursedOnion.Game.Events
 {
     public class LevelEvents : RuntimeEvents
     {
-        
-        public LevelEvents(LevelData levelData)
-        {
-            remainingGold = levelData.StartingGold;
-        }
-
-        public void InvokeInitialCalls()
-        {
-            AddGold(0);
-            SelectEntity(null);
-            
-            InvokeLevelState(currentLevelState, false);
-        }
-
-        private int remainingGold;
-        public int RemainingGold => remainingGold;
         public event Action<int> OnGoldUpdated;
-        public bool AddGold(int gold)
+        public void UpdateGold(int gold)
         {
-            if (gold < 0)
-            {
-                return false;
-            }
-            return ModifyGold(gold);
+            OnGoldUpdated?.Invoke(gold);
         }
-        public bool TakeGold(int gold)
-        {
-            if (gold < 0 || remainingGold < gold)
-            {
-                return false;
-            }
-            return ModifyGold(-gold);
-        }
-        private bool ModifyGold(int amount)
-        {
-            remainingGold += amount;
-            Debug.Log($"GOLD: {remainingGold}");
-            OnGoldUpdated?.Invoke(remainingGold);
-            return true;
-        }
-
         
+        public event Action<int> OnUnitPlacedCountUpdated;
+        public void UpdateUnitPlacedCount(int count)
+        {
+            OnUnitPlacedCountUpdated?.Invoke(count);
+        }
         public event Action<SimpleEntity> OnEntitySelected;
         public event Action OnNoEntitySelected;
         public void SelectEntity(SimpleEntity entity)
@@ -79,42 +49,18 @@ namespace CursedOnion.Game.Events
         {
             OnPreparedCommandCancelled?.Invoke();
         }
+        
 
         LevelState currentLevelState;
-        
-        public event Action OnLevelDialogStart;
-        public event Action OnLevelDialogFinish;
-        
-        public event Action OnLevelBattleEditorStart;
-        public event Action OnLevelBattleEditorFinish;
-        
-        public event Action OnLevelBattleStart;
-        public event Action OnLevelBattleFinish;
-        public void SetLevelState(LevelState state)
+        public event Action<LevelState, LevelState> OnLevelStateChange;
+        public void SetNewLevelState(LevelState newState)
         {
-            if(currentLevelState == state) return;
-            InvokeLevelState(state, true);
-            currentLevelState = state;
-            InvokeLevelState(state, false);
-        }
-        
-        void InvokeLevelState(LevelState state, bool finish)
-        {
-            switch (state)
-            {
-                case LevelState.InDialog:
-                        if(finish) OnLevelDialogFinish?.Invoke();
-                        else OnLevelDialogStart?.Invoke();
-                    break;
-                case LevelState.InBattleEditor:
-                        if(finish) OnLevelBattleEditorFinish?.Invoke();
-                        else OnLevelBattleEditorStart?.Invoke();
-                    break;
-                case LevelState.InBattle:
-                    if(finish) OnLevelBattleFinish?.Invoke();
-                    else OnLevelBattleStart?.Invoke();
-                break;
-            }
+            if(currentLevelState == newState) return;
+            
+            OnLevelStateChange?.Invoke(currentLevelState, newState);
+            currentLevelState = newState;
+            
+            CancelPreparedCommand();
         }
         
     }

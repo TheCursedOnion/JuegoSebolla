@@ -1,10 +1,23 @@
 using System;
+using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Systems.Level;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
     public class SimpleEntity : MonoBehaviour
     {
+        protected LevelManager LevelManager;
+        protected LevelEvents LevelEvents;
+        protected Grid3d Grid;
+        protected void SetLevelVariables(LevelManager levelManager)
+        {
+            LevelManager = levelManager;
+            LevelEvents = levelManager.LevelEvents;
+            Grid = levelManager.LevelAsset.Grid;
+        }
+        
         public Action OnEntityUpdate;
 
         public EntityData Data;

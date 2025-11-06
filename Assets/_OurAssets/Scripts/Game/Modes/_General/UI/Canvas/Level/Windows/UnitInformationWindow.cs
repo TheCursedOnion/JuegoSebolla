@@ -7,7 +7,7 @@ using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 
-namespace CursedOnion.UI.Canvases.Level
+namespace CursedOnion.Game.General.UI.Canvases.Level
 {
     public class UnitInformationWindow : MonoBehaviour
     {

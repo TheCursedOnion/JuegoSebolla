@@ -1,4 +1,4 @@
-﻿namespace CursedOnion.UI.Canvases
+﻿namespace CursedOnion.Game.General.UI.Canvases
 {
     public interface IUICanvas
     {

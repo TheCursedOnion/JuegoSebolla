@@ -2,6 +2,7 @@
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Systems.Level;
 using Reflex.Core;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -15,18 +16,18 @@ namespace CursedOnion.Game.Commands
         private Vector3 spawnPosition;
         private Tile3d targetTile;
 
-        private LevelEvents levelEvents;
-        public static SpawnCommand Create(LevelEvents levelEvents, GameObject spawnEntity, Vector3 spawnPosition, Tile3d spawnTile)
+        private LevelManager levelManager;
+        public static SpawnCommand Create(LevelManager levelManager, GameObject spawnEntity, Vector3 spawnPosition, Tile3d spawnTile)
         {
             if(!spawnEntity) throw new ArgumentException($"Spawn Unit cannot be null");
-            return new SpawnCommand(levelEvents, spawnEntity, spawnPosition, spawnTile);
+            return new SpawnCommand(levelManager, spawnEntity, spawnPosition, spawnTile);
         }
-        private SpawnCommand(LevelEvents levelEvents, GameObject unitPrefab, Vector3 spawnPosition, Tile3d targetTile)
+        private SpawnCommand(LevelManager levelManager, GameObject unitPrefab, Vector3 spawnPosition, Tile3d targetTile)
         {
             this.unitPrefab = unitPrefab;
             this.targetTile = targetTile;
             this.spawnPosition = spawnPosition;
-            this.levelEvents = levelEvents;
+            this.levelManager = levelManager;
         }
         
         public bool CanExecute()
@@ -62,7 +63,7 @@ namespace CursedOnion.Game.Commands
         {
             if(!CanExecute()) return false;
             Unit unit = unitPrefab.GetComponent<Unit>();
-            return unit != null && unit.TrySpawningUnit(levelEvents, unitPrefab, spawnPosition, BattleSide.Ally);
+            return unit != null && unit.TrySpawningUnit(levelManager, unitPrefab, spawnPosition, BattleSide.Ally);
         }
         
     }

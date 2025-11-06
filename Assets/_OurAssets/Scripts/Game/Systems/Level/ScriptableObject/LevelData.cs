@@ -9,8 +9,8 @@ namespace CursedOnion.Game.Systems.Level
         EndureRounds,
     }
     
-    [CreateAssetMenu(fileName = "LevelData", menuName = "Game/FileAsset/LevelData")]
-    public class LevelData : ScriptableObject
+    [System.Serializable]
+    public class LevelData
     {
         [SerializeField] private int startingGold;
         public int StartingGold => startingGold;

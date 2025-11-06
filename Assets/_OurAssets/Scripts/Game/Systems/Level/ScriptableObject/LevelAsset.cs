@@ -12,6 +12,9 @@ namespace CursedOnion.Game.Systems.Level
         public Material[] MeshMaterials;
         
         [HorizontalLine(color : EColor.Blue, height: 4)]
+        public LevelData LevelData;
+        
+        [HorizontalLine(color : EColor.Blue, height: 4)]
         public Grid3d Grid;
 
         public void SetupLevelAsset(GridMesh gridMesh, Grid3d grid3d)

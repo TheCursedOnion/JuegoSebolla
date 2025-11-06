@@ -33,16 +33,18 @@ namespace CursedOnion.Game.Entity
         
         public BattleSide Side;
 
-        public bool TrySpawningUnit(LevelEvents levelEvents, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        public bool TrySpawningUnit(LevelManager manager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
-            if (levelEvents.TakeGold(Data.GetPrice()))
+            SetLevelVariables(manager);
+            
+            bool isPlaced = LevelManager.TryPlacingUnit(Data.GetPrice());
+            if (isPlaced)
             {
                 Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
                 spawnedUnit.SetSide(side);
                 spawnedUnit.PlacedManually = true;
-                return true;
             }
-            return false;
+            return isPlaced;
         }
         void SetSide(BattleSide side)
         {
@@ -58,33 +60,23 @@ namespace CursedOnion.Game.Entity
             };
         }
         
-        public bool TryErasingUnit(LevelEvents levelEvents)
+        public bool TryErasingUnit(LevelManager manager)
         {
-            if (PlacedManually && Side == BattleSide.Ally)
+            bool canBeErased = PlacedManually && Side == BattleSide.Ally;
+            if (canBeErased)
             {
-                levelEvents.AddGold(Data.GetPrice());
+                manager.EraseUnit(Data.GetPrice());
                 Dispose();
-                return false;
             }
-            return true;
+            return canBeErased;
         }
         
-        private Grid3d levelGrid;
-        private TurnSystem turnSystem;
         public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
-            Debug.Log(container);
+            SetLevelVariables(container.Resolve<LevelManager>());
             
-            var levelAsset = container.Resolve<LevelAsset>();
-            levelGrid = levelAsset.Grid;
-            
-            Debug.Log(transform);
-            
-            var levelManager = container.Resolve<LevelManager>();
-            turnSystem = levelManager.GetTurnSystem();
-            
-            levelGrid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
+            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
             Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
@@ -127,13 +119,13 @@ namespace CursedOnion.Game.Entity
             {
                 Debug.Log($"{gameObject.name}: Me muevo a {newPosition}");
                 
-                if (!levelGrid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
+                if (!Grid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
                 {
                     Debug.LogError($"TryWorldToGridPosition falló para start world position: {transform.position}");
                     return;
                 }
 
-                var path = UnitController.PathFinder.FindPath(startGrid, newPosition, levelGrid);
+                var path = UnitController.PathFinder.FindPath(startGrid, newPosition, Grid);
 
                 if (path == null || path.Count == 0)
                 {

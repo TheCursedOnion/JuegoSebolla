@@ -1,8 +1,10 @@
 ﻿using CursedOnion.Game.Logic;
+using CursedOnion.Game.Logic.Services;
+using UnityEngine;
 
 namespace CursedOnion.Game.Events
 {
-    public class RuntimeEvents
+    public class RuntimeEvents : MonoBehaviour
     {
         protected bool Enabled;
         public RuntimeEvents()

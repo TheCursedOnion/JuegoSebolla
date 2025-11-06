@@ -2,6 +2,7 @@
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Game.Systems.Level;
 using Reflex.Core;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace CursedOnion.Game.Commands
         public GameObject EntityPrefab;
 
         //Execution Dependencies
-        public LevelEvents LevelEvents;
+        public LevelManager LevelManager;
         
         //Simple Execution Logic
         public Func<bool> ExecuteCondition;
@@ -38,7 +39,7 @@ namespace CursedOnion.Game.Commands
             parameters.Position ??= other.Position;
             parameters.TargetTile ??= other.TargetTile;
             
-            parameters.LevelEvents ??= other.LevelEvents;
+            parameters.LevelManager ??= other.LevelManager;
             
             parameters.ExecuteAction ??= other.ExecuteAction;
             parameters.ExecuteCondition ??= other.ExecuteCondition;
@@ -54,7 +55,7 @@ namespace CursedOnion.Game.Commands
             parameters.ExecuteAction = null;
             parameters.TargetTile = null;
             parameters.ExecuteCondition = null;
-            parameters.LevelEvents = null;
+            parameters.LevelManager = null;
         }
         private CommandParameters()
         {
@@ -105,9 +106,9 @@ namespace CursedOnion.Game.Commands
                 parameters.ExecuteCondition = condition;
                 return this;
             }
-            public Builder SetLevelEvents(LevelEvents levelEvents)
+            public Builder SetLevelManager(LevelManager levelManager)
             {
-                parameters.LevelEvents = levelEvents;
+                parameters.LevelManager = levelManager;
                 return this;
             }
             public Builder Reset()
