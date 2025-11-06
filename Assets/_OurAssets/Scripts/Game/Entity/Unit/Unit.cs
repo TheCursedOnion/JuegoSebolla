@@ -23,7 +23,10 @@ namespace CursedOnion.Game.Entity
     }
     public class Unit : CommandableEntity
     {
-        // Character UI 
+        // Character UI
+        private float nextAttackMultiplier = 1f;
+        private float additionalHP = 0f;
+        
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
         
@@ -81,6 +84,10 @@ namespace CursedOnion.Game.Entity
             Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
         }
+        public void SetAdditionalHP(float factor) 
+        {
+            additionalHP = GetStats().MaxHealthStat * factor / 100f;
+        }
 
         public override void Damage(int damage)
         {
@@ -88,6 +95,10 @@ namespace CursedOnion.Game.Entity
             
             Stats.CurrentHealthStat -= finalDamage;
             if (Stats.CurrentHealthStat <= 0) Die();
+        }
+        public void SetNextAttackMultiplier(float multiplier)
+        {
+            nextAttackMultiplier = multiplier;
         }
 
         protected override void DoAttack(SimpleEntity target, bool undo)
@@ -125,7 +136,7 @@ namespace CursedOnion.Game.Entity
                     return;
                 }
 
-                var path = UnitController.PathFinder.FindPath(startGrid, newPosition, Grid);
+                var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
 
                 if (path == null || path.Count == 0)
                 {
