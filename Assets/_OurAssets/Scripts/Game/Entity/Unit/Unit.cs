@@ -28,8 +28,13 @@ namespace CursedOnion.Game.Entity
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
 
+        // ability variables
         private float nextAttackMultiplier = 1f;
         private float additionalHP = 0f;
+
+        private bool isConfused = false;
+        private int confusedTurnsRemaining = 0;
+        public bool IsConfused => isConfused;
 
         [ReadOnly] public bool PlacedManually = false;
 
@@ -92,6 +97,24 @@ namespace CursedOnion.Game.Entity
 
             Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
+        }
+
+        public void ApplyConfusion(int turns)
+        {
+            isConfused = true;
+            confusedTurnsRemaining = turns;
+        }
+
+        public void UpdateStatusEffects()
+        {
+            if (isConfused)
+            {
+                confusedTurnsRemaining--;
+                if (confusedTurnsRemaining <= 0)
+                {
+                    isConfused = false;
+                }
+            }
         }
 
         public void SetAdditionalHP(float factor) 
