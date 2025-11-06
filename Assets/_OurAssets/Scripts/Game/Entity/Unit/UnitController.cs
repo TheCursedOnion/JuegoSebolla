@@ -68,7 +68,6 @@ namespace CursedOnion.Game.Entity
                 }
             }
 
-            // Si salimos del bucle, no hay camino
             Debug.Log("No se encontr� un camino.");
             return null;
         }

@@ -27,7 +27,10 @@ namespace CursedOnion.Game.Entity
         // Character UI 
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
-        
+
+        private float nextAttackMultiplier = 1f;
+        private float additionalHP = 0f;
+
         [ReadOnly] public bool PlacedManually = false;
 
         public UnitController UnitController;
@@ -91,24 +94,57 @@ namespace CursedOnion.Game.Entity
             Stats.SetStats(Data);
         }
 
+        public void SetAdditionalHP(float factor) 
+        {
+            additionalHP = GetStats().MaxHealthStat * factor / 100f;
+        }
+
         public override void Damage(int damage)
         {
             int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
-            
+
+            if (additionalHP > 0)
+            {
+                if (finalDamage <= additionalHP)
+                {
+                    additionalHP -= finalDamage;
+                    return;
+                }
+                else
+                {
+                    finalDamage -= Mathf.FloorToInt(additionalHP);
+                    additionalHP = 0; 
+                }
+            }
+
+            Stats.CurrentHealthStat -= finalDamage;
+
             Stats.CurrentHealthStat -= finalDamage;
             if (Stats.CurrentHealthStat <= 0) Die();
         }
 
+
+        public void SetNextAttackMultiplier(float multiplier)
+        {
+            nextAttackMultiplier = multiplier;
+        }
+
         protected override void DoAttack(SimpleEntity target, bool undo)
         {
-            if (undo)
+            int baseAttack = GetStats().AttackStat;
+            int attackValue = Mathf.RoundToInt(baseAttack * nextAttackMultiplier);
+
+            target.Damage(attackValue);
+
+            if (target is CommandableEntity commandableTarget)
             {
-                
+                var targetStats = commandableTarget.GetStats();                                         
+                if (targetStats != null && targetStats.CurrentHealthStat > 0)
+                {
+                    Damage(targetStats.AttackStat);
+                }
             }
-            else
-            {
-                target.Damage(GetStats().AttackStat);
-            }
+
         }
 
         public override bool ValidateAttack(SimpleEntity target)

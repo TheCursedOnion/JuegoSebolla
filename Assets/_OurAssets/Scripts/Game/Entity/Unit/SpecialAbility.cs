@@ -6,7 +6,7 @@ namespace CursedOnion.Game.Entity
         public string Name;
         public string Description;
 
-        public void ActivateAbility(Unit unit)
+        public virtual void ActivateAbility(Unit unit)
         {
             // Lógica para activar la habilidad especial
         }
@@ -14,8 +14,32 @@ namespace CursedOnion.Game.Entity
     }
     
     [System.Serializable]
-    public class ArcherAbility : SpecialAbility
+    public class SoldierAbility : SpecialAbility
     {
-        public float RangeMultiplier = 1.5f;
+        public float DamageMultiplier = 2.0f; 
+
+        public override void ActivateAbility(Unit unit)
+        {
+            if (unit == null) return;
+            unit.SetNextAttackMultiplier(DamageMultiplier);
+        }
+    }
+
+    [System.Serializable]
+    public class TankAbility : SpecialAbility
+    {
+        public float AdditionalHPFactor = 30.0f;
+
+        public override void ActivateAbility(Unit unit)
+        {
+            if (unit == null) return;
+            unit.SetAdditionalHP(AdditionalHPFactor);
+        }
+    }
+
+    [System.Serializable]
+    public class ThiefAbility : SpecialAbility
+    {
+        
     }
 }
