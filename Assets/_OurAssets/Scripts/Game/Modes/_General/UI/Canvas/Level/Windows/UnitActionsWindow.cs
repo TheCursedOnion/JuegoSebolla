@@ -1,28 +1,42 @@
 using System.Collections.Generic;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Entity.UI;
+using CursedOnion.Game.Events;
+using Reflex.Attributes;
 using UnityEngine;
 
 namespace CursedOnion
 {
     public class UnitActionsWindow : MonoBehaviour
     {
+        [Inject] LevelEvents levelEvents;
         private Dictionary<GameObject, GameObject> actionsUI = new();
         
         private Unit unit;
         public Unit Unit => unit;
-        public void SetEntity(Unit unit)
+        private void OnEnable()
         {
-            this.unit = unit;
+            levelEvents.OnEntitySelected += SetEntity;
+            levelEvents.OnNoEntitySelected += SetNullEntity;
+        }
+        private void OnDisable()
+        {
+            levelEvents.OnEntitySelected += SetEntity;
+            levelEvents.OnNoEntitySelected += SetNullEntity;
+        }
+        
+        void SetNullEntity()
+        {
+            unit = null;
+            DisableChildren();
+        }
+        void SetEntity(SimpleEntity entity)
+        {
+            unit = entity as Unit;
             UpdateActionsWindow();
         }
-
         void UpdateActionsWindow()
         {
-            DisableChildren();
-            
-            if(unit == null) return;
-            
             var ui = unit.GetUI();
             GameObject instancedUI;
             

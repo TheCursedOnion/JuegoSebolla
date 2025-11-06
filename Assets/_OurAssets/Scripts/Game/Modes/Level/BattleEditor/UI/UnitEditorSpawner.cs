@@ -3,17 +3,17 @@ using System.Linq;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
 using TMPro;
 using UnityEngine;
 
-namespace CursedOnion.Game.Modes.Editor.UI
+namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 {
     public class UnitEditorSpawner : MonoBehaviour
     {
-        [Inject] LevelEvents levelEvents;
-        
-        [SerializeField] private TextMeshProUGUI goldText;
+        [Inject] LevelManager levelManager;
+        LevelEvents levelEvents;
         
         GameObject selectedUnit;
         private CommandParameters spawnParameters;
@@ -21,8 +21,10 @@ namespace CursedOnion.Game.Modes.Editor.UI
 
         private void Awake()
         {
+            levelEvents = levelManager.LevelEvents;
+            
             CommandParameters.Builder builder = new CommandParameters.Builder();
-            builder.SetExecuteOnce(false).SetLevelEvents(levelEvents);
+            builder.SetExecuteOnce(false).SetLevelManager(levelManager);
             
             spawnParameters = builder.Build();
             eraseParameters = builder.Build();
@@ -32,14 +34,10 @@ namespace CursedOnion.Game.Modes.Editor.UI
         private void OnEnable()
         {
             levelEvents.OnNoEntitySelected += UnselectUnit;
-            
-            levelEvents.OnGoldUpdated += UpdateGoldText;
-            UpdateGoldText(levelEvents.RemainingGold);
         }
         private void OnDisable()
         {
             levelEvents.OnNoEntitySelected -= UnselectUnit;
-            levelEvents.OnGoldUpdated -= UpdateGoldText;
         }
 
         public void ToggleSelectForSpawn(GameObject unitPrefab)
@@ -75,9 +73,11 @@ namespace CursedOnion.Game.Modes.Editor.UI
             levelEvents.CallPrepareCommand<EraseCommand>(eraseParameters);
         }
 
-        void UpdateGoldText(int gold)
+        public void StartBattle()
         {
-            goldText.text = $"Dinero: {gold}";
+            levelEvents.SetNewLevelState(LevelState.InBattle);
         }
+
+        
     }
 }

@@ -4,7 +4,7 @@ using CursedOnion.Game.Objects;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace CursedOnion.UI.Canvases
+namespace CursedOnion.Game.General.UI.Canvases
 {
     public class MapUICanvas : MonoBehaviour, IUICanvas
     {

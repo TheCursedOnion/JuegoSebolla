@@ -2,46 +2,26 @@
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
+using NaughtyAttributes;
 using Reflex.Attributes;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CursedOnion.Game.Events
 {
     public class LevelEvents : RuntimeEvents
     {
-        public LevelEvents(LevelData levelData)
-        {
-            remainingGold = levelData.StartingGold;
-        }
-
-        private int remainingGold;
-        public int RemainingGold => remainingGold;
         public event Action<int> OnGoldUpdated;
-        public bool AddGold(int gold)
+        public void UpdateGold(int gold)
         {
-            if (gold < 0)
-            {
-                return false;
-            }
-            return ModifyGold(gold);
+            OnGoldUpdated?.Invoke(gold);
         }
-        public bool TakeGold(int gold)
-        {
-            if (gold < 0 || remainingGold < gold)
-            {
-                return false;
-            }
-            return ModifyGold(-gold);
-        }
-        private bool ModifyGold(int amount)
-        {
-            remainingGold += amount;
-            Debug.Log($"GOLD: {remainingGold}");
-            OnGoldUpdated?.Invoke(remainingGold);
-            return true;
-        }
-
         
+        public event Action<int> OnUnitPlacedCountUpdated;
+        public void UpdateUnitPlacedCount(int count)
+        {
+            OnUnitPlacedCountUpdated?.Invoke(count);
+        }
         public event Action<SimpleEntity> OnEntitySelected;
         public event Action OnNoEntitySelected;
         public void SelectEntity(SimpleEntity entity)
@@ -70,10 +50,17 @@ namespace CursedOnion.Game.Events
             OnPreparedCommandCancelled?.Invoke();
         }
         
-        public event Action OnLevelBattleStart;
-        public void StartBattle()
+
+        LevelState currentLevelState;
+        public event Action<LevelState, LevelState> OnLevelStateChange;
+        public void SetNewLevelState(LevelState newState)
         {
-            OnLevelBattleStart?.Invoke();
+            if(currentLevelState == newState) return;
+            
+            OnLevelStateChange?.Invoke(currentLevelState, newState);
+            currentLevelState = newState;
+            
+            CancelPreparedCommand();
         }
         
     }

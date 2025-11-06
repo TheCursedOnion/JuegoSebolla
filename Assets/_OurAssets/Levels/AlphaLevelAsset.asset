@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MeshMaterials:
   - {fileID: 2100000, guid: 19668f4e32a870140a34ebdf76ab5a8d, type: 2}
+  LevelData:
+    startingGold: 25
+    goal: 0
+    startingState: 0
   Grid:
     mesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
     startingOffset: {x: 0, y: 0, z: 0}
@@ -25,7 +29,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 480
         End: 503
@@ -35,7 +39,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 456
         End: 479
@@ -45,7 +49,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 144
         End: 167
@@ -55,7 +59,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 168
         End: 191
@@ -65,7 +69,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 192
         End: 215
@@ -75,7 +79,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 840
         End: 863
@@ -85,7 +89,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 864
         End: 887
@@ -95,7 +99,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 504
         End: 527
@@ -105,7 +109,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 432
         End: 455
@@ -115,7 +119,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 96
         End: 119
@@ -125,7 +129,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 72
         End: 95
@@ -135,7 +139,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 48
         End: 71
@@ -145,7 +149,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 816
         End: 839
@@ -155,7 +159,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 888
         End: 911
@@ -165,7 +169,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 528
         End: 551
@@ -175,7 +179,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 408
         End: 431
@@ -185,7 +189,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 120
         End: 143
@@ -195,7 +199,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 24
         End: 47
@@ -205,7 +209,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 0
         End: 23
@@ -215,7 +219,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 792
         End: 815
@@ -225,7 +229,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 912
         End: 935
@@ -235,7 +239,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 552
         End: 575
@@ -245,7 +249,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 360
         End: 383
@@ -255,7 +259,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 312
         End: 335
@@ -265,7 +269,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 336
         End: 359
@@ -275,7 +279,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 216
         End: 239
@@ -285,7 +289,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 768
         End: 791
@@ -295,7 +299,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 936
         End: 959
@@ -305,7 +309,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 576
         End: 599
@@ -315,7 +319,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 384
         End: 407
@@ -325,7 +329,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 288
         End: 311
@@ -335,7 +339,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 264
         End: 287
@@ -345,7 +349,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 240
         End: 263
@@ -355,7 +359,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 696
         End: 719
@@ -365,7 +369,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 960
         End: 983
@@ -375,7 +379,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 600
         End: 623
@@ -385,7 +389,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 624
         End: 647
@@ -395,7 +399,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 648
         End: 671
@@ -405,7 +409,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 672
         End: 695
@@ -415,7 +419,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 744
         End: 767
@@ -425,7 +429,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 720
         End: 743
@@ -435,7 +439,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 984
         End: 1007
@@ -445,7 +449,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1008
         End: 1031
@@ -455,7 +459,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1032
         End: 1055
@@ -465,7 +469,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1056
         End: 1079
@@ -475,7 +479,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1080
         End: 1103
@@ -485,7 +489,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1104
         End: 1127
@@ -495,7 +499,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1128
         End: 1151
@@ -505,7 +509,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 51
         allowedEntryDirections: 51
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: 1152
         End: 1175
@@ -515,7 +519,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -525,7 +529,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -535,7 +539,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -545,7 +549,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -555,7 +559,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -565,7 +569,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -575,7 +579,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -585,7 +589,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -595,7 +599,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -605,7 +609,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -615,7 +619,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -625,7 +629,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -635,7 +639,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -645,7 +649,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -655,7 +659,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -665,7 +669,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -675,7 +679,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -685,7 +689,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -695,7 +699,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -705,7 +709,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -715,7 +719,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -725,7 +729,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -735,7 +739,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -745,7 +749,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -755,7 +759,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -765,7 +769,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -775,7 +779,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -785,7 +789,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -795,7 +799,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -805,7 +809,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -815,7 +819,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -825,7 +829,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -835,7 +839,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -845,7 +849,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -855,7 +859,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -865,7 +869,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -875,7 +879,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -885,7 +889,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -895,7 +899,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -905,7 +909,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -915,7 +919,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -925,7 +929,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -935,7 +939,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -945,7 +949,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -955,7 +959,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -965,7 +969,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -975,7 +979,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -985,7 +989,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1
@@ -995,7 +999,7 @@ MonoBehaviour:
         Cost: 0
         allowedExitDirections: 0
         allowedEntryDirections: 0
-      gridMesh: {fileID: 4300000, guid: 8a9d76493b608ed47aaa6b3ca41a6934, type: 2}
+        CanUnitsSpawnHere: 0
       correspondingVerticesInMesh:
         Start: -1
         End: -1

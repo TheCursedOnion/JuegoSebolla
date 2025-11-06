@@ -4,7 +4,7 @@ using CursedOnion.UI.Transitions;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace CursedOnion.UI.Buttons.Functions
+namespace CursedOnion.Game.General.UI.Buttons.Functions
 {
     public class MapButtonFunctions : MonoBehaviour
     {

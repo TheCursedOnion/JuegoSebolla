@@ -60,8 +60,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Data: {fileID: 11400000, guid: 19d979a64a6de06408f3ad262b20c1ff, type: 2}
   unitUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
-  IsEnemy: 0
+  PlacedManually: 0
   UnitController: {fileID: 0}
+  Side: 0
 --- !u!1001 &2910171639271277716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,6 +111,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3687601276491882921, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: c9987b02f3f8846718b21ba3b633e154, type: 3}
     - target: {fileID: 6747268755274613508, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
       propertyPath: m_Name
       value: Model

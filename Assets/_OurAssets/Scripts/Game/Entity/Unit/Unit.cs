@@ -21,32 +21,30 @@ namespace CursedOnion.Game.Entity
         Ally,
         Enemy
     }
-    
     public class Unit : CommandableEntity
     {
         // Character UI 
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
-
-        private float nextAttackMultiplier = 1f;
-        private float additionalHP = 0f;
-
+        
         [ReadOnly] public bool PlacedManually = false;
-
+        
         public UnitController UnitController;
-        [SubclassSelector, SerializeReference] protected SpecialAbility Ability;
+        
         public BattleSide Side;
 
-        public bool TrySpawningUnit(LevelEvents levelEvents, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        public bool TrySpawningUnit(LevelManager manager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
-            if (levelEvents.TakeGold(Data.GetPrice()))
+            SetLevelVariables(manager);
+            
+            bool isPlaced = LevelManager.TryPlacingUnit(Data.GetPrice());
+            if (isPlaced)
             {
                 Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
                 spawnedUnit.SetSide(side);
                 spawnedUnit.PlacedManually = true;
-                return true;
             }
-            return false;
+            return isPlaced;
         }
         void SetSide(BattleSide side)
         {
@@ -62,89 +60,46 @@ namespace CursedOnion.Game.Entity
             };
         }
         
-        public bool TryErasingUnit(LevelEvents levelEvents)
+        public bool TryErasingUnit(LevelManager manager)
         {
-            if (PlacedManually && Side == BattleSide.Ally)
+            bool canBeErased = PlacedManually && Side == BattleSide.Ally;
+            if (canBeErased)
             {
-                levelEvents.AddGold(Data.GetPrice());
+                manager.EraseUnit(Data.GetPrice());
                 Dispose();
-                return false;
             }
-            return true;
+            return canBeErased;
         }
         
-        private Grid3d levelGrid;
-        private TurnSystem turnSystem;
         public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
-            Debug.Log(container);
+            SetLevelVariables(container.Resolve<LevelManager>());
             
-            var levelAsset = container.Resolve<LevelAsset>();
-            levelGrid = levelAsset.Grid;
-            
-            Debug.Log(transform);
-            
-            var levelManager = container.Resolve<LevelManager>();
-            turnSystem = levelManager.GetTurnSystem();
-            
-            levelGrid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
+            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
             Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
         }
 
-        public void SetAdditionalHP(float factor) 
-        {
-            additionalHP = GetStats().MaxHealthStat * factor / 100f;
-        }
-
         public override void Damage(int damage)
         {
             int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
-
-            if (additionalHP > 0)
-            {
-                if (finalDamage <= additionalHP)
-                {
-                    additionalHP -= finalDamage;
-                    return;
-                }
-                else
-                {
-                    finalDamage -= Mathf.FloorToInt(additionalHP);
-                    additionalHP = 0; 
-                }
-            }
-
-            Stats.CurrentHealthStat -= finalDamage;
-
+            
             Stats.CurrentHealthStat -= finalDamage;
             if (Stats.CurrentHealthStat <= 0) Die();
         }
 
-
-        public void SetNextAttackMultiplier(float multiplier)
-        {
-            nextAttackMultiplier = multiplier;
-        }
-
         protected override void DoAttack(SimpleEntity target, bool undo)
         {
-            int baseAttack = GetStats().AttackStat;
-            int attackValue = Mathf.RoundToInt(baseAttack * nextAttackMultiplier);
-
-            target.Damage(attackValue);
-
-            if (target is CommandableEntity commandableTarget)
+            if (undo)
             {
-                var targetStats = commandableTarget.GetStats();                                         
-                if (targetStats != null && targetStats.CurrentHealthStat > 0)
-                {
-                    Damage(targetStats.AttackStat);
-                }
+                
             }
-
+            else
+            {
+                target.Damage(GetStats().AttackStat);
+            }
         }
 
         public override bool ValidateAttack(SimpleEntity target)
@@ -164,20 +119,19 @@ namespace CursedOnion.Game.Entity
             {
                 Debug.Log($"{gameObject.name}: Me muevo a {newPosition}");
                 
-                if (!levelGrid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
+                if (!Grid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
                 {
                     Debug.LogError($"TryWorldToGridPosition falló para start world position: {transform.position}");
                     return;
                 }
 
-                var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, levelGrid);
+                var path = UnitController.PathFinder.FindPath(startGrid, newPosition, Grid);
 
                 if (path == null || path.Count == 0)
                 {
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
                     return;
                 }
-                MoveAlongPath(path);
             }
         }
 
