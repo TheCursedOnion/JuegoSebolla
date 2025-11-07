@@ -6,10 +6,8 @@ using UnityEngine;
 namespace CursedOnion.Game.Cameras
 {
     [System.Serializable]
-    public class CinemachineContainer
+    public class CinemachineContainer : MonoBehaviour
     {
-        public MonoBehaviour CoroutineExecuter;
-        
         public CinemachineCamera CinemachineCamera;
         public CinemachinePanTilt PanTilt;
         public CinemachineFollow Follow;
@@ -24,8 +22,13 @@ namespace CursedOnion.Game.Cameras
         public void SetTarget(Transform target, Vector3 offset, float adjustTime)
         {
             CinemachineCamera.Follow = target;
-            CoroutineExecuter.StopAllCoroutines();
-            CoroutineExecuter.StartCoroutine(IEOffset(offset, adjustTime));
+            StopAllCoroutines();
+            SetOffset(offset, adjustTime);
+        }
+        
+        public void SetOffset(Vector3 offset, float adjustTime)
+        {
+            StartCoroutine(IEOffset(offset, adjustTime));
         }
 
         public void SetPanCenterAndValue(float panValue)
@@ -55,19 +58,17 @@ namespace CursedOnion.Game.Cameras
             this.SetPanCenterAndValue(other.PanTilt.PanAxis.Center);
             this.SetTarget(other.CinemachineCamera.Follow, other.Offset.Offset, 0f);
         }
-
-        void LerpOffset(Vector3 offset, float time)
-        {
-            Offset.Offset = Vector3.Lerp(Offset.Offset, offset, time);
-        }
-
+        
         IEnumerator IEOffset(Vector3 offset, float time)
         {
-            float elpasedTime = 0f;
-            while (elpasedTime < time)
+            float elapsed = 0f;
+            Vector3 startOffset = Offset.Offset;
+            while (elapsed < time)
             {
-                LerpOffset(offset, elpasedTime / time);
-                elpasedTime += Time.deltaTime;
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / time);
+                
+                Offset.Offset = Vector3.Lerp(startOffset, offset, t);
                 yield return null;
             }
 

@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5384057790559662624
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DistortedScreenMat
-  m_Shader: {fileID: -6465566751694194690, guid: fcdbf1e311d9d2b4a81984c6479d5175, type: 3}
+  m_Name: SimpleFade
+  m_Shader: {fileID: -6465566751694194690, guid: f73a2dd99db3d3e4ca127f103ec630cc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -31,8 +18,7 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -55,14 +41,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Curvature: 0.65
-    - _QueueControl: 0
-    - _QueueOffset: 0
-    - _ScanlineFrequency: 280
-    - _ScanlineSpeed: 7
-    - _ScanlineStrenght: -0.4
+    - _Alpha: 0
+    - _AlphaStripe: 0.4
+    - _ColorMask: 15
+    - _DiagonalRotation: 135
+    - _FirstStripeSize: 0.3
+    - _FirstStripeXOffset: 0.1
+    - _ReverseRotation: 0
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _StripeResolution: 100
+    - _UIMaskSoftnessX: 1
+    - _UIMaskSoftnessY: 1
     m_Colors:
-    - _FadeColor: {r: 0, g: 1, b: 0.751729, a: 0}
-    - _ScreenColor: {r: 0.039248828, g: 0.9245283, b: 0.6931825, a: 0}
+    - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
+    - _FadeColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

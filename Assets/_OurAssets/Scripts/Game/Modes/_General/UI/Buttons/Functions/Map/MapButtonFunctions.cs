@@ -1,6 +1,6 @@
 using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Objects;
-using CursedOnion.UI.Transitions;
+using CursedOnion.Game.Modes.General.UI.Transitions;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace CursedOnion.Game.General.UI.Buttons.Functions
         {
             if (mapManager.TryGetSelectedLevelScene(out string sceneName))
             {
-                UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color);
+                UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color, null, null);
                 GetComponent<SceneServiceUser>().ChangeScene(sceneName, transitionData);
             }
         }
