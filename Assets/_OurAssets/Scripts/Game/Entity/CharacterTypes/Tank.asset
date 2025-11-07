@@ -12,16 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
-  characterName: Tank
-  minHP: 25
-  maxHP: 29
-  minAttack: 10
-  maxAttack: 13
-  minDefense: 10
-  maxDefense: 12
-  minSpeed: 3
-  maxSpeed: 6
+  entityName: 
+  hpRange: {x: 10, y: 27}
+  attackRange: {x: 8, y: 16}
+  defenseRange: {x: 8, y: 14}
+  initiativeRange: {x: 10, y: 21}
   movement: 4
   price: 15
-  model: {fileID: 6747268755274613508, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
+  specialAbility:
+    rid: 6291014282122887257
+  references:
+    version: 2
+    RefIds:
+    - rid: 6291014282122887257
+      type: {class: TankAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+      data:
+        Name: 
+        Description: 
+        AdditionalHPFactor: 30

@@ -84,7 +84,7 @@ namespace CursedOnion.Game.Entity
             
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
-            Debug.Log("El set de stats es temporal");
+            //Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
 
             if(UnitController == null)
@@ -156,6 +156,11 @@ namespace CursedOnion.Game.Entity
 
         public override bool ValidateAttack(SimpleEntity target)
         {
+            if (target == null)
+            {
+                Debug.LogWarning("ValidateAttack falló: target es null");
+            }
+                     
             return target != null;
         }
 
@@ -177,15 +182,21 @@ namespace CursedOnion.Game.Entity
                     return;
                 }
 
-                var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
+                if (!Grid.TryWorldToGridPosition(newPosition, out Vector3 targetGrid))
+                {
+                    Debug.LogError($"TryWorldToGridPosition falló para target world position: {newPosition}");
+                    return;
+                }
 
-                Debug.Log(startGrid + " holi" + newPosition + " grid:" + Grid);
+                var path = UnitController.GetPathFinder().FindPath(startGrid, targetGrid, Grid);
 
                 if (path == null || path.Count == 0)
                 {
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
                     return;
                 }
+
+                StartCoroutine(MoveAlongPath(path));
             }
         }
 
@@ -196,11 +207,13 @@ namespace CursedOnion.Game.Entity
 
         private IEnumerator MoveAlongPath(List<Vector3> path)
         {
+            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(null);
             foreach (var pos in path)
             {
                 transform.position = new Vector3(pos.x, pos.y, pos.z);
                 yield return new WaitForSeconds(0.25f);
             }
+            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
         }
 
     }

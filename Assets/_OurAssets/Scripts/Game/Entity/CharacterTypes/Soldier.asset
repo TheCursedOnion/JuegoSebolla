@@ -12,16 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
   m_Name: Soldier
   m_EditorClassIdentifier: 
-  characterName: Soldier
-  minHP: 20
-  maxHP: 22
-  minAttack: 11
-  maxAttack: 13
-  minDefense: 7
-  maxDefense: 8
-  minSpeed: 10
-  maxSpeed: 13
+  entityName: 
+  hpRange: {x: 12, y: 25}
+  attackRange: {x: 4, y: 9}
+  defenseRange: {x: 5, y: 11}
+  initiativeRange: {x: 8, y: 23}
   movement: 5
   price: 10
-  model: {fileID: 6747268755274613508, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
+  specialAbility:
+    rid: 6291014282122887255
+  references:
+    version: 2
+    RefIds:
+    - rid: 6291014282122887255
+      type: {class: SoldierAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+      data:
+        Name: 
+        Description: 
+        DamageMultiplier: 2

@@ -24,12 +24,10 @@ namespace CursedOnion.Game.Entity
     {
         public List<Vector3> FindPath(Vector3 startGrid, Vector3 targetGrid, Grid3d levelGrid)
         {
-            if (!levelGrid.TryWorldToGridPosition(targetGrid, out Vector3 targetPosition)) { return null; }
-
             List<Node> openList = new List<Node>();
             HashSet<Vector3> closedList = new HashSet<Vector3>();
 
-            Node startNode = new Node(startGrid, null, 0, Heuristic(startGrid, targetPosition));
+            Node startNode = new Node(startGrid, null, 0, Heuristic(startGrid, targetGrid));
             openList.Add(startNode);
 
             while (openList.Count > 0)
@@ -38,7 +36,7 @@ namespace CursedOnion.Game.Entity
                 openList.Remove(currentNode);
                 closedList.Add(currentNode.gridPos);
 
-                if (currentNode.gridPos == targetPosition)
+                if (currentNode.gridPos == targetGrid)
                 {
                     return ReconstructPath(currentNode, levelGrid);
                 }
@@ -59,7 +57,7 @@ namespace CursedOnion.Game.Entity
                     if (existingNode != null && tentativeG >= existingNode.g)
                         continue;
 
-                    float h = Heuristic(neighbourPos, targetPosition);
+                    float h = Heuristic(neighbourPos, targetGrid);
                     Node neighbourNode = new Node(neighbourPos, currentNode, tentativeG, h);
 
                     if (existingNode != null)
@@ -69,7 +67,7 @@ namespace CursedOnion.Game.Entity
                 }
             }
 
-            Debug.Log("No se encontr� un camino.");
+            Debug.Log("No se encontro un camino.");
             return null;
         }
 
