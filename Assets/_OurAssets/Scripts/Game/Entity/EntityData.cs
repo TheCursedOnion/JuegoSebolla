@@ -20,6 +20,8 @@ namespace CursedOnion.Game.Entity
 
         [SerializeField] private GameObject characterUI;
 
+        [SubclassSelector, SerializeReference] private SpecialAbility specialAbility;
+
         public string GetName()
         { 
             return entityName;
@@ -51,6 +53,10 @@ namespace CursedOnion.Game.Entity
         public GameObject GetUI()
         {
             return characterUI;
+        }
+        public SpecialAbility GetSpecialAbility()
+        {
+            return specialAbility;
         }
     }
 }

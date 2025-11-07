@@ -35,7 +35,8 @@ namespace CursedOnion.Game.Systems.Level
         {
             LevelEvents = GetComponent<LevelEvents>();
             LevelScoreVariables = new LevelScoreData(LevelEvents, LevelAsset.LevelData);
-            
+            CurrentLevelState = LevelAsset.LevelData.StartingState;
+
             return LevelEvents;
         }
         void Awake()
@@ -56,6 +57,15 @@ namespace CursedOnion.Game.Systems.Level
         {
             LevelScoreVariables.AddGold(unitPrice);
             LevelScoreVariables.UpdateUnitCount(-1);
+        }
+
+        public LevelState CurrentLevelState;
+
+        public void SetNewLevelState(LevelState newState)
+        {
+            if (CurrentLevelState == newState) return;
+            LevelEvents.InvokeLevelState(CurrentLevelState, newState);
+            CurrentLevelState = newState;
         }
     }
 

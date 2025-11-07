@@ -24,9 +24,6 @@ namespace CursedOnion.Game.Entity
     public class Unit : CommandableEntity
     {
         // Character UI
-        private float nextAttackMultiplier = 1f;
-        private float additionalHP = 0f;
-        
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
         
@@ -35,6 +32,12 @@ namespace CursedOnion.Game.Entity
         public UnitController UnitController;
         
         public BattleSide Side;
+
+        // Ability Status
+        private float nextAttackMultiplier = 1f;
+        private float additionalHP = 0f;
+        private bool isConfused = false;
+        private int confusedTurnsRemaining = 0;
 
         public bool TrySpawningUnit(LevelManager manager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
@@ -83,7 +86,31 @@ namespace CursedOnion.Game.Entity
 
             Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
+
+            if(UnitController == null)
+            {
+                SetSide(Side);
+            }
         }
+
+        public void ApplyConfusion(int turns)
+        {
+            isConfused = true;
+            confusedTurnsRemaining = turns;
+        }
+
+        public void UpdateStatusEffects()
+        {
+            if (isConfused)
+            {
+                confusedTurnsRemaining--;
+                if (confusedTurnsRemaining <= 0)
+                {
+                    isConfused = false;
+                }
+            }
+        }
+
         public void SetAdditionalHP(float factor) 
         {
             additionalHP = GetStats().MaxHealthStat * factor / 100f;
@@ -92,7 +119,21 @@ namespace CursedOnion.Game.Entity
         public override void Damage(int damage)
         {
             int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
-            
+
+            if (additionalHP > 0)
+            {
+                if (finalDamage <= additionalHP)
+                {
+                    additionalHP -= finalDamage;
+                    return; 
+                }
+                else
+                {
+                    finalDamage -= Mathf.FloorToInt(additionalHP);
+                    additionalHP = 0; 
+                }
+            }
+
             Stats.CurrentHealthStat -= finalDamage;
             if (Stats.CurrentHealthStat <= 0) Die();
         }
@@ -137,6 +178,8 @@ namespace CursedOnion.Game.Entity
                 }
 
                 var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
+
+                Debug.Log(startGrid + " holi" + newPosition + " grid:" + Grid);
 
                 if (path == null || path.Count == 0)
                 {

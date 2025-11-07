@@ -11,7 +11,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
 {
     public class LevelUI : MonoBehaviour, IUICanvas
     {
-        [Inject] LevelEvents levelEvents;
+        [Inject] LevelManager levelManager;
         [SerializeField] private UnitActionsWindow actionsWindow;
 
         [SerializeField] private GameObject battleEditorScreen;
@@ -19,9 +19,14 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
 
         private void OnEnable()
         {
-            levelEvents.OnLevelStateChange += OnChangeLevelState;
+            levelManager.LevelEvents.OnLevelStateChange += OnChangeLevelState;
+            OnChangeLevelState(LevelState.InBattle, levelManager.CurrentLevelState);
         }
 
+        void OnDisable()
+        {
+            levelManager.LevelEvents.OnLevelStateChange -= OnChangeLevelState;
+        }
 
         void OnChangeLevelState(LevelState previousState, LevelState newState)
         {
@@ -43,6 +48,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             DisableAllScreens();
             screen.SetActive(true);
         }
+
+
         
     }
 }
