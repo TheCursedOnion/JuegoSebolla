@@ -2,6 +2,7 @@ using System;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -20,7 +21,7 @@ namespace CursedOnion.Game.Entity
         
         public Action OnEntityUpdate;
 
-        public EntityData Data;
+        [Expandable] public EntityData Data;
         
         //Stats (They Get Defined)
         protected virtual EntityStats Stats { get; } = new EntityStats();

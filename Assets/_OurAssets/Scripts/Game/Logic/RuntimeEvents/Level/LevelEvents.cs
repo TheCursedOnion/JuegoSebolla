@@ -50,16 +50,11 @@ namespace CursedOnion.Game.Events
             OnPreparedCommandCancelled?.Invoke();
         }
         
-
-        LevelState currentLevelState;
         public event Action<LevelState, LevelState> OnLevelStateChange;
-        public void SetNewLevelState(LevelState newState)
+        
+        public void InvokeLevelState(LevelState previousState, LevelState newState)
         {
-            if(currentLevelState == newState) return;
-            
-            OnLevelStateChange?.Invoke(currentLevelState, newState);
-            currentLevelState = newState;
-            
+            OnLevelStateChange?.Invoke(previousState, newState);
             CancelPreparedCommand();
         }
         

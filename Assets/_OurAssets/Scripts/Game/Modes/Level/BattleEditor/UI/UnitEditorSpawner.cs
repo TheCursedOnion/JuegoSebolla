@@ -75,7 +75,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 
         public void StartBattle()
         {
-            levelEvents.SetNewLevelState(LevelState.InBattle);
+            levelManager.SetNewLevelState(LevelState.InBattle);
         }
 
         
