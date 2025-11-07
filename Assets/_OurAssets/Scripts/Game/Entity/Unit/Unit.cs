@@ -179,6 +179,8 @@ namespace CursedOnion.Game.Entity
 
                 var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
 
+                Debug.Log(startGrid + " holi" + newPosition + " grid:" + Grid);
+
                 if (path == null || path.Count == 0)
                 {
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");

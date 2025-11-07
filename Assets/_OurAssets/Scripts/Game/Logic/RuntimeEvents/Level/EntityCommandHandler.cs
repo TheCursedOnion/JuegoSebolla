@@ -66,7 +66,7 @@ namespace CursedOnion.Game.Commands
         {
             LaunchCommand(parameters);
             
-            if(preparedParameters.ExecuteOnce) ResetCommand();
+            if(preparedParameters != null && preparedParameters.ExecuteOnce) ResetCommand();
         }
         void LaunchCommand(CommandParameters parameters)
         {
