@@ -49,5 +49,15 @@ namespace CursedOnion.Extensions
             vector.Floor();
             return vector + new Vector3(0.5f, 0, 0.5f);
         }
+
+        public static bool IsCardinalDirection(this Vector3 vector)
+        {
+            int x = Mathf.RoundToInt(Mathf.Abs(vector.x));
+            int y = Mathf.RoundToInt(Mathf.Abs(vector.y));
+            int z = Mathf.RoundToInt(Mathf.Abs(vector.z));
+            
+            return (x + y + z) == 1;
+        }
+
     }
 }

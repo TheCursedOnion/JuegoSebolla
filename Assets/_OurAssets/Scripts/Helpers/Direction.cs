@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using CursedOnion.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Helpers
 {
-    [Flags]
+    [Flags, System.Serializable]
     public enum DirectionFlag
     {
         None        = 0,
@@ -27,7 +28,7 @@ namespace CursedOnion.Helpers
     }
     public static class DirectionHelper
     {
-        private static readonly Dictionary<DirectionFlag, Vector3Int> Directions = new()
+        private static readonly Dictionary<DirectionFlag, Vector3> Directions = new()
         {
             { DirectionFlag.Right,       new( 1, 0,  0) },
             { DirectionFlag.Left,        new(-1, 0,  0) },
@@ -46,15 +47,73 @@ namespace CursedOnion.Helpers
             { DirectionFlag.LeftDown,    new(-1,-1,  0) },
         };
         
-        public static Vector3Int GetDirectionVector(DirectionFlag flag) => Directions.TryGetValue(flag, out var vector) ? vector : Vector3Int.zero;
-
-        public static DirectionFlag GetDirectionFlag(Vector3Int dir)
+        public static Vector3 GetDirectionVector(DirectionFlag flag) => Directions.TryGetValue(flag, out var vector) ? vector : Vector3.zero;
+        public static DirectionFlag GetDirectionFlag(Vector3 dir)
         {
             foreach (var pair in Directions)
             {
                 if (pair.Value == dir) return pair.Key;
             }
+            
             return DirectionFlag.None;
         }
+        public static List<Vector3> GetDirectionVectors(DirectionFlag flags)
+        {
+            var vectors = new List<Vector3>();
+            
+            foreach (var pair in Directions)
+            {
+                if ((flags & pair.Key) == pair.Key)
+                {
+                    vectors.Add(pair.Value);
+                }
+            }
+            
+            return vectors;
+        }
+        public static DirectionFlag GetDirectionFlags(List<Vector3> vectors)
+        {
+            DirectionFlag result = DirectionFlag.None;
+            
+            foreach (var vector in vectors)
+            {
+                foreach (var pair in Directions)
+                {
+                    if (pair.Value == vector)
+                    {
+                        result |= pair.Key;
+                        break;
+                    }
+                }
+            }
+            
+            return result;
+        }
+        public static void RotateFlagsAroundYAxis(ref DirectionFlag flags, float degrees)
+        {
+            DirectionFlag newFlags = DirectionFlag.None;
+            Debug.Log(degrees);
+            foreach (var pair in Directions)
+            {
+                if ((flags & pair.Key) == pair.Key)
+                {
+                    Vector3 vector = pair.Value;
+                    Vector3 rotatedVector = Quaternion.AngleAxis(degrees, Vector3.up) * vector;
+                    
+                    
+                    
+                    rotatedVector.Round();
+                    
+                    DirectionFlag rotatedFlag = GetDirectionFlag(rotatedVector);
+                    if (rotatedFlag != DirectionFlag.None)
+                    {
+                        newFlags |= rotatedFlag;
+                    }
+                }
+            }
+            
+            flags = newFlags;
+        }
+
     }
 }
