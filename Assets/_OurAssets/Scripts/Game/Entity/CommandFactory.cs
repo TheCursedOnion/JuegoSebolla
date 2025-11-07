@@ -23,10 +23,10 @@ namespace CursedOnion.Game.Commands
                 { typeof(SpawnCommand), (p) =>
                     {
                         if(p.Target) return null;
-                        return SpawnCommand.Create(p.LevelEvents, p.EntityPrefab, p.Position.Value, p.TargetTile);
+                        return SpawnCommand.Create(p.LevelManager, p.EntityPrefab, p.Position.Value, p.TargetTile);
                     }
                 },
-                { typeof(EraseCommand), (p) => EraseCommand.Create(p.LevelEvents, p.TargetTile)},
+                { typeof(EraseCommand), (p) => EraseCommand.Create(p.LevelManager, p.TargetTile)},
                 { typeof(ActionCommand), (p) => ActionCommand.Create(p.ExecuteAction)}
             };
         

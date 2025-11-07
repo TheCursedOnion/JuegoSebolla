@@ -13,68 +13,95 @@ namespace CursedOnion.Game.Systems.Grid
     public class Tile3d
     {
         [SerializeField] Tile3dDescriptor descriptor = Tile3dDescriptor.Default;
-        [SerializeField] IntRange correspondingVerticesInMesh = new(-1, -1);
+        [SerializeField] TileAttributes attributes;
+        
+        [SerializeField] IntRange correspondingVerticesInMesh = IntRange.Default;
+        
+        [SerializeField] DirectionFlag transformedExitDirections = DirectionFlag.None;
+        [SerializeField] DirectionFlag transformedEntryDirections = DirectionFlag.None;
         
         [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
         SimpleEntity containedEntity;
-        public static Tile3d Default
+        public static Tile3d Default => new(Tile3dDescriptor.Default, TileAttributes.Default);
+
+        public Tile3d(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes)
         {
-            get
-            {
-                var defaultTile = new Tile3d
-                {
-                    descriptor = Tile3dDescriptor.Default,
-                    correspondingVerticesInMesh = IntRange.Default,
-                    containedEntity = null
-                };
-                return defaultTile;
-            }
+            Configure(tileDescriptor, tileAttributes);
         }
         
         #region Getters & Setters
         public Tile3dDescriptor GetTileDescriptor() => descriptor;
+        
         public IntRange CorrespondingVerticesInMesh => correspondingVerticesInMesh;
         
-        public Entity.SimpleEntity GetContainedEntity() => containedEntity;
-        public void SetContainedEntity(Entity.SimpleEntity newContainedEntity) 
+        public SimpleEntity GetContainedEntity() => containedEntity;
+        public void SetContainedEntity(SimpleEntity newContainedEntity) 
         { 
             containedEntity = newContainedEntity;
         }
+        
         public void SetTileVertices(IntRange verticesInMesh)
         {
             correspondingVerticesInMesh = verticesInMesh;
         }
         
-        //Como es una flag, hay que emplear operaciones de bits :)
+        public DirectionFlag GetEntryDirections() => transformedEntryDirections;
+        public DirectionFlag GetExitDirections() => transformedExitDirections;
+        
         public DirectionFlag GetBlockedEntryDirections() => blockedEntryDirections;
         public void SetBlockedEntryDirections(DirectionFlag flag) =>  blockedEntryDirections = flag;
         public void BlockEntryDirection(DirectionFlag direction) => blockedEntryDirections |= direction;
         public void UnblockEntryDirection(DirectionFlag direction) => blockedEntryDirections &= ~direction;
         
-        public void SetTileDescriptor(Tile3dDescriptor tileDescriptor)
-        {
-            this.descriptor = tileDescriptor;
-        }
+        public TileAttributes GetTileAttributes() => attributes;
         #endregion
         
+        public void Configure(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes)
+        {
+            descriptor = tileDescriptor;
+            attributes = tileAttributes;
+            transformedExitDirections = tileDescriptor.AllowedExitDirections;
+            transformedEntryDirections = tileDescriptor.AllowedEntryDirections;
+        }
+
+        public void RotateTile(float eulerYRotation)
+        {
+            DirectionHelper.RotateFlagsAroundYAxis(ref transformedExitDirections, eulerYRotation);
+            DirectionHelper.RotateFlagsAroundYAxis(ref transformedEntryDirections, eulerYRotation);
+        }
         public Tile3d Clone()
         {
-            var clone = new Tile3d();
+            var clone = Default;
             clone.ReplaceAttributes(this);
             return clone;
         }
         public void ReplaceAttributes(Tile3d tile)
         {
             this.descriptor = tile.descriptor;
+            this.attributes = tile.attributes;
+            
             this.correspondingVerticesInMesh = tile.correspondingVerticesInMesh;
+            
             this.containedEntity = tile.containedEntity;
+            
             this.blockedEntryDirections = tile.blockedEntryDirections;
+            this.transformedEntryDirections = tile.transformedEntryDirections;
+            this.transformedExitDirections = tile.transformedExitDirections;
         }
 
         public bool IsEmptyTile()
         {
-            return descriptor == null || descriptor.Id == 0;
+            return descriptor.IsAirBlock;
         }
+        public bool IsFullTile()
+        {
+            return descriptor.IsFullBlock;
+        }
+        public bool IsFluidTile()
+        {
+            return descriptor.IsFluidBlock;
+        }
+        
         public void DebugTile()
         {
             Debug.Log($"Tile Debug: {descriptor.Id}; [{correspondingVerticesInMesh.Start}, {correspondingVerticesInMesh.End}]");

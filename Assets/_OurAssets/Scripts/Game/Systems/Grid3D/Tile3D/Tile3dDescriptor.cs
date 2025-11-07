@@ -1,6 +1,9 @@
 ﻿using CursedOnion.Game;
+using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Helpers;
 using NaughtyAttributes;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CursedOnion.Game.Systems.Grid
 {
@@ -15,17 +18,21 @@ namespace CursedOnion.Game.Systems.Grid
                 {
                     Id = 0,
                     Cost = 0,
-                    CanUnitsSpawnHere = false,
+                    IsFullBlock = true,
+                    IsFluidBlock = false,
+                    IsAirBlock = true,
                 };
                 return defaultDescriptor;
             }
         }
         public uint Id;
         public int Cost;
-
-        public DirectionFlag allowedExitDirections;
-        public DirectionFlag allowedEntryDirections;
-
-        public bool CanUnitsSpawnHere;
+        
+        public bool IsFullBlock = true;
+        public bool IsFluidBlock = false;
+        public bool IsAirBlock = false;
+        
+        [FormerlySerializedAs("allowedExitDirections")] public DirectionFlag AllowedExitDirections;
+        [FormerlySerializedAs("allowedEntryDirections")] public DirectionFlag AllowedEntryDirections;
     }
 }

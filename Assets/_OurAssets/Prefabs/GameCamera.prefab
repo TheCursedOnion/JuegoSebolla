@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8550637802860149597}
   - component: {fileID: 6323520256468520131}
+  - component: {fileID: 1695685476080731386}
   - component: {fileID: 730611507529193680}
   - component: {fileID: 3337645738524908298}
   - component: {fileID: 9155578524250271822}
@@ -61,6 +62,19 @@ MonoBehaviour:
     PanTilt: {fileID: 8023546002002281699}
     Follow: {fileID: 2953126380328841513}
     Offset: {fileID: 8949739770279147249}
+  CameraEvents: {fileID: 1695685476080731386}
+--- !u!114 &1695685476080731386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375360451385869988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58bcdb344b394881a1910a18433df6ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &730611507529193680
 MonoBehaviour:
   m_ObjectHideFlags: 0

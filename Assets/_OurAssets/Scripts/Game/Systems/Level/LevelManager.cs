@@ -1,3 +1,5 @@
+using System;
+using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
@@ -6,42 +8,95 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Level
 {
+    public enum LevelState { InDialog, InBattleEditor, InBattle, Finished }
+
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
-        [SerializeField] TurnSystem turnSystem;
-        public TurnSystem GetTurnSystem() => turnSystem;
-        
-        
-        [SerializeField, Inject, ReadOnly] LevelAsset levelAsset;
+        [Expandable] public LevelAsset LevelAsset;
         public Vector3 LevelManagerOrigin => GetComponent<MeshRenderer>().bounds.min;
         
+        public LevelEvents LevelEvents;
+        public LevelScoreData LevelScoreVariables;
+        
+        #if UNITY_EDITOR
         public void Initialize(LevelAsset asset)
         {
             gameObject.name = "LevelManager";
             
-            levelAsset = asset;
+            LevelAsset = asset;
             GetComponent<MeshCollider>().sharedMesh = asset.Grid.Mesh;
             GetComponent<MeshFilter>().sharedMesh = asset.Grid.Mesh;
             GetComponent<MeshRenderer>().sharedMaterials = asset.MeshMaterials;
         }
+        #endif
 
+        public LevelEvents BuildEvents()
+        {
+            LevelEvents = GetComponent<LevelEvents>();
+            LevelScoreVariables = new LevelScoreData(LevelEvents, LevelAsset.LevelData);
+            
+            return LevelEvents;
+        }
         void Awake()
         {
-            levelAsset.Grid.StartingOffset = levelAsset.Grid.Origin - LevelManagerOrigin;
-            
-            /*Mesh mesh = GetComponent<MeshFilter>().mesh;
-            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(0,0,0), Color.red);
-            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(1,0,0), Color.blue);
-            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(2,0,0), Color.yellow);
-            levelAsset.Grid.PaintTileAtGridPosition(new Vector3(3,0,0), Color.green);
-            
-            GetComponent<MeshFilter>().mesh = levelAsset.Grid.PaintAllTiles(Color.magenta);*/
+            LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
         }
 
-        private void OnDisable()
+        public bool TryPlacingUnit(int unitPrice)
         {
-            levelAsset.Grid.ResetPaint();
+            bool result = LevelScoreVariables.TakeGold(unitPrice);
+            if (result)
+            {
+                LevelScoreVariables.UpdateUnitCount(1);
+            }
+            return result;
+        }
+        public void EraseUnit(int unitPrice)
+        {
+            LevelScoreVariables.AddGold(unitPrice);
+            LevelScoreVariables.UpdateUnitCount(-1);
+        }
+    }
+
+    public class LevelScoreData
+    {
+        LevelEvents levelEvents;
+        
+        public int PlacedUnits;
+        public int RemainingGold;
+        public LevelScoreData(LevelEvents levelEvents, LevelData levelData)
+        {
+            this.levelEvents = levelEvents;
+            RemainingGold = levelData.StartingGold;
+        }
+        
+        public bool AddGold(int gold)
+        {
+            if (gold < 0)
+            {
+                return false;
+            }
+            return ModifyGold(gold);
+        }
+        public bool TakeGold(int gold)
+        {
+            if (gold < 0 || RemainingGold < gold)
+            {
+                return false;
+            }
+            return ModifyGold(-gold);
+        }
+        private bool ModifyGold(int amount)
+        {
+            RemainingGold += amount;
+            levelEvents.UpdateGold(RemainingGold);
+            return true;
+        }
+        public void UpdateUnitCount(int add)
+        {
+            PlacedUnits += add;
+            levelEvents.UpdateUnitPlacedCount(PlacedUnits);
         }
     }
 }

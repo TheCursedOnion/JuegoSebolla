@@ -57,9 +57,6 @@ namespace CursedOnion.Game.Cameras
             eventSystem.enabled = true;
             audioListener.enabled = true;
             
-            CameraEvents = new CameraEvents();
-            
-
             cameraBehaviours.Initialize(this);
             cameraController.Initialize(this);
             cameraController.Enable();
