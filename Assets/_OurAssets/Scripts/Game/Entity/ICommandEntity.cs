@@ -82,7 +82,15 @@ namespace CursedOnion.Game.Entity
         
         protected abstract void DoAttack(SimpleEntity target, bool undo);
         public abstract bool ValidateAttack(SimpleEntity target);
-        
+
+        public void ActivateAbility(SimpleEntity target)
+        {
+            DoAbility(target, undo: false);
+        }
+
+        protected abstract void DoAbility(SimpleEntity target, bool undo);
+        public abstract bool ValidateAbility(SimpleEntity target);
+
         public void Move(Vector3 newPosition)
         {
             DoMove(newPosition, undo: false);

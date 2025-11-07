@@ -26,11 +26,11 @@ namespace CursedOnion.Game.Entity
         // Character UI
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
-        
+
         [ReadOnly] public bool PlacedManually = false;
-        
+
         public UnitController UnitController;
-        
+
         public BattleSide Side;
 
         // Ability Status
@@ -42,7 +42,7 @@ namespace CursedOnion.Game.Entity
         public bool TrySpawningUnit(LevelManager manager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
             SetLevelVariables(manager);
-            
+
             bool isPlaced = LevelManager.TryPlacingUnit(Data.GetPrice());
             if (isPlaced)
             {
@@ -55,9 +55,9 @@ namespace CursedOnion.Game.Entity
         void SetSide(BattleSide side)
         {
             Side = side;
-            
-            if (UnitController !=null) Destroy(UnitController);
-            
+
+            if (UnitController != null) Destroy(UnitController);
+
             UnitController = Side switch
             {
                 BattleSide.Enemy => gameObject.AddComponent<AIUnitController>(),
@@ -65,7 +65,7 @@ namespace CursedOnion.Game.Entity
                 _ => null
             };
         }
-        
+
         public bool TryErasingUnit(LevelManager manager)
         {
             bool canBeErased = PlacedManually && Side == BattleSide.Ally;
@@ -76,18 +76,18 @@ namespace CursedOnion.Game.Entity
             }
             return canBeErased;
         }
-        
+
         public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
             SetLevelVariables(container.Resolve<LevelManager>());
-            
+
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
             //Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
 
-            if(UnitController == null)
+            if (UnitController == null)
             {
                 SetSide(Side);
             }
@@ -111,7 +111,7 @@ namespace CursedOnion.Game.Entity
             }
         }
 
-        public void SetAdditionalHP(float factor) 
+        public void SetAdditionalHP(float factor)
         {
             additionalHP = GetStats().MaxHealthStat * factor / 100f;
         }
@@ -125,12 +125,12 @@ namespace CursedOnion.Game.Entity
                 if (finalDamage <= additionalHP)
                 {
                     additionalHP -= finalDamage;
-                    return; 
+                    return;
                 }
                 else
                 {
                     finalDamage -= Mathf.FloorToInt(additionalHP);
-                    additionalHP = 0; 
+                    additionalHP = 0;
                 }
             }
 
@@ -144,14 +144,9 @@ namespace CursedOnion.Game.Entity
 
         protected override void DoAttack(SimpleEntity target, bool undo)
         {
-            if (undo)
-            {
-                
-            }
-            else
-            {
-                target.Damage(GetStats().AttackStat);
-            }
+
+            target.Damage(GetStats().AttackStat);
+
         }
 
         public override bool ValidateAttack(SimpleEntity target)
@@ -160,14 +155,32 @@ namespace CursedOnion.Game.Entity
             {
                 Debug.LogWarning("ValidateAttack falló: target es null");
             }
-                     
+
+            return target != null;
+        }
+
+        protected override void DoAbility(SimpleEntity target, bool undo)
+        {
+
+            Debug.Log($"{gameObject.name} usa su habilidad en {target.gameObject.name}");
+
+        }
+
+        public override bool ValidateAbility(SimpleEntity target)
+        {
+            if (target == null)
+            {
+                Debug.LogWarning("ValidateAttack falló: target es null");
+            }
+
             return target != null;
         }
 
 
+
         protected override void DoMove(Vector3 newPosition, bool undo)
         {
-            
+
             if (undo)
             {
                 transform.position = newPosition;
@@ -175,20 +188,20 @@ namespace CursedOnion.Game.Entity
             else
             {
                 Debug.Log($"{gameObject.name}: Me muevo a {newPosition}");
-                
+
                 if (!Grid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
                 {
                     Debug.LogError($"TryWorldToGridPosition falló para start world position: {transform.position}");
                     return;
                 }
 
-                if (!Grid.TryWorldToGridPosition(newPosition, out Vector3 targetGrid))
-                {
-                    Debug.LogError($"TryWorldToGridPosition falló para target world position: {newPosition}");
-                    return;
-                }
+                //if (!Grid.TryWorldToGridPosition(newPosition, out Vector3 targetGrid))
+                //{
+                //Debug.LogError($"TryWorldToGridPosition falló para target world position: {newPosition}");
+                //  return;
+                //}
 
-                var path = UnitController.GetPathFinder().FindPath(startGrid, targetGrid, Grid);
+                var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
 
                 if (path == null || path.Count == 0)
                 {

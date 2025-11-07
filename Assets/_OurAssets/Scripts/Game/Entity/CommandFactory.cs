@@ -20,6 +20,7 @@ namespace CursedOnion.Game.Commands
             {
                 { typeof(MoveCommand), (p) => MoveCommand.Create(p.Subject, p.Position.Value) },
                 { typeof(AttackCommand), (p) => AttackCommand.Create(p.Subject, p.Target) },
+                { typeof(AbilityCommand), (p) => AbilityCommand.Create(p.Subject, p.Target) },
                 { typeof(SpawnCommand), (p) =>
                     {
                         if(p.Target) return null;

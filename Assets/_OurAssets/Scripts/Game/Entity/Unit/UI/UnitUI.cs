@@ -41,5 +41,10 @@ namespace CursedOnion.Game.Entity.UI
         {
             levelEvents.CallPrepareCommand<AttackCommand>();
         }
+
+        public void AbilityActivation()
+        {
+            levelEvents.CallPrepareCommand<AbilityCommand>();
+        }
     }
 }
