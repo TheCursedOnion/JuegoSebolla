@@ -83,5 +83,11 @@ namespace CursedOnion.Game.Cameras
         {
             cameraBehaviours.SwitchCameraModes();
         }
+
+        public void FocusCameraOn(Transform target, Vector3 offset, float tiltOnFocus, float focusTime = 1f)
+        {
+            cinemachineContainer.FocusOn(target, offset, tiltOnFocus, focusTime);
+            cameraBehaviours.ChangeToFixedMode();
+        }
     }
 }

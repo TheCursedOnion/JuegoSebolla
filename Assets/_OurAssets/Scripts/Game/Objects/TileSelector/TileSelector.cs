@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using Reflex.Extensions;
@@ -32,9 +33,9 @@ namespace CursedOnion.Game.Objects
     {
         [SerializeField, ReadOnly] Vector3 gridPosition;
         
-        
-        [Inject] LevelAsset levelAsset;
-        [Inject] LevelEvents levelEvents;
+        [Inject] LevelManager levelManager;
+        private LevelAsset levelAsset;
+        private LevelEvents levelEvents;
         
         [Inject] CameraLocator cameraLocator;
         private GlobalCamera globalCamera;
@@ -51,6 +52,9 @@ namespace CursedOnion.Game.Objects
         
         public void Awake()
         {
+            levelAsset = levelManager.LevelAsset;
+            levelEvents = levelManager.LevelEvents;
+            
             entityCommandHandler = new(gameObject.scene.GetSceneContainer());
             
             globalCamera = cameraLocator.GlobalCamera;
@@ -60,7 +64,28 @@ namespace CursedOnion.Game.Objects
                 behaviour.Initialize(this, entityCommandHandler);
             }
             
-            controller.Initialize(this, GetBehaviour<TileSelectorEditorBehaviour>());
+            UpdateBehaviour(LevelState.Finished, LevelState.InBattleEditor);
+        }
+
+        private void OnEnable()
+        {
+            levelEvents.OnLevelStateChange += UpdateBehaviour;
+        }
+
+        private void OnDisable()
+        {
+            levelEvents.OnLevelStateChange += UpdateBehaviour;
+        }
+
+        void UpdateBehaviour(LevelState previousState, LevelState currentState)
+        {
+            switch (currentState)
+            {
+                case LevelState.InBattleEditor: controller.SetBehaviour(GetBehaviour<TileSelectorEditorBehaviour>());
+                    break;
+                case LevelState.InBattle: controller.SetBehaviour(GetBehaviour<TileSelectorBattleBehaviour>());
+                    break;
+            }
         }
 
         public void SelectEntity(SimpleEntity entity)
