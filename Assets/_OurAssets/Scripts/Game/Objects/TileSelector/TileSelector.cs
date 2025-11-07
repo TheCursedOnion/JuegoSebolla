@@ -64,7 +64,7 @@ namespace CursedOnion.Game.Objects
                 behaviour.Initialize(this, entityCommandHandler);
             }
             
-            UpdateBehaviour(LevelState.Finished, LevelState.InBattleEditor);
+            UpdateBehaviour(LevelState.Finished, levelManager.CurrentLevelState);
         }
 
         private void OnEnable()
