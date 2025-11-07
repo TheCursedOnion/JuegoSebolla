@@ -10,23 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9da4c818e07214459acfe2a39ad8aa38, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9da4c818e07214459acfe2a39ad8aa38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9da4c818e07214459acfe2a39ad8aa38, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9da4c818e07214459acfe2a39ad8aa38, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9da4c818e07214459acfe2a39ad8aa38, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9da4c818e07214459acfe2a39ad8aa38, type: 3}
       propertyPath: m_LocalRotation.y
@@ -90,7 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 11400000, guid: 1551e96f57904f14899be8fedc16121d, type: 2}
+  ScriptableTile: {fileID: 11400000, guid: 1551e96f57904f14899be8fedc16121d, type: 2}
+  SpecialAttributes:
+    CanUnitsSpawnHere: 1
 --- !u!114 &-5239338153738824266
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ namespace CursedOnion.Game.Systems.Level
         
         public LevelEvents LevelEvents;
         public LevelScoreData LevelScoreVariables;
+        [ReadOnly] public LevelState CurrentLevelState;
         
         #if UNITY_EDITOR
         public void Initialize(LevelAsset asset)
@@ -58,9 +59,7 @@ namespace CursedOnion.Game.Systems.Level
             LevelScoreVariables.AddGold(unitPrice);
             LevelScoreVariables.UpdateUnitCount(-1);
         }
-
-        public LevelState CurrentLevelState;
-
+        
         public void SetNewLevelState(LevelState newState)
         {
             if (CurrentLevelState == newState) return;

@@ -27,11 +27,9 @@ namespace CursedOnion.Game.Objects
         }
         
         TileSelectorInputReader reader;
-        public void Initialize(TileSelector tileSelector, TileSelectorBehaviour startingBehaviour)
+        public void Initialize(TileSelector tileSelector)
         {
             this.tileSelector = tileSelector;
-            SetBehaviour(startingBehaviour);
-            
             reader ??= InputReaderCollection.GetReader<TileSelectorInputReader>();
             Enable();
         }

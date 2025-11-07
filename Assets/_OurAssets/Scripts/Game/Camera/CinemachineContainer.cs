@@ -24,6 +24,7 @@ namespace CursedOnion.Game.Cameras
         public void SetTarget(Transform target, Vector3 offset, float adjustTime)
         {
             CinemachineCamera.Follow = target;
+            CoroutineExecuter.StopAllCoroutines();
             CoroutineExecuter.StartCoroutine(IEOffset(offset, adjustTime));
         }
 

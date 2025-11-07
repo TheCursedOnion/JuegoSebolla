@@ -64,6 +64,7 @@ namespace CursedOnion.Game.Objects
                 behaviour.Initialize(this, entityCommandHandler);
             }
             
+            controller.Initialize(this);
             UpdateBehaviour(LevelState.Finished, levelManager.CurrentLevelState);
         }
 
@@ -81,8 +82,10 @@ namespace CursedOnion.Game.Objects
         {
             switch (currentState)
             {
+                default:
                 case LevelState.InBattleEditor: controller.SetBehaviour(GetBehaviour<TileSelectorEditorBehaviour>());
                     break;
+                
                 case LevelState.InBattle: controller.SetBehaviour(GetBehaviour<TileSelectorBattleBehaviour>());
                     break;
             }
@@ -97,7 +100,6 @@ namespace CursedOnion.Game.Objects
             
             Vector3 newPosition = transform.position + moveDirection;
             int result = TrySetAtPosition(newPosition);
-            
             switch (result)
             {
                 case 1: MovePosition(moveDirection - Vector3.up); break;
