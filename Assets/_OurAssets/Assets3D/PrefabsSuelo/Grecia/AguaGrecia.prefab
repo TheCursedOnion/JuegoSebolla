@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 5c4551055005f4aa4bc5360a4d4083e3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 93b75a62111954d858a680d57486ae57, type: 2}
+      objectReference: {fileID: 2100000, guid: 74ef9d1aa1d5a2a498a116bca33b682a, type: 2}
     - target: {fileID: 919132149155446097, guid: 5c4551055005f4aa4bc5360a4d4083e3, type: 3}
       propertyPath: m_Name
       value: AguaGrecia
@@ -81,4 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 11400000, guid: 3d99688dadf40479883997b812c65771, type: 2}
+  ScriptableTile: {fileID: 11400000, guid: 3d99688dadf40479883997b812c65771, type: 2}
+  SpecialAttributes:
+    CanUnitsSpawnHere: 0

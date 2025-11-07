@@ -25,11 +25,13 @@ namespace CursedOnion.Game.Systems.Level
         public void Save()
         {
             AssetFile file = AssetFile.DefaultFile(Grid.Mesh, "asset");
+            file.SetFileName("Mesh");
             file.SetSaveTitle("Guardar Mesh");
             file.SetSaveMessage("Elige dónde guardar el Mesh del Nivel");
             file.SaveAsset();
             
             file.SetAssetObject(this, "asset");
+            file.SetFileName("Level");
             file.SetSaveTitle("Guardar Nivel");
             file.SetSaveMessage("Elige dónde guardar el Nivel");
             file.SaveAsset();

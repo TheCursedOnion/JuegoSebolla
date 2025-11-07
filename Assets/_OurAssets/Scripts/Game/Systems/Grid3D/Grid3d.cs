@@ -60,9 +60,9 @@ namespace CursedOnion.Game.Systems.Grid
                 {
                     Vector3 worldPositon = transform.position;
 
-                    ScriptableTile3d tileDefinition = transform.gameObject.GetComponent<Tile3dComponent>()?.tile;
-                    Tile3d tile = tileDefinition != null ? tileDefinition.ProduceTile() : Tile3d.Default;
-
+                    Tile3dComponent tileComponent = transform.gameObject.GetComponent<Tile3dComponent>();
+                    Tile3d tile = tileComponent != null ? tileComponent.ProduceTile() : Tile3d.Default;
+                    
                     SetTileAtWorldPosition(worldPositon, tile);
                 }
             }

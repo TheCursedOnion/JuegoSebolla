@@ -89,6 +89,7 @@ namespace CursedOnion.Tools
                 int[] triangles = resultMesh.triangles;
                 Vector3[] vertices = resultMesh.vertices;
                 
+                Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
                 for (int i = 0; i < triangles.Length; i += 3)
                 {
                     Vector3 v0 = vertices[triangles[i]];
@@ -99,10 +100,11 @@ namespace CursedOnion.Tools
                     Vector3 possibleNeighbourPosition = gridPosition + normal;
                         
                     bool isVisible = true;
-                    if (grid.IsGridPositionInBounds(possibleNeighbourPosition))
+                    if (grid.IsGridPositionInBounds(possibleNeighbourPosition) && normal.IsCardinalDirection())
                     {
+                        
                         Tile3d neighbourTile = grid.GetTileAtGridPosition(possibleNeighbourPosition);
-                        isVisible = neighbourTile.IsEmptyTile();
+                        isVisible = neighbourTile.IsEmptyTile() || (tile.IsFullTile() && !neighbourTile.IsFullTile());
                     }
 
                     if (isVisible)

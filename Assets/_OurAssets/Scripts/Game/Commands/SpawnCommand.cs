@@ -51,7 +51,7 @@ namespace CursedOnion.Game.Commands
                 return false;
             }
             
-            if (!targetTile.GetTileDescriptor().CanUnitsSpawnHere)
+            if (!targetTile.GetTileAttributes().CanUnitsSpawnHere)
             {
                 Debug.LogWarning($"[SpawnCommand] No se puede ejecutar: tile en {spawnPosition} no permite spawnear unidades");
                 return false;
