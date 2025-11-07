@@ -1,6 +1,7 @@
 using System;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Locators;
+using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -13,17 +14,17 @@ namespace CursedOnion.Game.Cameras
         [SerializeField] private bool focusOnAwake;
         [SerializeField] private Vector3 distanceOffset;
         [SerializeField] private float tiltOnFocus;
+        
+        [SerializeField] private float focusTime = 1f;
         private void Awake()
         {
             if(focusOnAwake) Focus();
         }
-
+        
+        [Button]
         public void Focus()
         {
-            CinemachineContainer container = cameraLocator.GlobalCamera.CinemachineContainer;
-            container.SetTarget(this.transform, distanceOffset);
-            container.SetTiltCenter(tiltOnFocus);
-            cameraLocator.GlobalCamera.CameraBehaviours.ChangeToFixedMode();
+            cameraLocator.GlobalCamera.FocusCameraOn(this.transform, distanceOffset, tiltOnFocus, focusTime);
         }
     }
 }
