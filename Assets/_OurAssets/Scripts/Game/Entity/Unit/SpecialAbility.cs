@@ -8,28 +8,20 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class SpecialAbility
     {
-        public string Name;
-        public string Description;
+        public bool SelfTargetOnly = false;
 
-        public virtual void ActivateAbility(Unit unit, SimpleEntity target = null)
-        {
-            // Lógica para activar la habilidad especial
-        }
-        // Otros atributos y métodos relevantes para habilidades especiales
+        public virtual void ActivateAbility(Unit unit, SimpleEntity target = null) { }
+    
     }
     
     [System.Serializable]
     public class SoldierAbility : SpecialAbility
     {
-        public float DamageMultiplier = 2.0f; 
+        public int DamageMultiplier = 2; 
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
-            if (unit == null) return;
-            if (target != unit)
-            {
-                return;
-            }
+            Debug.Log("Activando habilidad de Soldier: Aumentando daño del próximo ataque");
             unit.SetNextAttackMultiplier(DamageMultiplier);
         }
     }
@@ -37,15 +29,11 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class TankAbility : SpecialAbility
     {
-        public float AdditionalHPFactor = 30.0f;
+        public int AdditionalHPFactor = 30;
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
-            if (unit == null) return;
-            if (target != unit)
-            {
-                return;
-            }
+            Debug.Log("Activando habilidad de Tank: Aumentando HP adicional");
             unit.SetAdditionalHP(AdditionalHPFactor);
         }
     }
@@ -98,6 +86,9 @@ namespace CursedOnion.Game.Entity
         {
             if (target is Unit targetUnit)
             {
+                if (targetUnit.Side != unit.Side)
+                    return;
+                Debug.Log("Activando habilidad de Healer: Curando al objetivo");
                 int healedAmount = (int)Math.Ceiling(unit.GetStats().CurrentHealthStat * 0.5f);
                 targetUnit.Heal(healedAmount);
             }

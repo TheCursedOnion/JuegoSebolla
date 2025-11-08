@@ -21,6 +21,7 @@ namespace CursedOnion.Game.Entity
         public int InitiativeStat;
         public int MovementStat;
         public int PriceStat;
+        public SpecialAbility SpecialAbilityType;
         public override void SetStats(EntityData data)
         {
             CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
@@ -29,6 +30,7 @@ namespace CursedOnion.Game.Entity
             InitiativeStat = data.GetRandomInitiative();
             MovementStat = data.GetMovement();
             PriceStat = data.GetPrice();
+            SpecialAbilityType = data.GetSpecialAbility();
         }
         
     }
