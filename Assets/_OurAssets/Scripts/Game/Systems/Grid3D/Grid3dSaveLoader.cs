@@ -74,7 +74,10 @@ namespace CursedOnion.Game.Systems.Grid
         }
         void SpawnLevelManager(LevelAsset levelAsset)
         {
-            GameObject levelManager = Instantiate(levelManagerPrefab);
+            GameObject levelManager = GameObject.FindWithTag(levelManagerPrefab.tag);
+            levelManager ??= Instantiate(levelManagerPrefab);
+            levelManager.tag = levelManagerPrefab.tag;
+            
             levelManager.GetComponent<LevelManager>().Initialize(levelAsset);
         }
         /*

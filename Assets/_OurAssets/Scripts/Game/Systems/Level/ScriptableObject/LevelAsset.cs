@@ -9,6 +9,7 @@ namespace CursedOnion.Game.Systems.Level
     [CreateAssetMenu(fileName = "LevelAsset", menuName = "Game/FileAsset/LevelAsset")]
     public class LevelAsset : ScriptableObject, ISaveableAsset
     {
+        protected static readonly string DefaultPath = "Assets/_OurAssets/Levels/";
         public Material[] MeshMaterials;
         
         [HorizontalLine(color : EColor.Blue, height: 4)]
@@ -28,6 +29,7 @@ namespace CursedOnion.Game.Systems.Level
             file.SetFileName("Mesh");
             file.SetSaveTitle("Guardar Mesh");
             file.SetSaveMessage("Elige dónde guardar el Mesh del Nivel");
+            file.SetDefaultPath(DefaultPath);
             file.SaveAsset();
             
             file.SetAssetObject(this, "asset");

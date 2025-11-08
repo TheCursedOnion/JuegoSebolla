@@ -18,7 +18,8 @@ namespace CursedOnion.Game.Systems.Files
                     asset.SaveTitle,
                     asset.FileName,
                     asset.Extension,
-                    asset.SaveMessage
+                    asset.SaveMessage,
+                    asset.DefaultPath
                 );
             #endif
             return !string.IsNullOrEmpty(path);

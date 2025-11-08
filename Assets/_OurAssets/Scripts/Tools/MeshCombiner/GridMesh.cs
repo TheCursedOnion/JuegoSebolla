@@ -76,7 +76,7 @@ namespace CursedOnion.Tools
                     newTriangles.Clear();
                     vertexIndices.Clear();
                     
-                    RemoveHiddenFaces(resultMesh, gridPosition);
+                    RemoveHiddenFaces(resultMesh, gridPosition, transform);
                     RemapVertices(resultMesh);
                     ApplyVertexDataAtGridPosition(resultMesh, gridPosition);
                     
@@ -84,7 +84,7 @@ namespace CursedOnion.Tools
                 }
                 return null;
             }
-            void RemoveHiddenFaces(Mesh resultMesh, Vector3 gridPosition)
+            void RemoveHiddenFaces(Mesh resultMesh, Vector3 gridPosition, Transform meshTransform)
             {
                 int[] triangles = resultMesh.triangles;
                 Vector3[] vertices = resultMesh.vertices;
@@ -92,17 +92,17 @@ namespace CursedOnion.Tools
                 Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
                 for (int i = 0; i < triangles.Length; i += 3)
                 {
-                    Vector3 v0 = vertices[triangles[i]];
-                    Vector3 v1 = vertices[triangles[i + 1]];
-                    Vector3 v2 = vertices[triangles[i + 2]];
+                    Vector3 v0 = meshTransform.TransformPoint(vertices[triangles[i]]);
+                    Vector3 v1 = meshTransform.TransformPoint(vertices[triangles[i + 1]]);
+                    Vector3 v2 = meshTransform.TransformPoint(vertices[triangles[i + 2]]);
                     Vector3 normal = Vector3.Cross(v1 - v0, v2 - v0).normalized;
-                        
+                    
                     Vector3 possibleNeighbourPosition = gridPosition + normal;
                         
                     bool isVisible = true;
                     if (grid.IsGridPositionInBounds(possibleNeighbourPosition) && normal.IsCardinalDirection())
                     {
-                        
+                        Debug.Log("Posible Cara Visible en " + gridPosition);
                         Tile3d neighbourTile = grid.GetTileAtGridPosition(possibleNeighbourPosition);
                         isVisible = neighbourTile.IsEmptyTile() || (tile.IsFullTile() && !neighbourTile.IsFullTile());
                     }
@@ -112,6 +112,7 @@ namespace CursedOnion.Tools
                         AddTriangle(triangles[i]);
                         AddTriangle(triangles[i + 1]);
                         AddTriangle(triangles[i + 2]);
+                        Debug.Log("Cara Visible");
                     }
                 }
             }

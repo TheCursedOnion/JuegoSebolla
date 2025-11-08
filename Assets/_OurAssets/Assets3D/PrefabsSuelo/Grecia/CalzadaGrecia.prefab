@@ -62,9 +62,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fad4dd3aa05e74a828f2049eb8c835a5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2346046315937461785}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fad4dd3aa05e74a828f2049eb8c835a5, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5180529631734029843}
   m_SourcePrefab: {fileID: 100100000, guid: fad4dd3aa05e74a828f2049eb8c835a5, type: 3}
 --- !u!1 &4996835953923031111 stripped
@@ -72,19 +69,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fad4dd3aa05e74a828f2049eb8c835a5, type: 3}
   m_PrefabInstance: {fileID: 5303333818725743894}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2346046315937461785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4996835953923031111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tile: {fileID: 11400000, guid: c9965a0f0e8d5412c913b3e47a25d938, type: 2}
 --- !u!114 &5180529631734029843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,4 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dbbb1bfa76444c896da36271ea3f472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 11400000, guid: 8a8a77629f9bb4ee4b6e1df1f2e1b8d7, type: 2}
+  ScriptableTile: {fileID: 11400000, guid: 8a8a77629f9bb4ee4b6e1df1f2e1b8d7, type: 2}
+  SpecialAttributes:
+    CanUnitsSpawnHere: 0

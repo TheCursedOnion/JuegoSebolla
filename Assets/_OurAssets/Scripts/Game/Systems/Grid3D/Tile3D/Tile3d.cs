@@ -104,7 +104,7 @@ namespace CursedOnion.Game.Systems.Grid
         
         public void DebugTile()
         {
-            Debug.Log($"Tile Debug: {descriptor.Id}; [{correspondingVerticesInMesh.Start}, {correspondingVerticesInMesh.End}]");
+            //Debug.Log($"Tile Debug: {descriptor.Id}; [{correspondingVerticesInMesh.Start}, {correspondingVerticesInMesh.End}]");
         }
         
     }
