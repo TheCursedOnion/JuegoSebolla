@@ -1,8 +1,10 @@
-﻿namespace CursedOnion.Game.Modes.General.UI.Animations
+﻿namespace CursedOnion.Game.Modes.General.Animations
 {
     [System.Serializable]
-    public class UIAnimationData
+    public class AnimationParameters
     {
+        public string AnimationTag;
+        
         public float StartDelay;
         public float Duration;
         public float InBetweenTime;

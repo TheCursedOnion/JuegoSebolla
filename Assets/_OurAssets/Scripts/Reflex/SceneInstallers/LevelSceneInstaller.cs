@@ -10,14 +10,11 @@ namespace CursedOnion.Installers
     public class LevelSceneInstaller: MonoBehaviour, IInstaller 
     {
         [SerializeField] LevelManager levelManager;
-        [SerializeField] UIEvents uiEvents;
         
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             levelManager ??= GameObject.FindWithTag("LevelManager").GetComponent<LevelManager>();
             containerBuilder.AddSingleton(levelManager.LevelAsset, typeof(LevelAsset));
-            
-            containerBuilder.AddSingleton(uiEvents, typeof(UIEvents));
             
             levelManager.BuildEvents();
             containerBuilder.AddSingleton(levelManager,  typeof(LevelManager));

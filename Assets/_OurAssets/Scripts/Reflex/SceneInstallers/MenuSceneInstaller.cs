@@ -11,10 +11,9 @@ namespace CursedOnion.Installers
 {
     public class MenuSceneInstaller : MonoBehaviour, IInstaller 
     {
-        [SerializeField] UIEvents uiEvents;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
-            containerBuilder.AddSingleton(uiEvents, typeof(UIEvents));
+
         }
     }
 }

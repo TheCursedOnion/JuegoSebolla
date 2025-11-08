@@ -9,23 +9,16 @@ using UnityEngine.UI;
 
 namespace CursedOnion.Game.General.UI.Buttons
 {
-    public class UIButton : MonoBehaviour
+    public class UIButton : UIInteractiveElement
     {
         [Inject] protected UIEvents UiEvents;
-        
         protected Button UnityButton;
         protected bool IsSelected;
         
-        [SerializeField] protected int ButtonGroupId;
-        
         [HorizontalLine(height: 2f, color: EColor.Red)]
-        
+        [SerializeField] protected int ButtonGroupId;
         [SerializeField] protected UltEvent OnSelect;
         [SerializeField] protected UltEvent OnDeselect;
-        
-        [SerializeField] protected UltEvent OnClick;
-        public void InvokeOnClick() => OnClick.Invoke();
-        
         protected void Awake()
         {
             UiEvents ??= gameObject.scene.GetSceneContainer().Resolve<UIEvents>();

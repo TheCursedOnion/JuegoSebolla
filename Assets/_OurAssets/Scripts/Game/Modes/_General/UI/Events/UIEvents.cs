@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Modes.General.UI.Events
 {
-    public class UIEvents : MonoBehaviour
+    public class UIEvents
     {
         public event Action<UIButton> OnButtonSelected;
         public event Action<int> OnButtonGroupSelected;
         
-        public void SelectButton(UIButton button)
+        public void SelectButton(UIButton interactiveButton)
         {
-            OnButtonSelected?.Invoke(button);
+            OnButtonSelected?.Invoke(interactiveButton);
         }
         public void SelectButtonGroup(int group)
         {

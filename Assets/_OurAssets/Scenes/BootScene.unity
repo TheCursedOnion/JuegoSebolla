@@ -587,7 +587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36075b2f4137d6d468790ace427bdbcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiEvents: {fileID: 1577075185}
 --- !u!114 &166257672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,8 +1286,9 @@ GameObject:
   - component: {fileID: 486341352}
   - component: {fileID: 486341351}
   - component: {fileID: 486341350}
-  - component: {fileID: 486341349}
   - component: {fileID: 486341353}
+  - component: {fileID: 486341349}
+  - component: {fileID: 486341354}
   m_Layer: 6
   m_Name: Play
   m_TagString: Untagged
@@ -1328,58 +1328,77 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 486341354}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerExitEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 486341354}
+      _MemberName: ResetToOriginalAnimated
+      _PersistentArguments:
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 486341353}
+      _MemberName: InvokeAnimation
+      _PersistentArguments: []
+    - _Target: {fileID: 815432537}
+      _MemberName: DisableButtons
+      _PersistentArguments: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 486341353}
-      _MemberName: InvokeAnimation
-      _PersistentArguments:
-      - _Type: 13
-        _Int: 0
-        _String: CursedOnion.Game.Modes.General.UI.Animations.UIAnimation, Assembly-CSharp,
-          Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 1541296400}
-    - _Target: {fileID: 1974804846}
-      _MemberName: SetTiltCenter
-      _PersistentArguments:
-      - _Type: 5
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-    - _Target: {fileID: 1974804846}
-      _MemberName: SetOffset
-      _PersistentArguments:
-      - _Type: 7
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: -55
-        _W: 0
-        _Object: {fileID: 0}
-      - _Type: 5
-        _Int: 0
-        _String: 
-        _X: 2.7
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
-    - _Target: {fileID: 815432537}
-      _MemberName: DisableButtons
-      _PersistentArguments: []
 --- !u!114 &486341350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,11 +1505,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9afe1ca73a3741a7927936dace1b1730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationData:
-    StartDelay: 1
+  animationParameters:
+    AnimationTag: EnterGame
+    StartDelay: 0
     Duration: 1.5
-    InBetweenTime: 0.5
-    EndDelay: 2
+    InBetweenTime: 0
+    EndDelay: 0.5
+--- !u!114 &486341354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486341346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9a9294e44b69c45935afc092ca544e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 486341347}
 --- !u!1 &531809877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,6 +1537,7 @@ GameObject:
   - component: {fileID: 531809880}
   - component: {fileID: 531809879}
   - component: {fileID: 531809882}
+  - component: {fileID: 531809883}
   m_Layer: 6
   m_Name: Credits
   m_TagString: Untagged
@@ -1637,13 +1671,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 531809883}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerExitEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 531809883}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 926976028}
+      _MemberName: Focus
+      _PersistentArguments: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls: []
+--- !u!114 &531809883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531809877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9a9294e44b69c45935afc092ca544e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 531809878}
 --- !u!1 &544580058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,7 +2067,6 @@ GameObject:
   - component: {fileID: 649906593}
   - component: {fileID: 649906596}
   - component: {fileID: 649906595}
-  - component: {fileID: 649906594}
   m_Layer: 5
   m_Name: ProcessedScreen
   m_TagString: Untagged
@@ -1979,18 +2094,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &649906594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 649906592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89e2fb328f2ea144a9e7dafa5f9c7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &649906595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2446,7 +2549,7 @@ GameObject:
   - component: {fileID: 950151205}
   - component: {fileID: 950151204}
   - component: {fileID: 950151203}
-  - component: {fileID: 950151202}
+  - component: {fileID: 950151207}
   m_Layer: 6
   m_Name: Back
   m_TagString: Untagged
@@ -2474,22 +2577,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 445, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &950151202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 950151200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9547f774b2c4fe0adbb31d91b0e98f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSceneLoadCalled:
-    _PersistentCalls: []
-  onSceneLoadCompleted:
-    _PersistentCalls: []
 --- !u!114 &950151203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2502,16 +2589,82 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 950151207}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerExitEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 950151207}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 1519531145}
+      _MemberName: Focus
+      _PersistentArguments: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 1519531145}
-      _MemberName: Focus
-      _PersistentArguments: []
 --- !u!114 &950151204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2555,19 +2708,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 950151205}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 950151203}
-        m_TargetAssemblyTypeName: CursedOnion.UI.UIButton, Assembly-CSharp
-        m_MethodName: InvokeOnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: RaulScene2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &950151205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2606,6 +2747,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950151200}
   m_CullTransparentMesh: 1
+--- !u!114 &950151207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950151200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9a9294e44b69c45935afc092ca544e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 950151201}
 --- !u!1 &965221116
 GameObject:
   m_ObjectHideFlags: 0
@@ -2950,6 +3104,48 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &1110587091 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 443472272150469883, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+  m_PrefabInstance: {fileID: 7164482751841062473}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1110587098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110587091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cc21a4387e40e088d7bff54fa3090f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTag: EnterGame
+--- !u!114 &1110587099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110587091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238b9ee297f04686836f8ddbcab5deab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnAnimationStart:
+    _PersistentCalls: []
+  OnAnimationDelayedStart:
+    _PersistentCalls: []
+  OnAnimationEnd:
+    _PersistentCalls: []
+  OnAnimationDelayedEnd:
+    _PersistentCalls: []
+  cinemachineContainer: {fileID: 1974804846}
+  targetTiltValue: 0
+  targetOffset: {x: 0, y: 0, z: -50}
+  offsetAdjustTime: 2.5
 --- !u!1 &1136348302
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,6 +3952,7 @@ GameObject:
   - component: {fileID: 1541296399}
   - component: {fileID: 1541296398}
   - component: {fileID: 1541296400}
+  - component: {fileID: 1541296402}
   - component: {fileID: 1541296401}
   m_Layer: 5
   m_Name: RawImage
@@ -3962,6 +4159,19 @@ MonoBehaviour:
     _PersistentCalls: []
   onSceneLoadCompleted:
     _PersistentCalls: []
+--- !u!114 &1541296402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541296396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90cc21a4387e40e088d7bff54fa3090f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTag: EnterGame
 --- !u!1 &1577075180
 GameObject:
   m_ObjectHideFlags: 0
@@ -3973,7 +4183,6 @@ GameObject:
   - component: {fileID: 1577075184}
   - component: {fileID: 1577075183}
   - component: {fileID: 1577075182}
-  - component: {fileID: 1577075185}
   m_Layer: 5
   m_Name: ProcessedScreen
   m_TagString: Untagged
@@ -4047,18 +4256,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1577075185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577075180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89e2fb328f2ea144a9e7dafa5f9c7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1584580708
 GameObject:
   m_ObjectHideFlags: 0
@@ -4336,7 +4533,7 @@ GameObject:
   - component: {fileID: 1609919484}
   - component: {fileID: 1609919483}
   - component: {fileID: 1609919482}
-  - component: {fileID: 1609919481}
+  - component: {fileID: 1609919486}
   m_Layer: 6
   m_Name: Back
   m_TagString: Untagged
@@ -4364,22 +4561,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 445, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1609919481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609919479}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9547f774b2c4fe0adbb31d91b0e98f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onSceneLoadCalled:
-    _PersistentCalls: []
-  onSceneLoadCompleted:
-    _PersistentCalls: []
 --- !u!114 &1609919482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4392,16 +4573,82 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 1609919486}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerExitEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 1609919486}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 1519531145}
+      _MemberName: Focus
+      _PersistentArguments: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 1519531145}
-      _MemberName: Focus
-      _PersistentArguments: []
 --- !u!114 &1609919483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4496,6 +4743,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609919479}
   m_CullTransparentMesh: 1
+--- !u!114 &1609919486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609919479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9a9294e44b69c45935afc092ca544e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 1609919480}
 --- !u!1 &1620539070
 GameObject:
   m_ObjectHideFlags: 0
@@ -4509,6 +4769,7 @@ GameObject:
   - component: {fileID: 1620539073}
   - component: {fileID: 1620539072}
   - component: {fileID: 1620539075}
+  - component: {fileID: 1620539076}
   m_Layer: 6
   m_Name: Options
   m_TagString: Untagged
@@ -4642,13 +4903,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 1620539076}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1.1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerExitEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 1620539076}
+      _MemberName: UniformScaleTo
+      _PersistentArguments:
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 30
+        _String: LeanTweenType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.5
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls:
+    - _Target: {fileID: 548343761}
+      _MemberName: Focus
+      _PersistentArguments: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls: []
+--- !u!114 &1620539076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620539070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9a9294e44b69c45935afc092ca544e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTransform: {fileID: 1620539071}
 --- !u!1 &1628720222
 GameObject:
   m_ObjectHideFlags: 0
@@ -6041,7 +6384,6 @@ GameObject:
   - component: {fileID: 2018681807}
   - component: {fileID: 2018681810}
   - component: {fileID: 2018681809}
-  - component: {fileID: 2018681808}
   m_Layer: 5
   m_Name: ProcessedScreen
   m_TagString: Untagged
@@ -6069,18 +6411,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2018681808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2018681806}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89e2fb328f2ea144a9e7dafa5f9c7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2018681809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6617,7 +6947,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 443472272150469883, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1110587099}
+    - targetCorrespondingSourceObject: {fileID: 443472272150469883, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1110587098}
   m_SourcePrefab: {fileID: 100100000, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
 --- !u!20 &7164482751841062474 stripped
 Camera:

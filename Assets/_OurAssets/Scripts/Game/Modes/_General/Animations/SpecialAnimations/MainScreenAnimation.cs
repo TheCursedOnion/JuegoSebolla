@@ -6,12 +6,10 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion.Game.Modes.General.UI.Animations
+namespace CursedOnion.Game.Modes.General.Animations
 {
-    public class MainScreenAnimation : UIAnimation
+    public class MainScreenAnimation : ScriptAnimation, IResetableAnimation
     {
-        [Inject] UITransitionLocator transitionLocator;
-        
         [SerializeField] private Gradient gradient;
         [SerializeField] private AnimationCurve curvatureRange;
         [SerializeField] RawImage rawImage;
@@ -19,29 +17,29 @@ namespace CursedOnion.Game.Modes.General.UI.Animations
         
         private static readonly int FadeColor = Shader.PropertyToID("_FadeColor");
         private static readonly int Curvature = Shader.PropertyToID("_Curvature");
-        protected override void Awake()
+        protected void Awake()
         {
             rawImage = GetComponent<RawImage>();
             materialInstance = Instantiate(rawImage.material);
             rawImage.material = materialInstance;
         }
         
-        public override void DoAnimation(UIAnimationData animationData)
+        public override void DoAnimation(AnimationParameters animationParameters)
         {  
             if(ActiveAnimation != null) StopCoroutine(ActiveAnimation);
 
-            ActiveAnimation = StartCoroutine(HandleAnimation(animationData));
+            ActiveAnimation = StartCoroutine(HandleAnimation(animationParameters));
         }
-        IEnumerator HandleAnimation(UIAnimationData animationData)
+        IEnumerator HandleAnimation(AnimationParameters animationParameters)
         {
             OnAnimationStart?.Invoke();
-            yield return new WaitForSeconds(animationData.StartDelay);
+            yield return new WaitForSeconds(animationParameters.StartDelay);
             OnAnimationDelayedStart?.Invoke();
             
-            yield return AnimateScreen(animationData.Duration);
+            yield return AnimateScreen(animationParameters.Duration);
             OnAnimationEnd?.Invoke();
             
-            yield return new WaitForSeconds(animationData.EndDelay);
+            yield return new WaitForSeconds(animationParameters.EndDelay);
             OnAnimationDelayedEnd?.Invoke();
             
             ActiveAnimation = null;
@@ -67,7 +65,7 @@ namespace CursedOnion.Game.Modes.General.UI.Animations
             
             materialInstance.SetColor(FadeColor,  gradient.Evaluate(1));
         }
-        public override void ResetAnimation()
+        public void ResetAnimation()
         {
             if(ActiveAnimation != null) StopCoroutine(ActiveAnimation);
             materialInstance.SetColor(FadeColor, gradient.Evaluate(0));
