@@ -14,6 +14,7 @@ namespace CursedOnion.Game.Entity.UI
         Unit associatedUnit;
         [SerializeField] private Button moveButton;
         [SerializeField] private Button attackButton;
+        [SerializeField] private Button abilityButton;
         public void Initialize()
         {
             levelEvents = gameObject.scene.GetSceneContainer().Resolve<LevelEvents>();

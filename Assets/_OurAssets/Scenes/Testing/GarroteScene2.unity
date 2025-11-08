@@ -1836,16 +1836,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 71815316}
-      _MemberName: StartBattle
-      _PersistentArguments: []
 --- !u!1 &312536919
 GameObject:
   m_ObjectHideFlags: 0
@@ -2016,7 +2023,6 @@ GameObject:
   - component: {fileID: 365923262}
   - component: {fileID: 365923261}
   - component: {fileID: 365923259}
-  - component: {fileID: 365923265}
   m_Layer: 5
   m_Name: LevelCanvas
   m_TagString: Untagged
@@ -2121,18 +2127,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &365923265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365923258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d89e2fb328f2ea144a9e7dafa5f9c7cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &376903446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3469,6 +3463,7 @@ MonoBehaviour:
   focusOnAwake: 1
   distanceOffset: {x: 0, y: 0, z: -5}
   tiltOnFocus: 35
+  focusTime: 1
 --- !u!114 &645278438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4289,16 +4284,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 1402382528}
-      _MemberName: SwitchCameraModes
-      _PersistentArguments: []
 --- !u!114 &895356549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7075,7 +7077,7 @@ PrefabInstance:
     - target: {fileID: 8153010518465287433, guid: 135354f4c02dffd49a1a690ffccfa706, type: 3}
       propertyPath: uiEvents
       value: 
-      objectReference: {fileID: 365923265}
+      objectReference: {fileID: 0}
     - target: {fileID: 8153010518465287433, guid: 135354f4c02dffd49a1a690ffccfa706, type: 3}
       propertyPath: levelData
       value: 
@@ -8656,16 +8658,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 71815316}
-      _MemberName: ToggleEraser
-      _PersistentArguments: []
 --- !u!1001 &1772340420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10103,25 +10112,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 1402382528}
-      _MemberName: RotateCamera
-      _PersistentArguments:
-      - _Type: 4
-        _Int: 1
-        _String: CursedOnion.Helpers.DirectionFlag, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
 --- !u!114 &2086270902
 MonoBehaviour:
   m_ObjectHideFlags: 0

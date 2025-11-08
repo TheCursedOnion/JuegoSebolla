@@ -1,3 +1,8 @@
+using CursedOnion.Game.Systems.Grid;
+using System;
+using UnityEngine;
+using CursedOnion.Game.Systems.Level;
+
 namespace CursedOnion.Game.Entity
 {
     [System.Serializable]
@@ -57,4 +62,94 @@ namespace CursedOnion.Game.Entity
         }
 
     }
+
+    [System.Serializable]
+    public class BarbarianAbility : SpecialAbility
+    {
+        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        {
+            if (target is Unit targetUnit)
+            {
+                if(targetUnit.Side == BattleSide.Neutral)
+                    targetUnit.Dispose();
+            }
+        }
+
+    }
+
+    [System.Serializable]
+    public class KnightAbility : SpecialAbility
+    {
+        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        {
+            if (target != unit)
+            {
+                return;
+            }
+            unit.GetStats().MovementStat += 2;
+        }
+
+    }
+
+    [System.Serializable]
+    public class HealerAbility : SpecialAbility
+    {
+        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        {
+            if (target is Unit targetUnit)
+            {
+                int healedAmount = (int)Math.Ceiling(unit.GetStats().CurrentHealthStat * 0.5f);
+                targetUnit.Heal(healedAmount);
+            }
+        }
+
+    }
+
+    [System.Serializable]
+    public class ArcherAbility : SpecialAbility
+    {
+        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        {
+            if (target is not Unit targetUnit)
+                return;
+
+            Vector3 unitPos = unit.transform.position;
+            Vector3 targetPos = target.transform.position;
+
+            Vector2 direction2D = new Vector2(
+                targetPos.x - unitPos.x,
+                targetPos.z - unitPos.z
+            );
+
+            Vector3 direction3D = new Vector3(
+                direction2D.x,
+                0,
+                direction2D.y
+            );
+
+            int damage = (int)Math.Ceiling(unit.GetStats().AttackStat * 0.5f);
+
+            for (int i = 0; i < 3; i++)
+            {
+                Vector3 posToCheck = targetPos + direction3D * i;
+
+                Tile3d tile = unit.GetGrid().GetTileAtGridPosition(posToCheck);
+
+                if (tile == null)
+                    continue; 
+
+                SimpleEntity entity = tile.GetContainedEntity();
+
+                if (entity == null)
+                    continue; 
+
+                if (entity is Unit enemyUnit && enemyUnit.Side != unit.Side)
+                {
+                    enemyUnit.Damage(damage);
+                }
+            }
+        }
+
+    }
+
 }

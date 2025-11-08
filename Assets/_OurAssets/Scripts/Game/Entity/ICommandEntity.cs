@@ -36,6 +36,11 @@ namespace CursedOnion.Game.Entity
             Stats.CurrentHealthStat -= damage;
             if (Stats.CurrentHealthStat <= 0) Die();
         }
+
+        public virtual void Heal(int healedHP)
+        {
+            Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
+        }
         public virtual void Die()
         {
             GetFlags().HasDied = true;
