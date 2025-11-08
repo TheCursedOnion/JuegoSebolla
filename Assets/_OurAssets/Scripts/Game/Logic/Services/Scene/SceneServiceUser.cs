@@ -1,5 +1,5 @@
 ﻿using CursedOnion.Locators;
-using CursedOnion.UI.Transitions;
+using CursedOnion.Game.Modes.General.UI.Transitions;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using UltEvents;
@@ -26,7 +26,7 @@ namespace CursedOnion.Game.Logic.Services
 
         public void ChangeScene(string sceneName, float duration, float inBetweenTime, TransitionType type, Color color)
         {
-            UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color);
+            UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color, null, null);
             ChangeScene(sceneName, transitionData);
         }
         public void ChangeScene(string sceneName, UITransitionData uiTransitionData)

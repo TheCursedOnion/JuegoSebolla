@@ -7,7 +7,7 @@ using System.Linq;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
-using CursedOnion.UI.Transitions;
+using CursedOnion.Game.Modes.General.UI.Transitions;
 using NaughtyAttributes;
 using UnityEngine;
 

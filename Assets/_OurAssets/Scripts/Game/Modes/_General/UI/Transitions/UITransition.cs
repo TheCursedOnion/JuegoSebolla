@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections;
+using UltEvents;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion.UI.Transitions
+namespace CursedOnion.Game.Modes.General.UI.Transitions
 {
     public enum TransitionType
     {
         None,
         Stripe,
+        Fade,
     }
-
     public abstract class UITransition : MonoBehaviour
     {
-        protected Action MidPointAction;
-        protected Action EndPointAction;
-        
         protected Image Image;
         protected Material MaterialInstance;
 
@@ -27,7 +25,6 @@ namespace CursedOnion.UI.Transitions
         protected virtual void Awake()
         {
             Image = GetComponent<Image>();
-            
             MaterialInstance = Instantiate(Image.material);
             Image.material = MaterialInstance;
         }
@@ -42,17 +39,16 @@ namespace CursedOnion.UI.Transitions
         public UITransition SetColor(Color color)
         {
             TransitionData.Color = color;
-            Image.color = color;
             return this;
         }
         public UITransition SetMidAction(Action midPoint)
         {
-            MidPointAction = midPoint;
+            TransitionData.MidPointAction = midPoint;
             return this;
         }
         public UITransition SetEndAction(Action endPoint)
         {
-            EndPointAction = endPoint;
+            TransitionData.EndPointAction = endPoint;
             return this;
         }
         #endregion
@@ -86,7 +82,7 @@ namespace CursedOnion.UI.Transitions
         {
             TransitionData.Duration = duration;
             
-            EndPointAction += ResetProperties;
+            TransitionData.EndPointAction += ResetProperties;
             DoingTransition = true;
             transitionAction.Invoke();
         }

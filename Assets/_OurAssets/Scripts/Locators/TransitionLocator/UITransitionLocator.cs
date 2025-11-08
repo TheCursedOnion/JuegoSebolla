@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using CursedOnion.UI.Transitions;
+using CursedOnion.Game.Modes.General.UI.Transitions;
 using UnityEngine;
 
 namespace CursedOnion.Locators

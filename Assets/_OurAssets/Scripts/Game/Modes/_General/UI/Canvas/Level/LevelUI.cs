@@ -3,7 +3,6 @@ using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
-using CursedOnion.UI;
 using Reflex.Attributes;
 using UnityEngine;
 

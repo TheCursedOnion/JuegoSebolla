@@ -6,6 +6,7 @@ using CursedOnion.Game.Logic;
 using Reflex.Core;
 using UnityEngine;
 using CursedOnion.Game.Logic.Services;
+using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Settings;
 using CursedOnion.Locators;
 using NaughtyAttributes;
@@ -21,8 +22,12 @@ namespace CursedOnion.Installers
         {
             inputReaderCollection.Initialize();
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
+            
             containerBuilder.AddSingleton(inputReaderCollection, typeof(InputReaderCollection));
+            
             containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
+            
+            containerBuilder.AddSingleton(new UIEvents(), typeof(UIEvents));
         }
     }
 }

@@ -1,35 +1,34 @@
-using System.Collections;
+﻿using System.Collections;
 using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CursedOnion.Game.Modes.General.UI.Transitions
 {
-    public class StripeTransition : UITransition
+    public class FadeTransition : UITransition
     {
         [Inject] UITransitionLocator transitionLocator;
-        [SerializeField, MinMaxSlider(-3, 3f)] private Vector2 alphaStripeRange;
+        [SerializeField, MinMaxSlider(0, 1f)] private Vector2 alphaRange;
+        
+        private static readonly int FadeColor = Shader.PropertyToID("_Color");
+        private static readonly int Alpha = Shader.PropertyToID("_Alpha");
         protected override void Awake()
         {
             base.Awake();
-            transitionLocator.AddTransition(TransitionType.Stripe ,this);
+            transitionLocator.AddTransition(TransitionType.Fade ,this);
         }
-        
-        private static readonly int AlphaStripe = Shader.PropertyToID("_AlphaStripe");
-        private static readonly int ReverseRotation = Shader.PropertyToID("_ReverseRotation");
         protected override IEnumerator HandleFullTransition(float duration)
         {
             float halfDuration = duration * 0.5f;
-            Image.color = TransitionData.Color;
+            MaterialInstance.SetColor(FadeColor, TransitionData.Color);
             
-            yield return AnimateStripe(halfDuration, 0f, alphaStripeRange.x, alphaStripeRange.y);
+            yield return AnimateFade(halfDuration, alphaRange.x, alphaRange.y);
             TransitionData.MidPointAction?.Invoke();
             
             yield return new WaitForSecondsRealtime(TransitionData.InBetweenTime);
             
-            yield return AnimateStripe(halfDuration, 1f, alphaStripeRange.y, alphaStripeRange.x);
+            yield return AnimateFade(halfDuration, alphaRange.y, alphaRange.x);
             TransitionData.EndPointAction?.Invoke();
             DoingTransition = false;
         }
@@ -38,22 +37,21 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
         {
             if (isOpening)
             {
-                Image.color = TransitionData.Color;
-                yield return AnimateStripe(duration, 0f, alphaStripeRange.x, alphaStripeRange.y);
+                MaterialInstance.SetColor(FadeColor, TransitionData.Color);
+                yield return AnimateFade(duration, alphaRange.x, alphaRange.y);
                 TransitionData.MidPointAction?.Invoke();
             }
             else
             {
                 yield return new WaitForSecondsRealtime(TransitionData.InBetweenTime);
-                yield return AnimateStripe(duration, 1f, alphaStripeRange.y, alphaStripeRange.x);
+                yield return AnimateFade(duration, alphaRange.y, alphaRange.x);
+                Debug.Log("Transition ended");
                 TransitionData.EndPointAction?.Invoke();
                 DoingTransition = false;
             }
         }
-        private IEnumerator AnimateStripe(float duration, float reverseRotationValue, float fromAlpha, float toAlpha)
+        private IEnumerator AnimateFade(float duration, float fromAlpha, float toAlpha)
         {
-            MaterialInstance.SetFloat(ReverseRotation, reverseRotationValue);
-
             float elapsed = 0f;
             while (elapsed < duration)
             {
@@ -61,7 +59,7 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
                 float t = Mathf.Clamp01(elapsed / duration);
 
                 float alpha = Mathf.Lerp(fromAlpha, toAlpha, t);
-                MaterialInstance.SetFloat(AlphaStripe, alpha);
+                MaterialInstance.SetFloat(Alpha, alpha);
 
                 yield return null;
             }
@@ -69,12 +67,12 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
 
         protected override void ResetProperties()
         {
-            Image.color =  TransitionData.Color = Color.black;
             TransitionData.InBetweenTime = 0.2f;
             TransitionData.MidPointAction = null;
             TransitionData.EndPointAction = null;
             
-            MaterialInstance.SetFloat(ReverseRotation, 0);
+            MaterialInstance.SetFloat(Alpha, 0);
+            MaterialInstance.SetColor(FadeColor, Color.black);
         }
     }
 }
