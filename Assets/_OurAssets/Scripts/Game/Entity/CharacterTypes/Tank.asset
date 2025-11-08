@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tank
   m_EditorClassIdentifier: 
   entityName: 
-  hpRange: {x: 22, y: 24}
+  hpRange: {x: 15, y: 24}
   attackRange: {x: 9, y: 11}
   defenseRange: {x: 10, y: 12}
   initiativeRange: {x: 3, y: 5}
@@ -21,11 +21,9 @@ MonoBehaviour:
   price: 15
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
   specialAbility:
-    rid: 6291014305501675718
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014305501675718
-      type: {class: HealerAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data:
-        SelfTargetOnly: 0
+    - rid: -2
+      type: {class: , ns: , asm: }
