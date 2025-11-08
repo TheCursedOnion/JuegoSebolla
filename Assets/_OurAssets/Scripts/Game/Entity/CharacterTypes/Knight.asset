@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: 
-  characterName: Knight
-  minHP: 21
-  maxHP: 23
-  minAttack: 12
-  maxAttack: 13
-  minDefense: 8
-  maxDefense: 9
-  minSpeed: 7
-  maxSpeed: 11
+  entityName: 
+  hpRange: {x: 15, y: 17}
+  attackRange: {x: 12, y: 14}
+  defenseRange: {x: 8, y: 9}
+  initiativeRange: {x: 8, y: 10}
   movement: 6
   price: 15
-  model: {fileID: 6747268755274613508, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
+  specialAbility:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
   m_Name: Barbarian
   m_EditorClassIdentifier: 
-  characterName: Barbarian
-  minHP: 28
-  maxHP: 31
-  minAttack: 14
-  maxAttack: 17
-  minDefense: 5
-  maxDefense: 6
-  minSpeed: 5
-  maxSpeed: 8
+  entityName: 
+  hpRange: {x: 21, y: 23}
+  attackRange: {x: 15, y: 17}
+  defenseRange: {x: 5, y: 6}
+  initiativeRange: {x: 4, y: 7}
   movement: 5
   price: 15
-  model: {fileID: 6747268755274613508, guid: c80ccb87985c7414da6a464b6cf50c81, type: 3}
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
+  specialAbility:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

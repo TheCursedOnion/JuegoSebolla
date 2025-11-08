@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: Archer
   m_EditorClassIdentifier: 
   entityName: Archer
-  hpRange: {x: 0, y: 37}
-  attackRange: {x: 0, y: 97}
-  defenseRange: {x: 0, y: 39}
-  initiativeRange: {x: 0, y: 9}
+  hpRange: {x: 16, y: 18}
+  attackRange: {x: 13, y: 15}
+  defenseRange: {x: 5, y: 7}
+  initiativeRange: {x: 12, y: 16}
   movement: 5
   price: 10
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
+  specialAbility:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
