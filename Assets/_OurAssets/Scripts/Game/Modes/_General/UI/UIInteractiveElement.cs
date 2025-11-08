@@ -36,7 +36,7 @@ namespace CursedOnion.Game.General.UI
             isPointerInside = true;
             OnPointerEnterEvent?.Invoke();
             
-            Debug.Log($"[PointerEventDetector] Puntero entró en: {gameObject.name}");
+            //Debug.Log($"[PointerEventDetector] Puntero entró en: {gameObject.name}");
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace CursedOnion.Game.General.UI
             isPointerInside = false;
             OnPointerExitEvent?.Invoke();
             
-            Debug.Log($"[PointerEventDetector] Puntero salió de: {gameObject.name}");
+            //Debug.Log($"[PointerEventDetector] Puntero salió de: {gameObject.name}");
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace CursedOnion.Game.General.UI
             isPressed = true;
             OnPointerDownEvent?.Invoke();
             
-            Debug.Log($"[PointerEventDetector] Botón presionado en: {gameObject.name}");
+            //Debug.Log($"[PointerEventDetector] Botón presionado en: {gameObject.name}");
         }
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace CursedOnion.Game.General.UI
             // Verificar si se soltó dentro o fuera del objeto
             if (isPointerInside)
             {
-                Debug.Log($"[PointerEventDetector] Botón soltado DENTRO de: {gameObject.name}");
+                //Debug.Log($"[PointerEventDetector] Botón soltado DENTRO de: {gameObject.name}");
             }
             else
             {
                 OnPointerUpOutsideEvent?.Invoke();
-                Debug.Log($"[PointerEventDetector] Botón soltado FUERA de: {gameObject.name}");
+                //Debug.Log($"[PointerEventDetector] Botón soltado FUERA de: {gameObject.name}");
             }
             
             OnPointerUpEvent?.Invoke();
@@ -89,7 +89,7 @@ namespace CursedOnion.Game.General.UI
         {
             OnPointerClickInsideEvent?.Invoke();
             
-            Debug.Log($"[PointerEventDetector] Click completado en: {gameObject.name}");
+            //Debug.Log($"[PointerEventDetector] Click completado en: {gameObject.name}");
         }
 
         /// <summary>

@@ -31,11 +31,13 @@ namespace CursedOnion.Game.Entity
 
         public UnitController UnitController;
 
+        public SpecialAbility SpecialAbility;
+
         public BattleSide Side;
 
         // Ability Status
-        private float nextAttackMultiplier = 1f;
-        private float additionalHP = 0f;
+        private int nextAttackMultiplier = 1;
+        private int additionalHP = 0;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
         private int baseMovement;
@@ -119,14 +121,16 @@ namespace CursedOnion.Game.Entity
             this.GetStats().MovementStat = baseMovement;
         }
 
-        public void SetAdditionalHP(float factor)
+        public void SetAdditionalHP(int factor)
         {
-            additionalHP = GetStats().MaxHealthStat * factor / 100f;
+            additionalHP = GetStats().MaxHealthStat * factor / 100;
+            Debug.Log($"{name} recibe {additionalHP} de HP adicional.");
         }
 
         public override void Damage(int damage)
         {
             int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
+            Debug.Log($"{name} recibe {finalDamage} de daño.");
 
             if (additionalHP > 0)
             {
@@ -149,18 +153,42 @@ namespace CursedOnion.Game.Entity
         public override void Heal(int healedHP)
         {
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
+            Debug.Log($"{name} se cura {healedHP} de HP.");
         }
 
-        public void SetNextAttackMultiplier(float multiplier)
+        public void SetNextAttackMultiplier(int multiplier)
         {
             nextAttackMultiplier = multiplier;
         }
 
         protected override void DoAttack(SimpleEntity target, bool undo)
         {
+            if (target is Unit targetedUnit)
+            {
+                if (targetedUnit.Side == Side)
+                {
+                    Debug.LogWarning($"{name} no puede atacar a {target.name} porque son del mismo bando.");
+                    return;
+                }
+            }
 
-            target.Damage(GetStats().AttackStat);
+            int attackDamage = GetStats().AttackStat * nextAttackMultiplier;
+            Debug.Log($"{name} ataca a {target.name} causando {attackDamage} de daño.");
+            target.Damage(attackDamage);
 
+            nextAttackMultiplier = 1;
+
+            if (target is Unit targetUnit)
+            {
+                if (targetUnit.GetStats().CurrentHealthStat > 0)
+                {
+                    int counterDamage = targetUnit.GetStats().AttackStat;
+
+                    Debug.Log($"{targetUnit.name} contraataca a {name} causando {counterDamage} de daño.");
+
+                    Damage(counterDamage);
+                }
+            }
         }
 
         public override bool ValidateAttack(SimpleEntity target)
@@ -175,7 +203,10 @@ namespace CursedOnion.Game.Entity
 
         protected override void DoAbility(SimpleEntity target, bool undo)
         {
+            if (SpecialAbility.SelfTargetOnly)
+                target = this;
 
+            GetStats().SpecialAbilityType.ActivateAbility(this, target);
             Debug.Log($"{gameObject.name} usa su habilidad en {target.gameObject.name}");
 
         }
