@@ -38,6 +38,7 @@ namespace CursedOnion.Game.Entity
         private float additionalHP = 0f;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
+        private int baseMovement;
 
         public bool TrySpawningUnit(LevelManager manager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
@@ -86,11 +87,17 @@ namespace CursedOnion.Game.Entity
 
             //Debug.Log("El set de stats es temporal");
             Stats.SetStats(Data);
+            baseMovement = GetStats().MovementStat;
 
             if (UnitController == null)
             {
                 SetSide(Side);
             }
+        }
+
+        public Grid3d GetGrid()
+        {
+            return Grid;
         }
 
         public void ApplyConfusion(int turns)
@@ -109,6 +116,7 @@ namespace CursedOnion.Game.Entity
                     isConfused = false;
                 }
             }
+            this.GetStats().MovementStat = baseMovement;
         }
 
         public void SetAdditionalHP(float factor)
@@ -137,6 +145,12 @@ namespace CursedOnion.Game.Entity
             Stats.CurrentHealthStat -= finalDamage;
             if (Stats.CurrentHealthStat <= 0) Die();
         }
+
+        public override void Heal(int healedHP)
+        {
+            Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
+        }
+
         public void SetNextAttackMultiplier(float multiplier)
         {
             nextAttackMultiplier = multiplier;

@@ -392,6 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveButton: {fileID: 0}
   attackButton: {fileID: 0}
+  abilityButton: {fileID: 0}
 --- !u!1 &3626621431480622242
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,16 +675,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 7903992628577329902}
-      _MemberName: AbilityActivation
-      _PersistentArguments: []
 --- !u!1 &6317759302422313936
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,16 +838,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 7903992628577329902}
-      _MemberName: AttackUnit
-      _PersistentArguments: []
 --- !u!1 &9184292558766751300
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,13 +1001,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0931833123f88704791ba97f54f64fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnPointerEnterEvent:
+    _PersistentCalls: []
+  OnPointerExitEvent:
+    _PersistentCalls: []
+  OnPointerDownEvent:
+    _PersistentCalls: []
+  OnPointerClickInsideEvent:
+    _PersistentCalls: []
+  OnPointerUpOutsideEvent:
+    _PersistentCalls: []
+  OnPointerUpEvent:
+    _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
-  OnClick:
-    _PersistentCalls:
-    - _Target: {fileID: 7903992628577329902}
-      _MemberName: MoveUnit
-      _PersistentArguments: []
