@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         private Vector3 originalPosition;
         private Vector3 originalScale;
         private Quaternion originalRotation;
-
+        
+        private readonly Dictionary<string, LTDescr> tweenDescriptors = new();
         private void Awake()
         {
             StoreOriginalValues();
@@ -23,14 +25,28 @@ namespace CursedOnion.Game.Modes.General.Animations
             originalRotation = targetTransform.localRotation;
         }
         
-        #region Métodos de Escala
+        private void SafeTween(string key, LTDescr tween)
+        {
+            
+            if (tweenDescriptors.TryGetValue(key, out LTDescr existingTween) && LeanTween.isTweening(existingTween.id))
+                LeanTween.cancel(existingTween.id);
 
+            tween.setOnComplete(() =>
+            {
+                tweenDescriptors.Remove(key);
+            });
+
+            tweenDescriptors[key] = tween;
+        }
+        
+        #region Métodos de Escala
         /// <summary>
         /// Escala el objeto a un tamaño específico
         /// </summary>
         public void ScaleTo(Vector3 targetScale, float duration)
         {
-            LeanTween.scale(targetTransform.gameObject, targetScale, duration);
+            SafeTween("scale",
+                LeanTween.scale(targetTransform.gameObject, targetScale, duration));
         }
 
         /// <summary>
@@ -38,7 +54,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void UniformScaleTo(float targetScale, LeanTweenType easing, float duration)
         {
-            LeanTween.scale(targetTransform.gameObject, Vector3.one * targetScale, duration).setEase(easing);
+            SafeTween("scale",
+                LeanTween.scale(targetTransform.gameObject, Vector3.one * targetScale, duration).setEase(easing));
         }
         
         /// <summary>
@@ -46,7 +63,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void ScaleTo(Vector3 targetScale, LeanTweenType easing, float duration)
         {
-            LeanTween.scale(targetTransform.gameObject, targetScale, duration).setEase(easing);
+            SafeTween("scale",
+                LeanTween.scale(targetTransform.gameObject, targetScale, duration).setEase(easing));
         }
         
         /// <summary>
@@ -54,9 +72,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void UniformScalePulse(float pulseScale, LeanTweenType easing, float duration)
         {
-            LeanTween.scale(targetTransform.gameObject, Vector3.one * pulseScale, duration * 0.5f)
+            SafeTween("scale",
+                LeanTween.scale(targetTransform.gameObject, Vector3.one * pulseScale, duration * 0.5f)
                 .setEase(easing)
-                .setLoopPingPong(1);
+                .setLoopPingPong(1));
         }
         
         /// <summary>
@@ -64,9 +83,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void ScalePulse(Vector3 pulseScale, LeanTweenType easing, float duration)
         {
-            LeanTween.scale(targetTransform.gameObject, pulseScale, duration * 0.5f)
+            SafeTween("scale",
+                LeanTween.scale(targetTransform.gameObject, pulseScale, duration * 0.5f)
                 .setEase(easing)
-                .setLoopPingPong(1);
+                .setLoopPingPong(1));
         }
 
         /// <summary>
@@ -74,7 +94,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void ScaleToOriginal(float duration, LeanTweenType easing = LeanTweenType.notUsed)
         {
-            LeanTween.scale(targetTransform.gameObject, originalScale, duration).setEase(easing);
+            SafeTween("scale",
+                LeanTween.scale(targetTransform.gameObject, originalScale, duration).setEase(easing));
         }
 
         #endregion
@@ -86,7 +107,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void MoveToLocal(Vector3 targetPosition, LeanTweenType easing, float duration)
         {
-            LeanTween.moveLocal(targetTransform.gameObject, targetPosition, duration).setEase(easing);
+            SafeTween("move", 
+                LeanTween.moveLocal(targetTransform.gameObject, targetPosition, duration).setEase(easing));
         }
 
         /// <summary>
@@ -94,7 +116,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void MoveTo(Vector3 targetPosition, LeanTweenType easing, float duration)
         {
-            LeanTween.move(targetTransform.gameObject, targetPosition, duration).setEase(easing);
+            SafeTween("move",
+                LeanTween.move(targetTransform.gameObject, targetPosition, duration).setEase(easing));
         }
 
         /// <summary>
@@ -103,7 +126,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void MoveInDirection(Vector3 direction, float distance, LeanTweenType easing, float duration)
         {
             Vector3 targetPosition = targetTransform.position + direction.normalized * distance;
-            LeanTween.move(targetTransform.gameObject, targetPosition, duration).setEase(easing);
+            SafeTween("move",
+                LeanTween.move(targetTransform.gameObject, targetPosition, duration).setEase(easing));
         }
 
         /// <summary>
@@ -159,7 +183,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void MoveToOriginal(float duration, LeanTweenType easing = LeanTweenType.notUsed)
         {
-            LeanTween.moveLocal(targetTransform.gameObject, originalPosition, duration).setEase(easing);
+            SafeTween("move",
+                LeanTween.moveLocal(targetTransform.gameObject, originalPosition, duration).setEase(easing));
         }
 
         /// <summary>
@@ -167,7 +192,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void MoveBezier(Vector3[] path, LeanTweenType easing, float duration)
         {
-            LeanTween.move(targetTransform.gameObject, path, duration).setEase(easing);
+            SafeTween("move",
+                LeanTween.move(targetTransform.gameObject, path, duration).setEase(easing));
         }
 
         /// <summary>
@@ -175,7 +201,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void MoveSpline(Vector3[] path, LeanTweenType easing, float duration)
         {
-            LeanTween.moveSpline(targetTransform.gameObject, path, duration).setEase(easing);
+            SafeTween("move",
+                LeanTween.moveSpline(targetTransform.gameObject, path, duration).setEase(easing));
         }
 
         #endregion
@@ -187,7 +214,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void RotateTo(Vector3 targetRotation, LeanTweenType easing, float duration)
         {
-            LeanTween.rotate(targetTransform.gameObject, targetRotation, duration).setEase(easing);
+            SafeTween("rotate",
+                LeanTween.rotate(targetTransform.gameObject, targetRotation, duration).setEase(easing));
         }
 
         /// <summary>
@@ -195,7 +223,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void RotateToLocal(Vector3 targetRotation, LeanTweenType easing, float duration)
         {
-            LeanTween.rotateLocal(targetTransform.gameObject, targetRotation, duration).setEase(easing);
+            SafeTween("rotate",
+                LeanTween.rotateLocal(targetTransform.gameObject, targetRotation, duration).setEase(easing));
         }
 
         /// <summary>
@@ -205,7 +234,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         {
             Vector3 currentRotation = targetTransform.localEulerAngles;
             Vector3 targetRotation = currentRotation + axis.normalized * degrees;
-            LeanTween.rotateLocal(targetTransform.gameObject, targetRotation, duration).setEase(easing);
+            SafeTween("rotate",
+                LeanTween.rotateLocal(targetTransform.gameObject, targetRotation, duration).setEase(easing));
         }
 
         /// <summary>
@@ -237,7 +267,9 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void RotateSpin(Vector3 axis, float duration, LeanTweenType easing, int loops = -1)
         {
-            LeanTween.rotateAround(targetTransform.gameObject, axis, 360f, duration).setLoopCount(loops).setEase(easing);
+            SafeTween("rotate",
+                LeanTween.rotateAround(targetTransform.gameObject, axis, 360f, duration).setLoopCount(loops)
+                    .setEase(easing));
         }
 
         /// <summary>
@@ -245,7 +277,8 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void RotateToOriginal(float duration, LeanTweenType easing = LeanTweenType.notUsed)
         {
-            LeanTween.rotate(targetTransform.gameObject, originalRotation.eulerAngles, duration).setEase(easing);
+            SafeTween("rotate",
+                LeanTween.rotate(targetTransform.gameObject, originalRotation.eulerAngles, duration).setEase(easing));
         }
 
         #endregion
@@ -260,7 +293,8 @@ namespace CursedOnion.Game.Modes.General.Animations
             CanvasGroup canvasGroup = targetTransform.GetComponent<CanvasGroup>();
             if (canvasGroup != null)
             {
-                LeanTween.alphaCanvas(canvasGroup, targetAlpha, duration).setEase(easing);
+                SafeTween("canvasGroup",
+                    LeanTween.alphaCanvas(canvasGroup, targetAlpha, duration).setEase(easing));
             }
             else
             {
@@ -291,7 +325,9 @@ namespace CursedOnion.Game.Modes.General.Animations
             {
                 Color targetColor = image.color;
                 targetColor.a = targetAlpha;
-                LeanTween.color(targetTransform.GetComponent<RectTransform>(), targetColor, duration).setEase(easing);
+                SafeTween("image",
+                    LeanTween.color(targetTransform.GetComponent<RectTransform>(), targetColor, duration)
+                        .setEase(easing));
             }
             else
             {
@@ -326,7 +362,8 @@ namespace CursedOnion.Game.Modes.General.Animations
             {
                 Color color = renderer.material.color;
                 color.a = targetAlpha;
-                LeanTween.color(targetTransform.gameObject, color, duration).setEase(easing);
+                SafeTween("render3D",
+                    LeanTween.color(targetTransform.gameObject, color, duration).setEase(easing));
             }
         }
 
@@ -342,7 +379,8 @@ namespace CursedOnion.Game.Modes.General.Animations
             Renderer renderer = targetTransform.GetComponent<Renderer>();
             if (renderer != null)
             {
-                LeanTween.color(targetTransform.gameObject, targetColor, duration).setEase(easing);
+                SafeTween("render3D",
+                    LeanTween.color(targetTransform.gameObject, targetColor, duration).setEase(easing));
             }
         }
 
@@ -354,7 +392,8 @@ namespace CursedOnion.Game.Modes.General.Animations
             SpriteRenderer spriteRenderer = targetTransform.GetComponent<SpriteRenderer>();
             if (spriteRenderer != null)
             {
-                LeanTween.color(targetTransform.gameObject, targetColor, duration).setEase(easing);
+                SafeTween("render2D",
+                    LeanTween.color(targetTransform.gameObject, targetColor, duration).setEase(easing));
             }
         }
         
@@ -367,7 +406,9 @@ namespace CursedOnion.Game.Modes.General.Animations
             if (image != null)
             {
                 targetColor.a = image.color.a;
-                LeanTween.color(targetTransform.GetComponent<RectTransform>(), targetColor, duration).setEase(easing);
+                SafeTween("image",
+                    LeanTween.color(targetTransform.GetComponent<RectTransform>(), targetColor, duration)
+                    .setEase(easing));
             }
         }
 
@@ -381,8 +422,9 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void PopIn(float duration)
         {
             targetTransform.localScale = Vector3.zero;
-            LeanTween.scale(targetTransform.gameObject, originalScale, duration)
-                .setEase(LeanTweenType.easeOutBack);
+            SafeTween("specialScale",
+                LeanTween.scale(targetTransform.gameObject, originalScale, duration)
+                    .setEase(LeanTweenType.easeOutBack));
         }
 
         /// <summary>
@@ -390,8 +432,9 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void PopOut(float duration)
         {
-            LeanTween.scale(targetTransform.gameObject, Vector3.zero, duration)
-                .setEase(LeanTweenType.easeInBack);
+            SafeTween("specialScale",
+                LeanTween.scale(targetTransform.gameObject, Vector3.zero, duration)
+                    .setEase(LeanTweenType.easeInBack));
         }
 
         /// <summary>
@@ -400,10 +443,12 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void Shake(float intensity, float duration)
         {
             Vector3 originalPos = targetTransform.localPosition;
-            LeanTween.moveLocal(targetTransform.gameObject, originalPos + Random.insideUnitSphere * intensity, duration * 0.1f)
-                .setEase(LeanTweenType.easeShake)
-                .setLoopPingPong((int)(duration / 0.1f))
-                .setOnComplete(() => targetTransform.localPosition = originalPos);
+            SafeTween("specialMove",
+                LeanTween.moveLocal(targetTransform.gameObject, originalPos + Random.insideUnitSphere * intensity,
+                        duration * 0.1f)
+                    .setEase(LeanTweenType.easeShake)
+                    .setLoopPingPong((int)(duration / 0.1f))
+                    .setOnComplete(() => targetTransform.localPosition = originalPos));
         }
 
         /// <summary>
@@ -412,9 +457,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void BounceLoop(float height, float duration)
         {
             Vector3 startPos = targetTransform.localPosition;
-            LeanTween.moveLocalY(targetTransform.gameObject, startPos.y + height, duration)
-                .setEase(LeanTweenType.easeInOutQuad)
-                .setLoopPingPong();
+            SafeTween("specialMove",
+                LeanTween.moveLocalY(targetTransform.gameObject, startPos.y + height, duration)
+                    .setEase(LeanTweenType.easeInOutQuad)
+                    .setLoopPingPong());
         }
 
         /// <summary>
@@ -423,9 +469,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void FloatLoop(float height, float duration)
         {
             Vector3 startPos = targetTransform.localPosition;
-            LeanTween.moveLocalY(targetTransform.gameObject, startPos.y + height, duration)
-                .setEase(LeanTweenType.easeInOutSine)
-                .setLoopPingPong();
+            SafeTween("specialMove",
+                LeanTween.moveLocalY(targetTransform.gameObject, startPos.y + height, duration)
+                    .setEase(LeanTweenType.easeInOutSine)
+                    .setLoopPingPong());
         }
 
         /// <summary>
@@ -434,9 +481,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void SwingLoop(float angle, float duration)
         {
             Vector3 startRotation = targetTransform.localEulerAngles;
-            LeanTween.rotateZ(targetTransform.gameObject, startRotation.z + angle, duration)
-                .setEase(LeanTweenType.easeInOutSine)
-                .setLoopPingPong();
+            SafeTween("specialRotate",
+                LeanTween.rotateZ(targetTransform.gameObject, startRotation.z + angle, duration)
+                    .setEase(LeanTweenType.easeInOutSine)
+                    .setLoopPingPong());
         }
 
         /// <summary>
@@ -445,9 +493,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         public void PulseLoop(float scaleMultiplier, float duration)
         {
             Vector3 targetScale = originalScale * scaleMultiplier;
-            LeanTween.scale(targetTransform.gameObject, targetScale, duration)
-                .setEase(LeanTweenType.easeInOutSine)
-                .setLoopPingPong();
+            SafeTween("specialScale",
+                LeanTween.scale(targetTransform.gameObject, targetScale, duration)
+                    .setEase(LeanTweenType.easeInOutSine)
+                    .setLoopPingPong());
         }
 
         #endregion
