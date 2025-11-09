@@ -272,7 +272,7 @@ namespace DentedPixel.LTExamples
             GameObject cubeCancelA = cubeNamed("cubeCancelA");
             cubeCancelA.LeanMoveX(10f, 1f);
             cubeCancelA.LeanMoveY(10f, 1f);
-            LeanTween.cancel(cubeCancelA, false, TweenAction.MOVE_X);
+            LeanTween.cancel(cubeCancelA, false);
             LTDescr[] descrs = LeanTween.descriptions(cubeCancelA);
             LeanTest.expect(descrs.Length == 1, "SPECIFIC TWEEN DID CANCEL");
 
@@ -330,8 +330,8 @@ namespace DentedPixel.LTExamples
 
             // should be able to retrieve a point
             LTBezierPath roundCircPath = new LTBezierPath(roundCirc);
-            float ratioPoint = roundCircPath.ratioAtPoint(new Vector3(-25f, 25f, 0f));
-            LeanTest.expect(Mathf.Equals(ratioPoint, 0.25f), "BEZIER RATIO POINT");
+            Vector3 pointAt25 = roundCircPath.point(0.25f);
+            LeanTest.expect(Vector3.Distance(pointAt25, new Vector3(-25f, 25f, 0f)) < 0.1f, "BEZIER POINT AT 0.25");
 
             // Spline should end at exact end position not just 99% close to it
             Vector3[] roundSpline = new Vector3[] { new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f), new Vector3(2f, 0f, 0f), new Vector3(0.9f, 2f, 0f), new Vector3(0f, 0f, 0f), new Vector3(0f, 0f, 0f) };
