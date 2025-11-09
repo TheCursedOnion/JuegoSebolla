@@ -9,6 +9,7 @@ namespace CursedOnion.Game.Entity
     public class SpecialAbility
     {
         public bool SelfTargetOnly = false;
+        public int AbilityRange = 0;
 
         public virtual void ActivateAbility(Unit unit, SimpleEntity target = null) { }
     
@@ -45,6 +46,7 @@ namespace CursedOnion.Game.Entity
         {
             if (target is Unit targetUnit)
             {
+                Debug.Log("Activando habilidad de Thief: Aplicando confusión al objetivo");
                 targetUnit.ApplyConfusion(1);
             }
         }
@@ -58,7 +60,8 @@ namespace CursedOnion.Game.Entity
         {
             if (target is Unit targetUnit)
             {
-                if(targetUnit.Side == BattleSide.Neutral)
+                Debug.Log("Activando habilidad de Barbarian: Eliminando unidad neutral");
+                if (targetUnit.Side == BattleSide.Neutral)
                     targetUnit.Dispose();
             }
         }
@@ -70,10 +73,7 @@ namespace CursedOnion.Game.Entity
     {
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
-            if (target != unit)
-            {
-                return;
-            }
+            Debug.Log("Activando habilidad de Knight: Aumentando movimiento en 2");
             unit.GetStats().MovementStat += 2;
         }
 
