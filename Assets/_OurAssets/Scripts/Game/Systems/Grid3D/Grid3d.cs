@@ -164,7 +164,7 @@ namespace CursedOnion.Game.Systems.Grid
             }
         }
 
-        public List<Vector3> GetReachablePositions(Vector3 startWorldPos, int moveRange)
+        public List<Vector3> GetReachablePositions(Vector3 startWorldPos, int range)
         {
             var reachable = new List<Vector3>();
 
@@ -197,10 +197,10 @@ namespace CursedOnion.Game.Systems.Grid
             {
                 var (current, distance) = frontier.Dequeue();
 
-                if (distance > 0 && distance <= moveRange)
+                if (distance > 0 && distance <= range)
                     reachable.Add(current);
 
-                if (distance >= moveRange)
+                if (distance >= range)
                     continue;
 
                 foreach (var dir in directions)
@@ -222,31 +222,44 @@ namespace CursedOnion.Game.Systems.Grid
             if (!TryWorldToGridPosition(startWorldPos, out Vector3 startGrid))
             { return null; }
 
-            List<Vector3> reachablePositions = new List<Vector3>();
-            Queue<(Vector3 pos, int cost)> frontier = new Queue<(Vector3, int)>();
-            HashSet<Vector3> visited = new HashSet<Vector3>();
+            Vector3Int start = new Vector3Int(
+                Mathf.FloorToInt(startGrid.x),
+                Mathf.FloorToInt(startGrid.y),
+                Mathf.FloorToInt(startGrid.z)
+            );
 
-            frontier.Enqueue((startGrid, 0));
-            visited.Add(startGrid);
+            List<Vector3> reachablePositions = new List<Vector3>();
+            Queue<(Vector3Int pos, int cost)> frontier = new Queue<(Vector3Int, int)>();
+            HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+            frontier.Enqueue((start, 0));
+            visited.Add(start);
+
+            Vector3Int[] directions = new Vector3Int[]
+            {
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(-1, 0, 0),
+                new Vector3Int(0, 0, 1),
+                new Vector3Int(0, 0, -1)
+            };
 
             while (frontier.Count > 0)
             {
                 var (currentPos, currentCost) = frontier.Dequeue();
                 reachablePositions.Add(currentPos);
 
-                foreach (Vector3 neighbour in GetNeighboursMovement(currentPos, this))
+                foreach (var dir in directions)
                 {
-                    if (visited.Contains(neighbour))
-                        continue;
+                    Vector3Int neighbour = currentPos + dir;
+
+                    if (!IsGridPositionInBounds((Vector3)neighbour)) continue;
+                    if (visited.Contains(neighbour)) continue;
 
                     Tile3d tile = GetTileAtGridPosition(neighbour);
                     if (tile == null || tile.GetContainedEntity() != null)
                         continue;
 
-                    //int tileCost = tile.MovementCost;
-                    //int newCost = currentCost + tileCost;
                     int newCost = currentCost + 1;
-
                     if (newCost <= movementRange)
                     {
                         frontier.Enqueue((neighbour, newCost));
@@ -257,27 +270,7 @@ namespace CursedOnion.Game.Systems.Grid
 
             return reachablePositions;
         }
-        private List<Vector3> GetNeighboursMovement(Vector3 gridPos, Grid3d levelGrid)
-        {
-            List<Vector3> neighbours = new List<Vector3>();
-            List<Vector3> directions = new List<Vector3>
-            {
-                new Vector3( 1, 0,  0),
-                new Vector3(-1, 0,  0),
-                new Vector3( 0, 0,  1),
-                new Vector3( 0, 0, -1),
-            };
-
-            foreach (var dir in directions)
-            {
-                Vector3 neighbour = gridPos + dir;
-
-                if (levelGrid.GetTileAtGridPosition(neighbour) != null)
-                    neighbours.Add(neighbour);
-            }
-
-            return neighbours;
-        }
+        
         #endregion
 
         #region Painting
@@ -314,11 +307,16 @@ namespace CursedOnion.Game.Systems.Grid
 
         public void HighlightMovementRange(Vector3 startWorldPos, int moveRange, Color color)
         {
-            var reachable = GetReachablePositionsMovement(startWorldPos, moveRange + 1);
+            var reachable = GetReachablePositionsMovement(startWorldPos, moveRange);
 
             foreach (var pos in reachable)
             {
-                PaintTileAtGridPosition(pos, color);
+                Vector3 newPos = new Vector3(
+                    pos.x,
+                    pos.y - 1,
+                    pos.z
+                );
+                PaintTileAtGridPosition(newPos, color);
             }
         }
 
