@@ -243,7 +243,10 @@ namespace CursedOnion.Game.Systems.Grid
                     if (tile == null || tile.GetContainedEntity() != null)
                         continue;
 
+                    //int tileCost = tile.MovementCost;
+                    //int newCost = currentCost + tileCost;
                     int newCost = currentCost + 1;
+
                     if (newCost <= movementRange)
                     {
                         frontier.Enqueue((neighbour, newCost));
