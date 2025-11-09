@@ -13,6 +13,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Splines;
+using UnityEngine.TestTools;
 
 namespace CursedOnion.Game.Entity
 {
@@ -121,7 +123,7 @@ namespace CursedOnion.Game.Entity
             }
             this.GetStats().MovementStat = baseMovement;
         }
-
+        #region Health
         public void SetAdditionalHP(int factor)
         {
             additionalHP = GetStats().MaxHealthStat * factor / 100;
@@ -130,24 +132,23 @@ namespace CursedOnion.Game.Entity
 
         public override void Damage(int damage)
         {
-            int finalDamage = Mathf.Clamp(damage - GetStats().DefenseStat, 0, damage);
-            Debug.Log($"{name} recibe {finalDamage} de daño.");
+            Debug.Log($"{name} recibe {damage} de daño.");
 
             if (additionalHP > 0)
             {
-                if (finalDamage <= additionalHP)
+                if (damage <= additionalHP)
                 {
-                    additionalHP -= finalDamage;
+                    additionalHP -= damage;
                     return;
                 }
                 else
                 {
-                    finalDamage -= Mathf.FloorToInt(additionalHP);
+                    damage -= Mathf.FloorToInt(additionalHP);
                     additionalHP = 0;
                 }
             }
 
-            Stats.CurrentHealthStat -= finalDamage;
+            Stats.CurrentHealthStat -= damage;
             if (Stats.CurrentHealthStat <= 0) Die();
         }
 
@@ -156,7 +157,9 @@ namespace CursedOnion.Game.Entity
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
             Debug.Log($"{name} se cura {healedHP} de HP.");
         }
+        #endregion
 
+        #region Attack
         public void SetNextAttackMultiplier(int multiplier)
         {
             nextAttackMultiplier = multiplier;
@@ -171,21 +174,25 @@ namespace CursedOnion.Game.Entity
                     Debug.LogWarning($"{name} no puede atacar a {target.name} porque son del mismo bando.");
                     return;
                 }
-            }
-            Grid.ResetPaint();
-            int attackDamage = GetStats().AttackStat * nextAttackMultiplier;
-            Debug.Log($"{name} ataca a {target.name} causando {attackDamage} de daño.");
-            target.Damage(attackDamage);
 
-            nextAttackMultiplier = 1;
+                Grid.ResetPaint();
 
-            if (target is Unit targetUnit)
-            {
-                if (targetUnit.GetStats().CurrentHealthStat > 0)
+                int rawDamage = GetStats().AttackStat * nextAttackMultiplier;
+                int targetDefense = targetedUnit.GetStats().DefenseStat;
+                int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
+
+                Debug.Log($"{name} ataca a {targetedUnit.name} causando {finalDamage} de daño.");
+
+                targetedUnit.Damage(finalDamage);
+
+                nextAttackMultiplier = 1;
+
+
+                if (targetedUnit.GetStats().CurrentHealthStat > 0)
                 {
-                    int counterDamage = targetUnit.GetStats().AttackStat;
+                    int counterDamage = targetedUnit.GetStats().AttackStat;
 
-                    Debug.Log($"{targetUnit.name} contraataca a {name} causando {counterDamage} de daño.");
+                    Debug.Log($"{targetedUnit.name} contraataca a {name} causando {counterDamage} de daño.");
 
                     Damage(counterDamage);
                 }
@@ -196,34 +203,57 @@ namespace CursedOnion.Game.Entity
         {
             if (target == null)
             {
+                Grid.ResetPaint();
                 Debug.LogWarning("ValidateAttack falló: target es null");
+                return false;
             }
 
-            return target != null;
-        }
+            if (!Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
+                return false;
 
+            var reachable = Grid.GetReachablePositions(transform.position, 1);
+            Grid.ResetPaint();
+            return reachable.Contains(targetGridPos);
+        }
+        #endregion
+
+        #region Special Ability
+       
         protected override void DoAbility(SimpleEntity target, bool undo)
         {
-            if (SpecialAbility.SelfTargetOnly)
-                target = this;
             Grid.ResetPaint();
             GetStats().SpecialAbilityType.ActivateAbility(this, target);
             Debug.Log($"{gameObject.name} usa su habilidad en {target.gameObject.name}");
-
         }
 
         public override bool ValidateAbility(SimpleEntity target)
         {
-            if (target == null)
+            if (GetStats().SpecialAbilityType.SelfTargetOnly == true)
             {
-                Debug.LogWarning("ValidateAttack falló: target es null");
+                if (target == (SimpleEntity)this)
+                    return true;
+
+                Debug.LogWarning($"[ValidateAbility] {name} tiene SelfTargetOnly pero el target no es el mismo objeto.");
+                return false;
             }
 
-            return target != null;
+            if (target == null)
+            {
+                Grid.ResetPaint();
+                Debug.LogWarning("ValidateAbility falló: target es null");
+                return false;
+            }
+
+            if (!Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
+                return false;
+
+            var reachable = Grid.GetReachablePositions(transform.position, SpecialAbility.AbilityRange);
+            Grid.ResetPaint();
+            return reachable.Contains(targetGridPos);
         }
+        #endregion
 
-
-
+        #region Movement
         protected override void DoMove(Vector3 newPosition, bool undo)
         {
 
@@ -241,12 +271,6 @@ namespace CursedOnion.Game.Entity
                     return;
                 }
 
-                //if (!Grid.TryWorldToGridPosition(newPosition, out Vector3 targetGrid))
-                //{
-                //Debug.LogError($"TryWorldToGridPosition falló para target world position: {newPosition}");
-                //  return;
-                //}
-
                 var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
 
                 if (path == null || path.Count == 0)
@@ -256,6 +280,7 @@ namespace CursedOnion.Game.Entity
                     return;
                 }
                 Grid.ResetPaint();
+                GetStats().MovementStat = baseMovement;
                 StartCoroutine(MoveAlongPath(path));
             }
         }
@@ -275,13 +300,22 @@ namespace CursedOnion.Game.Entity
         private IEnumerator MoveAlongPath(List<Vector3> path)
         {
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(null);
+
+            float speed = 5f;
+
             foreach (var pos in path)
             {
-                transform.position = new Vector3(pos.x, pos.y, pos.z);
-                yield return new WaitForSeconds(0.25f);
+                while (Vector3.Distance(transform.position, pos) > 0.01f)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, pos, speed * Time.deltaTime);
+                    yield return null;
+                }
+
+                transform.position = pos;
+                yield return new WaitForSeconds(0.05f);
             }
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
         }
-
+        #endregion
     }
 }

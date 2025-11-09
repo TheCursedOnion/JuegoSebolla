@@ -1,13 +1,14 @@
-using System;
-using System.Diagnostics;
-using System.Reflection;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
 using Reflex.Attributes;
 using Reflex.Core;
 using Reflex.Injectors;
+using System;
+using System.Diagnostics;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace CursedOnion.Game.Commands
 {
@@ -58,7 +59,7 @@ namespace CursedOnion.Game.Commands
         {
             return preparedCommand != null;
         }
-        
+
         void PrepareCommand(Type commandType, CommandParameters parameters)
         {
             preparedCommand = commandType;
@@ -68,8 +69,21 @@ namespace CursedOnion.Game.Commands
             {
                 Grid3d grid = unitSubject.GetGrid();
                 Vector3 unitPos = unitSubject.transform.position;
-                int moveRange = unitSubject.GetStats().MovementStat;
-                grid.HighlightMovementRange(unitPos, moveRange, Color.blue);
+
+                if (preparedCommand == typeof(MoveCommand))
+                {
+                    int moveRange = unitSubject.GetStats().MovementStat;
+                    grid.HighlightMovementRange(unitPos, moveRange, Color.blue);
+                }
+                else if (preparedCommand == typeof(AttackCommand))
+                {
+                    grid.HighlightMovementRange(unitPos, 1, Color.red);
+                }
+                else if (preparedCommand == typeof(AbilityCommand))
+                {
+                    int abilityRange = unitSubject.GetStats().SpecialAbilityType.AbilityRange;
+                    grid.HighlightMovementRange(unitPos, abilityRange, Color.yellow);
+                }
             }
         }
 

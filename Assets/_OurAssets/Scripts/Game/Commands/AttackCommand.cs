@@ -28,7 +28,7 @@ namespace CursedOnion.Game.Commands
             }
             if (!CommandSubject.ValidateAttack(target))
             {
-                Debug.LogWarning($"[MoveCommand] No se puede ejecutar: {CommandSubject.name} no puede moverse atacar");
+                Debug.LogWarning($"[AttackCommand] No se puede ejecutar: {CommandSubject.name} no puede atacar");
                 return false;
             }
             return true;
