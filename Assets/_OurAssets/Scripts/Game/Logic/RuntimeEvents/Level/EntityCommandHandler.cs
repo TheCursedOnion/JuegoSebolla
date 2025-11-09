@@ -1,10 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Grid;
 using Reflex.Attributes;
 using Reflex.Core;
 using Reflex.Injectors;
+using UnityEngine;
 
 namespace CursedOnion.Game.Commands
 {
@@ -60,8 +63,16 @@ namespace CursedOnion.Game.Commands
         {
             preparedCommand = commandType;
             preparedParameters = parameters;
+
+            if (commandSubject is Unit unitSubject)
+            {
+                Grid3d grid = unitSubject.GetGrid();
+                Vector3 unitPos = unitSubject.transform.position;
+                int moveRange = unitSubject.GetStats().MovementStat;
+                grid.HighlightMovementRange(unitPos, moveRange, Color.blue);
+            }
         }
-        
+
         public void ExecuteCommand(CommandParameters parameters)
         {
             LaunchCommand(parameters);

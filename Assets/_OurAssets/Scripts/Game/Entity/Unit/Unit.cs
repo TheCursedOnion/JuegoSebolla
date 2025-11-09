@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
@@ -11,6 +8,10 @@ using NaughtyAttributes;
 using Reflex.Core;
 using Reflex.Extensions;
 using Reflex.Injectors;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -171,7 +172,7 @@ namespace CursedOnion.Game.Entity
                     return;
                 }
             }
-
+            Grid.ResetPaint();
             int attackDamage = GetStats().AttackStat * nextAttackMultiplier;
             Debug.Log($"{name} ataca a {target.name} causando {attackDamage} de daño.");
             target.Damage(attackDamage);
@@ -205,7 +206,7 @@ namespace CursedOnion.Game.Entity
         {
             if (SpecialAbility.SelfTargetOnly)
                 target = this;
-
+            Grid.ResetPaint();
             GetStats().SpecialAbilityType.ActivateAbility(this, target);
             Debug.Log($"{gameObject.name} usa su habilidad en {target.gameObject.name}");
 
@@ -250,17 +251,25 @@ namespace CursedOnion.Game.Entity
 
                 if (path == null || path.Count == 0)
                 {
+                    Grid.ResetPaint();
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
                     return;
                 }
-
+                Grid.ResetPaint();
                 StartCoroutine(MoveAlongPath(path));
             }
         }
 
         public override bool ValidateMove(Vector3 newPosition)
         {
-            return true;
+            int moveRange = GetStats().MovementStat;
+
+            var reachable = Grid.GetReachablePositions(transform.position, moveRange);
+
+            Vector3Int target = newPosition.CastToVectorInt();
+            Grid.ResetPaint();
+            return reachable.Contains(target);
+
         }
 
         private IEnumerator MoveAlongPath(List<Vector3> path)

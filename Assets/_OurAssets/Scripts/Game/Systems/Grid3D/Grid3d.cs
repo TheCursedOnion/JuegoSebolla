@@ -1,11 +1,12 @@
-using System.Linq;
 using CursedOnion.Extensions;
-using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game;
+using CursedOnion.Game.Systems.Files;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Helpers;
 using CursedOnion.Tools;
 using NaughtyAttributes;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,28 +16,28 @@ namespace CursedOnion.Game.Systems.Grid
     public class Grid3d
     {
         [SerializeField] private Mesh mesh;
-            public Mesh Mesh => mesh;
-            
+        public Mesh Mesh => mesh;
+
         [HorizontalLine]
         [SerializeField] private Vector3 startingOffset;
-            public Vector3 StartingOffset {get => startingOffset; set => startingOffset = value;}
-            
+        public Vector3 StartingOffset { get => startingOffset; set => startingOffset = value; }
+
         [SerializeField] private Vector3 origin;
-            public Vector3 Origin => origin;
-            
+        public Vector3 Origin => origin;
+
         [SerializeField] private Vector3Int size;
-            public Vector3Int Size => size;
-            
+        public Vector3Int Size => size;
+
         [SerializeField] private Tile3d[] tiles;
-            
+
         #region Constructor
         public Grid3d(Vector3 size, Vector3 origin, Tilemap[] layers)
         {
             this.size = size.CastToVectorInt();
-            
+
             origin.Floor();
             this.origin = origin;
-            
+
             InitializeTiles();
             PlaceLayers(layers);
         }
@@ -44,7 +45,7 @@ namespace CursedOnion.Game.Systems.Grid
         {
             tiles = new Tile3d[size.x * size.y * size.z];
 
-            for(int index = 0; index < tiles.Length; index++)
+            for (int index = 0; index < tiles.Length; index++)
             {
                 Tile3d tile = Tile3d.Default;
                 SetTileAtIndex(index, tile);
@@ -52,7 +53,7 @@ namespace CursedOnion.Game.Systems.Grid
         }
         void PlaceLayers(Tilemap[] layers)
         {
-            if(layers == null || layers.Length == 0) return;
+            if (layers == null || layers.Length == 0) return;
 
             foreach (var layer in layers)
             {
@@ -62,7 +63,7 @@ namespace CursedOnion.Game.Systems.Grid
 
                     Tile3dComponent tileComponent = transform.gameObject.GetComponent<Tile3dComponent>();
                     Tile3d tile = tileComponent != null ? tileComponent.ProduceTile() : Tile3d.Default;
-                    
+
                     SetTileAtWorldPosition(worldPositon, tile);
                 }
             }
@@ -77,7 +78,7 @@ namespace CursedOnion.Game.Systems.Grid
         #region Conversions
         public bool TryWorldToGridPosition(Vector3 worldPosition, out Vector3 gridPosition)
         {
-           return VectorConversions.TryWorldToGridPosition(worldPosition + startingOffset, this, out gridPosition);
+            return VectorConversions.TryWorldToGridPosition(worldPosition + startingOffset, this, out gridPosition);
         }
         public bool TryGridToWorldPosition(Vector3 gridPosition, out Vector3 worldPosition)
         {
@@ -112,7 +113,7 @@ namespace CursedOnion.Game.Systems.Grid
             return index >= 0 && index < tiles.Length;
         }
         #endregion
-        
+
         #region Tile Getters & Setters
         public Tile3d GetTileAtWorldPosition(Vector3 worldPosition)
         {
@@ -162,6 +163,59 @@ namespace CursedOnion.Game.Systems.Grid
                 tiles[index] = tile;
             }
         }
+
+        public List<Vector3> GetReachablePositions(Vector3 startWorldPos, int moveRange)
+        {
+            var reachable = new List<Vector3>();
+
+            if (!TryWorldToGridPosition(startWorldPos, out Vector3 startGridPos))
+                return reachable;
+
+            Vector3Int start = new Vector3Int(
+                Mathf.FloorToInt(startGridPos.x),
+                Mathf.FloorToInt(startGridPos.y),
+                Mathf.FloorToInt(startGridPos.z)
+            );
+
+            Queue<(Vector3Int pos, int distance)> frontier = new();
+            HashSet<Vector3Int> visited = new();
+
+            frontier.Enqueue((start, 0));
+            visited.Add(start);
+
+            Vector3Int[] directions = new Vector3Int[]
+            {
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(-1, 0, 0),
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(0, -1, 0),
+                new Vector3Int(0, 0, 1),
+                new Vector3Int(0, 0, -1)
+            };
+
+            while (frontier.Count > 0)
+            {
+                var (current, distance) = frontier.Dequeue();
+
+                if (distance > 0 && distance <= moveRange)
+                    reachable.Add(current);
+
+                if (distance >= moveRange)
+                    continue;
+
+                foreach (var dir in directions)
+                {
+                    Vector3Int next = current + dir;
+
+                    if (!IsGridPositionInBounds((Vector3)next)) continue;
+                    if (visited.Contains(next)) continue;
+
+                    visited.Add(next);
+                    frontier.Enqueue((next, distance + 1));
+                }
+            }
+            return reachable;
+        }
         #endregion
 
         #region Painting
@@ -181,10 +235,10 @@ namespace CursedOnion.Game.Systems.Grid
 
             return mesh;
         }
-        
+
         public Mesh PaintAllTiles(Color color)
         {
-            for(int index = 0; index < tiles.Length; index++)
+            for (int index = 0; index < tiles.Length; index++)
             {
                 var vertexRange = tiles[index].CorrespondingVerticesInMesh;
                 mesh.Color32Vertices(vertexRange, color);
@@ -194,6 +248,16 @@ namespace CursedOnion.Game.Systems.Grid
         public Mesh ResetPaint()
         {
             return PaintAllTiles(Color.white);
+        }
+
+        public void HighlightMovementRange(Vector3 startWorldPos, int moveRange, Color color)
+        {
+            var reachable = GetReachablePositions(startWorldPos, moveRange+1);
+
+            foreach (var pos in reachable)
+            {
+                PaintTileAtGridPosition(pos, color);
+            }
         }
 
         #endregion
