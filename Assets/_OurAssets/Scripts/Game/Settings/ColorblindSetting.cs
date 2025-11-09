@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class ColorblindSetting : IGlobalVolumeSetting<ColorblindSetting>
+    public class ColorblindSetting : IGlobalVolumeSetting<ColorblindSetting.ColorblindMode>
     {
         public enum ColorblindMode
         {
@@ -30,14 +30,19 @@ namespace CursedOnion.Game.Settings
 
             return LUT_s[currentLUT-1]; 
         }
-        public ColorblindMode CurrentMode => (ColorblindMode)currentLUT;
+        public ColorblindMode GetCurrentColorblindMode() => (ColorblindMode)currentLUT;
         
-        public Action<ColorblindSetting> OnChange { get; set; }
+        public Action<ColorblindMode> OnChange { get; set; }
         
         public void MoveColorblindMode(int offset)
         {
-            int index = (currentLUT + offset) % (LUT_s.Length + 1);
+            int length = LUT_s.Length + 1;
+            int index = (((currentLUT + offset) % length) + length) % length;
             SetColorblindMode(index);
+        }
+        public void SetColorblindMode(ColorblindMode mode)
+        {
+            SetColorblindMode((int)mode);
         }
         void SetColorblindMode(int mode)
         {
@@ -46,10 +51,12 @@ namespace CursedOnion.Game.Settings
             
             currentLUT = index;
             
+            if (GlobalVolume == null) return;
+            
             if (GlobalVolume.GetVolume().profile.TryGet(out ColorLookup colorLookup))
                 colorLookup.texture.value = GetCurrentLUT();
             
-            OnChange?.Invoke(this);
+            OnChange?.Invoke((ColorblindMode)currentLUT);
         }
     }
 }

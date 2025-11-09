@@ -1,3 +1,4 @@
+using CursedOnion.Game.Localization;
 using Reflex.Extensions;
 using TMPro;
 using UnityEngine;
@@ -8,12 +9,16 @@ namespace CursedOnion.Game.Settings
     {
         LanguageSetting languageSetting;
         
-        [SerializeField] private TextMeshProUGUI lenguageText;
+        [SerializeField] LocalizedGUIText localizedGUIText;
+        private void Awake()
+        {
+            localizedGUIText ??= GetComponent<LocalizedGUIText>();
+        }
         private void OnEnable()
         {
             languageSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().LanguageSettings;
             languageSetting.OnChange += UpdateText;
-            UpdateText(languageSetting);
+            UpdateText(languageSetting.GetCurrentLanguage());
         }
         private void OnDisable()
         {
@@ -24,15 +29,15 @@ namespace CursedOnion.Game.Settings
 
         public void NextLanguage()
         {
-            languageSetting.MoveLanguage(1);
+            languageSetting.MoveUsedLanguage(1);
         }
         public void PreviousLanguage()
         {
-            languageSetting.MoveLanguage(-1);
+            languageSetting.MoveUsedLanguage(-1);
         }
-        void UpdateText(LanguageSetting setting)
+        void UpdateText(LanguageSetting.Language language)
         {
-            lenguageText.text = setting.CurrentLanguage.ToString();
+            localizedGUIText.SetUsedKey((int)language);
         }
     }
 }

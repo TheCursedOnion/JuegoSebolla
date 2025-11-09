@@ -7,11 +7,18 @@ namespace CursedOnion.Game.Settings
     {
         [System.NonSerialized] GlobalVolume globalVolume;
         public GlobalVolume GetGlobalVolume() => globalVolume;
-
         public void SetGlobalVolume(GlobalVolume globalVolume)
         {
             this.globalVolume = globalVolume;
             ColorblindSettings.SetGlobalVolume(globalVolume);
+        }
+
+        public void Initialize()
+        {
+            ColorblindSettings.SetColorblindMode(ColorblindSetting.ColorblindMode.Normal);
+            LanguageSettings.SetUsedLanguage(LanguageSetting.Language.Spanish);
+            
+            LanguageSettings.Initialize();
         }
         
         public VolumeSetting VolumeSettings;

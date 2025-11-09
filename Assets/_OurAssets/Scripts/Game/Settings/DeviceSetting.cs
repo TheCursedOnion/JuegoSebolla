@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class DeviceSetting : ISetting<DeviceSetting>
+    public class DeviceSetting : ISetting<InputDevice>
     {
         public InputDevice CurrentDevice;
         //TODO: Device Config classes
         
-        public Action<DeviceSetting> OnChange { get; set; }
+        public Action<InputDevice> OnChange { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using CursedOnion.Game.Localization;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using TMPro;
@@ -10,12 +11,18 @@ namespace CursedOnion.Game.Settings
     {
         ColorblindSetting colorblindSetting;
         
-        [SerializeField] private TextMeshProUGUI colorblindModeText;
+        [SerializeField] LocalizedGUIText localizedGUIText;
+
+        private void Awake()
+        {
+            localizedGUIText ??= GetComponent<LocalizedGUIText>();
+        }
+
         private void OnEnable()
         {
             colorblindSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().ColorblindSettings;
             colorblindSetting.OnChange += UpdateText;
-            UpdateText(colorblindSetting);
+            UpdateText(colorblindSetting.GetCurrentColorblindMode());
         }
         private void OnDisable()
         {
@@ -32,9 +39,9 @@ namespace CursedOnion.Game.Settings
         {
             colorblindSetting.MoveColorblindMode(-1);
         }
-        void UpdateText(ColorblindSetting setting)
+        void UpdateText(ColorblindSetting.ColorblindMode colorblindMode)
         {
-            colorblindModeText.text = colorblindSetting.CurrentMode.ToString();
+            localizedGUIText.SetUsedKey((int)colorblindMode);
         }
         
     }

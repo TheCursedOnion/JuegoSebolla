@@ -4,14 +4,14 @@ using UnityEngine;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class VolumeSetting : ISetting<VolumeSetting>
+    public class VolumeSetting : ISetting<float>
     {
         [SerializeField] float sfxVolume;
-        public Action<VolumeSetting> OnChange { get; set; }
+        public Action<float> OnChange { get; set; }
         public void SetSfxVolume(float volume)
         {
             sfxVolume = volume;
-            OnChange?.Invoke(this);
+            OnChange?.Invoke(sfxVolume);
         }
     }
 }
