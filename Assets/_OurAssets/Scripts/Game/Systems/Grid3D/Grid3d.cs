@@ -216,6 +216,65 @@ namespace CursedOnion.Game.Systems.Grid
             }
             return reachable;
         }
+
+        public List<Vector3> GetReachablePositionsMovement(Vector3 startWorldPos, int movementRange)
+        {
+            if (!TryWorldToGridPosition(startWorldPos, out Vector3 startGrid))
+            { return null; }
+
+            List<Vector3> reachablePositions = new List<Vector3>();
+            Queue<(Vector3 pos, int cost)> frontier = new Queue<(Vector3, int)>();
+            HashSet<Vector3> visited = new HashSet<Vector3>();
+
+            frontier.Enqueue((startGrid, 0));
+            visited.Add(startGrid);
+
+            while (frontier.Count > 0)
+            {
+                var (currentPos, currentCost) = frontier.Dequeue();
+                reachablePositions.Add(currentPos);
+
+                foreach (Vector3 neighbour in GetNeighboursMovement(currentPos, this))
+                {
+                    if (visited.Contains(neighbour))
+                        continue;
+
+                    Tile3d tile = GetTileAtGridPosition(neighbour);
+                    if (tile == null || tile.GetContainedEntity() != null)
+                        continue;
+
+                    int newCost = currentCost + 1;
+                    if (newCost <= movementRange)
+                    {
+                        frontier.Enqueue((neighbour, newCost));
+                        visited.Add(neighbour);
+                    }
+                }
+            }
+
+            return reachablePositions;
+        }
+        private List<Vector3> GetNeighboursMovement(Vector3 gridPos, Grid3d levelGrid)
+        {
+            List<Vector3> neighbours = new List<Vector3>();
+            List<Vector3> directions = new List<Vector3>
+            {
+                new Vector3( 1, 0,  0),
+                new Vector3(-1, 0,  0),
+                new Vector3( 0, 0,  1),
+                new Vector3( 0, 0, -1),
+            };
+
+            foreach (var dir in directions)
+            {
+                Vector3 neighbour = gridPos + dir;
+
+                if (levelGrid.GetTileAtGridPosition(neighbour) != null)
+                    neighbours.Add(neighbour);
+            }
+
+            return neighbours;
+        }
         #endregion
 
         #region Painting
@@ -252,7 +311,17 @@ namespace CursedOnion.Game.Systems.Grid
 
         public void HighlightMovementRange(Vector3 startWorldPos, int moveRange, Color color)
         {
-            var reachable = GetReachablePositions(startWorldPos, moveRange+1);
+            var reachable = GetReachablePositionsMovement(startWorldPos, moveRange + 1);
+
+            foreach (var pos in reachable)
+            {
+                PaintTileAtGridPosition(pos, color);
+            }
+        }
+
+        public void HighlightActionRange(Vector3 startWorldPos, int moveRange, Color color)
+        {
+            var reachable = GetReachablePositions(startWorldPos, moveRange + 1);
 
             foreach (var pos in reachable)
             {

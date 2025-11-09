@@ -289,7 +289,7 @@ namespace CursedOnion.Game.Entity
         {
             int moveRange = GetStats().MovementStat;
 
-            var reachable = Grid.GetReachablePositions(transform.position, moveRange);
+            var reachable = Grid.GetReachablePositionsMovement(transform.position, moveRange);
 
             Vector3Int target = newPosition.CastToVectorInt();
             Grid.ResetPaint();

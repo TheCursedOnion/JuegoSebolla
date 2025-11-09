@@ -77,12 +77,12 @@ namespace CursedOnion.Game.Commands
                 }
                 else if (preparedCommand == typeof(AttackCommand))
                 {
-                    grid.HighlightMovementRange(unitPos, 1, Color.red);
+                    grid.HighlightActionRange(unitPos, 1, Color.red);
                 }
                 else if (preparedCommand == typeof(AbilityCommand))
                 {
                     int abilityRange = unitSubject.GetStats().SpecialAbilityType.AbilityRange;
-                    grid.HighlightMovementRange(unitPos, abilityRange, Color.yellow);
+                    grid.HighlightActionRange(unitPos, abilityRange, Color.yellow);
                 }
             }
         }
