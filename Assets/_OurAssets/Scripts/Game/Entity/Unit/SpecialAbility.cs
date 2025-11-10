@@ -9,7 +9,8 @@ namespace CursedOnion.Game.Entity
     public class SpecialAbility
     {
         public bool SelfTargetOnly = false;
-        public int AbilityRange = 0;
+        public int AbilityMinRange = 0;
+        public int AbilityMaxRange = 0;
 
         public virtual void ActivateAbility(Unit unit, SimpleEntity target = null) { }
     
@@ -101,28 +102,32 @@ namespace CursedOnion.Game.Entity
     {
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
-            if (target is not Unit targetUnit)
+
+            var grid = unit.GetGrid();
+            if (!grid.TryWorldToGridPosition(unit.transform.position, out Vector3 unitGridPos) ||
+                !grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
                 return;
 
-            Vector3 unitPos = unit.transform.position;
-            Vector3 targetPos = target.transform.position;
+            Vector3 direction = targetGridPos - unitGridPos;
+            direction.y = 0;
 
-            Vector2 direction2D = new Vector2(
-                targetPos.x - unitPos.x,
-                targetPos.z - unitPos.z
-            );
+            if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.z) > 0)
+            {
+                Debug.Log("Arquero solo puede usar habilidad en líneas cardinales");
+                return;
+            }
 
-            Vector3 direction3D = new Vector3(
-                direction2D.x,
+            direction = new Vector3(
+                Mathf.Clamp(direction.x, -1, 1),
                 0,
-                direction2D.y
+                Mathf.Clamp(direction.z, -1, 1)
             );
 
-            int damage = (int)Math.Ceiling(unit.GetStats().AttackStat * 0.5f);
+            int damage = Mathf.CeilToInt(unit.GetStats().AttackStat * 0.5f);
 
             for (int i = 0; i < 3; i++)
             {
-                Vector3 posToCheck = targetPos + direction3D * i;
+                Vector3 posToCheck = targetGridPos + direction * i;
 
                 Tile3d tile = unit.GetGrid().GetTileAtGridPosition(posToCheck);
 
@@ -137,7 +142,9 @@ namespace CursedOnion.Game.Entity
                 if (entity is Unit enemyUnit && enemyUnit.Side != unit.Side)
                 {
                     enemyUnit.Damage(damage);
+                    Debug.Log($"{enemyUnit.name} recibió {damage} puntos de daño por la habilidad de Arquero");
                 }
+                
             }
         }
 

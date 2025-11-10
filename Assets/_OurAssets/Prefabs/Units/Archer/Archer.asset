@@ -21,9 +21,13 @@ MonoBehaviour:
   price: 10
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
   specialAbility:
-    rid: -2
+    rid: 6291014342755483648
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 6291014342755483648
+      type: {class: ArcherAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+      data:
+        SelfTargetOnly: 0
+        AbilityMinRange: 2
+        AbilityMaxRange: 2
