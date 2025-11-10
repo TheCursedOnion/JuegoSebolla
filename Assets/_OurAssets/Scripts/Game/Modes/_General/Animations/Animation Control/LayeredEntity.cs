@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CursedOnion.Game.Modes.General.Animations
+namespace CursedOnion
 {
     public class LayeredEntity : MonoBehaviour
     {
+        private static readonly int LookupTexture = Shader.PropertyToID("_LookupTexture");
+
         [System.Serializable]
         public class AnimationLayer
         {
@@ -25,9 +27,6 @@ namespace CursedOnion.Game.Modes.General.Animations
 
         private void Awake()
         {
-            SpriteRenderer sr = this.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.enabled = false; // El objeto base no debe ser visible, todo son capas
             InitializeLayers();
         }
 
@@ -49,11 +48,13 @@ namespace CursedOnion.Game.Modes.General.Animations
 
                 layer.spriteRenderer.sortingOrder = i;
 
-                if (layer.baseMaterial != null && layer.lookupTexture != null)
+                if (layer.baseMaterial != null)
                 {
                     layer.materialInstance = Instantiate(layer.baseMaterial);
                     layer.spriteRenderer.material = layer.materialInstance;
-                    layer.materialInstance.SetTexture("_LookupTexture", layer.lookupTexture);
+
+                    if (layer.lookupTexture != null)
+                        layer.materialInstance.SetTexture(LookupTexture, layer.lookupTexture);
                 }
 
                 if (layer.animator == null)

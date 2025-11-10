@@ -30,6 +30,7 @@ namespace CursedOnion.Game.Localization
         }
         void UpdateText(LanguageSetting.Language _)
         {
+            languageSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().LanguageSettings;
             textMesh.text = languageSetting.GetLocalizedString(!useMultipleKeys ? key : keys[useKeyIndex]);
         }
         
