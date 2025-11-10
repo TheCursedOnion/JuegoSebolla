@@ -14,7 +14,7 @@ namespace CursedOnion.Game.Commands
                 switch (command)
                 {
                     case IStackableCommand:
-                        Debug.Log("Pusheo al Stack");
+                        //Debug.Log("Pusheo al Stack");
                         undoStack.Push(command);
                         break;
                     case IClearStackCommand:
@@ -35,7 +35,7 @@ namespace CursedOnion.Game.Commands
 
         public void ClearStack()
         {
-            Debug.Log("Borro el Stack");
+            //Debug.Log("Borro el Stack");
             undoStack.Clear();
         }
     }

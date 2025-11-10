@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Level;
@@ -48,7 +49,26 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             screen.SetActive(true);
         }
 
+        public void OnEndTurnButtonPressed()
+        {
+            var turnSystem = levelManager.GetTurnSystem();
+            var activeUnits = turnSystem.GetActiveUnits();
+            if (activeUnits == null || activeUnits.Count == 0)
+            {
+                Debug.Log("No hay unidades activas.");
+                return;
+            }
 
-        
+            foreach (var unit in activeUnits.ToList())
+            {
+                Debug.Log($"Terminando turno de {unit.name}");
+                turnSystem.EndTurnForUnit(unit);
+            }
+        }
+
+        public void OnStartButtonPressed()
+        {
+            levelManager.GetTurnSystem().StartRound();
+        }
     }
 }
