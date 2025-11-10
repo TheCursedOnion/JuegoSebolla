@@ -4,7 +4,7 @@ namespace CursedOnion
 {
     public class EntityAnimatorController : MonoBehaviour
     {
-        [SerializeField] private Animator animator;
+        public Animator animator;
         [SerializeField] private string testAnimationName;
 
         public void PlayAnimation(string animationName)
