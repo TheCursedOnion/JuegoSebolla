@@ -164,7 +164,7 @@ namespace CursedOnion.Game.Systems.Grid
             }
         }
 
-        public List<Vector3> GetReachablePositions(Vector3 startWorldPos, int range)
+        public List<Vector3> GetReachablePositions(Vector3 startWorldPos, int minRange, int maxRange)
         {
             var reachable = new List<Vector3>();
 
@@ -197,10 +197,10 @@ namespace CursedOnion.Game.Systems.Grid
             {
                 var (current, distance) = frontier.Dequeue();
 
-                if (distance > 0 && distance <= range)
+                if (distance >= minRange && distance <= maxRange)
                     reachable.Add(current);
 
-                if (distance >= range)
+                if (distance >= maxRange)
                     continue;
 
                 foreach (var dir in directions)
@@ -246,7 +246,8 @@ namespace CursedOnion.Game.Systems.Grid
             while (frontier.Count > 0)
             {
                 var (currentPos, currentCost) = frontier.Dequeue();
-                reachablePositions.Add(currentPos);
+                if (currentCost > 0)
+                    reachablePositions.Add(currentPos);
 
                 foreach (var dir in directions)
                 {
@@ -320,13 +321,61 @@ namespace CursedOnion.Game.Systems.Grid
             }
         }
 
-        public void HighlightActionRange(Vector3 startWorldPos, int moveRange, Color color)
+        public void HighlightActionRange(Vector3 startWorldPos, int minRange, int maxRange, Color color)
         {
-            var reachable = GetReachablePositions(startWorldPos, moveRange + 1);
+            var reachable = GetReachablePositions(startWorldPos, minRange, maxRange);
 
             foreach (var pos in reachable)
             {
-                PaintTileAtGridPosition(pos, color);
+                Vector3 newPos = new Vector3(
+                    pos.x,
+                    pos.y - 1,
+                    pos.z
+                );
+                PaintTileAtGridPosition(newPos, color);
+            }
+        }
+
+        public void HighlightArcherAbilityRange(Vector3 startWorldPos, int minRange, int maxRange, Color color)
+        {
+            if (!TryWorldToGridPosition(startWorldPos, out Vector3 startGrid))
+                return;
+
+            Vector3Int start = new Vector3Int(
+                Mathf.FloorToInt(startGrid.x),
+                Mathf.FloorToInt(startGrid.y),
+                Mathf.FloorToInt(startGrid.z)
+            );
+
+            Vector3Int[] directions = new Vector3Int[]
+            {
+                new Vector3Int(1, 0, 0),  
+                new Vector3Int(-1, 0, 0), 
+                new Vector3Int(0, 0, 1),  
+                new Vector3Int(0, 0, -1)  
+            };
+
+            foreach (var dir in directions)
+            {
+                for (int dist = minRange; dist <= maxRange; dist++)
+                {
+                    Vector3Int pos = start + dir * dist;
+
+                    if (!IsGridPositionInBounds((Vector3)pos))
+                        break;
+
+                    Vector3 newPos = new Vector3(
+                        pos.x,
+                        pos.y - 1,
+                        pos.z
+                    );
+
+                    PaintTileAtGridPosition(newPos, color);
+
+                    Tile3d tile = GetTileAtGridPosition(pos);
+                    if (tile == null || tile.GetContainedEntity() != null)
+                        break; 
+                }
             }
         }
 

@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.TestTools;
@@ -188,7 +189,7 @@ namespace CursedOnion.Game.Entity
                 nextAttackMultiplier = 1;
 
 
-                if (targetedUnit.GetStats().CurrentHealthStat > 0)
+                if (targetedUnit.GetStats().CurrentHealthStat > 0 && GetStats().SpecialAbilityType is not ArcherAbility)
                 {
                     int counterDamage = targetedUnit.GetStats().AttackStat;
 
@@ -208,17 +209,33 @@ namespace CursedOnion.Game.Entity
                 return false;
             }
 
+            if (target is Unit targetedUnit && (targetedUnit.Side == Side || targetedUnit.Side == BattleSide.Neutral ))
+            {
+                Grid.ResetPaint();
+                Debug.LogWarning($"{name} no puede atacar a {target.name} porque son del mismo bando o es un elemento neutral.");
+                return false;
+            }
+
             if (!Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
                 return false;
 
-            var reachable = Grid.GetReachablePositions(transform.position, 1);
+            var reachable = new List<Vector3>();
+
+            if (GetStats().SpecialAbilityType is ArcherAbility)
+            {
+                reachable = Grid.GetReachablePositions(transform.position, 2, 2);
+            }
+            else
+            {
+                reachable = Grid.GetReachablePositions(transform.position, 1, 1);
+            }
             Grid.ResetPaint();
             return reachable.Contains(targetGridPos);
         }
         #endregion
 
         #region Special Ability
-       
+
         protected override void DoAbility(SimpleEntity target, bool undo)
         {
             Grid.ResetPaint();
@@ -247,7 +264,25 @@ namespace CursedOnion.Game.Entity
             if (!Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
                 return false;
 
-            var reachable = Grid.GetReachablePositions(transform.position, SpecialAbility.AbilityRange);
+            var reachable = Grid.GetReachablePositions(transform.position, GetStats().SpecialAbilityType.AbilityMinRange, GetStats().SpecialAbilityType.AbilityMaxRange);
+
+            var ability = GetStats().SpecialAbilityType;
+
+            if (ability is ArcherAbility)
+            {
+                if (!Grid.TryWorldToGridPosition(transform.position, out Vector3 unitGridPos))
+                    return false;
+
+                Vector3 dir = targetGridPos - unitGridPos;
+                dir.y = 0;
+
+                if (Mathf.Abs(dir.x) > 0 && Mathf.Abs(dir.z) > 0)
+                {
+                    Grid.ResetPaint();
+                    return false;
+                }
+            }
+
             Grid.ResetPaint();
             return reachable.Contains(targetGridPos);
         }

@@ -1,6 +1,7 @@
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Helpers;
 using Reflex.Attributes;
 using Reflex.Core;
 using Reflex.Injectors;
@@ -68,6 +69,7 @@ namespace CursedOnion.Game.Commands
             if (commandSubject is Unit unitSubject)
             {
                 Grid3d grid = unitSubject.GetGrid();
+                grid.ResetPaint();
                 Vector3 unitPos = unitSubject.transform.position;
 
                 if (preparedCommand == typeof(MoveCommand))
@@ -77,12 +79,27 @@ namespace CursedOnion.Game.Commands
                 }
                 else if (preparedCommand == typeof(AttackCommand))
                 {
-                    grid.HighlightActionRange(unitPos, 1, Color.red);
+                    if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)
+                    {
+                        grid.HighlightActionRange(unitPos, 2, 2, Color.red);
+                    }
+                    else
+                    {
+                        grid.HighlightActionRange(unitPos, 1, 1, Color.red);
+                    }
                 }
                 else if (preparedCommand == typeof(AbilityCommand))
                 {
-                    int abilityRange = unitSubject.GetStats().SpecialAbilityType.AbilityRange;
-                    grid.HighlightActionRange(unitPos, abilityRange, Color.yellow);
+                    int abilityMinRange = unitSubject.GetStats().SpecialAbilityType.AbilityMinRange;
+                    int abilityMaxRange = unitSubject.GetStats().SpecialAbilityType.AbilityMaxRange;
+                    if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)
+                    {
+                        grid.HighlightArcherAbilityRange(unitPos, abilityMinRange, abilityMaxRange, Color.yellow);
+                    }
+                    else
+                    {
+                        grid.HighlightActionRange(unitPos, abilityMinRange, abilityMaxRange, Color.yellow);
+                    }
                 }
             }
         }
