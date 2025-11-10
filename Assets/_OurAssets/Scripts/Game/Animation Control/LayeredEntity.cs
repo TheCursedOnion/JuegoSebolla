@@ -5,6 +5,8 @@ namespace CursedOnion
 {
     public class LayeredEntity : MonoBehaviour
     {
+        private static readonly int LookupTexture = Shader.PropertyToID("_LookupTexture");
+
         [System.Serializable]
         public class AnimationLayer
         {
@@ -52,7 +54,7 @@ namespace CursedOnion
                     layer.spriteRenderer.material = layer.materialInstance;
 
                     if (layer.lookupTexture != null)
-                        layer.materialInstance.SetTexture("LookupTexture", layer.lookupTexture);
+                        layer.materialInstance.SetTexture(LookupTexture, layer.lookupTexture);
                 }
 
                 if (layer.animator == null)
