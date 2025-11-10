@@ -40,7 +40,7 @@ namespace CursedOnion.Game.Entity
         public BattleSide Side;
 
         // Ability Status
-        private int nextAttackMultiplier = 1;
+        private float nextAttackMultiplier = 1;
         private int additionalHP = 0;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
@@ -161,7 +161,7 @@ namespace CursedOnion.Game.Entity
         #endregion
 
         #region Attack
-        public void SetNextAttackMultiplier(int multiplier)
+        public void SetNextAttackMultiplier(float multiplier)
         {
             nextAttackMultiplier = multiplier;
         }
@@ -178,7 +178,8 @@ namespace CursedOnion.Game.Entity
 
                 Grid.ResetPaint();
 
-                int rawDamage = GetStats().AttackStat * nextAttackMultiplier;
+                int rawDamage = Mathf.CeilToInt(GetStats().AttackStat * nextAttackMultiplier);
+
                 int targetDefense = targetedUnit.GetStats().DefenseStat;
                 int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
 
