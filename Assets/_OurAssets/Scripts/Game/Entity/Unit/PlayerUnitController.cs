@@ -1,10 +1,12 @@
+using UnityEngine;
+
 namespace CursedOnion.Game.Entity
 {
     public class PlayerUnitController : UnitController
     {
-        public override void ProcessTurn()
+        public override void ProcessTurn(Unit unit)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"Turno de unidad aliada: {unit.name}");
         }
     }
 }

@@ -5,6 +5,7 @@ using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
+using Reflex.Attributes;
 using Reflex.Core;
 using Reflex.Extensions;
 using Reflex.Injectors;
@@ -37,10 +38,12 @@ namespace CursedOnion.Game.Entity
 
         public SpecialAbility SpecialAbility;
 
+        [Inject] LevelManager levelManager;
+
         public BattleSide Side;
 
         // Ability Status
-        private int nextAttackMultiplier = 1;
+        private float nextAttackMultiplier = 1;
         private int additionalHP = 0;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
@@ -87,7 +90,7 @@ namespace CursedOnion.Game.Entity
         public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
-            SetLevelVariables(container.Resolve<LevelManager>());
+            SetLevelVariables(container.Resolve<LevelManager>());         
 
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
@@ -98,6 +101,34 @@ namespace CursedOnion.Game.Entity
             if (UnitController == null)
             {
                 SetSide(Side);
+            }
+
+            var turnSystem = levelManager.GetTurnSystem();
+            turnSystem.AddUnit(this);
+            turnSystem.OnUnitTurnStart += HandleTurnStart;
+            turnSystem.OnUnitTurnEnd += HandleTurnEnd;
+
+            if (unitUI != null)
+                unitUI.SetActive(false);
+        }
+
+        private void HandleTurnStart(Unit unit)
+        {
+            if (unit == this)
+            {
+                //Debug.Log($"{name} puede actuar, mostrando su UI");
+                if (unitUI != null)
+                    unitUI.SetActive(true);
+            }
+        }
+
+        private void HandleTurnEnd(Unit unit)
+        {
+            if (unit == this)
+            {
+                //Debug.Log($"{name} termina su turno, ocultando su UI");
+                if (unitUI != null)
+                    unitUI.SetActive(false);
             }
         }
 
@@ -124,6 +155,17 @@ namespace CursedOnion.Game.Entity
             }
             this.GetStats().MovementStat = baseMovement;
         }
+
+        private void OnDestroy()
+        {
+            if (levelManager != null)
+            {
+                var turnSystem = levelManager.GetTurnSystem();
+                turnSystem.OnUnitTurnStart -= HandleTurnStart;
+                turnSystem.OnUnitTurnEnd -= HandleTurnEnd;
+            }
+        }
+
         #region Health
         public void SetAdditionalHP(int factor)
         {
@@ -150,7 +192,13 @@ namespace CursedOnion.Game.Entity
             }
 
             Stats.CurrentHealthStat -= damage;
-            if (Stats.CurrentHealthStat <= 0) Die();
+            if (Stats.CurrentHealthStat <= 0)
+            { 
+                levelManager.GetTurnSystem().RemoveUnit(this);
+                
+                Die(); 
+            }
+
         }
 
         public override void Heal(int healedHP)
@@ -161,7 +209,7 @@ namespace CursedOnion.Game.Entity
         #endregion
 
         #region Attack
-        public void SetNextAttackMultiplier(int multiplier)
+        public void SetNextAttackMultiplier(float multiplier)
         {
             nextAttackMultiplier = multiplier;
         }
@@ -178,7 +226,8 @@ namespace CursedOnion.Game.Entity
 
                 Grid.ResetPaint();
 
-                int rawDamage = GetStats().AttackStat * nextAttackMultiplier;
+                int rawDamage = Mathf.CeilToInt(GetStats().AttackStat * nextAttackMultiplier);
+
                 int targetDefense = targetedUnit.GetStats().DefenseStat;
                 int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
 

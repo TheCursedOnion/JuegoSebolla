@@ -30,7 +30,7 @@ namespace CursedOnion.Game.Entity.UI
 
         void UpdateUI()
         {
-            Debug.Log("Update UI");
+            //Debug.Log("Update UI");
         }
         
         public void MoveUnit()

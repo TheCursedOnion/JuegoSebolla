@@ -1,14 +1,14 @@
 
-using CursedOnion.ScriptableObjects;
-using Reflex.Attributes;
-
-using System.Collections.Generic;
-using System.Linq;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
-using CursedOnion.Game.Systems.Level;
 using CursedOnion.Game.Modes.General.UI.Transitions;
+using CursedOnion.Game.Systems.Level;
+using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
+using Reflex.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CursedOnion
@@ -21,12 +21,17 @@ namespace CursedOnion
         [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
         [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
         
-        int currentInitiative = 0;
-        
-        private List<Unit> allies = new List<Unit>();
-        private List<Unit> enemies = new List<Unit>();
-        
-        private List<Unit> activeUnits;
+        int currentInitiative;
+        private bool alliesProcessedForCurrentInitiative = false;
+
+        [SerializeField]private List<Unit> allies = new List<Unit>();
+        [SerializeField] private List<Unit> enemies = new List<Unit>();
+
+        [SerializeField] private List<Unit> activeUnits = new List<Unit>();
+        public List<Unit> GetActiveUnits() => activeUnits;
+
+        public event Action<Unit> OnUnitTurnStart;
+        public event Action<Unit> OnUnitTurnEnd;
 
         public void AddUnit(Unit unit)
         {
@@ -47,86 +52,89 @@ namespace CursedOnion
 
         public void StartRound()
         { 
-            if(allies.Count == 0 || enemies.Count == 0) return;
+            Debug.Log("======== NUEVA RONDA EMPIEZA ========");
+            
+            if (allies.Count == 0 || enemies.Count == 0) return;
             
             allies = allies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
             enemies = enemies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
 
             var maxAllyInitiative = allies[0].GetStats().InitiativeStat;
             var maxEnemyInitiative = enemies[0].GetStats().InitiativeStat;
-            currentInitiative = Mathf.Max(maxEnemyInitiative, maxAllyInitiative) + 1;
+            currentInitiative = Mathf.Max(maxEnemyInitiative, maxAllyInitiative);
             
-            NextTurn();
+            StartInitiativeGroup();
         }
 
-        private bool CallPlayerTurn()
+        private void StartInitiativeGroup()
         {
-            return CallTurn(false);
-        }
-        private bool CallEnemyTurn()
-        {
-            return CallTurn(true);
-        }
-        private bool CallTurn(bool forPlayer)
-        {
-            if (forPlayer)
+            Debug.Log($"-- Iniciativa actual: {currentInitiative} --");
+            commandManager.ClearStack();
+
+            var allyGroup = allies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
+            var enemyGroup = enemies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
+
+            if (!alliesProcessedForCurrentInitiative && allyGroup.Count > 0)
             {
-                activeUnits = allies.Where(u=> currentInitiative == u.GetStats().InitiativeStat).ToList();
+                activeUnits.Clear();
+                activeUnits.AddRange(allyGroup);
+
+                alliesProcessedForCurrentInitiative = true;
+
+                foreach (var unit in allyGroup)
+                {
+                    OnUnitTurnStart?.Invoke(unit);
+                    unit.UnitController.ProcessTurn(unit);
+                }
+                return;
             }
+
+            if (enemyGroup.Count > 0)
+            {
+                activeUnits.Clear();
+                activeUnits.AddRange(enemyGroup);
+
+                foreach (var enemy in enemyGroup)
+                {
+                    OnUnitTurnStart?.Invoke(enemy);
+                    enemy.UnitController.ProcessTurn(enemy);
+                    OnUnitTurnEnd?.Invoke(enemy);
+                }
+            }
+            
+            alliesProcessedForCurrentInitiative = false;
+
+            currentInitiative--;
+            if (currentInitiative > 0)
+                StartInitiativeGroup();
             else
-            {
-                activeUnits = enemies.Where(u=> currentInitiative == u.GetStats().InitiativeStat).ToList();
-            }
-
-            foreach (var unit in activeUnits)
-            {
-                unit.UnitController.ProcessTurn();
-            }
-            
-            bool result = activeUnits.Count > 0;
-            return result;
+                StartRound();
         }
-
 
         public void EndTurnForUnit(Unit unit)
         {
-            if (activeUnits.Contains(unit)) activeUnits.Remove(unit);
+            if (unit == null || unit.GetStats().CurrentHealthStat <= 0)
+            {
+                if (activeUnits.Contains(unit))
+                    activeUnits.Remove(unit);
+
+                if (activeUnits.Count == 0)
+                    StartInitiativeGroup();
+
+                return;
+            }
+
+            if (activeUnits.Contains(unit))
+            {
+                activeUnits.Remove(unit);
+                OnUnitTurnEnd?.Invoke(unit);
+            }
 
             if (activeUnits.Count == 0)
             {
-                NextTurn();
+                StartInitiativeGroup();
             }
         }
-
-        public void EndTurn()
-        {
-            activeUnits.Clear();
-            NextTurn();
-        }
-
-        void NextTurn()
-        {
-            commandManager.ClearStack();
-            
-            bool hasActiveUnits = false;
-            while (!hasActiveUnits)
-            {
-                UpdateIniciative();
-                
-                hasActiveUnits = CallPlayerTurn();
-                if (!hasActiveUnits) CallEnemyTurn();
-                
-                if (currentInitiative == 0) break;
-            }
-            
-            if(!hasActiveUnits && allies.Count > 0 && enemies.Count > 0) StartRound();
-        }
-        
-        void UpdateIniciative()
-        {
-            currentInitiative--;
-        }
-
 
     }
 }

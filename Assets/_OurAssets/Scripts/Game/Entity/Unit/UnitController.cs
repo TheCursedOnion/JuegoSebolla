@@ -10,7 +10,7 @@ namespace CursedOnion.Game.Entity
     {
         [SerializeReference, SubclassSelector] protected AStarPathFinder PathFinder = new AStarPathFinderMod();
         public AStarPathFinder GetPathFinder() => PathFinder;
-        public abstract void ProcessTurn();
+        public abstract void ProcessTurn(Unit unit);
     }
 
     [System.Serializable]

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace CursedOnion
     public class UnitActionsWindow : MonoBehaviour
     {
         [Inject] LevelEvents levelEvents;
+        [Inject] LevelManager levelManager;
         private Dictionary<GameObject, GameObject> actionsUI = new();
         
         private Unit unit;
@@ -18,13 +20,26 @@ namespace CursedOnion
         {
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
+
+            levelManager.GetTurnSystem().OnUnitTurnStart += OnTurnChanged;
+            levelManager.GetTurnSystem().OnUnitTurnEnd += OnTurnChanged;
         }
+
         private void OnDisable()
         {
-            levelEvents.OnEntitySelected += SetEntity;
-            levelEvents.OnNoEntitySelected += SetNullEntity;
+            levelEvents.OnEntitySelected -= SetEntity;
+            levelEvents.OnNoEntitySelected -= SetNullEntity;
+
+            levelManager.GetTurnSystem().OnUnitTurnStart -= OnTurnChanged;
+            levelManager.GetTurnSystem().OnUnitTurnEnd -= OnTurnChanged;
         }
-        
+
+        private void OnTurnChanged(Unit u)
+        {
+            if (unit != null)
+                UpdateActionsWindow();
+        }
+
         void SetNullEntity()
         {
             unit = null;
@@ -37,6 +52,12 @@ namespace CursedOnion
         }
         void UpdateActionsWindow()
         {
+            if (!levelManager.GetTurnSystem().GetActiveUnits().Contains(unit))
+            {
+                DisableChildren();
+                return;
+            }
+
             var ui = unit.GetUI();
             GameObject instancedUI;
             
