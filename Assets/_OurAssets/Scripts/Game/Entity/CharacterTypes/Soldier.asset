@@ -18,7 +18,7 @@ MonoBehaviour:
   defenseRange: {x: 6, y: 7}
   initiativeRange: {x: 9, y: 13}
   movement: 5
-  price: 10
+  price: 500
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
   specialAbility:
     rid: 6291014282122887255
@@ -29,5 +29,6 @@ MonoBehaviour:
       type: {class: SoldierAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:
         SelfTargetOnly: 1
-        AbilityRange: 0
+        AbilityMinRange: 0
+        AbilityMaxRange: 0
         DamageMultiplier: 2

@@ -18,7 +18,7 @@ MonoBehaviour:
   defenseRange: {x: 8, y: 9}
   initiativeRange: {x: 8, y: 10}
   movement: 6
-  price: 15
+  price: 600
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
   specialAbility:
     rid: 6291014327123312965
@@ -29,4 +29,5 @@ MonoBehaviour:
       type: {class: KnightAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:
         SelfTargetOnly: 1
-        AbilityRange: 0
+        AbilityMinRange: 0
+        AbilityMaxRange: 0

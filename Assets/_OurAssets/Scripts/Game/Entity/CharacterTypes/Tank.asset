@@ -18,7 +18,7 @@ MonoBehaviour:
   defenseRange: {x: 10, y: 12}
   initiativeRange: {x: 3, y: 5}
   movement: 4
-  price: 15
+  price: 600
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
   specialAbility:
     rid: 6291014321433477120
@@ -29,5 +29,6 @@ MonoBehaviour:
       type: {class: TankAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:
         SelfTargetOnly: 1
-        AbilityRange: 0
+        AbilityMinRange: 0
+        AbilityMaxRange: 0
         AdditionalHPFactor: 30
