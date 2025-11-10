@@ -9,9 +9,11 @@ namespace CursedOnion
         public class AnimationLayer
         {
             public string layerName = "NewLayer";
-
             public RuntimeAnimatorController animatorController;
+            public Material baseMaterial;
+            public Texture2D lookupTexture;
 
+            [HideInInspector] public Material materialInstance;
             [HideInInspector] public Animator animator;
             [HideInInspector] public EntityAnimatorController controller;
             [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -19,7 +21,6 @@ namespace CursedOnion
         }
 
         public List<AnimationLayer> layers = new List<AnimationLayer>();
-
         [SerializeField] string testAnimation;
 
         private void Awake()
@@ -44,6 +45,15 @@ namespace CursedOnion
                     layer.spriteRenderer = layer.layerObject.AddComponent<SpriteRenderer>();
 
                 layer.spriteRenderer.sortingOrder = i;
+
+                if (layer.baseMaterial != null)
+                {
+                    layer.materialInstance = Instantiate(layer.baseMaterial);
+                    layer.spriteRenderer.material = layer.materialInstance;
+
+                    if (layer.lookupTexture != null)
+                        layer.materialInstance.SetTexture("LookupTexture", layer.lookupTexture);
+                }
 
                 if (layer.animator == null)
                 {
