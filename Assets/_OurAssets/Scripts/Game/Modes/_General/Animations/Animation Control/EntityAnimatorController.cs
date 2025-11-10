@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Modes.General.Animations
 {
     public class EntityAnimatorController : MonoBehaviour
     {

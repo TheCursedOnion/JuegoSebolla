@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Modes.General.Animations
 {
     public class LayeredEntity : MonoBehaviour
     {
