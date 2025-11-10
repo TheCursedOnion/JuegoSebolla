@@ -22,7 +22,8 @@ namespace CursedOnion
         [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
         
         int currentInitiative;
-        
+        private bool alliesProcessedForCurrentInitiative = false;
+
         [SerializeField]private List<Unit> allies = new List<Unit>();
         [SerializeField] private List<Unit> enemies = new List<Unit>();
 
@@ -62,7 +63,6 @@ namespace CursedOnion
             var maxEnemyInitiative = enemies[0].GetStats().InitiativeStat;
             currentInitiative = Mathf.Max(maxEnemyInitiative, maxAllyInitiative);
             
-            //NextTurn();
             StartInitiativeGroup();
         }
 
@@ -71,74 +71,69 @@ namespace CursedOnion
             Debug.Log($"-- Iniciativa actual: {currentInitiative} --");
             commandManager.ClearStack();
 
-            // Buscar todas las unidades que tengan la iniciativa actual
             var allyGroup = allies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
             var enemyGroup = enemies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
 
-            activeUnits.Clear();
-            activeUnits.AddRange(allyGroup);
-            activeUnits.AddRange(enemyGroup);
-
-            if (activeUnits.Count == 0)
+            if (!alliesProcessedForCurrentInitiative && allyGroup.Count > 0)
             {
-                // Si no hay unidades en esta iniciativa, pasa a la siguiente
-                currentInitiative--;
-                if (currentInitiative > 0)
-                    StartInitiativeGroup();
-                else
-                    StartRound(); // Reinicia cuando termina todo el ciclo
-                return;
-            }
+                activeUnits.Clear();
+                activeUnits.AddRange(allyGroup);
 
-            // Si hay aliados en esta iniciativa, el jugador elegirá el orden
-            if (allyGroup.Count > 0)
-            {
-                Debug.Log($"Turno del jugador unidades disponibles: {allyGroup.Count}");
+                alliesProcessedForCurrentInitiative = true;
+
                 foreach (var unit in allyGroup)
-                {
-                    OnUnitTurnStart?.Invoke(unit); // Notifica que empieza el turno de esta unidad
-                    unit.UnitController.ProcessTurn(unit);
-                }
-            }
-            else
-            {
-                // Turno del enemigo (IA)
-                Debug.Log($"Turno de la IA (Iniciativa {currentInitiative})");
-                foreach (var unit in enemyGroup)
                 {
                     OnUnitTurnStart?.Invoke(unit);
                     unit.UnitController.ProcessTurn(unit);
                 }
+                return;
             }
-        }
 
-        public void EndTurnForUnit(Unit unit)
-        {
-            if (activeUnits.Contains(unit))
+            if (enemyGroup.Count > 0)
             {
-                activeUnits.Remove(unit);
-                OnUnitTurnEnd?.Invoke(unit); // Notifica que terminó el turno
-            }
+                activeUnits.Clear();
+                activeUnits.AddRange(enemyGroup);
 
-            // Si todas las unidades con esta iniciativa terminaron
-            if (activeUnits.Count == 0)
-            {
-                currentInitiative--;
-                if (currentInitiative > 0)
-                    StartInitiativeGroup();
-                else
-                    StartRound();
+                foreach (var enemy in enemyGroup)
+                {
+                    OnUnitTurnStart?.Invoke(enemy);
+                    enemy.UnitController.ProcessTurn(enemy);
+                    OnUnitTurnEnd?.Invoke(enemy);
+                }
             }
-        }
+            
+            alliesProcessedForCurrentInitiative = false;
 
-        public void EndTurn()
-        {
-            activeUnits.Clear();
             currentInitiative--;
             if (currentInitiative > 0)
                 StartInitiativeGroup();
             else
                 StartRound();
+        }
+
+        public void EndTurnForUnit(Unit unit)
+        {
+            if (unit == null || unit.GetStats().CurrentHealthStat <= 0)
+            {
+                if (activeUnits.Contains(unit))
+                    activeUnits.Remove(unit);
+
+                if (activeUnits.Count == 0)
+                    StartInitiativeGroup();
+
+                return;
+            }
+
+            if (activeUnits.Contains(unit))
+            {
+                activeUnits.Remove(unit);
+                OnUnitTurnEnd?.Invoke(unit);
+            }
+
+            if (activeUnits.Count == 0)
+            {
+                StartInitiativeGroup();
+            }
         }
 
     }

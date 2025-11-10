@@ -61,7 +61,6 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
 
             foreach (var unit in activeUnits.ToList())
             {
-                Debug.Log($"Terminando turno de {unit.name}");
                 turnSystem.EndTurnForUnit(unit);
             }
         }

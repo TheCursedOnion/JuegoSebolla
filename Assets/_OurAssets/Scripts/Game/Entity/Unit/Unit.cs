@@ -116,7 +116,7 @@ namespace CursedOnion.Game.Entity
         {
             if (unit == this)
             {
-                Debug.Log($"{name} puede actuar, mostrando su UI");
+                //Debug.Log($"{name} puede actuar, mostrando su UI");
                 if (unitUI != null)
                     unitUI.SetActive(true);
             }
@@ -126,7 +126,7 @@ namespace CursedOnion.Game.Entity
         {
             if (unit == this)
             {
-                Debug.Log($"{name} termina su turno, ocultando su UI");
+                //Debug.Log($"{name} termina su turno, ocultando su UI");
                 if (unitUI != null)
                     unitUI.SetActive(false);
             }
@@ -195,6 +195,7 @@ namespace CursedOnion.Game.Entity
             if (Stats.CurrentHealthStat <= 0)
             { 
                 levelManager.GetTurnSystem().RemoveUnit(this);
+                
                 Die(); 
             }
 
