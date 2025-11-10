@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Modes.General.Animations
 {
     public class EntityAnimatorController : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace CursedOnion
             if (animationName.ToLower().Contains("heal")) //Para curar hay que reproducir la otra animación antes
             {
                 animator.SetBool("isHealing", true);
-                animator.Play("base_buff");
+                animator.Play("buff");
                 return;
             }
 

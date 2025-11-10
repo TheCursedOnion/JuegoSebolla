@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Modes.General.Animations
 {
     public class LayeredEntity : MonoBehaviour
     {
@@ -25,6 +25,9 @@ namespace CursedOnion
 
         private void Awake()
         {
+            SpriteRenderer sr = this.GetComponent<SpriteRenderer>();
+            if (sr != null)
+                sr.enabled = false; // El objeto base no debe ser visible, todo son capas
             InitializeLayers();
         }
 
@@ -46,13 +49,11 @@ namespace CursedOnion
 
                 layer.spriteRenderer.sortingOrder = i;
 
-                if (layer.baseMaterial != null)
+                if (layer.baseMaterial != null && layer.lookupTexture != null)
                 {
                     layer.materialInstance = Instantiate(layer.baseMaterial);
                     layer.spriteRenderer.material = layer.materialInstance;
-
-                    if (layer.lookupTexture != null)
-                        layer.materialInstance.SetTexture("LookupTexture", layer.lookupTexture);
+                    layer.materialInstance.SetTexture("_LookupTexture", layer.lookupTexture);
                 }
 
                 if (layer.animator == null)
