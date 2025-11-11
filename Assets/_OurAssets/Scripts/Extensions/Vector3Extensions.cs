@@ -58,6 +58,15 @@ namespace CursedOnion.Extensions
             
             return (x + y + z) == 1;
         }
+        
+        public static Vector3Int RoundToInt(this Vector3 v)
+        {
+            return new Vector3Int(
+                Mathf.RoundToInt(v.x),
+                Mathf.RoundToInt(v.y),
+                Mathf.RoundToInt(v.z)
+            );
+        }
 
     }
 }
