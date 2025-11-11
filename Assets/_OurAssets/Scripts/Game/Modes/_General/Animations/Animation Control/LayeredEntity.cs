@@ -24,15 +24,13 @@ namespace CursedOnion.Game.Modes.General.Animations
 
         public List<AnimationLayer> layers = new List<AnimationLayer>();
         [SerializeField] string testAnimation;
-        public bool testing = false;
 
         private void Awake()
         {
             SpriteRenderer sr = this.GetComponent<SpriteRenderer>();
             if (sr != null)
                 sr.enabled = false; // El objeto base no debe ser visible, todo son capas
-            if (testing)
-                InitializeLayers();
+            InitializeLayers();
         }
 
         private void InitializeLayers()
