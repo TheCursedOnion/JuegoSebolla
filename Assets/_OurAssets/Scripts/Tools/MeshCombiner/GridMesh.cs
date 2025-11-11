@@ -77,7 +77,7 @@ namespace CursedOnion.Tools
                     vertexIndices.Clear();
                     
                     RemoveHiddenFaces(resultMesh, gridPosition, transform);
-                    RemapVertices(resultMesh);
+                    //RemapVertices(resultMesh);
                     ApplyVertexDataAtGridPosition(resultMesh, gridPosition);
                     
                     return resultMesh;
