@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CursedOnion.Game.Modes.General.Animations;
 using NaughtyAttributes;
 using UnityEngine;
 using static CursedOnion.Game.Modes.General.Animations.LayeredEntity;
@@ -24,7 +25,7 @@ namespace CursedOnion.Game.Entity
 
         [SubclassSelector, SerializeReference] private SpecialAbility specialAbility;
 
-        [SerializeField] private List<AnimationLayer>[] animationLayers;
+        [SerializeField] private List<AnimationLayerGroup> animationLayers;
 
         public string GetName()
         { 
@@ -62,7 +63,7 @@ namespace CursedOnion.Game.Entity
         {
             return specialAbility;
         }
-        public List<AnimationLayer>[] GetAnimationLayers()
+        public List<AnimationLayerGroup> GetAnimationLayers()
         {
             return animationLayers;
         }

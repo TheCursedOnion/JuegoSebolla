@@ -1,6 +1,7 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
@@ -37,6 +38,8 @@ namespace CursedOnion.Game.Entity
         public UnitController UnitController;
 
         public SpecialAbility SpecialAbility;
+
+        private LayeredEntity layeredEntity;
 
         [Inject] LevelManager levelManager;
 
@@ -90,7 +93,7 @@ namespace CursedOnion.Game.Entity
         public void Start()
         {
             var container = this.gameObject.scene.GetSceneContainer();
-            SetLevelVariables(container.Resolve<LevelManager>());         
+            SetLevelVariables(container.Resolve<LevelManager>());
 
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
@@ -110,8 +113,38 @@ namespace CursedOnion.Game.Entity
 
             if (unitUI != null)
                 unitUI.SetActive(false);
+            InitializeAnimations();
         }
 
+        private void InitializeAnimations()
+        {
+            layeredEntity = GetComponent<LayeredEntity>();
+            if (layeredEntity == null)
+                layeredEntity = gameObject.AddComponent<LayeredEntity>();
+
+            var animationGroups = GetStats().AnimationLayers;
+
+            if (animationGroups == null || animationGroups.Count == 0)
+            {
+                Debug.LogWarning($"{name}: No se asignaron grupos de animación.");
+                return;
+            }
+
+            var currentGroup = animationGroups[1]; // o el que quieras seleccionar
+
+            if (currentGroup.layers == null || currentGroup.layers.Count == 0)
+            {
+                Debug.LogWarning($"{name}: El grupo '{currentGroup.groupName}' no tiene capas asignadas.");
+                return;
+            }
+
+            layeredEntity.layers = currentGroup.layers;
+
+            var initLayersMethod = typeof(LayeredEntity)
+                .GetMethod("InitializeLayers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            initLayersMethod?.Invoke(layeredEntity, null);
+        }
         private void HandleTurnStart(Unit unit)
         {
             if (unit == this)
@@ -365,6 +398,7 @@ namespace CursedOnion.Game.Entity
                 }
                 Grid.ResetPaint();
                 GetStats().MovementStat = baseMovement;
+                layeredEntity.PlayAnimation("walk");
                 StartCoroutine(MoveAlongPath(path));
             }
         }
@@ -386,9 +420,25 @@ namespace CursedOnion.Game.Entity
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(null);
 
             float speed = 5f;
+            Vector3 lastPosition = transform.position;
 
             foreach (var pos in path)
             {
+                Vector3 direction = pos - lastPosition;
+
+                if (direction.x > 0.01f)
+                {
+                    Vector3 scale = transform.localScale;
+                    scale.x = Mathf.Abs(scale.x) * -1f;
+                    transform.localScale = scale;
+                }
+                else if (direction.x < -0.01f)
+                {
+                    Vector3 scale = transform.localScale;
+                    scale.x = Mathf.Abs(scale.x);
+                    transform.localScale = scale;
+                }
+
                 while (Vector3.Distance(transform.position, pos) > 0.01f)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, pos, speed * Time.deltaTime);
@@ -396,8 +446,10 @@ namespace CursedOnion.Game.Entity
                 }
 
                 transform.position = pos;
-                yield return new WaitForSeconds(0.05f);
+                lastPosition = pos;
+                yield return null;
             }
+            layeredEntity.PlayAnimation("idle");
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
         }
         #endregion
