@@ -19,7 +19,7 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class SoldierAbility : SpecialAbility
     {
-        public int DamageMultiplier = 2; 
+        public float DamageMultiplier = 1.3f; 
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
@@ -31,7 +31,7 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class TankAbility : SpecialAbility
     {
-        public int AdditionalHPFactor = 30;
+        public int AdditionalHPFactor = 20;
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
@@ -123,7 +123,7 @@ namespace CursedOnion.Game.Entity
                 Mathf.Clamp(direction.z, -1, 1)
             );
 
-            int damage = Mathf.CeilToInt(unit.GetStats().AttackStat * 0.5f);
+            int damage = Mathf.CeilToInt(unit.GetStats().AttackStat * 0.4f);
 
             for (int i = 0; i < 3; i++)
             {

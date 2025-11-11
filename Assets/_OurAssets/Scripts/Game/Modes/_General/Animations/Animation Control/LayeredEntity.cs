@@ -5,6 +5,8 @@ namespace CursedOnion.Game.Modes.General.Animations
 {
     public class LayeredEntity : MonoBehaviour
     {
+
+
         [System.Serializable]
         public class AnimationLayer
         {
@@ -54,6 +56,8 @@ namespace CursedOnion.Game.Modes.General.Animations
                     layer.materialInstance = Instantiate(layer.baseMaterial);
                     layer.spriteRenderer.material = layer.materialInstance;
                     layer.materialInstance.SetTexture("_LookupTexture", layer.lookupTexture);
+
+
                 }
 
                 if (layer.animator == null)

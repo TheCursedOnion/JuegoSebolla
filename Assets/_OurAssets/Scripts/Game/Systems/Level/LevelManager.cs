@@ -19,8 +19,11 @@ namespace CursedOnion.Game.Systems.Level
         public LevelEvents LevelEvents;
         public LevelScoreData LevelScoreVariables;
         [ReadOnly] public LevelState CurrentLevelState;
-        
-        #if UNITY_EDITOR
+
+        [SerializeField] private TurnSystem turnSystem;
+        public TurnSystem GetTurnSystem() => turnSystem;
+
+#if UNITY_EDITOR
         public void Initialize(LevelAsset asset)
         {
             gameObject.name = "LevelManager";
