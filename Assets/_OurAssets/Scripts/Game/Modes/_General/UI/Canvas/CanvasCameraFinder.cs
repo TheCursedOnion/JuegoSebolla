@@ -12,6 +12,7 @@ namespace CursedOnion.Game.General.UI.Canvases
         [SerializeField] private float planeDistance = 0.2f;
         
         [Inject] CameraLocator cameraLocator;
+        [SerializeField] RenderMode renderMode;
         GlobalCamera globalCamera;
         Canvas canvas;
         void Awake()
@@ -21,6 +22,7 @@ namespace CursedOnion.Game.General.UI.Canvases
             
             canvas.worldCamera = globalCamera.Camera;
             canvas.planeDistance = planeDistance;
+            canvas.renderMode = renderMode;
         }
     }
 }
