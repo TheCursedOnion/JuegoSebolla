@@ -113,7 +113,7 @@ namespace CursedOnion.Tools
                         isVisible = neighbourTile.IsEmptyTile() ||
                                     (tile.IsFullTile() && !neighbourTile.IsFullTile()) ||
                                     (tile.IsFluidTile() && !neighbourTile.IsFluidTile()) ||
-                                    (!tile.IsFullTile() && !neighbourTile.IsFullTile());
+                                    (!tile.IsFullTile() && !tile.IsFluidTile() && !neighbourTile.IsFullTile());
                     }
 
                     if (isVisible)
