@@ -66,45 +66,53 @@ namespace CursedOnion.Tools
             
             List<int> newTriangles = new List<int>();
             List<int> vertexIndices = new List<int>();
+
             Mesh ProcessMesh(MeshFilter filter)
             {
                 Mesh resultMesh = filter.sharedMesh.Clone();
                 Transform transform = filter.transform;
-                
+
                 if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPosition))
                 {
                     newTriangles.Clear();
                     vertexIndices.Clear();
                     
                     RemoveHiddenFaces(resultMesh, gridPosition, transform);
-                    //RemapVertices(resultMesh);
+                    RemapVertices(resultMesh);
                     ApplyVertexDataAtGridPosition(resultMesh, gridPosition);
-                    
+
                     return resultMesh;
                 }
                 return null;
             }
+
             void RemoveHiddenFaces(Mesh resultMesh, Vector3 gridPosition, Transform meshTransform)
             {
                 int[] triangles = resultMesh.triangles;
                 Vector3[] vertices = resultMesh.vertices;
-                
+
                 Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
+
                 for (int i = 0; i < triangles.Length; i += 3)
                 {
-                    Vector3 v0 = meshTransform.TransformPoint(vertices[triangles[i]]);
-                    Vector3 v1 = meshTransform.TransformPoint(vertices[triangles[i + 1]]);
-                    Vector3 v2 = meshTransform.TransformPoint(vertices[triangles[i + 2]]);
+                    Vector3 v0 = vertices[triangles[i]];
+                    Vector3 v1 = vertices[triangles[i + 1]];
+                    Vector3 v2 = vertices[triangles[i + 2]];
+
                     Vector3 normal = Vector3.Cross(v1 - v0, v2 - v0).normalized;
+                    Vector3 worldNormal = meshTransform.TransformDirection(normal);
                     
-                    Vector3 possibleNeighbourPosition = gridPosition + normal;
-                        
+                    Vector3Int gridOffset = worldNormal.RoundToInt();
+                    Vector3 possibleNeighbourPosition = gridPosition + gridOffset;
+
                     bool isVisible = true;
-                    if (grid.IsGridPositionInBounds(possibleNeighbourPosition) && normal.IsCardinalDirection())
+
+                    if (grid.IsGridPositionInBounds(possibleNeighbourPosition) && worldNormal.IsCardinalDirection())
                     {
-                        Debug.Log("Posible Cara Visible en " + gridPosition);
                         Tile3d neighbourTile = grid.GetTileAtGridPosition(possibleNeighbourPosition);
-                        isVisible = neighbourTile.IsEmptyTile() || (tile.IsFullTile() && !neighbourTile.IsFullTile());
+                        isVisible = neighbourTile.IsEmptyTile() ||
+                                    (tile.IsFullTile() && !neighbourTile.IsFullTile()) ||
+                                    (tile.IsFluidTile() && !neighbourTile.IsFullTile() && !neighbourTile.IsFluidTile());
                     }
 
                     if (isVisible)
@@ -112,20 +120,21 @@ namespace CursedOnion.Tools
                         AddTriangle(triangles[i]);
                         AddTriangle(triangles[i + 1]);
                         AddTriangle(triangles[i + 2]);
-                        Debug.Log("Cara Visible");
                     }
                 }
             }
+
             void AddTriangle(int triangleIndex)
             {
                 newTriangles.Add(triangleIndex);
-                if (!vertexIndices.Contains(triangleIndex)) vertexIndices.Add(triangleIndex);
+                if (!vertexIndices.Contains(triangleIndex))
+                    vertexIndices.Add(triangleIndex);
             }
 
             void RemapVertices(Mesh resultMesh)
             {
-                var indexMap = new Dictionary<int,int>(vertexIndices.Count);
-                    
+                var indexMap = new Dictionary<int, int>(vertexIndices.Count);
+
                 Vector3[] oldVerts = resultMesh.vertices;
                 Vector2[] oldUV = resultMesh.uv;
                 Vector3[] oldNormals = resultMesh.normals;
@@ -140,30 +149,43 @@ namespace CursedOnion.Tools
                     indexMap[oldIndex] = nextIndex++;
                     newVerts.Add(oldVerts[oldIndex]);
 
-                    if (oldUV != null && oldUV.Length > oldIndex) newUVs.Add(oldUV[oldIndex]);
-                    if (oldNormals != null && oldNormals.Length > oldIndex) newNormals.Add(oldNormals[oldIndex]);
+                    if (oldUV != null && oldUV.Length > oldIndex)
+                        newUVs.Add(oldUV[oldIndex]);
+                    if (oldNormals != null && oldNormals.Length > oldIndex)
+                        newNormals.Add(oldNormals[oldIndex]);
                 }
-                    
+
                 int[] remapped = new int[newTriangles.Count];
                 for (int i = 0; i < newTriangles.Count; i++)
                 {
                     int oldIdx = newTriangles[i];
                     if (!indexMap.TryGetValue(oldIdx, out int mappedIdx))
                     {
-                        Debug.LogError($"Índice viejo {oldIdx} no existe en vertexIndices!");
-                        mappedIdx = 0; // fallback seguro (pero debería no pasar)
+                        Debug.LogError($"[MeshProcessor] Índice {oldIdx} no encontrado en vertexIndices");
+                        mappedIdx = 0;
                     }
                     remapped[i] = mappedIdx;
                 }
-                    
-                resultMesh.SetMeshData(newVerts.ToArray(), remapped, newUVs.ToArray(), newNormals.ToArray());
+
+                resultMesh.Clear();
+                resultMesh.vertices = newVerts.ToArray();
+                resultMesh.triangles = remapped;
+                if (newUVs.Count > 0) resultMesh.uv = newUVs.ToArray();
+                if (newNormals.Count > 0) resultMesh.normals = newNormals.ToArray();
+
+                resultMesh.RecalculateBounds();
+                resultMesh.RecalculateTangents();
             }
 
             void ApplyVertexDataAtGridPosition(Mesh resultMesh, Vector3 gridPosition)
             {
-                int lastVertexIndex = vertexCount + resultMesh.vertices.Length - 1;
-                grid.GetTileAtGridPosition(gridPosition).SetTileVertices(new IntRange(vertexCount, lastVertexIndex));
-                vertexCount = lastVertexIndex + 1;
+                int firstIndex = vertexCount;
+                int vertexTotal = resultMesh.vertexCount;
+                int lastIndex = firstIndex + vertexTotal - 1;
+
+                grid.GetTileAtGridPosition(gridPosition).SetTileVertices(new IntRange(firstIndex, lastIndex));
+
+                vertexCount += vertexTotal;
             }
             
             void CombineMeshesWithMaterials(Dictionary<Material, List<CombineInstance>> dictionary)
