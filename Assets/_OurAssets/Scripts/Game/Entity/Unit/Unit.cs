@@ -4,6 +4,7 @@ using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
+using CursedOnion.Locators;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -95,6 +96,8 @@ namespace CursedOnion.Game.Entity
             var container = this.gameObject.scene.GetSceneContainer();
             SetLevelVariables(container.Resolve<LevelManager>());
 
+            var camera = this.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera.Camera;
+            
             Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
 
             //Debug.Log("El set de stats es temporal");
@@ -114,7 +117,7 @@ namespace CursedOnion.Game.Entity
             if (unitUI != null)
                 unitUI.SetActive(false);
             InitializeAnimations();
-            transform.localScale = new Vector3(0.5f, 0.5f, transform.localScale.z);
+            transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
         }
 
         private void InitializeAnimations()
