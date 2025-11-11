@@ -114,6 +114,7 @@ namespace CursedOnion.Game.Entity
             if (unitUI != null)
                 unitUI.SetActive(false);
             InitializeAnimations();
+            transform.localScale = new Vector3(0.5f, 0.5f, transform.localScale.z);
         }
 
         private void InitializeAnimations()
