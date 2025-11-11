@@ -141,13 +141,8 @@ namespace CursedOnion.Game.Entity
                 Debug.LogWarning($"{name}: El grupo '{currentGroup.groupName}' no tiene capas asignadas.");
                 return;
             }
-
-            layeredEntity.layers = currentGroup.layers;
-
-            var initLayersMethod = typeof(LayeredEntity)
-                .GetMethod("InitializeLayers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            initLayersMethod?.Invoke(layeredEntity, null);
+            
+            layeredEntity.InitializeLayers(currentGroup);
         }
         private void HandleTurnStart(Unit unit)
         {
