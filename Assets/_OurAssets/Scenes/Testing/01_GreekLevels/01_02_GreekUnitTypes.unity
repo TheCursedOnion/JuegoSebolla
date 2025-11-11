@@ -32629,6 +32629,9 @@ MonoBehaviour:
     InBetweenTime: 0
     Type: 0
     Color: {r: 0, g: 0, b: 0, a: 0}
+  allies: []
+  enemies: []
+  activeUnits: []
 --- !u!114 &1883556669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32656,6 +32659,7 @@ MonoBehaviour:
   LevelAsset: {fileID: 11400000, guid: 27b103cc67039ca4d93bdf61c504efd2, type: 2}
   LevelEvents: {fileID: 1883556669}
   CurrentLevelState: 0
+  turnSystem: {fileID: 0}
 --- !u!23 &1883556671
 MeshRenderer:
   m_ObjectHideFlags: 0
