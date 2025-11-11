@@ -22,6 +22,29 @@ MonoBehaviour:
   characterUI: {fileID: 6461823163419729315, guid: 38993b8272d9f50488fb0d95a79a5df1, type: 3}
   specialAbility:
     rid: 6291014305501675719
+  animationLayers:
+  - groupName: romano
+    layers:
+    - layerName: uv
+      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
+      materialInstance: {fileID: 0}
+      animator: {fileID: 0}
+      controller: {fileID: 0}
+      spriteRenderer: {fileID: 0}
+      layerObject: {fileID: 0}
+  - groupName: griego
+    layers:
+    - layerName: uv
+      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 1b5289e8c668cea4ab800e801a2f28a9, type: 3}
+      materialInstance: {fileID: 0}
+      animator: {fileID: 0}
+      controller: {fileID: 0}
+      spriteRenderer: {fileID: 0}
+      layerObject: {fileID: 0}
   references:
     version: 2
     RefIds:
