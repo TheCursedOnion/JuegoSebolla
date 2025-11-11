@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1501694698061830521}
   - component: {fileID: 5492332614874731683}
   - component: {fileID: 772138361516465267}
+  - component: {fileID: 1229745498971454729}
   m_Layer: 0
   m_Name: UnitPrefab
   m_TagString: Untagged
@@ -62,7 +63,25 @@ MonoBehaviour:
   unitUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
   PlacedManually: 0
   UnitController: {fileID: 0}
+  SpecialAbility:
+    SelfTargetOnly: 0
+    AbilityMinRange: 0
+    AbilityMaxRange: 0
   Side: 0
+--- !u!114 &1229745498971454729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162293030459347720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09370e5b7bfaee947acbb2667dc03422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: []
+  testAnimation: 
 --- !u!1001 &2910171639271277716
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using static CursedOnion.Game.Modes.General.Animations.LayeredEntity;
 
 namespace CursedOnion.Game.Entity
 {
@@ -22,6 +24,8 @@ namespace CursedOnion.Game.Entity
         public int MovementStat;
         public int PriceStat;
         public SpecialAbility SpecialAbilityType;
+
+        public List<AnimationLayer>[] AnimationLayers;
         public override void SetStats(EntityData data)
         {
             CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
@@ -31,6 +35,7 @@ namespace CursedOnion.Game.Entity
             MovementStat = data.GetMovement();
             PriceStat = data.GetPrice();
             SpecialAbilityType = data.GetSpecialAbility();
+            AnimationLayers = data.GetAnimationLayers();
         }
         
     }
