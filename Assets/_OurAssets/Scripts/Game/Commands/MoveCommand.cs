@@ -19,7 +19,7 @@ namespace CursedOnion.Game.Commands
         }
         public static void Prepare(SimpleEntity subject)
         {
-            subject?.EntityController.MoveEntityComponent.VisualizeMovement();
+           _ = subject?.EntityController.MoveEntityComponent.VisualizeMovement();
         }
         private MoveCommand(SimpleEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {

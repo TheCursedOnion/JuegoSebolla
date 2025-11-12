@@ -27,11 +27,13 @@ namespace CursedOnion.Game.Entity.UI
             associatedUnit = unit;
             associatedUnit.OnEntityUpdate -= UpdateUI;
             associatedUnit.OnEntityUpdate += UpdateUI;
-            UpdateUI();
+            UpdateUI(associatedUnit);
         }
 
-        void UpdateUI()
+        void UpdateUI(SimpleEntity entity)
         {
+            if(entity is not Unit unit) return;
+            
             //Debug.Log("Update UI");
         }
         

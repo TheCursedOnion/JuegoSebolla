@@ -31,11 +31,11 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
     - layerName: casco
       animatorController: {fileID: 9100000, guid: ff51c68c856967e4fb1095f74d0e68fb, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
     - layerName: espada
       animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   - groupName: griego
     layers:
@@ -45,13 +45,15 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 47a3f6a95d106c0468c4e6b131e5f25d, type: 3}
     - layerName: casco
       animatorController: {fileID: 9100000, guid: d33903479949f044f966e91a63c2b611, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
     - layerName: sword
       animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   entityComponentController:
+    PlaceEntityComponent:
+      rid: 592454535954301078
     MoveEntityComponent:
       rid: 592454532923654536
     AttackEntityComponent:
@@ -78,6 +80,10 @@ MonoBehaviour:
     - rid: 592454532923654539
       type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data: 
+    - rid: 592454535954301078
+      type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        blockEntryDirectionsOnPlacement: 0
     - rid: 6291014282122887255
       type: {class: SoldierAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:

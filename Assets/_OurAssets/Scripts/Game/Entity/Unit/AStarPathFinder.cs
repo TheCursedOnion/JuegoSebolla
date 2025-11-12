@@ -1,15 +1,98 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Helpers;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    [System.Serializable]
-    public class AStarPathFinder
+    public static class AStarPathFinder
     {
-        public List<Vector3> FindPath(Vector3 startGrid, Vector3 targetGrid, Grid3d levelGrid)
+        public static void InsertActionRange(List<Vector3> reachablePositions, Grid3d grid, Vector3 startGridPos)
+        {
+            Vector3[] directions =
+            {
+                new(1, 0, 0),
+                new(-1, 0, 0),
+                new(0, 0, 1),
+                new(0, 0, -1)
+            };
+            reachablePositions.Clear();
+            foreach (var direction in directions)
+            {
+                var newPos = startGridPos + direction;
+                
+                if(grid.GetTileAtGridPosition(newPos).IsEmptyTile())
+                    reachablePositions.Add(startGridPos + direction);
+            }
+        }
+        
+        public static async Task InsertReachablePositionsAsyncBFS(List<Vector3> positions, Grid3d levelGrid, Vector3 startWorldPos, int movementRange, int yieldFrequency = 100)
+        {
+            if (!levelGrid.TryWorldToGridPosition(startWorldPos, out Vector3 startGrid)) return;
+            
+            Debug.Log(startGrid);
+            
+            var frontier = new Queue<(Vector3 pos, int cost)>();
+            var visited = new HashSet<Vector3>();
+
+            frontier.Enqueue((startGrid, 0));
+            visited.Add(startGrid);
+
+            int iterations = 0;
+            positions.Clear();
+            
+            Vector3 currentAirPos;
+            int currentCost;
+
+            while (frontier.Count > 0)
+            {
+                currentAirPos = frontier.Peek().pos;
+                currentCost = frontier.Dequeue().cost;
+                if (!levelGrid.IsGridPositionInBounds(currentAirPos)) continue;
+                Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
+                
+                foreach (var possibleDirection in currentAirTile.GetExitDirectionVector())
+                {
+                    Vector3 nextAirPos = currentAirPos + possibleDirection;
+                    if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
+                    Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
+                    
+                    if (nextAirTile.IsBlocked()) continue;
+                    if (visited.Contains(nextAirPos)) continue;
+
+                    Vector3 nextGroundPos = nextAirPos + Vector3.down;
+                    if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
+                    Tile3d nextGroundTile = levelGrid.GetTileAtGridPosition(nextGroundPos);
+
+                    var groundDescriptor = nextGroundTile.GetTileDescriptor();
+                    if (groundDescriptor.IsAirBlock || groundDescriptor.IsFluidBlock)
+                        continue;
+                    else if (!groundDescriptor.IsFullBlock)
+                    {
+                        //Tema escaleras
+                    }
+                    else
+                    {
+                        DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
+
+                        if (nextAirTile.CanBeAccessedFrom(moveDir) && currentCost <= movementRange)
+                        {
+                            frontier.Enqueue((nextAirPos, currentCost + groundDescriptor.Cost));
+                            positions.Add(nextAirPos);
+                            visited.Add(nextAirPos);
+                        }
+                    }
+                }
+                
+                iterations++;
+                if (iterations % yieldFrequency == 0)
+                    await Task.Yield();
+            }
+        }
+
+        public static List<Vector3> FindPath(Vector3 startGrid, Vector3 targetGrid, Grid3d levelGrid)
         {
             List<Node> openList = new List<Node>();
             HashSet<Vector3Int> closedList = new HashSet<Vector3Int>();
@@ -59,7 +142,7 @@ namespace CursedOnion.Game.Entity
             return null;
         }
 
-        private List<Vector3Int> GetNeighbours(Vector3Int currentAirPos, Grid3d levelGrid)
+        private static List<Vector3Int> GetNeighbours(Vector3Int currentAirPos, Grid3d levelGrid)
         {
             List<Vector3Int> neighbours = new();
             Vector3Int[] directions =
@@ -108,13 +191,13 @@ namespace CursedOnion.Game.Entity
         }
 
 
-        private float Heuristic(Vector3Int a, Vector3Int b)
+        private static float Heuristic(Vector3Int a, Vector3Int b)
         {
             // Distancia Manhattan en grid 3D
             return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y) + Mathf.Abs(a.z - b.z);
         }
 
-        private List<Vector3> ReconstructPath(Node endNode, Grid3d levelGrid)
+        private static List<Vector3> ReconstructPath(Node endNode, Grid3d levelGrid)
         {
             List<Vector3> path = new();
             Node current = endNode;

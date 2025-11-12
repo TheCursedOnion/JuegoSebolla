@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity.Components
@@ -9,6 +10,8 @@ namespace CursedOnion.Game.Entity.Components
         [SerializeField] protected Color attackColor = Color.red;
         
         private float nextAttackMultiplier = 1;
+        List<Vector3> reachableTiles = new();
+        
         public void SetNextAttackMultiplier(float multiplier)
         {
             nextAttackMultiplier = multiplier;
@@ -22,37 +25,20 @@ namespace CursedOnion.Game.Entity.Components
             grid.ResetPaint();
             if (AssignedEntity.GetStats().SpecialAbilityType is ArcherAbility)
             {
-                grid.HighlightActionRange(position, 2, 2, attackColor);
+                Debug.LogWarning("ESTO DEBE SER DIFERENTE");
+                grid.TryWorldToGridPosition(position, out Vector3 gridPos);
+                AStarPathFinder.InsertActionRange(reachableTiles, grid, gridPos);
+                Debug.Log(reachableTiles);
+                grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
             }
             else
             {
-                grid.HighlightActionRange(position, 1, 1, attackColor);
+                grid.TryWorldToGridPosition(position, out Vector3 gridPos);
+                AStarPathFinder.InsertActionRange(reachableTiles, grid, gridPos);
+                Debug.Log(reachableTiles);
+                grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
             }
         }
-        public virtual void DoAttack(SimpleEntity target, bool undo)
-        {
-            int rawDamage = Mathf.CeilToInt(AssignedEntity.GetStats().AttackStat * nextAttackMultiplier);
-
-            int targetDefense = target.GetStats().DefenseStat;
-            int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
-
-            Debug.Log($"{AssignedEntity.name} ataca a {target.name} causando {finalDamage} de daño.");
-
-            target.Damage(finalDamage);
-
-            nextAttackMultiplier = 1;
-
-
-            if (!target.GetFlags().HasDied && AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility)
-            {
-                int counterDamage = target.GetStats().AttackStat;
-
-                Debug.Log($"{target.name} contraataca a {AssignedEntity.name} causando {counterDamage} de daño.");
-
-                AssignedEntity.Damage(counterDamage);
-            }
-        }
-
         public virtual bool ValidateAttack(SimpleEntity target)
         {
             AssignedEntity.Grid.ResetPaint();
@@ -69,17 +55,32 @@ namespace CursedOnion.Game.Entity.Components
             }
 
             if (!AssignedEntity.Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos)) return false;
-
-            var reachable = new List<Vector3>();
-            if (AssignedEntity.GetStats().SpecialAbilityType is ArcherAbility)
-            {
-                reachable = AssignedEntity.Grid.GetReachablePositions(AssignedEntity.transform.position, 2, 2);
-            }
-            else
-            {
-                reachable = AssignedEntity.Grid.GetReachablePositions(AssignedEntity.transform.position, 1, 1);
-            }
-            return reachable.Contains(targetGridPos);
+            return reachableTiles.Contains(targetGridPos);
         }
+        public virtual void DoAttack(SimpleEntity target, bool undo)
+        {
+            int rawDamage = Mathf.CeilToInt(AssignedEntity.GetStats().AttackStat * nextAttackMultiplier);
+
+            int targetDefense = target.GetStats().DefenseStat;
+            int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
+
+            Debug.Log($"{AssignedEntity.name} ataca a {target.name} causando {finalDamage} de daño.");
+
+            target.Damage(finalDamage);
+
+            nextAttackMultiplier = 1;
+            
+            if (!target.GetFlags().HasDied() && AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility)
+            {
+                int counterDamage = target.GetStats().AttackStat;
+
+                Debug.Log($"{target.name} contraataca a {AssignedEntity.name} causando {counterDamage} de daño.");
+
+                AssignedEntity.Damage(counterDamage);
+            }
+            
+            AssignedEntity.GetFlags().RaiseFlag(EntityFlag.HasAttacked);
+        }
+        
     }
 }

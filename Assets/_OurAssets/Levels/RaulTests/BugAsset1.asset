@@ -13,63 +13,47 @@ MonoBehaviour:
   m_Name: BugAsset1
   m_EditorClassIdentifier: 
   MeshMaterials:
-  - {fileID: 2100000, guid: 93b75a62111954d858a680d57486ae57, type: 2}
   - {fileID: 2100000, guid: 19668f4e32a870140a34ebdf76ab5a8d, type: 2}
+  - {fileID: 2100000, guid: 93b75a62111954d858a680d57486ae57, type: 2}
   LevelData:
     startingGold: 0
     goal: 0
-    startingState: 0
+    startingState: 2
   Grid:
     mesh: {fileID: 4300000, guid: d923d422f59444041b5ac275573511b1, type: 2}
-    startingOffset: {x: -9, y: 1, z: 2}
-    origin: {x: -12, y: 0, z: -1}
-    size: {x: 7, y: 3, z: 7}
+    startingOffset: {x: 0, y: 0, z: 0}
+    origin: {x: -7, y: 0, z: -2}
+    size: {x: 9, y: 3, z: 9}
     tiles:
     - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
         AllowedExitDirections: 0
         AllowedEntryDirections: 0
       attributes:
@@ -78,89 +62,34 @@ MonoBehaviour:
       transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
         AllowedExitDirections: 0
         AllowedEntryDirections: 0
       attributes:
@@ -169,89 +98,10 @@ MonoBehaviour:
       transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
+        Cost: 1
         IsFullBlock: 1
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
         AllowedExitDirections: 0
         AllowedEntryDirections: 0
       attributes:
@@ -260,635 +110,934 @@ MonoBehaviour:
       transformedEntryDirections: 0
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
         Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
         AllowedExitDirections: 0
         AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
         Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 1
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 0
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -897,11 +1046,10 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
+        IsAirBlock: 1
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -910,76 +1058,10 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 10
-        Cost: 1
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 10
-        Cost: 1
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 0
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -988,11 +1070,10 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
+        IsAirBlock: 1
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -1001,63 +1082,10 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 10
-        Cost: 1
-        IsFullBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 1
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 0
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -1066,11 +1094,10 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
+        IsAirBlock: 1
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -1079,11 +1106,46 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 1
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -1092,847 +1154,1790 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 1
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
         Cost: 1
         IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        AllowedExitDirections: 96
+        AllowedEntryDirections: 528
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 96
+      transformedEntryDirections: 528
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 10
         Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
         Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 0
-        Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
-        IsFluidBlock: 0
-        IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-    - descriptor:
-        Id: 10
-        Cost: 1
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
         Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 1
+        IsFullBlock: 1
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 10
-        Cost: 1
+        Cost: 0
         IsFullBlock: 0
         IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 531
-        AllowedEntryDirections: 163
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 531
-      transformedEntryDirections: 163
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
     - descriptor:
-        Id: 0
         Cost: 0
-        IsFullBlock: 1
+        IsFullBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+    - descriptor:
+        Cost: 0
+        IsFullBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 1
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0

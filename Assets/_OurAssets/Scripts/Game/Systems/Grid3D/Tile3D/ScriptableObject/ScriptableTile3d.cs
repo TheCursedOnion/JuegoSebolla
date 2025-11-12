@@ -19,9 +19,9 @@ namespace CursedOnion.Game.Systems.Grid.Scriptable
         }
     }
     
-    [CreateAssetMenu(fileName = "Scriptable TileFlags", menuName = "Game/Tile/Scriptable TileFlags")]
+    /*[CreateAssetMenu(fileName = "Scriptable TileFlags", menuName = "Game/Tile/Scriptable TileFlags")]
     public class ScriptableTileAttributes : ScriptableObject
     {
         public TileAttributes TileAttributes;
-    }
+    }*/
 }

@@ -4,9 +4,9 @@ namespace CursedOnion.Game.Entity
 {
     public class PlayerUnitController : EntityComponentController
     {
-        public override void ProcessTurn(SimpleEntity unit)
+        public override void ProcessTurn()
         {
-            Debug.Log($"Turno de unidad aliada: {unit.name}");
+            
         }
     }
 }

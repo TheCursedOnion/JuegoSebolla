@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace CursedOnion.Game.Modes.General.Animations
 {
@@ -36,14 +37,15 @@ namespace CursedOnion.Game.Modes.General.Animations
                 GameObject animationLayer = Instantiate(animationLayerPrefab, transform);
                 
                 SpriteRenderer layerSpriteRenderer = animationLayer.GetComponent<SpriteRenderer>();
-
-                if (layer.baseMaterial)
+                
+                if (layer.baseMaterial != null)
                 {
                     layerSpriteRenderer.material = Instantiate(layer.baseMaterial);
-                    layerSpriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
+                    if(layer.lookupTexture != null)
+                        layerSpriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
                 }
 
-                layerSpriteRenderer.sortingOrder = i;
+                layerSpriteRenderer.sortingOrder = 0;
                 
                 Animator animator = animationLayer.GetComponent<Animator>();
                 animator.runtimeAnimatorController = layer.animatorController;

@@ -24,14 +24,14 @@ namespace CursedOnion
         int currentInitiative;
         private bool alliesProcessedForCurrentInitiative = false;
 
-        [SerializeField]private List<Unit> allies = new List<Unit>();
+        [SerializeField] private List<Unit> allies = new List<Unit>();
         [SerializeField] private List<Unit> enemies = new List<Unit>();
 
         [SerializeField] private List<Unit> activeUnits = new List<Unit>();
         public List<Unit> GetActiveUnits() => activeUnits;
 
-        public event Action<Unit> OnUnitTurnStart;
-        public event Action<Unit> OnUnitTurnEnd;
+        public event Action OnTurnStart;
+        public event Action OnTurnEnd;
 
         public void AddUnit(Unit unit)
         {
@@ -50,7 +50,7 @@ namespace CursedOnion
             if(enemies.Contains(unit)) enemies.Remove(unit);
         }
 
-        public void StartRound()
+        public void OrganizeLists()
         { 
             Debug.Log("======== NUEVA RONDA EMPIEZA ========");
             
@@ -65,6 +65,8 @@ namespace CursedOnion
             
             StartInitiativeGroup();
         }
+        
+        //private void StartTurnFor(List<Unit> )
 
         private void StartInitiativeGroup()
         {
@@ -83,8 +85,8 @@ namespace CursedOnion
 
                 foreach (var unit in allyGroup)
                 {
-                    OnUnitTurnStart?.Invoke(unit);
-                    unit.EntityController.ProcessTurn(unit);
+                    unit.OnEntityUpdate += ProcessEntityUpdate;
+                    unit.EntityController.ProcessTurn();
                 }
                 return;
             }
@@ -96,9 +98,8 @@ namespace CursedOnion
 
                 foreach (var enemy in enemyGroup)
                 {
-                    OnUnitTurnStart?.Invoke(enemy);
-                    enemy.EntityController.ProcessTurn(enemy);
-                    OnUnitTurnEnd?.Invoke(enemy);
+                    enemy.OnEntityUpdate += ProcessEntityUpdate;
+                    enemy.EntityController.ProcessTurn();
                 }
             }
             
@@ -108,31 +109,45 @@ namespace CursedOnion
             if (currentInitiative > 0)
                 StartInitiativeGroup();
             else
-                StartRound();
+                OrganizeLists();
+        }
+        
+        void ProcessEntityUpdate(SimpleEntity entity)
+        {
+            if(entity is not Unit unit) return;
+            
+            if (unit.GetFlags().HasDied())
+            {
+                EndTurnForUnit(unit);
+                
+                if(allies.Contains(unit)) allies.Remove(unit);
+                if(enemies.Contains(unit)) enemies.Remove(unit);
+            }
+        }
+
+        public void EndTurn()
+        {
+            if (activeUnits == null || activeUnits.Count == 0)
+            {
+                Debug.Log("No hay unidades activas.");
+                return;
+            }
+
+            foreach (var unit in activeUnits.ToList())
+            {
+                EndTurnForUnit(unit);
+            }
+            OnTurnEnd?.Invoke();
         }
 
         public void EndTurnForUnit(Unit unit)
         {
-            if (unit == null || unit.GetStats().CurrentHealthStat <= 0)
-            {
-                if (activeUnits.Contains(unit))
-                    activeUnits.Remove(unit);
-
-                if (activeUnits.Count == 0)
-                    StartInitiativeGroup();
-
-                return;
-            }
-
             if (activeUnits.Contains(unit))
             {
+                unit.OnEntityUpdate -= ProcessEntityUpdate;
                 activeUnits.Remove(unit);
-                OnUnitTurnEnd?.Invoke(unit);
-            }
-
-            if (activeUnits.Count == 0)
-            {
-                StartInitiativeGroup();
+                
+                if(activeUnits.Count == 0) StartInitiativeGroup();
             }
         }
 

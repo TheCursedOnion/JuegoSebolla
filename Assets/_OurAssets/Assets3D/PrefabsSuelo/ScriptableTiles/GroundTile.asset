@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4c491ae68ad91f4183976ca5c10e91f, type: 3}
-  m_Name: CalzadaRampGckTile
+  m_Name: GroundTile
   m_EditorClassIdentifier: 
   TileDescriptor:
-    Id: 10
     Cost: 1
-    IsFullBlock: 0
+    IsFullBlock: 1
     IsFluidBlock: 0
     IsAirBlock: 0
-    AllowedExitDirections: 531
-    AllowedEntryDirections: 163
+    AllowedExitDirections: 0
+    AllowedEntryDirections: 0

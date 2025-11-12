@@ -20,12 +20,24 @@ namespace CursedOnion.Game.Entity
         
         [ReadOnly] public EntityComponentController EntityController;
         [SerializeField] protected LayeredEntity layeredEntity;
-        public Action OnEntityUpdate;
-        
         
         [HorizontalLine(height: 2f, color: EColor.Violet)]
         [Expandable] public EntityData Data;
         
+        //Stats (They Get Defined)
+        protected ExtendedEntityStats Stats;
+        public ExtendedEntityStats GetStats() => Stats;
+        
+        //Flags
+        protected EntityFlags Flags;
+        public EntityFlags GetFlags() => Flags;
+        public event Action<SimpleEntity> OnEntityUpdate;
+        public void NotifyUpdate() => OnEntityUpdate?.Invoke(this);
+        protected void Awake()
+        {
+            Flags = new EntityFlags(this);
+            Stats = new ExtendedEntityStats();
+        }
         
         public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)
@@ -42,13 +54,7 @@ namespace CursedOnion.Game.Entity
             Grid = LevelManager.LevelAsset.Grid;
         }
         
-        //Stats (They Get Defined)
-        protected virtual ExtendedEntityStats Stats { get; } = new ExtendedEntityStats();
-        public ExtendedEntityStats GetStats() => Stats;
         
-        //Flags
-        protected virtual EntityFlags Flags { get; } = new EntityFlags();
-        public EntityFlags GetFlags() => Flags;
 
         public virtual void Damage(int damage)
         {
@@ -62,22 +68,27 @@ namespace CursedOnion.Game.Entity
         }
         public virtual void Die()
         {
-            GetFlags().HasDied = true;
-            OnEntityUpdate?.Invoke();
+            GetFlags().RaiseFlag(EntityFlag.HasDied);
+            OnEntityUpdate?.Invoke(this);
             Dispose();
         }
 
         public virtual void Revive(int newHealth)
         {
             Stats.CurrentHealthStat = newHealth;
-            GetFlags().HasDied = false;
+            GetFlags().ResetFlag(EntityFlag.HasDied);
             
-            OnEntityUpdate?.Invoke();
+            OnEntityUpdate?.Invoke(this);
         }
         
         public void Dispose()
         {
             Destroy(gameObject);
+        }
+        
+        void OnDisable()
+        {
+            EntityController.PlaceEntityComponent.Remove();
         }
     }
 }

@@ -17,10 +17,12 @@ namespace CursedOnion.Game.Entity.Components
         }
         public virtual void DoAbility(SimpleEntity target, bool undo)
         {
-            if(AssignedEntity is not Unit unit) return;
+            if(AssignedEntity is not Unit unit || unit.GetStats().SpecialAbilityType == null) return;
             
             unit.Grid.ResetPaint();
             unit.GetStats().SpecialAbilityType.ActivateAbility(unit, target);
+            AssignedEntity.GetFlags().RaiseFlag(EntityFlag.HasUsedAbility);
+                
             reachableTiles.Clear();
         }
         public virtual bool ValidateAbility(SimpleEntity target)

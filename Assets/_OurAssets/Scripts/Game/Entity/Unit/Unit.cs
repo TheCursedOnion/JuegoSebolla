@@ -1,24 +1,9 @@
-using CursedOnion.Extensions;
-using CursedOnion.Game.Entity.UI;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General.Animations;
-using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
-using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
-using Reflex.Injectors;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Splines;
-using UnityEngine.TestTools;
 
 namespace CursedOnion.Game.Entity
 {
@@ -43,9 +28,7 @@ namespace CursedOnion.Game.Entity
         [Inject] LevelManager levelManager;
 
         
-
         // Ability Status
-        private float nextAttackMultiplier = 1;
         private int additionalHP = 0;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
@@ -83,15 +66,15 @@ namespace CursedOnion.Game.Entity
         }
         void AfterSpawn()
         {
-            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
+            EntityController.PlaceEntityComponent.Place();
             Stats.SetStats(Data);
             
             baseMovement = GetStats().MovementStat;
 
             var turnSystem = levelManager.GetTurnSystem();
+            
             turnSystem.AddUnit(this);
-            turnSystem.OnUnitTurnStart += HandleTurnStart;
-            turnSystem.OnUnitTurnEnd += HandleTurnEnd;
+            
 
             if (unitUI != null) unitUI.SetActive(false);
             
@@ -149,7 +132,7 @@ namespace CursedOnion.Game.Entity
             
             layeredEntity.InitializeLayers(currentGroup);
         }
-        private void HandleTurnStart(Unit unit)
+        /*private void HandleTurnStart(Unit unit)
         {
             if (unit == this)
             {
@@ -167,7 +150,7 @@ namespace CursedOnion.Game.Entity
                 if (unitUI != null)
                     unitUI.SetActive(false);
             }
-        }
+        }*/
 
         public void ApplyConfusion(int turns)
         {
@@ -193,8 +176,8 @@ namespace CursedOnion.Game.Entity
             if (levelManager != null)
             {
                 var turnSystem = levelManager.GetTurnSystem();
-                turnSystem.OnUnitTurnStart -= HandleTurnStart;
-                turnSystem.OnUnitTurnEnd -= HandleTurnEnd;
+                //turnSystem.OnTurnStart -= HandleTurnStart;
+                //turnSystem.OnTurnEnd -= HandleTurnEnd;
             }
         }
 
@@ -238,16 +221,6 @@ namespace CursedOnion.Game.Entity
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
             Debug.Log($"{name} se cura {healedHP} de HP.");
         }
-        #endregion
-
-        #region Special Ability
-
-        
-        #endregion
-
-        #region Movement
-
-        
         #endregion
     }
 }

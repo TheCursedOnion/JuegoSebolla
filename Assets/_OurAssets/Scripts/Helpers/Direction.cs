@@ -9,6 +9,8 @@ namespace CursedOnion.Helpers
     public enum DirectionFlag
     {
         None        = 0,
+        CentralXZ   = Forward | Back | Right | Left,
+        All         = ~None,
         
         Right       = 1 << 0,
         Left        = 1 << 1,

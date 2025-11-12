@@ -306,20 +306,6 @@ namespace CursedOnion.Game.Systems.Grid
             highlightedPlanes.Clear();
         }
 
-        /*public void HighlightMovementRange(Vector3 startWorldPos, int moveRange, Color color)
-        {
-            var reachable = GetReachablePositionsMovement(startWorldPos, moveRange);
-
-            foreach (var pos in reachable)
-            {
-                Vector3Int groundPos = FindFirstSolidBelow(pos);
-                if (groundPos == Vector3Int.one * int.MinValue)
-                    continue;
-                
-                PaintTileAtGridPosition(groundPos, color);
-            }
-        }*/
-
         public void HighlightActionRange(Vector3 startWorldPos, int minRange, int maxRange, Color color)
         {
             var reachable = GetReachablePositions(startWorldPos, minRange, maxRange);
