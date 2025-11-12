@@ -16,7 +16,7 @@ namespace CursedOnion.Installers
             levelManager ??= GameObject.FindWithTag("LevelManager").GetComponent<LevelManager>();
             containerBuilder.AddSingleton(levelManager.LevelAsset, typeof(LevelAsset));
             
-            levelManager.BuildEvents();
+            levelManager.SetLevelProperties();
             containerBuilder.AddSingleton(levelManager,  typeof(LevelManager));
             containerBuilder.AddSingleton(levelManager.LevelEvents, typeof(LevelEvents));
         }

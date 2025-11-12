@@ -1,25 +1,11 @@
+ï»¿using System.Collections.Generic;
+using System.Linq;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Helpers;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    public abstract class UnitController : MonoBehaviour
-    {
-        [SerializeReference, SubclassSelector] protected AStarPathFinder PathFinder = new AStarPathFinderMod();
-        public AStarPathFinder GetPathFinder() => PathFinder;
-        public abstract void ProcessTurn(Unit unit);
-    }
-
-    [System.Serializable]
-    public class AStarPathFinderMod : AStarPathFinder
-    {
-        // Clase modificada para pruebas unitarias si es necesario
-    }
-
     [System.Serializable]
     public class AStarPathFinder
     {
@@ -53,7 +39,7 @@ namespace CursedOnion.Game.Entity
                     if (tile == null || tile.GetContainedEntity() != null)
                         continue;
 
-                    float tentativeG = currentNode.g + 1; // movimiento básico = 1
+                    float tentativeG = currentNode.g + 1; // movimiento bï¿½sico = 1
 
                     Node existingNode = openList.FirstOrDefault(n => n.gridPos == neighbourPos);
                     if (existingNode != null && tentativeG >= existingNode.g)
@@ -78,13 +64,13 @@ namespace CursedOnion.Game.Entity
             List<Vector3Int> neighbours = new();
             Vector3Int[] directions =
             {
-            new( 1, 0, 0),
-            new(-1, 0, 0),
-            new( 0, 0, 1),
-            new( 0, 0,-1)
-        };
+                new( 1, 0, 0),
+                new(-1, 0, 0),
+                new( 0, 0, 1),
+                new( 0, 0,-1)
+            };
 
-            // Tile de suelo debajo de la posición actual
+            // Tile de suelo debajo de la posiciï¿½n actual
             Vector3Int groundPos = currentAirPos + Vector3Int.down;
             Tile3d groundTile = levelGrid.GetTileAtGridPosition(groundPos);
             if (groundTile == null)
@@ -94,7 +80,7 @@ namespace CursedOnion.Game.Entity
 
             foreach (var dir in directions)
             {
-                // Tile de aire a la que se movería el personaje
+                // Tile de aire a la que se moverï¿½a el personaje
                 Vector3Int nextAirPos = currentAirPos + dir;
                 Vector3Int nextGroundPos = nextAirPos + Vector3Int.down;
 

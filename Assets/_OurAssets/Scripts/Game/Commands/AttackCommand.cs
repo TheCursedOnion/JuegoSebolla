@@ -8,7 +8,11 @@ namespace CursedOnion.Game.Commands
     public class AttackCommand : EntityCommand, IClearStackCommand
     {
         private SimpleEntity target;
-        
+
+        public static void Prepare(CommandableEntity subject)
+        {
+            Debug.Log("VISUALIZAR TILES ATACAR");
+        }
         public static AttackCommand Create(CommandableEntity commandSubject, SimpleEntity target)
         {
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
@@ -17,6 +21,12 @@ namespace CursedOnion.Game.Commands
         private AttackCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
         {
             this.target = target;
+            OnPrepare();
+        }
+
+        public void OnPrepare()
+        {
+            
         }
         
         public bool CanExecute()

@@ -29,6 +29,7 @@ namespace CursedOnion.Game.Logic.Services
 
         private void CheckPause(PauseLevel updatedPauseLevel)
         {
+            if(pausableObject == null) return;
             int pauseLevelToCheck = (int)updatedPauseLevel;
 
             if (!isPaused && pauseLevelToCheck >= (int)pauseWithLevel)
@@ -42,6 +43,15 @@ namespace CursedOnion.Game.Logic.Services
                 pausableObject.Unpause();
             }
             
+        }
+        
+        public void InvokePauseWithLevel(PauseLevel pauseLevel)
+        {
+            pauseService.Pause(pauseLevel);
+        }
+        public void InvokeUnpauseWithLevel(PauseLevel pauseLevel)
+        {
+            pauseService.Unpause(pauseLevel);
         }
     }
 }

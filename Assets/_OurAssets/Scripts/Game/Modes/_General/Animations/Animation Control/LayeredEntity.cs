@@ -3,83 +3,59 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Modes.General.Animations
 {
+    [System.Serializable]
+    public class AnimationLayer
+    {
+        public string layerName = "NewLayer";
+        public RuntimeAnimatorController animatorController;
+        public Material baseMaterial;
+        public Texture2D lookupTexture;
+    }
+    
+    [ExecuteAlways]
     public class LayeredEntity : MonoBehaviour
     {
-
-
-        [System.Serializable]
-        public class AnimationLayer
-        {
-            public string layerName = "NewLayer";
-            public RuntimeAnimatorController animatorController;
-            public Material baseMaterial;
-            public Texture2D lookupTexture;
-
-            [HideInInspector] public Material materialInstance;
-            [HideInInspector] public Animator animator;
-            [HideInInspector] public EntityAnimatorController controller;
-            [HideInInspector] public SpriteRenderer spriteRenderer;
-            [HideInInspector] public GameObject layerObject;
-        }
-
-        public List<AnimationLayer> layers = new List<AnimationLayer>();
+        [SerializeField] GameObject animationLayerPrefab;
         [SerializeField] string testAnimation;
-
-        private void Awake()
+        
+        private static int LookupTextureId = Shader.PropertyToID("_LookupTexture");
+        private void OnDrawGizmos()
         {
-            SpriteRenderer sr = this.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.enabled = false; // El objeto base no debe ser visible, todo son capas
-            InitializeLayers();
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(transform.position, 0.5f);
         }
 
-        private void InitializeLayers()
+        private AnimationLayerGroup layerGroup;
+        public void InitializeLayers(AnimationLayerGroup layerGroup)
         {
-            for (int i = 0; i < layers.Count; i++)
+            this.layerGroup = layerGroup;
+            for (int i = 0; i < layerGroup.layers.Count; i++)
             {
-                var layer = layers[i];
+                var layer = layerGroup.layers[i];
+                
+                GameObject animationLayer = Instantiate(animationLayerPrefab, transform);
+                
+                SpriteRenderer layerSpriteRenderer = animationLayer.GetComponent<SpriteRenderer>();
 
-                if (layer.layerObject == null)
+                if (layer.baseMaterial)
                 {
-                    layer.layerObject = new GameObject(layer.layerName);
-                    layer.layerObject.transform.SetParent(transform);
-                    layer.layerObject.transform.localPosition = Vector3.zero;
+                    layerSpriteRenderer.material = Instantiate(layer.baseMaterial);
+                    layerSpriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
                 }
 
-                if (layer.spriteRenderer == null)
-                    layer.spriteRenderer = layer.layerObject.AddComponent<SpriteRenderer>();
-
-                layer.spriteRenderer.sortingOrder = i;
-
-                if (layer.baseMaterial != null && layer.lookupTexture != null)
-                {
-                    layer.materialInstance = Instantiate(layer.baseMaterial);
-                    layer.spriteRenderer.material = layer.materialInstance;
-                    layer.materialInstance.SetTexture("_LookupTexture", layer.lookupTexture);
-
-
-                }
-
-                if (layer.animator == null)
-                {
-                    layer.animator = layer.layerObject.AddComponent<Animator>();
-                    layer.animator.runtimeAnimatorController = layer.animatorController;
-                }
-
-                if (layer.controller == null)
-                {
-                    layer.controller = layer.layerObject.AddComponent<EntityAnimatorController>();
-                    layer.controller.animator = layer.animator;
-                }
+                layerSpriteRenderer.sortingOrder = i;
+                
+                Animator animator = animationLayer.GetComponent<Animator>();
+                animator.runtimeAnimatorController = layer.animatorController;
             }
         }
-
         public void PlayAnimation(string animationName)
         {
-            foreach (var layer in layers)
+            for (int i = 0; i < transform.childCount; i++)
             {
-                if (layer.controller != null)
-                    layer.controller.PlayAnimation(animationName);
+                var layerAnimator = transform.GetChild(i).GetComponent<EntityAnimatorController>();
+                layerAnimator.PlayAnimation(animationName);
+
             }
         }
 

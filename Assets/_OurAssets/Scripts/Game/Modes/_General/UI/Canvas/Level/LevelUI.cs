@@ -2,20 +2,28 @@
 using System.Linq;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
+using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace CursedOnion.Game.General.UI.Canvases.Level
 {
-    public class LevelUI : MonoBehaviour, IUICanvas
+    public class LevelUI : MonoBehaviour, IUICanvas, IPausable
     {
+        const string SettingsContainer = "Settings Container Variables";
+        const string GameplayContainer = "Gameplay Container Variables";
+        
         [Inject] LevelManager levelManager;
         [SerializeField] private UnitActionsWindow actionsWindow;
-
-        [SerializeField] private GameObject battleEditorScreen;
-        [SerializeField] private GameObject battleScreen;
+        
+        [SerializeField, BoxGroup(SettingsContainer)] private GameObject settingsContainer;
+        
+        [SerializeField, BoxGroup(GameplayContainer)] private GameObject gameplayContainer;
+        [SerializeField, BoxGroup(GameplayContainer)] private GameObject battleEditorScreen;
+        [SerializeField, BoxGroup(GameplayContainer)] private GameObject battleScreen;
 
         private void OnEnable()
         {
@@ -28,6 +36,21 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             levelManager.LevelEvents.OnLevelStateChange -= OnChangeLevelState;
         }
 
+        #region Settings Region
+        public void Pause()
+        {
+            settingsContainer.SetActive(true);
+            gameplayContainer.SetActive(false);
+        }
+
+        public void Unpause()
+        {
+            settingsContainer.SetActive(false);
+            gameplayContainer.SetActive(true);
+        }
+        #endregion
+        
+        #region Gameplay Region
         void OnChangeLevelState(LevelState previousState, LevelState newState)
         {
             switch (newState)
@@ -48,6 +71,9 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             DisableAllScreens();
             screen.SetActive(true);
         }
+        #endregion
+
+        #region Turn Region
 
         public void OnEndTurnButtonPressed()
         {
@@ -69,5 +95,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         {
             levelManager.GetTurnSystem().StartRound();
         }
+
+        #endregion
+        
     }
 }

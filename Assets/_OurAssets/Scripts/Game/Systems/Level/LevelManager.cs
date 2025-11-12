@@ -1,6 +1,7 @@
 using System;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Modes.General;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -23,7 +24,7 @@ namespace CursedOnion.Game.Systems.Level
         [SerializeField] private TurnSystem turnSystem;
         public TurnSystem GetTurnSystem() => turnSystem;
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         public void Initialize(LevelAsset asset)
         {
             gameObject.name = "LevelManager";
@@ -35,20 +36,20 @@ namespace CursedOnion.Game.Systems.Level
         }
         #endif
 
-        public LevelEvents BuildEvents()
+        public void SetLevelProperties()
         {
+            LevelAsset.Grid.PrepareGrid(GetComponent<GridHighlighter>());
+                
             LevelEvents = GetComponent<LevelEvents>();
             LevelScoreVariables = new LevelScoreData(LevelEvents, LevelAsset.LevelData);
             CurrentLevelState = LevelAsset.LevelData.StartingState;
-
-            return LevelEvents;
         }
         void Awake()
         {
             LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
-            LevelAsset.Grid.ResetPaint();
-            LevelAsset.Grid.PaintTileAtGridPosition(Vector3.zero, Color.green);
+            //LevelAsset.Grid.PaintTileAtGridPosition(Vector3.up, Color.blue);
         }
+        
 
         public bool TryPlacingUnit(int unitPrice)
         {

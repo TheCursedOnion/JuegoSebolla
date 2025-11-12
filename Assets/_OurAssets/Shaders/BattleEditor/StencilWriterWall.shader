@@ -11,11 +11,13 @@ Shader "Custom/StencilWriterWall"
 
         Stencil
         {
-            Ref 1
-            Comp Always      // Evalúa stencil siempre que el fragmento pase ZTest
-            Pass DecrSat     // Incrementa el stencil en lugar de reemplazar
-            Fail Keep        // Si falla stencil, mantener valor
-            ZFail Replace
+            Ref 2             // Usa bit 1
+            Comp Always       // Siempre pasa
+            Pass Zero      // Escribe el valor Ref
+            Fail Keep
+            ZFail Keep
+            ReadMask 2        // Solo lee el bit 1
+            WriteMask 2       // Solo escribe en el bit 1
         }
 
         Pass {}              // Necesario para renderizar el pass

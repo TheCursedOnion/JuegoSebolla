@@ -31,16 +31,14 @@ namespace CursedOnion.Game.Entity
     public class Unit : CommandableEntity
     {
         // Character UI
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
 
         [ReadOnly] public bool PlacedManually = false;
 
-        public UnitController UnitController;
-
         public SpecialAbility SpecialAbility;
-
-        private LayeredEntity layeredEntity;
 
         [Inject] LevelManager levelManager;
 
@@ -53,31 +51,68 @@ namespace CursedOnion.Game.Entity
         private int confusedTurnsRemaining = 0;
         private int baseMovement;
 
-        public bool TrySpawningUnit(LevelManager manager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        
+        public void Start()
         {
-            SetLevelVariables(manager);
-
+            if (!PlacedManually)
+            {
+                SetLevelVariables();
+                SetSide(Side);
+                AfterSpawn();
+            }
+        }
+        
+        public bool TrySpawningUnit(GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        {
+            SetLevelVariables();
+            
             bool isPlaced = LevelManager.TryPlacingUnit(Data.GetPrice());
             if (isPlaced)
             {
-                Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
-                spawnedUnit.SetSide(side);
-                spawnedUnit.PlacedManually = true;
+                Spawn(unitPrefab, atPosition, side);
             }
             return isPlaced;
+        }
+        void Spawn(GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        {
+            Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
+            spawnedUnit.SetSide(side);
+            spawnedUnit.PlacedManually = true;
+            
+            AfterSpawn();
+        }
+        void AfterSpawn()
+        {
+            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
+            Stats.SetStats(Data);
+            
+            baseMovement = GetStats().MovementStat;
+
+            var turnSystem = levelManager.GetTurnSystem();
+            turnSystem.AddUnit(this);
+            turnSystem.OnUnitTurnStart += HandleTurnStart;
+            turnSystem.OnUnitTurnEnd += HandleTurnEnd;
+
+            if (unitUI != null) unitUI.SetActive(false);
+            
+            InitializeAnimations();
+            transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
         }
         void SetSide(BattleSide side)
         {
             Side = side;
 
-            if (UnitController != null) Destroy(UnitController);
+            EntityController = GetComponent<EntityComponentController>();
+            
+            if(EntityController == null)
+                EntityController = Side switch
+                {
+                    BattleSide.Enemy => gameObject.AddComponent<AIUnitController>(),
+                    BattleSide.Ally => gameObject.AddComponent<PlayerUnitController>(),
+                    _ => null
+                };
 
-            UnitController = Side switch
-            {
-                BattleSide.Enemy => gameObject.AddComponent<AIUnitController>(),
-                BattleSide.Ally => gameObject.AddComponent<PlayerUnitController>(),
-                _ => null
-            };
+            EntityController?.Initialize(this);
         }
 
         public bool TryErasingUnit(LevelManager manager)
@@ -90,36 +125,6 @@ namespace CursedOnion.Game.Entity
             }
             return canBeErased;
         }
-
-        public void Start()
-        {
-            var container = this.gameObject.scene.GetSceneContainer();
-            SetLevelVariables(container.Resolve<LevelManager>());
-
-            var camera = this.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera.Camera;
-            
-            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
-
-            //Debug.Log("El set de stats es temporal");
-            Stats.SetStats(Data);
-            baseMovement = GetStats().MovementStat;
-
-            if (UnitController == null)
-            {
-                SetSide(Side);
-            }
-
-            var turnSystem = levelManager.GetTurnSystem();
-            turnSystem.AddUnit(this);
-            turnSystem.OnUnitTurnStart += HandleTurnStart;
-            turnSystem.OnUnitTurnEnd += HandleTurnEnd;
-
-            if (unitUI != null)
-                unitUI.SetActive(false);
-            InitializeAnimations();
-            transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
-        }
-
         private void InitializeAnimations()
         {
             layeredEntity = GetComponent<LayeredEntity>();
@@ -141,13 +146,8 @@ namespace CursedOnion.Game.Entity
                 Debug.LogWarning($"{name}: El grupo '{currentGroup.groupName}' no tiene capas asignadas.");
                 return;
             }
-
-            layeredEntity.layers = currentGroup.layers;
-
-            var initLayersMethod = typeof(LayeredEntity)
-                .GetMethod("InitializeLayers", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            initLayersMethod?.Invoke(layeredEntity, null);
+            
+            layeredEntity.InitializeLayers(currentGroup);
         }
         private void HandleTurnStart(Unit unit)
         {
@@ -375,87 +375,8 @@ namespace CursedOnion.Game.Entity
         #endregion
 
         #region Movement
-        protected override void DoMove(Vector3 newPosition, bool undo)
-        {
 
-            if (undo)
-            {
-                transform.position = newPosition;
-            }
-            else
-            {
-                Debug.Log($"{gameObject.name}: Me muevo a {newPosition}");
-
-                if (!Grid.TryWorldToGridPosition(transform.position, out Vector3 startGrid))
-                {
-                    Debug.LogError($"TryWorldToGridPosition falló para start world position: {transform.position}");
-                    return;
-                }
-
-                var path = UnitController.GetPathFinder().FindPath(startGrid, newPosition, Grid);
-
-                if (path == null || path.Count == 0)
-                {
-                    Grid.ResetPaint();
-                    Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
-                    return;
-                }
-                Grid.ResetPaint();
-                GetStats().MovementStat = baseMovement;
-                layeredEntity.PlayAnimation("walk");
-                StartCoroutine(MoveAlongPath(path));
-            }
-        }
-
-        public override bool ValidateMove(Vector3 newPosition)
-        {
-            int moveRange = GetStats().MovementStat;
-
-            var reachable = Grid.GetReachablePositionsMovement(transform.position, moveRange);
-
-            Vector3Int target = newPosition.CastToVectorInt();
-            Grid.ResetPaint();
-            return reachable.Contains(target);
-
-        }
-
-        private IEnumerator MoveAlongPath(List<Vector3> path)
-        {
-            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(null);
-
-            float speed = 5f;
-            Vector3 lastPosition = transform.position;
-
-            foreach (var pos in path)
-            {
-                Vector3 direction = pos - lastPosition;
-
-                if (direction.x > 0.01f)
-                {
-                    Vector3 scale = transform.localScale;
-                    scale.x = Mathf.Abs(scale.x) * -1f;
-                    transform.localScale = scale;
-                }
-                else if (direction.x < -0.01f)
-                {
-                    Vector3 scale = transform.localScale;
-                    scale.x = Mathf.Abs(scale.x);
-                    transform.localScale = scale;
-                }
-
-                while (Vector3.Distance(transform.position, pos) > 0.01f)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, pos, speed * Time.deltaTime);
-                    yield return null;
-                }
-
-                transform.position = pos;
-                lastPosition = pos;
-                yield return null;
-            }
-            layeredEntity.PlayAnimation("idle");
-            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
-        }
+        
         #endregion
     }
 }

@@ -15,9 +15,14 @@ namespace CursedOnion.Game.Entity.UI
         [SerializeField] private Button moveButton;
         [SerializeField] private Button attackButton;
         [SerializeField] private Button abilityButton;
+        
+        CommandParameters commonParameters;
         public void Initialize()
         {
             levelEvents = gameObject.scene.GetSceneContainer().Resolve<LevelEvents>();
+
+            CommandParameters.Builder parametersBuilder = new CommandParameters.Builder();
+            commonParameters = parametersBuilder.SetExecuteOnce(true).Build();
         }
 
         public void AssociateUnit(Unit unit)
@@ -35,17 +40,17 @@ namespace CursedOnion.Game.Entity.UI
         
         public void MoveUnit()
         {
-            levelEvents.CallPrepareCommand<MoveCommand>();
+            levelEvents.CallPrepareCommand<MoveCommand>(commonParameters);
         }
 
         public void AttackUnit()
         {
-            levelEvents.CallPrepareCommand<AttackCommand>();
+            levelEvents.CallPrepareCommand<AttackCommand>(commonParameters);
         }
 
         public void AbilityActivation()
         {
-            levelEvents.CallPrepareCommand<AbilityCommand>();
+            levelEvents.CallPrepareCommand<AbilityCommand>(commonParameters);
         }
     }
 }
