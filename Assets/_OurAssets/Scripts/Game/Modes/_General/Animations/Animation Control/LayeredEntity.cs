@@ -43,6 +43,10 @@ namespace CursedOnion.Game.Modes.General.Animations
                     layerSpriteRenderer.material = Instantiate(layer.baseMaterial);
                     if(layer.lookupTexture != null)
                         layerSpriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
+                    else
+                    {
+                        animationLayer.transform.position += Vector3.back * 0.001f;
+                    }
                 }
 
                 layerSpriteRenderer.sortingOrder = 0;
