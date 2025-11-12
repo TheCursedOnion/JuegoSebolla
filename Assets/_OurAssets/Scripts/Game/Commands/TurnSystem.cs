@@ -84,7 +84,7 @@ namespace CursedOnion
                 foreach (var unit in allyGroup)
                 {
                     OnUnitTurnStart?.Invoke(unit);
-                    unit.UnitController.ProcessTurn(unit);
+                    unit.EntityController.ProcessTurn(unit);
                 }
                 return;
             }
@@ -97,7 +97,7 @@ namespace CursedOnion
                 foreach (var enemy in enemyGroup)
                 {
                     OnUnitTurnStart?.Invoke(enemy);
-                    enemy.UnitController.ProcessTurn(enemy);
+                    enemy.EntityController.ProcessTurn(enemy);
                     OnUnitTurnEnd?.Invoke(enemy);
                 }
             }

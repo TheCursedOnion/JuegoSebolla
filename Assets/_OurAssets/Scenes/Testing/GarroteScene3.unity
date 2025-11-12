@@ -577,14 +577,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder:
-    rid: 6291014282122887254
+  MoveEntityComponent:
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014282122887254
-      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1001 &95463069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -900,14 +899,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder:
-    rid: 6291014282122887254
+  MoveEntityComponent:
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014282122887254
-      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &109680015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,6 +1849,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionsWindow: {fileID: 1521051760}
+  settingsContainer: {fileID: 0}
+  gameplayContainer: {fileID: 0}
   battleEditorScreen: {fileID: 1790085675}
   battleScreen: {fileID: 41331993}
 --- !u!1 &258370400
@@ -2356,14 +2356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder:
-    rid: 6291014282122887254
+  MoveEntityComponent:
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014282122887254
-      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &296837144
 GameObject:
   m_ObjectHideFlags: 0
@@ -3471,14 +3470,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder:
-    rid: 6291014306457452628
+  MoveEntityComponent:
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014306457452628
-      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1001 &528074732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4819,6 +4817,7 @@ GameObject:
   - component: {fileID: 686857610}
   - component: {fileID: 686857609}
   - component: {fileID: 686857608}
+  - component: {fileID: 686857615}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: LevelManager
@@ -4966,6 +4965,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &686857615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686857607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aea254d8952469f853efbcb6465a321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightPlanePrefab: {fileID: 5950456215449996586, guid: 3aba440786f2a6f448bbb5a2eb74e8c2, type: 3}
 --- !u!1001 &688597360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7039,14 +7051,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder:
-    rid: 6291014282122887254
+  MoveEntityComponent:
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014282122887254
-      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1001 &1099554326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7380,14 +7391,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PathFinder:
-    rid: 6291014282122887254
+  MoveEntityComponent:
+    rid: -2
   references:
     version: 2
     RefIds:
-    - rid: 6291014282122887254
-      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1001 &1199899380
 PrefabInstance:
   m_ObjectHideFlags: 0

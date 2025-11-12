@@ -65,20 +65,26 @@ namespace CursedOnion.Game.Commands
         {
             preparedCommand = commandType;
             preparedParameters = parameters;
-
+            
+            var previsualizeMethod = typeof(CommandFactory).GetMethod("PreVisualize", BindingFlags.Public | BindingFlags.Static);
+            var genericMethod = previsualizeMethod.MakeGenericMethod(preparedCommand);
+            genericMethod.Invoke(null, new object[] { commandSubject });
+            
             if (commandSubject is Unit unitSubject)
             {
                 Grid3d grid = unitSubject.GetGrid();
-                grid.ResetPaint();
+                
                 Vector3 unitPos = unitSubject.transform.position;
-
-                if (preparedCommand == typeof(MoveCommand))
+                
+                /*if (preparedCommand == typeof(MoveCommand))
                 {
                     int moveRange = unitSubject.GetStats().MovementStat;
                     grid.HighlightMovementRange(unitPos, moveRange, Color.blue);
                 }
-                else if (preparedCommand == typeof(AttackCommand))
+                else*/
+                if (preparedCommand == typeof(AttackCommand))
                 {
+                    grid.ResetPaint();
                     if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)
                     {
                         grid.HighlightActionRange(unitPos, 2, 2, Color.red);
@@ -90,6 +96,7 @@ namespace CursedOnion.Game.Commands
                 }
                 else if (preparedCommand == typeof(AbilityCommand))
                 {
+                    grid.ResetPaint();
                     int abilityMinRange = unitSubject.GetStats().SpecialAbilityType.AbilityMinRange;
                     int abilityMaxRange = unitSubject.GetStats().SpecialAbilityType.AbilityMaxRange;
                     if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)

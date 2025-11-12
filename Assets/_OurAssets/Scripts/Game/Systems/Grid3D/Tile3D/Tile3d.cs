@@ -15,8 +15,6 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] Tile3dDescriptor descriptor = Tile3dDescriptor.Default;
         [SerializeField] TileAttributes attributes;
         
-        [SerializeField] IntRange correspondingVerticesInMesh = IntRange.Default;
-        
         [SerializeField] DirectionFlag transformedExitDirections = DirectionFlag.None;
         [SerializeField] DirectionFlag transformedEntryDirections = DirectionFlag.None;
         
@@ -31,18 +29,10 @@ namespace CursedOnion.Game.Systems.Grid
         
         #region Getters & Setters
         public Tile3dDescriptor GetTileDescriptor() => descriptor;
-        
-        public IntRange CorrespondingVerticesInMesh => correspondingVerticesInMesh;
-        
         public SimpleEntity GetContainedEntity() => containedEntity;
         public void SetContainedEntity(SimpleEntity newContainedEntity) 
         { 
             containedEntity = newContainedEntity;
-        }
-        
-        public void SetTileVertices(IntRange verticesInMesh)
-        {
-            correspondingVerticesInMesh = verticesInMesh;
         }
         
         public DirectionFlag GetEntryDirections() => transformedEntryDirections;
@@ -79,9 +69,7 @@ namespace CursedOnion.Game.Systems.Grid
         {
             this.descriptor = tile.descriptor;
             this.attributes = tile.attributes;
-            
-            this.correspondingVerticesInMesh = tile.correspondingVerticesInMesh;
-            
+
             this.containedEntity = tile.containedEntity;
             
             this.blockedEntryDirections = tile.blockedEntryDirections;

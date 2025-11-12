@@ -39,12 +39,12 @@ namespace CursedOnion.Extensions
             return new Vector3(vector.x, vector.z, vector.y);
         }
 
-        public static Vector3 Center(ref this Vector3 vector)
+        public static Vector3 Center(this Vector3 vector)
         {
             vector.Floor();
             return vector + new Vector3(0.5f, 0.5f, 0.5f);
         }
-        public static Vector3 CenterOnTile(ref this Vector3 vector)
+        public static Vector3 CenterOnTile(this Vector3 vector)
         {
             vector.Floor();
             return vector + new Vector3(0.5f, 0, 0.5f);

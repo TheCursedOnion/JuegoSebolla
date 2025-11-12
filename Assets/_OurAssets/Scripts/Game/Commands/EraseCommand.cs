@@ -20,6 +20,10 @@ namespace CursedOnion.Game.Commands
             this.eraseUnit = eraseEntity as Unit;
             this.levelManager = levelManager;
         }
+        public void OnPrepare()
+        {
+            
+        }
         public bool CanExecute()
         {
             return eraseUnit && levelManager != null;

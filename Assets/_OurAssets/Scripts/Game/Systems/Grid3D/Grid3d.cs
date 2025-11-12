@@ -7,6 +7,7 @@ using CursedOnion.Tools;
 using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Linq;
+using CursedOnion.Game.Modes.General;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,6 +18,8 @@ namespace CursedOnion.Game.Systems.Grid
     {
         [SerializeField] private Mesh mesh;
         public Mesh Mesh => mesh;
+        
+        GridHighlighter highlighter;
 
         [HorizontalLine]
         [SerializeField] private Vector3 startingOffset;
@@ -37,7 +40,7 @@ namespace CursedOnion.Game.Systems.Grid
 
             origin.Floor();
             this.origin = origin;
-
+            
             InitializeTiles();
             PlaceLayers(layers);
         }
@@ -72,6 +75,12 @@ namespace CursedOnion.Game.Systems.Grid
         public void SetMeshForGrid(Mesh gridMesh)
         {
             mesh = gridMesh;
+        }
+
+        public void PrepareGrid(GridHighlighter highlighter)
+        {
+            this.highlighter = highlighter;
+            this.highlighter.Initialize(this);
         }
         #endregion
 
@@ -216,98 +225,7 @@ namespace CursedOnion.Game.Systems.Grid
             }
             return reachable;
         }
-
-        public List<Vector3> GetReachablePositionsMovement(Vector3 startWorldPos, int movementRange)
-        {
-            if (!TryWorldToGridPosition(startWorldPos, out Vector3 startGrid))
-                return null;
-
-            Vector3Int start = new Vector3Int(
-                Mathf.FloorToInt(startGrid.x),
-                Mathf.FloorToInt(startGrid.y),
-                Mathf.FloorToInt(startGrid.z)
-            );
-
-            List<Vector3> reachablePositions = new List<Vector3>();
-            Queue<(Vector3Int pos, int cost)> frontier = new();
-            HashSet<Vector3Int> visited = new();
-
-            frontier.Enqueue((start, 0));
-            visited.Add(start);
-
-            Vector3Int[] directions =
-            {
-                new Vector3Int(1, 0, 0),
-                new Vector3Int(-1, 0, 0),
-                new Vector3Int(0, 0, 1),
-                new Vector3Int(0, 0, -1)
-            };
-
-            while (frontier.Count > 0)
-            {
-                var (currentAirPos, cost) = frontier.Dequeue();
-                if (cost > 0)
-                    reachablePositions.Add(currentAirPos);
-
-                if (cost >= movementRange)
-                    continue;
-
-                // Obtenemos la tile de suelo debajo de la unidad
-                Vector3Int currentGroundPos = currentAirPos + Vector3Int.down;
-                Tile3d groundTile = GetTileAtGridPosition(currentGroundPos);
-                if (groundTile == null)
-                    continue;
-
-                var exitDirs = groundTile.GetExitDirections();
-                var entryDirs = groundTile.GetEntryDirections();
-
-                foreach (var dir in directions)
-                {
-                    //Tile de aire adyacente (posición donde estaría el personaje si avanza)
-                    Vector3Int nextAirPos = currentAirPos + dir;
-                    if (!IsGridPositionInBounds(nextAirPos))
-                        continue;
-
-                    Tile3d nextAirTile = GetTileAtGridPosition(nextAirPos);
-                    if (nextAirTile.GetContainedEntity() != null)
-                        continue;
-
-                    if (visited.Contains(nextAirPos))
-                        continue;
-
-                    //Tile de suelo debajo del nuevo aire
-                    Vector3Int nextGroundPos = nextAirPos + Vector3Int.down;
-                    if (!IsGridPositionInBounds(nextGroundPos))
-                        continue;
-
-                    Tile3d nextGroundTile = GetTileAtGridPosition(nextGroundPos);
-                    if (nextGroundTile == null)
-                        continue;
-
-                    var nextDesc = nextGroundTile.GetTileDescriptor();
-
-                    // Si no hay suelo abajo no puedes pisar
-                    if (nextDesc.IsAirBlock)
-                        continue;
-
-                    //Comprobamos direcciones
-                    DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(dir);
-                    DirectionFlag opposite = DirectionHelper.GetDirectionFlag(-dir);
-
-                    var groundExit = groundTile.GetExitDirections();
-                    var nextEntry = nextGroundTile.GetEntryDirections();
-
-                    if ((groundExit & moveDir) != 0 && (nextEntry & opposite) != 0)
-                    {
-                        //Es un movimiento válido añadimos el aire encima del nuevo suelo
-                        frontier.Enqueue((nextAirPos, cost + nextDesc.Cost + 1));
-                        visited.Add(nextAirPos);
-                    }
-                }
-            }
-
-            return reachablePositions;
-        }
+        
 
         private Vector3Int FindFirstSolidBelow(Vector3 pos)
         {
@@ -326,7 +244,7 @@ namespace CursedOnion.Game.Systems.Grid
 
                 var desc = tile.GetTileDescriptor();
 
-                // Condición de "suelo sólido": no es aire y es bloque lleno
+                // Condiciï¿½n de "suelo sï¿½lido": no es aire y es bloque lleno
                 if (!desc.IsAirBlock && desc.IsFullBlock)
                 {
                     return check; 
@@ -338,61 +256,59 @@ namespace CursedOnion.Game.Systems.Grid
                 }
             }
 
-            // Si no se encontró ningún suelo
+            // Si no se encontrï¿½ ningï¿½n suelo
             return Vector3Int.one * int.MinValue;
         }
 
         #endregion
 
         #region Painting
-
-        public Mesh PaintTile(Tile3d tile, Color color)
+        
+        List<HighlightPlane> highlightedPlanes = new();
+        public void PaintTileAtWorldPosition(Vector3 worldPosition, Color color)
         {
-            mesh.Color32Vertices(tile.CorrespondingVerticesInMesh, color);
-            return mesh;
+            if(TryWorldToGridPosition(worldPosition, out Vector3 gridPosition)) 
+                highlightedPlanes.Add(highlighter.PlaceHighlightPlaneAt(worldPosition, color));
         }
-        public Mesh PaintTileAtGridPosition(Vector3 gridPosition, Color color)
+        public void PaintTileAtGridPosition(Vector3 gridPosition, Color color)
         {
-            if (TryGridPositionToIndex(gridPosition, out int gridIndex))
+            if (TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
+                highlightedPlanes.Add(highlighter.PlaceHighlightPlaneAt(worldPosition.CenterOnTile(), color));
+        }
+
+        public void PaintTilesAtGridPositions(List<Vector3> positions, Color color)
+        {
+            for (int i = 0; i < positions.Count; i++)
             {
-                var vertexRange = tiles[gridIndex].CorrespondingVerticesInMesh;
-                mesh.Color32Vertices(vertexRange, color);
+                if(i==0) ResetPaint();
+                PaintTileAtGridPosition(positions[i], color);
             }
-
-            return mesh;
         }
-
-        public Mesh PaintAllTiles(Color color)
+        
+        public void ResetPaint()
         {
-            for (int index = 0; index < tiles.Length; index++)
-            {
-                var vertexRange = tiles[index].CorrespondingVerticesInMesh;
-                mesh.Color32Vertices(vertexRange, color);
-            }
-            return mesh;
-        }
-        public Mesh ResetPaint()
-        {
-            return PaintAllTiles(Color.white);
+            Debug.Log("ResetPaint");
+            if(highlightedPlanes.Count == 0) return;
+            
+            foreach (var plane in highlightedPlanes)
+                highlighter.RetrieveHighlightPlane(plane);
+            
+            highlightedPlanes.Clear();
         }
 
-        public void HighlightMovementRange(Vector3 startWorldPos, int moveRange, Color color)
+        /*public void HighlightMovementRange(Vector3 startWorldPos, int moveRange, Color color)
         {
             var reachable = GetReachablePositionsMovement(startWorldPos, moveRange);
 
             foreach (var pos in reachable)
             {
-                // Encontramos la "superficie sólida" de la tile (para pintar correctamente)
                 Vector3Int groundPos = FindFirstSolidBelow(pos);
                 if (groundPos == Vector3Int.one * int.MinValue)
                     continue;
-
-                // Pintamos la tile en la posición de la superficie
-                Tile3d tile = GetTileAtGridPosition(groundPos);
-                if (tile != null)
-                    PaintTile(tile, color);
+                
+                PaintTileAtGridPosition(groundPos, color);
             }
-        }
+        }*/
 
         public void HighlightActionRange(Vector3 startWorldPos, int minRange, int maxRange, Color color)
         {

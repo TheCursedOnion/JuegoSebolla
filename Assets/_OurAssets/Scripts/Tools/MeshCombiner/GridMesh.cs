@@ -79,7 +79,6 @@ namespace CursedOnion.Tools
                     
                     RemoveHiddenFaces(resultMesh, gridPosition, transform);
                     RemapVertices(resultMesh);
-                    ApplyVertexDataAtGridPosition(resultMesh, gridPosition);
 
                     return resultMesh;
                 }
@@ -176,17 +175,6 @@ namespace CursedOnion.Tools
 
                 resultMesh.RecalculateBounds();
                 resultMesh.RecalculateTangents();
-            }
-
-            void ApplyVertexDataAtGridPosition(Mesh resultMesh, Vector3 gridPosition)
-            {
-                int firstIndex = vertexCount;
-                int vertexTotal = resultMesh.vertexCount;
-                int lastIndex = firstIndex + vertexTotal - 1;
-
-                grid.GetTileAtGridPosition(gridPosition).SetTileVertices(new IntRange(firstIndex, lastIndex));
-
-                vertexCount += vertexTotal;
             }
             
             void CombineMeshesWithMaterials(Dictionary<Material, List<CombineInstance>> dictionary)
