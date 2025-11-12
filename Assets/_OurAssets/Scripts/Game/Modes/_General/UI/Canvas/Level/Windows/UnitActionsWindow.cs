@@ -21,8 +21,8 @@ namespace CursedOnion
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
 
-            levelManager.GetTurnSystem().OnUnitTurnStart += OnTurnChanged;
-            levelManager.GetTurnSystem().OnUnitTurnEnd += OnTurnChanged;
+            levelManager.GetTurnSystem().OnTurnStart += OnTurnChanged;
+            levelManager.GetTurnSystem().OnTurnEnd += OnTurnChanged;
         }
 
         private void OnDisable()
@@ -30,11 +30,11 @@ namespace CursedOnion
             levelEvents.OnEntitySelected -= SetEntity;
             levelEvents.OnNoEntitySelected -= SetNullEntity;
 
-            levelManager.GetTurnSystem().OnUnitTurnStart -= OnTurnChanged;
-            levelManager.GetTurnSystem().OnUnitTurnEnd -= OnTurnChanged;
+            levelManager.GetTurnSystem().OnTurnStart -= OnTurnChanged;
+            levelManager.GetTurnSystem().OnTurnEnd -= OnTurnChanged;
         }
 
-        private void OnTurnChanged(Unit u)
+        private void OnTurnChanged()
         {
             if (unit != null)
                 UpdateActionsWindow();

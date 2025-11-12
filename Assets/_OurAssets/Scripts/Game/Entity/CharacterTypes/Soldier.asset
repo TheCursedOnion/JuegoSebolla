@@ -31,11 +31,11 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
     - layerName: casco
       animatorController: {fileID: 9100000, guid: ff51c68c856967e4fb1095f74d0e68fb, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
     - layerName: espada
       animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   - groupName: griego
     layers:
@@ -45,29 +45,45 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 47a3f6a95d106c0468c4e6b131e5f25d, type: 3}
     - layerName: casco
       animatorController: {fileID: 9100000, guid: d33903479949f044f966e91a63c2b611, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
     - layerName: sword
       animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
-  - groupName: persa
-    layers:
-    - layerName: uv
-      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
-      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 663be0096439be141a2f7e1b94a5a68e, type: 3}
-    - layerName: gorro
-      animatorController: {fileID: 9100000, guid: 61a272b035b7d83439b6f6b629edbf23, type: 2}
-      baseMaterial: {fileID: 0}
-      lookupTexture: {fileID: 0}
-    - layerName: sword
-      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
-      lookupTexture: {fileID: 0}
+  entityComponentController:
+    PlaceEntityComponent:
+      rid: 592454535954301078
+    MoveEntityComponent:
+      rid: 592454532923654536
+    AttackEntityComponent:
+      rid: 592454532923654537
+    AbilityEntityComponent:
+      rid: 592454532923654538
   references:
     version: 2
     RefIds:
+    - rid: 592454532923654536
+      type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        movementColor: {r: 0, g: 0.60158324, b: 1, a: 0.7019608}
+        PathFinder:
+          rid: 592454532923654539
+    - rid: 592454532923654537
+      type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        attackColor: {r: 1, g: 0, b: 0, a: 1}
+    - rid: 592454532923654538
+      type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    - rid: 592454532923654539
+      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+      data: 
+    - rid: 592454535954301078
+      type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        blockEntryDirectionsOnPlacement: 0
     - rid: 6291014282122887255
       type: {class: SoldierAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:

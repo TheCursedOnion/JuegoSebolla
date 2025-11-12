@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CursedOnion.Game.Systems.Grid.Scriptable
 {
-    [CreateAssetMenu(fileName = "Tile3d Catalog", menuName = "Game/Tile/Catalog")]
+    /*[CreateAssetMenu(fileName = "Tile3d Catalog", menuName = "Game/Tile/Catalog")]
     public class Tile3dCatalog : ScriptableObject
     {
         [SerializeField] private List<CatalogEntry> tileDefinitions;
@@ -34,5 +34,5 @@ namespace CursedOnion.Game.Systems.Grid.Scriptable
         public uint GetId() => id;
         public void SetId(uint newId) => id = newId;
         public ScriptableTile3d GetTileDefinition() => tile;
-    }
+    }*/
 }

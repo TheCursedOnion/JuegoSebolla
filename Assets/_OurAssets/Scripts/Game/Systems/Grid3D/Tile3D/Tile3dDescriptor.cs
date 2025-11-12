@@ -16,16 +16,17 @@ namespace CursedOnion.Game.Systems.Grid
             {
                 var defaultDescriptor = new Tile3dDescriptor
                 {
-                    Id = 0,
                     Cost = 0,
-                    IsFullBlock = true,
+                    IsFullBlock = false,
                     IsFluidBlock = false,
                     IsAirBlock = true,
+                    AllowedEntryDirections = DirectionFlag.CentralXZ,
+                    AllowedExitDirections = DirectionFlag.CentralXZ,
                 };
                 return defaultDescriptor;
             }
         }
-        public uint Id;
+        
         public int Cost;
         
         public bool IsFullBlock = true;

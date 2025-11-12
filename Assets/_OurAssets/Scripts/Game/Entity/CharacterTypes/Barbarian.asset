@@ -34,24 +34,34 @@ MonoBehaviour:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: e1f3686ea62307842bba27cd7d809ba5, type: 3}
-    - layerName: sword
-      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
-      lookupTexture: {fileID: 0}
-  - groupName: persa
-    layers:
-    - layerName: uv
-      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
-      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 45461fed3f4ab4b4c8407fb58b50dd8f, type: 3}
-    - layerName: sword
-      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 0}
-      lookupTexture: {fileID: 0}
+      lookupTexture: {fileID: 2800000, guid: 1b5289e8c668cea4ab800e801a2f28a9, type: 3}
+  entityComponentController:
+    MoveEntityComponent:
+      rid: 592454532923654532
+    AttackEntityComponent:
+      rid: 592454532923654533
+    AbilityEntityComponent:
+      rid: 592454532923654534
   references:
     version: 2
     RefIds:
+    - rid: 592454532923654532
+      type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        movementColor: {r: 0, g: 0.51428366, b: 1, a: 0.68235296}
+        PathFinder:
+          rid: 592454532923654535
+    - rid: 592454532923654533
+      type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        attackColor: {r: 0.7924528, g: 0, b: 0, a: 0.69411767}
+    - rid: 592454532923654534
+      type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        abilityColor: {r: 0.7735849, g: 0.71194464, b: 0, a: 0.59607846}
+    - rid: 592454532923654535
+      type: {class: AStarPathFinder, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+      data: 
     - rid: 6291014306457452544
       type: {class: BarbarianAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:

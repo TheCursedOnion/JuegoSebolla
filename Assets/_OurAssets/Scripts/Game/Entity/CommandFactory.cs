@@ -8,16 +8,16 @@ namespace CursedOnion.Game.Commands
     //TODO: Quitarla
     public class EntityCommand
     {
-        protected readonly CommandableEntity CommandSubject;
+        protected readonly SimpleEntity CommandSubject;
 
-        public EntityCommand(CommandableEntity commandSubject)
+        public EntityCommand(SimpleEntity commandSubject)
         {
             CommandSubject = commandSubject;
         }
     }
     public abstract class CommandFactory
     {
-        private static readonly Dictionary<Type, Action<CommandableEntity>> preFactories =
+        private static readonly Dictionary<Type, Action<SimpleEntity>> preFactories =
             new()
             {
                 { typeof(MoveCommand), MoveCommand.Prepare },
@@ -41,13 +41,7 @@ namespace CursedOnion.Game.Commands
                 { typeof(ActionCommand), (p) => ActionCommand.Create(p.ExecuteAction)}
             };
         
-        protected readonly CommandableEntity CommandSubject;
-        protected CommandFactory(CommandableEntity commandSubject)
-        {
-            this.CommandSubject = commandSubject;
-        }
-        
-        public static void PreVisualize<T>(CommandableEntity parameters) where T : ICommand
+        public static void PreVisualize<T>(SimpleEntity parameters) where T : ICommand
         {
             if (preFactories.TryGetValue(typeof(T), out var preVisualize))
                 preVisualize(parameters);
@@ -59,9 +53,5 @@ namespace CursedOnion.Game.Commands
 
             throw new NotSupportedException($"Unsupported command type: {typeof(T).Name}");
         }
-
-        public abstract bool Execute();
-        public abstract void Undo();
-        public abstract void Redo();
     }
 }

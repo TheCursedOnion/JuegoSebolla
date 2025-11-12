@@ -30,11 +30,10 @@ namespace CursedOnion.Tools
             
         }
 
-            private int vertexCount = 0;
+
             Dictionary<Material, List<CombineInstance>> BuildMeshMaterialDictionary(MeshFilter[] filters)
             {
                 Dictionary<Material, List<CombineInstance>> meshMaterialDictionary = new Dictionary<Material, List<CombineInstance>>();
-                vertexCount = 0;
                 foreach (MeshFilter filter in filters)
                 {
                     MeshRenderer meshRenderer = filter.GetComponent<MeshRenderer>();

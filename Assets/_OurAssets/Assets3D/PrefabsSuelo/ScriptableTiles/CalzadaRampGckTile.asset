@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de3324db62ee93d4e8e9abd6e523b745, type: 3}
-  m_Name: GameCatalog
+  m_Script: {fileID: 11500000, guid: c4c491ae68ad91f4183976ca5c10e91f, type: 3}
+  m_Name: CalzadaRampGckTile
   m_EditorClassIdentifier: 
-  tileDefinitions:
-  - id: 0
-    tile: {fileID: 11400000, guid: 4f32a904cca42054f95b4679fd4bde0f, type: 2}
+  TileDescriptor:
+    Cost: 1
+    IsFullBlock: 0
+    IsFluidBlock: 0
+    IsAirBlock: 0
+    AllowedExitDirections: 96
+    AllowedEntryDirections: 528

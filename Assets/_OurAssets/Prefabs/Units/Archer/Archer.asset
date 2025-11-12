@@ -31,7 +31,7 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
     - layerName: arco
       animatorController: {fileID: 9100000, guid: 6496b3a1372645d4a831df2553510941, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   - groupName: griego
     layers:
@@ -41,21 +41,36 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: fb414fd3b2c11764589b24e452118a60, type: 3}
     - layerName: arco
       animatorController: {fileID: 9100000, guid: 6496b3a1372645d4a831df2553510941, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
-  - groupName: persa
-    layers:
-    - layerName: uv
-      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
-      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 0d405e6412a6a1e47b404354a5cc56be, type: 3}
-    - layerName: arco
-      animatorController: {fileID: 9100000, guid: 6496b3a1372645d4a831df2553510941, type: 2}
-      baseMaterial: {fileID: 0}
-      lookupTexture: {fileID: 0}
+  entityComponentController:
+    PlaceEntityComponent:
+      rid: 592454535954300928
+    MoveEntityComponent:
+      rid: 592454532923654524
+    AttackEntityComponent:
+      rid: 592454532923654525
+    AbilityEntityComponent:
+      rid: 592454532923654526
   references:
     version: 2
     RefIds:
+    - rid: 592454532923654524
+      type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        movementColor: {r: 0, g: 0.631639, b: 1, a: 0.6}
+    - rid: 592454532923654525
+      type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        attackColor: {r: 0.5849056, g: 0, b: 0, a: 0.6}
+    - rid: 592454532923654526
+      type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        abilityColor: {r: 1, g: 0.63037336, b: 0.015686274, a: 0.6}
+    - rid: 592454535954300928
+      type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        blockEntryDirectionsOnPlacement: 51
     - rid: 6291014342755483648
       type: {class: ArcherAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:

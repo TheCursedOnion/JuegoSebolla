@@ -13,15 +13,15 @@ namespace CursedOnion.Game.Commands
 
         private bool previousHasMoved;
 
-        public static MoveCommand Create(CommandableEntity commandSubject, Vector3 newPosition)
+        public static MoveCommand Create(SimpleEntity commandSubject, Vector3 newPosition)
         {
             return new MoveCommand(commandSubject, newPosition);
         }
-        public static void Prepare(CommandableEntity subject)
+        public static void Prepare(SimpleEntity subject)
         {
-            subject?.EntityController.MoveEntityComponent.VisualizeMovement();
+           _ = subject?.EntityController.MoveEntityComponent.VisualizeMovement();
         }
-        private MoveCommand(CommandableEntity commandSubject, Vector3 newPosition) : base(commandSubject)
+        private MoveCommand(SimpleEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {
             this.targetPosition = newPosition;
         }

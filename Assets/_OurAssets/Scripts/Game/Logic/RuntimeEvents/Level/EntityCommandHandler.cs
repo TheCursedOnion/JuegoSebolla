@@ -19,7 +19,7 @@ namespace CursedOnion.Game.Commands
         [Inject] private readonly CommandManager commandManager;
         
         private SimpleEntity selectedEntity;
-        private CommandableEntity commandSubject;
+        private SimpleEntity commandSubject;
         
         private Type preparedCommand;
         
@@ -47,12 +47,10 @@ namespace CursedOnion.Game.Commands
         }
         private void SetCommandSubject()
         {
-            var commandableEntity = selectedEntity as CommandableEntity;
+            if(selectedEntity ==null) ResetCommand();
+            else if(commandSubject != selectedEntity) commandManager.ClearStack();
             
-            if(commandableEntity == null) ResetCommand();
-            else if(commandSubject != commandableEntity) commandManager.ClearStack();
-            
-            commandSubject = commandableEntity;
+            commandSubject = selectedEntity;
         }
 
         
@@ -72,7 +70,7 @@ namespace CursedOnion.Game.Commands
             
             if (commandSubject is Unit unitSubject)
             {
-                Grid3d grid = unitSubject.GetGrid();
+                Grid3d grid = unitSubject.Grid;
                 
                 Vector3 unitPos = unitSubject.transform.position;
                 
@@ -82,7 +80,7 @@ namespace CursedOnion.Game.Commands
                     grid.HighlightMovementRange(unitPos, moveRange, Color.blue);
                 }
                 else*/
-                if (preparedCommand == typeof(AttackCommand))
+                /*if (preparedCommand == typeof(AttackCommand))
                 {
                     grid.ResetPaint();
                     if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)
@@ -94,7 +92,8 @@ namespace CursedOnion.Game.Commands
                         grid.HighlightActionRange(unitPos, 1, 1, Color.red);
                     }
                 }
-                else if (preparedCommand == typeof(AbilityCommand))
+                else */
+                /*if (preparedCommand == typeof(AbilityCommand))
                 {
                     grid.ResetPaint();
                     int abilityMinRange = unitSubject.GetStats().SpecialAbilityType.AbilityMinRange;
@@ -107,7 +106,7 @@ namespace CursedOnion.Game.Commands
                     {
                         grid.HighlightActionRange(unitPos, abilityMinRange, abilityMaxRange, Color.yellow);
                     }
-                }
+                }*/
             }
         }
 

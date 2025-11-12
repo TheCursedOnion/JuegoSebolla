@@ -14,7 +14,7 @@ namespace CursedOnion.Game.Commands
         public bool ExecuteOnce;
        
         //Execution Data
-        public CommandableEntity Subject;
+        public SimpleEntity Subject;
         
         public Vector3? Position;
         public SimpleEntity Target;
@@ -65,7 +65,7 @@ namespace CursedOnion.Game.Commands
         {
             private CommandParameters parameters = new CommandParameters();
 
-            public Builder SetCommandSubject(CommandableEntity commandSubject)
+            public Builder SetCommandSubject(SimpleEntity commandSubject)
             {
                 parameters.Subject = commandSubject;
                 return this;

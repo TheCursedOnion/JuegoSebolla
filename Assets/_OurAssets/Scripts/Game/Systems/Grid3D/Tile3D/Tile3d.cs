@@ -1,4 +1,5 @@
-﻿using CursedOnion.Extensions;
+﻿using System.Collections.Generic;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Systems.Grid.Scriptable;
 using CursedOnion.Game;
 using CursedOnion.Game.Entity;
@@ -8,7 +9,6 @@ using UnityEngine.Tilemaps;
 
 namespace CursedOnion.Game.Systems.Grid
 {
-    
     [System.Serializable]
     public class Tile3d
     {
@@ -30,13 +30,20 @@ namespace CursedOnion.Game.Systems.Grid
         #region Getters & Setters
         public Tile3dDescriptor GetTileDescriptor() => descriptor;
         public SimpleEntity GetContainedEntity() => containedEntity;
-        public void SetContainedEntity(SimpleEntity newContainedEntity) 
-        { 
-            containedEntity = newContainedEntity;
+        public void PlaceEntity(SimpleEntity entity, DirectionFlag blockDirections = DirectionFlag.None)
+        {
+            containedEntity = entity;
+            blockedEntryDirections = blockDirections;
+        }
+        public void RemoveEntity(DirectionFlag unblockDirections = DirectionFlag.None)
+        {
+            containedEntity = null;
+            blockedEntryDirections &= unblockDirections;
         }
         
         public DirectionFlag GetEntryDirections() => transformedEntryDirections;
         public DirectionFlag GetExitDirections() => transformedExitDirections;
+        public List<Vector3> GetExitDirectionVector() => DirectionHelper.GetDirectionVectors(transformedExitDirections);
         
         public DirectionFlag GetBlockedEntryDirections() => blockedEntryDirections;
         public void SetBlockedEntryDirections(DirectionFlag flag) =>  blockedEntryDirections = flag;
@@ -76,7 +83,20 @@ namespace CursedOnion.Game.Systems.Grid
             this.transformedEntryDirections = tile.transformedEntryDirections;
             this.transformedExitDirections = tile.transformedExitDirections;
         }
-
+        
+        public bool CanBeAccessedFrom(Vector3 direction)
+        {
+            var flag = DirectionHelper.GetDirectionFlag(direction);
+            return CanBeAccessedFrom(flag);
+        }
+        public bool CanBeAccessedFrom(DirectionFlag direction)
+        {
+            return (transformedEntryDirections & ~blockedEntryDirections & direction) != 0;
+        }
+        public bool IsBlocked()
+        {
+            return (transformedEntryDirections & ~blockedEntryDirections) == 0;
+        }
         public bool IsEmptyTile()
         {
             return descriptor.IsAirBlock;

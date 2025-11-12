@@ -1,24 +1,9 @@
-using CursedOnion.Extensions;
-using CursedOnion.Game.Entity.UI;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General.Animations;
-using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
-using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
-using Reflex.Injectors;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Splines;
-using UnityEngine.TestTools;
 
 namespace CursedOnion.Game.Entity
 {
@@ -28,7 +13,7 @@ namespace CursedOnion.Game.Entity
         Ally,
         Enemy
     }
-    public class Unit : CommandableEntity
+    public class Unit : SimpleEntity
     {
         // Character UI
         [HorizontalLine(height: 2f, color: EColor.Violet)]
@@ -42,10 +27,8 @@ namespace CursedOnion.Game.Entity
 
         [Inject] LevelManager levelManager;
 
-        public BattleSide Side;
-
+        
         // Ability Status
-        private float nextAttackMultiplier = 1;
         private int additionalHP = 0;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
@@ -57,7 +40,7 @@ namespace CursedOnion.Game.Entity
             if (!PlacedManually)
             {
                 SetLevelVariables();
-                SetSide(Side);
+                SetSide(EntitySide);
                 AfterSpawn();
             }
         }
@@ -83,15 +66,15 @@ namespace CursedOnion.Game.Entity
         }
         void AfterSpawn()
         {
-            Grid.GetTileAtWorldPosition(transform.position).SetContainedEntity(this);
+            EntityController.PlaceEntityComponent.Place();
             Stats.SetStats(Data);
             
             baseMovement = GetStats().MovementStat;
 
             var turnSystem = levelManager.GetTurnSystem();
+            
             turnSystem.AddUnit(this);
-            turnSystem.OnUnitTurnStart += HandleTurnStart;
-            turnSystem.OnUnitTurnEnd += HandleTurnEnd;
+            
 
             if (unitUI != null) unitUI.SetActive(false);
             
@@ -100,24 +83,24 @@ namespace CursedOnion.Game.Entity
         }
         void SetSide(BattleSide side)
         {
-            Side = side;
-
-            EntityController = GetComponent<EntityComponentController>();
+            EntitySide = side;
             
-            if(EntityController == null)
-                EntityController = Side switch
-                {
-                    BattleSide.Enemy => gameObject.AddComponent<AIUnitController>(),
-                    BattleSide.Ally => gameObject.AddComponent<PlayerUnitController>(),
-                    _ => null
-                };
+            if(EntityController == null) Debug.LogWarning("EntityController es null, hay que cambiar esto por los controllers correspondientes");
+
+            EntityController = Data.GetEntityController().Clone();
+            EntityController ??= side switch
+            {
+                BattleSide.Enemy => EntityComponentController.Default,
+                BattleSide.Ally => EntityComponentController.Default,
+                _ => null
+            };
 
             EntityController?.Initialize(this);
         }
 
         public bool TryErasingUnit(LevelManager manager)
         {
-            bool canBeErased = PlacedManually && Side == BattleSide.Ally;
+            bool canBeErased = PlacedManually && EntitySide == BattleSide.Ally;
             if (canBeErased)
             {
                 manager.EraseUnit(Data.GetPrice());
@@ -149,7 +132,7 @@ namespace CursedOnion.Game.Entity
             
             layeredEntity.InitializeLayers(currentGroup);
         }
-        private void HandleTurnStart(Unit unit)
+        /*private void HandleTurnStart(Unit unit)
         {
             if (unit == this)
             {
@@ -167,12 +150,7 @@ namespace CursedOnion.Game.Entity
                 if (unitUI != null)
                     unitUI.SetActive(false);
             }
-        }
-
-        public Grid3d GetGrid()
-        {
-            return Grid;
-        }
+        }*/
 
         public void ApplyConfusion(int turns)
         {
@@ -198,8 +176,8 @@ namespace CursedOnion.Game.Entity
             if (levelManager != null)
             {
                 var turnSystem = levelManager.GetTurnSystem();
-                turnSystem.OnUnitTurnStart -= HandleTurnStart;
-                turnSystem.OnUnitTurnEnd -= HandleTurnEnd;
+                //turnSystem.OnTurnStart -= HandleTurnStart;
+                //turnSystem.OnTurnEnd -= HandleTurnEnd;
             }
         }
 
@@ -243,140 +221,6 @@ namespace CursedOnion.Game.Entity
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
             Debug.Log($"{name} se cura {healedHP} de HP.");
         }
-        #endregion
-
-        #region Attack
-        public void SetNextAttackMultiplier(float multiplier)
-        {
-            nextAttackMultiplier = multiplier;
-        }
-
-        protected override void DoAttack(SimpleEntity target, bool undo)
-        {
-            if (target is Unit targetedUnit)
-            {
-                if (targetedUnit.Side == Side)
-                {
-                    Debug.LogWarning($"{name} no puede atacar a {target.name} porque son del mismo bando.");
-                    return;
-                }
-
-                Grid.ResetPaint();
-
-                int rawDamage = Mathf.CeilToInt(GetStats().AttackStat * nextAttackMultiplier);
-
-                int targetDefense = targetedUnit.GetStats().DefenseStat;
-                int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
-
-                Debug.Log($"{name} ataca a {targetedUnit.name} causando {finalDamage} de daño.");
-
-                targetedUnit.Damage(finalDamage);
-
-                nextAttackMultiplier = 1;
-
-
-                if (targetedUnit.GetStats().CurrentHealthStat > 0 && GetStats().SpecialAbilityType is not ArcherAbility)
-                {
-                    int counterDamage = targetedUnit.GetStats().AttackStat;
-
-                    Debug.Log($"{targetedUnit.name} contraataca a {name} causando {counterDamage} de daño.");
-
-                    Damage(counterDamage);
-                }
-            }
-        }
-
-        public override bool ValidateAttack(SimpleEntity target)
-        {
-            if (target == null)
-            {
-                Grid.ResetPaint();
-                Debug.LogWarning("ValidateAttack falló: target es null");
-                return false;
-            }
-
-            if (target is Unit targetedUnit && (targetedUnit.Side == Side || targetedUnit.Side == BattleSide.Neutral ))
-            {
-                Grid.ResetPaint();
-                Debug.LogWarning($"{name} no puede atacar a {target.name} porque son del mismo bando o es un elemento neutral.");
-                return false;
-            }
-
-            if (!Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
-                return false;
-
-            var reachable = new List<Vector3>();
-
-            if (GetStats().SpecialAbilityType is ArcherAbility)
-            {
-                reachable = Grid.GetReachablePositions(transform.position, 2, 2);
-            }
-            else
-            {
-                reachable = Grid.GetReachablePositions(transform.position, 1, 1);
-            }
-            Grid.ResetPaint();
-            return reachable.Contains(targetGridPos);
-        }
-        #endregion
-
-        #region Special Ability
-
-        protected override void DoAbility(SimpleEntity target, bool undo)
-        {
-            Grid.ResetPaint();
-            GetStats().SpecialAbilityType.ActivateAbility(this, target);
-            Debug.Log($"{gameObject.name} usa su habilidad en {target.gameObject.name}");
-        }
-
-        public override bool ValidateAbility(SimpleEntity target)
-        {
-            if (GetStats().SpecialAbilityType.SelfTargetOnly == true)
-            {
-                if (target == (SimpleEntity)this)
-                    return true;
-
-                Debug.LogWarning($"[ValidateAbility] {name} tiene SelfTargetOnly pero el target no es el mismo objeto.");
-                return false;
-            }
-
-            if (target == null)
-            {
-                Grid.ResetPaint();
-                Debug.LogWarning("ValidateAbility falló: target es null");
-                return false;
-            }
-
-            if (!Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
-                return false;
-
-            var reachable = Grid.GetReachablePositions(transform.position, GetStats().SpecialAbilityType.AbilityMinRange, GetStats().SpecialAbilityType.AbilityMaxRange);
-
-            var ability = GetStats().SpecialAbilityType;
-
-            if (ability is ArcherAbility)
-            {
-                if (!Grid.TryWorldToGridPosition(transform.position, out Vector3 unitGridPos))
-                    return false;
-
-                Vector3 dir = targetGridPos - unitGridPos;
-                dir.y = 0;
-
-                if (Mathf.Abs(dir.x) > 0 && Mathf.Abs(dir.z) > 0)
-                {
-                    Grid.ResetPaint();
-                    return false;
-                }
-            }
-
-            Grid.ResetPaint();
-            return reachable.Contains(targetGridPos);
-        }
-        #endregion
-
-        #region Movement
-
-        
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 using CursedOnion.Game.Systems.Grid;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using CursedOnion.Game.Systems.Level;
 
@@ -13,7 +14,15 @@ namespace CursedOnion.Game.Entity
         public int AbilityMaxRange = 0;
 
         public virtual void ActivateAbility(Unit unit, SimpleEntity target = null) { }
-    
+        public virtual void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var stats = subject.GetStats();
+            var grid = subject.Grid;
+            var transform = subject.transform;
+            
+            var ability = stats.SpecialAbilityType;
+            grid.InsertReachablePositions(reachablePositionsList, transform.position, stats.SpecialAbilityType.AbilityMinRange, ability.AbilityMaxRange);
+        }
     }
     
     [System.Serializable]
@@ -24,7 +33,20 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Soldier: Aumentando daño del próximo ataque");
-            unit.SetNextAttackMultiplier(DamageMultiplier);
+            
+            var grid = unit.Grid;
+            if (!grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos)) return;
+            if (!grid.TryWorldToGridPosition(unit.transform.position, out Vector3 unitGridPos)) return;
+
+            Vector3 dir = targetGridPos - unitGridPos;
+            dir.y = 0;
+
+            if (Mathf.Abs(dir.x) > 0 && Mathf.Abs(dir.z) > 0)
+            {
+                return;
+            }
+            
+            unit.EntityController.AttackEntityComponent.SetNextAttackMultiplier(DamageMultiplier);
         }
     }
 
@@ -62,7 +84,7 @@ namespace CursedOnion.Game.Entity
             if (target is Unit targetUnit)
             {
                 Debug.Log("Activando habilidad de Barbarian: Eliminando unidad neutral");
-                if (targetUnit.Side == BattleSide.Neutral)
+                if (targetUnit.GetSide() == BattleSide.Neutral)
                     targetUnit.Dispose();
             }
         }
@@ -87,7 +109,7 @@ namespace CursedOnion.Game.Entity
         {
             if (target is Unit targetUnit)
             {
-                if (targetUnit.Side != unit.Side)
+                if (targetUnit.GetSide() != unit.GetSide())
                     return;
                 Debug.Log("Activando habilidad de Healer: Curando al objetivo");
                 int healedAmount = (int)Math.Ceiling(unit.GetStats().CurrentHealthStat * 0.5f);
@@ -103,7 +125,7 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
 
-            var grid = unit.GetGrid();
+            var grid = unit.Grid;
             if (!grid.TryWorldToGridPosition(unit.transform.position, out Vector3 unitGridPos) ||
                 !grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
                 return;
@@ -129,7 +151,7 @@ namespace CursedOnion.Game.Entity
             {
                 Vector3 posToCheck = targetGridPos + direction * i;
 
-                Tile3d tile = unit.GetGrid().GetTileAtGridPosition(posToCheck);
+                Tile3d tile = unit.Grid.GetTileAtGridPosition(posToCheck);
 
                 if (tile == null)
                     continue; 
@@ -139,7 +161,7 @@ namespace CursedOnion.Game.Entity
                 if (entity == null)
                     continue; 
 
-                if (entity is Unit enemyUnit && enemyUnit.Side != unit.Side)
+                if (entity is Unit enemyUnit && enemyUnit.GetSide() != unit.GetSide())
                 {
                     enemyUnit.Damage(damage);
                     Debug.Log($"{enemyUnit.name} recibió {damage} puntos de daño por la habilidad de Arquero");

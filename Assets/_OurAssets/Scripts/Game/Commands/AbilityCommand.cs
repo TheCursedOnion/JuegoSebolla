@@ -8,26 +8,19 @@ namespace CursedOnion.Game.Commands
     public class AbilityCommand : EntityCommand, IClearStackCommand
     {
         private SimpleEntity target;
-        public static void Prepare(CommandableEntity subject)
+        public static void Prepare(SimpleEntity subject)
         {
-            Debug.Log("VISUALIZAR TILES HABILIDAD");
+            subject?.EntityController.AbilityEntityComponent.VisualizeAbility();
         }
-        public static AbilityCommand Create(CommandableEntity commandSubject, SimpleEntity target)
+        public static AbilityCommand Create(SimpleEntity commandSubject, SimpleEntity target)
         {
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
             return new AbilityCommand(commandSubject, target);
         }
-        private AbilityCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
+        private AbilityCommand(SimpleEntity commandSubject, SimpleEntity target) : base(commandSubject) 
         {
             this.target = target;
-            OnPrepare();
         }
-        
-        public void OnPrepare()
-        {
-            
-        }
-        
         public bool CanExecute()
         {
             if (!CommandSubject)
@@ -35,7 +28,7 @@ namespace CursedOnion.Game.Commands
                 Debug.LogWarning($"[AbilityCommand] No se puede ejecutar: No tiene un CommandSubject");
                 return false;
             }
-            if (!CommandSubject.ValidateAbility(target))
+            if (!CommandSubject.EntityController.AbilityEntityComponent.ValidateAbility(target))
             {
                 Debug.LogWarning($"[AbilityCommand] No se puede ejecutar: {CommandSubject.name} no puede usar la habilidad");
                 return false;
@@ -46,7 +39,7 @@ namespace CursedOnion.Game.Commands
         {
             if(!CanExecute()) return false;
 
-            CommandSubject.ActivateAbility(target);
+            CommandSubject.EntityController.AbilityEntityComponent.DoAbility(target, false);
             return true;
         }
     }

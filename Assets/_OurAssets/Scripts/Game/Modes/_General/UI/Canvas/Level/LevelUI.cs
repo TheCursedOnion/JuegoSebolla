@@ -78,22 +78,12 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         public void OnEndTurnButtonPressed()
         {
             var turnSystem = levelManager.GetTurnSystem();
-            var activeUnits = turnSystem.GetActiveUnits();
-            if (activeUnits == null || activeUnits.Count == 0)
-            {
-                Debug.Log("No hay unidades activas.");
-                return;
-            }
-
-            foreach (var unit in activeUnits.ToList())
-            {
-                turnSystem.EndTurnForUnit(unit);
-            }
+            turnSystem.EndTurn();
         }
 
         public void OnStartButtonPressed()
         {
-            levelManager.GetTurnSystem().StartRound();
+            levelManager.GetTurnSystem().OrganizeLists();
         }
 
         #endregion

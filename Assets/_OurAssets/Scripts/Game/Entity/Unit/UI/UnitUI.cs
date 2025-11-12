@@ -12,9 +12,6 @@ namespace CursedOnion.Game.Entity.UI
         LevelEvents levelEvents;
         
         Unit associatedUnit;
-        [SerializeField] private Button moveButton;
-        [SerializeField] private Button attackButton;
-        [SerializeField] private Button abilityButton;
         
         CommandParameters commonParameters;
         public void Initialize()
@@ -30,11 +27,13 @@ namespace CursedOnion.Game.Entity.UI
             associatedUnit = unit;
             associatedUnit.OnEntityUpdate -= UpdateUI;
             associatedUnit.OnEntityUpdate += UpdateUI;
-            UpdateUI();
+            UpdateUI(associatedUnit);
         }
 
-        void UpdateUI()
+        void UpdateUI(SimpleEntity entity)
         {
+            if(entity is not Unit unit) return;
+            
             //Debug.Log("Update UI");
         }
         
