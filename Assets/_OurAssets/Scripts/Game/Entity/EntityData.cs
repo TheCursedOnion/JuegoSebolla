@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
+using CursedOnion.Game.Modes.General.Animations;
 using NaughtyAttributes;
 using UnityEngine;
+using static CursedOnion.Game.Modes.General.Animations.LayeredEntity;
 using Random = UnityEngine.Random;
 
 namespace CursedOnion.Game.Entity
@@ -21,6 +24,8 @@ namespace CursedOnion.Game.Entity
         [SerializeField] private GameObject characterUI;
 
         [SubclassSelector, SerializeReference] private SpecialAbility specialAbility;
+
+        [SerializeField] private List<AnimationLayerGroup> animationLayers;
 
         public string GetName()
         { 
@@ -57,6 +62,10 @@ namespace CursedOnion.Game.Entity
         public SpecialAbility GetSpecialAbility()
         {
             return specialAbility;
+        }
+        public List<AnimationLayerGroup> GetAnimationLayers()
+        {
+            return animationLayers;
         }
     }
 }

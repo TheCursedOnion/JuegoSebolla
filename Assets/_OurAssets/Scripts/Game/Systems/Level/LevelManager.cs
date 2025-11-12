@@ -46,6 +46,8 @@ namespace CursedOnion.Game.Systems.Level
         void Awake()
         {
             LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
+            LevelAsset.Grid.ResetPaint();
+            LevelAsset.Grid.PaintTileAtGridPosition(Vector3.zero, Color.green);
         }
 
         public bool TryPlacingUnit(int unitPrice)
