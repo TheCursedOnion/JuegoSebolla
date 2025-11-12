@@ -12,9 +12,6 @@ namespace CursedOnion.Game.Entity.UI
         LevelEvents levelEvents;
         
         Unit associatedUnit;
-        [SerializeField] private Button moveButton;
-        [SerializeField] private Button attackButton;
-        [SerializeField] private Button abilityButton;
         
         CommandParameters commonParameters;
         public void Initialize()

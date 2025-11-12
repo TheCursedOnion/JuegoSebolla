@@ -173,12 +173,32 @@ namespace CursedOnion.Game.Systems.Grid
             }
         }
 
+
+        public void InsertReachablePositions(List<Vector3> reachablePositions, Vector3 startWorldPos, int minRange, int maxRange)
+        {
+            ComputeReachablePositionsInternal(startWorldPos, minRange, maxRange, reachablePositions);
+        }
         public List<Vector3> GetReachablePositions(Vector3 startWorldPos, int minRange, int maxRange)
         {
-            var reachable = new List<Vector3>();
+            var list = new List<Vector3>();
+            ComputeReachablePositionsInternal(startWorldPos, minRange, maxRange, list);
+            return list;
+        }
+        static readonly Vector3Int[] directions =
+        {
+            new(1, 0, 0),
+            new(-1, 0, 0),
+            new(0, 1, 0),
+            new(0, -1, 0),
+            new(0, 0, 1),
+            new(0, 0, -1)
+        };
+        private void ComputeReachablePositionsInternal(Vector3 startWorldPos, int minRange, int maxRange, List<Vector3> output)
+        {
+            output.Clear();
 
             if (!TryWorldToGridPosition(startWorldPos, out Vector3 startGridPos))
-                return reachable;
+                return;
 
             Vector3Int start = new Vector3Int(
                 Mathf.FloorToInt(startGridPos.x),
@@ -186,28 +206,18 @@ namespace CursedOnion.Game.Systems.Grid
                 Mathf.FloorToInt(startGridPos.z)
             );
 
-            Queue<(Vector3Int pos, int distance)> frontier = new();
-            HashSet<Vector3Int> visited = new();
+            var frontier = new Queue<(Vector3Int pos, int distance)>();
+            var visited = new HashSet<Vector3Int>();
 
             frontier.Enqueue((start, 0));
             visited.Add(start);
-
-            Vector3Int[] directions = new Vector3Int[]
-            {
-                new Vector3Int(1, 0, 0),
-                new Vector3Int(-1, 0, 0),
-                new Vector3Int(0, 1, 0),
-                new Vector3Int(0, -1, 0),
-                new Vector3Int(0, 0, 1),
-                new Vector3Int(0, 0, -1)
-            };
-
+            
             while (frontier.Count > 0)
             {
                 var (current, distance) = frontier.Dequeue();
 
                 if (distance >= minRange && distance <= maxRange)
-                    reachable.Add(current);
+                    output.Add(current);
 
                 if (distance >= maxRange)
                     continue;
@@ -217,13 +227,12 @@ namespace CursedOnion.Game.Systems.Grid
                     Vector3Int next = current + dir;
 
                     if (!IsGridPositionInBounds((Vector3)next)) continue;
-                    if (visited.Contains(next)) continue;
 
-                    visited.Add(next);
+                    if (!visited.Add(next)) continue;
+
                     frontier.Enqueue((next, distance + 1));
                 }
             }
-            return reachable;
         }
         
 
@@ -278,6 +287,7 @@ namespace CursedOnion.Game.Systems.Grid
 
         public void PaintTilesAtGridPositions(List<Vector3> positions, Color color)
         {
+            Debug.Log(positions.Count);
             for (int i = 0; i < positions.Count; i++)
             {
                 if(i==0) ResetPaint();

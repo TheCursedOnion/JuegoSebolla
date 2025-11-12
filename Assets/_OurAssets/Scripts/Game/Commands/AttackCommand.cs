@@ -9,24 +9,19 @@ namespace CursedOnion.Game.Commands
     {
         private SimpleEntity target;
 
-        public static void Prepare(CommandableEntity subject)
-        {
-            Debug.Log("VISUALIZAR TILES ATACAR");
-        }
-        public static AttackCommand Create(CommandableEntity commandSubject, SimpleEntity target)
+        
+        public static AttackCommand Create(SimpleEntity commandSubject, SimpleEntity target)
         {
             if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
             return new AttackCommand(commandSubject, target);
         }
-        private AttackCommand(CommandableEntity commandSubject, SimpleEntity target) : base(commandSubject) 
+        private AttackCommand(SimpleEntity commandSubject, SimpleEntity target) : base(commandSubject) 
         {
             this.target = target;
-            OnPrepare();
         }
-
-        public void OnPrepare()
+        public static void Prepare(SimpleEntity subject)
         {
-            
+            subject?.EntityController.AttackEntityComponent.VisualizeAttack();
         }
         
         public bool CanExecute()
@@ -36,7 +31,7 @@ namespace CursedOnion.Game.Commands
                 Debug.LogWarning($"[AttackCommand] No se puede ejecutar: No tiene un CommandSubject");
                 return false;
             }
-            if (!CommandSubject.ValidateAttack(target))
+            if (!CommandSubject.EntityController.AttackEntityComponent.ValidateAttack(target))
             {
                 Debug.LogWarning($"[AttackCommand] No se puede ejecutar: {CommandSubject.name} no puede atacar");
                 return false;
@@ -47,7 +42,7 @@ namespace CursedOnion.Game.Commands
         {
             if(!CanExecute()) return false;
 
-            CommandSubject.Attack(target);
+            CommandSubject.EntityController.AttackEntityComponent.DoAttack(target, false);
             return true;
         }
     }

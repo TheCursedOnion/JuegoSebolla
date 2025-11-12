@@ -14,15 +14,20 @@ namespace CursedOnion.Game.Entity
         [HideInInspector] public LevelManager LevelManager;
         [HideInInspector] public LevelEvents LevelEvents;
         [HideInInspector] public Grid3d Grid;
-        
+
         [HorizontalLine(height: 2f, color: EColor.Violet)]
-        public EntityComponentController EntityController;
+        [SerializeField] protected BattleSide EntitySide = BattleSide.Neutral;
+        
+        [ReadOnly] public EntityComponentController EntityController;
         [SerializeField] protected LayeredEntity layeredEntity;
         public Action OnEntityUpdate;
+        
         
         [HorizontalLine(height: 2f, color: EColor.Violet)]
         [Expandable] public EntityData Data;
         
+        
+        public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)
         {
             layeredEntity = this.layeredEntity;
@@ -38,8 +43,8 @@ namespace CursedOnion.Game.Entity
         }
         
         //Stats (They Get Defined)
-        protected virtual EntityStats Stats { get; } = new EntityStats();
-        public EntityStats GetStats() => Stats;
+        protected virtual ExtendedEntityStats Stats { get; } = new ExtendedEntityStats();
+        public ExtendedEntityStats GetStats() => Stats;
         
         //Flags
         protected virtual EntityFlags Flags { get; } = new EntityFlags();

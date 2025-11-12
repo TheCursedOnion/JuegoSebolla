@@ -12,21 +12,27 @@ namespace CursedOnion.Game.Entity
 
     public class EntityData : ScriptableObject
     {
-        [SerializeField] private string entityName;
+        const string EntityProperties = "Entity Properties";
+        const string EntityUI = "Entity UI";
+        const string EntityExtras = "Entity Extras";
+        const string EntityController = "Entity Controller";
+        
+        [SerializeField, BoxGroup(EntityProperties)] private string entityName;
 
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int hpRange;
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int attackRange;
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int defenseRange;
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue)] private Vector2Int initiativeRange;
-        [SerializeField] private int movement;
-        [SerializeField] private int price;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int hpRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int attackRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int defenseRange;
+        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int initiativeRange;
+        [SerializeField, BoxGroup(EntityProperties)] private int movement;
+        [SerializeField, BoxGroup(EntityProperties)] private int price;
 
-        [SerializeField] private GameObject characterUI;
+        [SerializeField, BoxGroup(EntityUI)] private GameObject characterUI;
 
-        [SubclassSelector, SerializeReference] private SpecialAbility specialAbility;
-
-        [SerializeField] private List<AnimationLayerGroup> animationLayers;
-
+        [SubclassSelector, SerializeReference, BoxGroup(EntityExtras)] private SpecialAbility specialAbility;
+        [SerializeField, BoxGroup(EntityExtras)] private List<AnimationLayerGroup> animationLayers;
+        
+        [SerializeField, BoxGroup(EntityController)] private EntityComponentController entityComponentController;
+        public EntityComponentController GetEntityController() => entityComponentController;
         public string GetName()
         { 
             return entityName;
