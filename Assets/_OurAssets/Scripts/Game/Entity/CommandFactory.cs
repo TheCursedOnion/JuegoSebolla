@@ -4,6 +4,8 @@ using CursedOnion.Game.Entity;
 
 namespace CursedOnion.Game.Commands
 {
+    
+    //TODO: Quitarla
     public class EntityCommand
     {
         protected readonly CommandableEntity CommandSubject;
@@ -15,6 +17,14 @@ namespace CursedOnion.Game.Commands
     }
     public abstract class CommandFactory
     {
+        private static readonly Dictionary<Type, Action<CommandableEntity>> preFactories =
+            new()
+            {
+                { typeof(MoveCommand), MoveCommand.Prepare },
+                { typeof(AttackCommand), AttackCommand.Prepare },
+                { typeof(AbilityCommand), AbilityCommand.Prepare },
+            };
+        
         private static readonly Dictionary<Type, Func<CommandParameters, ICommand>> factories =
             new()
             {
@@ -24,7 +34,7 @@ namespace CursedOnion.Game.Commands
                 { typeof(SpawnCommand), (p) =>
                     {
                         if(p.Target) return null;
-                        return SpawnCommand.Create(p.LevelManager, p.EntityPrefab, p.Position.Value, p.TargetTile);
+                        return SpawnCommand.Create(p.EntityPrefab, p.Position.Value, p.TargetTile);
                     }
                 },
                 { typeof(EraseCommand), (p) => EraseCommand.Create(p.LevelManager, p.TargetTile)},
@@ -37,6 +47,11 @@ namespace CursedOnion.Game.Commands
             this.CommandSubject = commandSubject;
         }
         
+        public static void PreVisualize<T>(CommandableEntity parameters) where T : ICommand
+        {
+            if (preFactories.TryGetValue(typeof(T), out var preVisualize))
+                preVisualize(parameters);
+        }
         public static T Create<T>(CommandParameters parameters) where T : ICommand
         {
             if (factories.TryGetValue(typeof(T), out var factory))

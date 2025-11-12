@@ -17,10 +17,15 @@ namespace CursedOnion.Game.Commands
         {
             return new MoveCommand(commandSubject, newPosition);
         }
+        public static void Prepare(CommandableEntity subject)
+        {
+            subject?.EntityController.MoveEntityComponent.VisualizeMovement();
+        }
         private MoveCommand(CommandableEntity commandSubject, Vector3 newPosition) : base(commandSubject)
         {
             this.targetPosition = newPosition;
         }
+        
         
         public bool CanExecute()
         {
@@ -29,7 +34,7 @@ namespace CursedOnion.Game.Commands
                 Debug.LogWarning($"[MoveCommand] No se puede ejecutar: No tiene un CommandSubject");
                 return false;
             }
-            if (!CommandSubject.ValidateMove(targetPosition))
+            if (!CommandSubject.EntityController.MoveEntityComponent.ValidateMove(targetPosition).Result)
             {
                 Debug.LogWarning($"[MoveCommand] No se puede ejecutar: {CommandSubject.name} no puede moverse a {targetPosition}");
                 return false;
@@ -41,14 +46,13 @@ namespace CursedOnion.Game.Commands
             if (!CanExecute()) return false;
             
             previousPosition = CommandSubject.transform.position;
-            CommandSubject.Move(targetPosition);
+            CommandSubject.EntityController.MoveEntityComponent.DoMove(targetPosition, false);
             return true;
         }
 
         public void Undo()
         {
-            Debug.Log("El comando de movimiento se ha DESHECHO");
-            CommandSubject.UndoMove(previousPosition);
+            CommandSubject.EntityController.MoveEntityComponent.DoMove(targetPosition, true);
         }
     }
 }

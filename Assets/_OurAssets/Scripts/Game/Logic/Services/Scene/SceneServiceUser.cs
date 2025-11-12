@@ -23,7 +23,11 @@ namespace CursedOnion.Game.Logic.Services
             sceneService.OnSceneLoadCall -= InvokeOnSceneLoadCalled;
             sceneService.OnSceneLoadComplete -= InvokeOnSceneLoadCompleted;
         }
-
+        public void ResetScene(float duration, float inBetweenTime, TransitionType type, Color color)
+        {
+            UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color, null, null);
+            ChangeScene(gameObject.scene.name, transitionData);
+        }
         public void ChangeScene(string sceneName, float duration, float inBetweenTime, TransitionType type, Color color)
         {
             UITransitionData transitionData = new UITransitionData(duration, inBetweenTime, type, color, null, null);

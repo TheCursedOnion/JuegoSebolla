@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Modes.General.Animations
     public class AnimationLayerGroup
     {
         public string groupName;
-        public List<LayeredEntity.AnimationLayer> layers;
+        public List<AnimationLayer> layers;
     }
 
     public class EntityData : ScriptableObject

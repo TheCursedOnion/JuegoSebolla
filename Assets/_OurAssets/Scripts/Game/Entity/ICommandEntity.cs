@@ -1,68 +1,5 @@
-using System;
-using CursedOnion.Game.Events;
-using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Game.Systems.Level;
-using NaughtyAttributes;
-using UnityEngine;
-
 namespace CursedOnion.Game.Entity
 {
-    public class SimpleEntity : MonoBehaviour
-    {
-        protected LevelManager LevelManager;
-        protected LevelEvents LevelEvents;
-        protected Grid3d Grid;
-        protected void SetLevelVariables(LevelManager levelManager)
-        {
-            LevelManager = levelManager;
-            LevelEvents = levelManager.LevelEvents;
-            Grid = levelManager.LevelAsset.Grid;
-        }
-        
-        public Action OnEntityUpdate;
-
-        [Expandable] public EntityData Data;
-        
-        //Stats (They Get Defined)
-        protected virtual EntityStats Stats { get; } = new EntityStats();
-        public EntityStats GetStats() => Stats;
-        
-        //Flags
-        protected virtual EntityFlags Flags { get; } = new EntityFlags();
-        public EntityFlags GetFlags() => Flags;
-
-        public virtual void Damage(int damage)
-        {
-            Stats.CurrentHealthStat -= damage;
-            if (Stats.CurrentHealthStat <= 0) Die();
-        }
-
-        public virtual void Heal(int healedHP)
-        {
-            Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
-        }
-        public virtual void Die()
-        {
-            GetFlags().HasDied = true;
-            OnEntityUpdate?.Invoke();
-            Dispose();
-        }
-
-        public virtual void Revive(int newHealth)
-        {
-            Stats.CurrentHealthStat = newHealth;
-            GetFlags().HasDied = false;
-            
-            OnEntityUpdate?.Invoke();
-        }
-        
-        public void Dispose()
-        {
-            Destroy(gameObject);
-        }
-    }
-    
-    
     public abstract class CommandableEntity : SimpleEntity
     {
         //Stats (They Get Defined)
@@ -70,8 +7,6 @@ namespace CursedOnion.Game.Entity
         public new ExtendedEntityStats GetStats() => Stats as ExtendedEntityStats;
         
         //Flags
-        protected override EntityFlags Flags { get; } = new ExtendedEntityFlags();
-        public new ExtendedEntityFlags GetFlags() => Flags as ExtendedEntityFlags;
         
         
         #region Basic Commands
@@ -95,18 +30,6 @@ namespace CursedOnion.Game.Entity
 
         protected abstract void DoAbility(SimpleEntity target, bool undo);
         public abstract bool ValidateAbility(SimpleEntity target);
-
-        public void Move(Vector3 newPosition)
-        {
-            DoMove(newPosition, undo: false);
-        }
-
-        public void UndoMove(Vector3 previousPosition)
-        {
-            DoMove(previousPosition, undo: true);
-        }
-        protected abstract void DoMove(Vector3 newPosition, bool undo);
-        public abstract bool ValidateMove(Vector3 newPosition);
         
         #endregion
     }

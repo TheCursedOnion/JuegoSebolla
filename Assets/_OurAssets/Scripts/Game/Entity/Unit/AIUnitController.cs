@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    public class AIUnitController : UnitController
+    public class AIUnitController : EntityComponentController
     {
-        public override void ProcessTurn(Unit unit)
+        public override void ProcessTurn(SimpleEntity entity)
         {
-            Debug.Log($"Turno de unidad enemiga: {unit.name}");
+            Debug.Log($"Turno de unidad enemiga: {entity.name}");
         }
     }
 }

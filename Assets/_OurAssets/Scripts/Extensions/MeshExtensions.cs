@@ -1,12 +1,28 @@
 using System;
+using System.Linq;
 using CursedOnion.Game;
 using CursedOnion.Helpers;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace CursedOnion.Extensions
 {
     public static class MeshExtensions
     {
+        public static Transform[] SortTilemapTiles(this Tilemap tilemap)
+        {
+            Transform[] children = tilemap.GetComponentsInChildren<Transform>()
+                .Where(t => t != tilemap.transform)
+                .ToArray();
+
+            Transform[] sorted = children
+                .OrderBy(t => t.position.x)
+                .ThenBy(t => t.position.y)
+                .ThenBy(t => t.position.z)
+                .ToArray();
+            
+            return sorted;
+        }
         public static Mesh CentricCombineMeshes(this Mesh mesh, CombineInstance[] combiners, bool mergeSubMeshes = false, bool useMatrices = true)
         {
             mesh.CombineMeshes(combiners, mergeSubMeshes, useMatrices);

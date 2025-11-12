@@ -14,6 +14,12 @@ namespace CursedOnion.Game.Commands
         {
             this.action = action;
         }
+
+        public void OnPrepare()
+        {
+            
+        }
+
         public bool CanExecute()
         {
             if (action == null)

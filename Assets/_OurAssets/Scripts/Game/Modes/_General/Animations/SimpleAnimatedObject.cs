@@ -107,8 +107,24 @@ namespace CursedOnion.Game.Modes.General.Animations
         /// </summary>
         public void MoveToLocal(Vector3 targetPosition, LeanTweenType easing, float duration)
         {
-            SafeTween("move", 
-                LeanTween.moveLocal(targetTransform.gameObject, targetPosition, duration).setEase(easing));
+            RectTransform rect = targetTransform as RectTransform;
+            if (rect != null)
+            {
+                Vector2 startPos = rect.anchoredPosition;
+                Vector2 targetPos = new Vector2(targetPosition.x, targetPosition.y); // z se ignora para UI
+
+                SafeTween("move",
+                    LeanTween.value(rect.gameObject, startPos, targetPos, duration)
+                        .setEase(easing)
+                        .setOnUpdate((Vector2 val) => rect.anchoredPosition = val)
+                );
+            }
+            else
+            {
+                SafeTween("move", 
+                    LeanTween.moveLocal(targetTransform.gameObject, targetPosition, duration).setEase(easing)
+                );
+            }
         }
 
         /// <summary>
