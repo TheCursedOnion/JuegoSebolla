@@ -28,13 +28,31 @@ MonoBehaviour:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
+      lookupTexture: {fileID: 2800000, guid: 4851eee89b458b1418cb6ed358e58d72, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
   - groupName: griego
     layers:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 1b5289e8c668cea4ab800e801a2f28a9, type: 3}
+      lookupTexture: {fileID: 2800000, guid: e1f3686ea62307842bba27cd7d809ba5, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
+  - groupName: persa
+    layers:
+    - layerName: uv
+      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 45461fed3f4ab4b4c8407fb58b50dd8f, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
   entityComponents:
     PlaceEntityComponent:
       rid: 592454543302459605
