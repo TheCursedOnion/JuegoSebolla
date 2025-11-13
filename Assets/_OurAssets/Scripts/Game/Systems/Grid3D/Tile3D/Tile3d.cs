@@ -83,7 +83,7 @@ namespace CursedOnion.Game.Systems.Grid
         }
         public void ResetTile()
         {
-            RemoveEntity(blockedEntryDirections);
+            RemoveEntity();
         }
         public void ReplaceAttributes(Tile3d tile)
         {

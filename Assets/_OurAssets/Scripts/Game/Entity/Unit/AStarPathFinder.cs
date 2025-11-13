@@ -278,7 +278,8 @@ namespace CursedOnion.Game.Entity
             {
                 if (levelGrid.TryGridToWorldPosition(current.gridPos, out Vector3 worldPos))
                 {
-                    worldPos += new Vector3(0.5f, 0f, 0.5f);
+                    var offset = levelGrid.GetTileAtGridPosition(current.gridPos).GetDisplayOffset();
+                    worldPos += new Vector3(0.5f, 0f, 0.5f) + offset;
                     path.Add(worldPos);
                 }
 
