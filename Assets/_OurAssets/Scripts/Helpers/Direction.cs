@@ -102,8 +102,6 @@ namespace CursedOnion.Helpers
                     Vector3 vector = pair.Value;
                     Vector3 rotatedVector = Quaternion.AngleAxis(degrees, Vector3.up) * vector;
                     
-                    
-                    
                     rotatedVector.Round();
                     
                     DirectionFlag rotatedFlag = GetDirectionFlag(rotatedVector);

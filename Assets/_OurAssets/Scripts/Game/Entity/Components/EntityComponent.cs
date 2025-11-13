@@ -6,15 +6,11 @@ namespace CursedOnion.Game.Entity.Components
     {
         protected SimpleEntity AssignedEntity;
         protected Transform EntityTransform => AssignedEntity.transform;
+        [SerializeField] protected EntityFlag UsedFlags = EntityFlag.None;
 
         public virtual void ConfigureComponent(SimpleEntity assignedEntity)
         {
             AssignedEntity = assignedEntity;
-        }
-
-        public virtual void Cancel()
-        {
-            
         }
     }
 }

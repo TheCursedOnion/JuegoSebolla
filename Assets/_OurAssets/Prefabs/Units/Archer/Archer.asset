@@ -68,18 +68,22 @@ MonoBehaviour:
     - rid: 592454543302459609
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 0
         blockEntryDirectionsOnPlacement: 51
     - rid: 592454543302459610
       type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 10
         movementColor: {r: 0, g: 0.29803923, b: 1, a: 0.6}
     - rid: 592454543302459611
       type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 12
         attackColor: {r: 1, g: 0, b: 0, a: 1}
     - rid: 592454543302459612
       type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 8
         abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     - rid: 6291014342755483648
       type: {class: ArcherAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}

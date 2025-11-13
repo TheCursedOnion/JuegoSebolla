@@ -8,6 +8,7 @@ using Reflex.Injectors;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using CursedOnion.Game.Modes.General.UI.Events;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -16,6 +17,7 @@ namespace CursedOnion.Game.Commands
     public class EntityCommandHandler : IDisposable
     {
         [Inject] private readonly LevelEvents levelEvents;
+        [Inject] private readonly UIEvents uiEvents;
         [Inject] private readonly CommandManager commandManager;
         
         private SimpleEntity selectedEntity;
@@ -89,6 +91,7 @@ namespace CursedOnion.Game.Commands
             parameters.Subject = commandSubject;
             var command = genericMethod.Invoke(null, new object[] { parameters });
             
+            uiEvents.UnselectAllButtons();
             if(command != null) commandManager.ExecuteCommand((ICommand)command);
         }
         private void ResetCommand()
@@ -96,11 +99,12 @@ namespace CursedOnion.Game.Commands
             preparedCommand = null;
             preparedParameters = null;
             
-            levelEvents.SelectEntity(null);
+            //levelEvents.SelectEntity(null);
         }
         void ClearCommandStack()
         {
             ResetCommand();
+            levelEvents.SelectEntity(null);
             commandManager.ClearStack();
         }
 

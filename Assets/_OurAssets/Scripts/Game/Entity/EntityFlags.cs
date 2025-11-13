@@ -14,29 +14,30 @@ namespace CursedOnion.Game.Entity
     }
     public class EntityFlags
     {
-        protected EntityFlag CurrentFlags;
-        protected SimpleEntity Entity;
-        public EntityFlags(SimpleEntity entity)
+        private EntityFlag currentFlags;
+        private readonly SimpleEntity entityOwner;
+        public EntityFlags(SimpleEntity entityOwner)
         {
-            CurrentFlags = EntityFlag.None;
-            Entity = entity;
+            currentFlags = EntityFlag.None;
+            this.entityOwner = entityOwner;
         }
 
         public bool HasDied() => HasFlagRaised(EntityFlag.HasDied);
         public bool HasMoved() => HasFlagRaised(EntityFlag.HasMoved);
         public bool HasAttacked() => HasFlagRaised(EntityFlag.HasAttacked);
         public bool HasUsedAbility() => HasFlagRaised(EntityFlag.HasUsedAbility);
-        bool HasFlagRaised(EntityFlag flag) => (CurrentFlags & flag) != 0;
+        public bool HasSpentAllActions() => HasAttacked() && HasUsedAbility() && HasMoved();
+        bool HasFlagRaised(EntityFlag flag) => (currentFlags & flag) != 0;
         
         public void RaiseFlag(EntityFlag flag)
         {
-            CurrentFlags |= flag;
-            Entity.NotifyUpdate();
+            currentFlags |= flag;
+            entityOwner.NotifyUpdate();
         }
         public void ResetFlag(EntityFlag flag)
         {
-            CurrentFlags &= ~flag;
-            Entity.NotifyUpdate();
+            currentFlags &= ~flag;
+            entityOwner.NotifyUpdate();
         }
     }
 }

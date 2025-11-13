@@ -390,6 +390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b255f4cc54bdcf479f225d81c7c7fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveButton: {fileID: 376745739966379319}
+  attackButton: {fileID: 3274593431037236024}
+  specialButton: {fileID: 2547906823077768365}
 --- !u!1 &3626621431480622242
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,15 +687,81 @@ MonoBehaviour:
     - _Target: {fileID: 7903992628577329902}
       _MemberName: AbilityActivation
       _PersistentArguments: []
+    - _Target: {fileID: 7903992628577329902}
+      _MemberName: SelectButtonUIEvent
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: CursedOnion.Game.General.UI.Buttons.UIButton, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 2547906823077768365}
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
     _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 8930002296325774708}
+      _MemberName: ChangeImageColor
+      _PersistentArguments:
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0.79587597
+        _Z: 0.023584902
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 2
+        _String: LeanTweenType, LeanTween, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   OnDeselect:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 8930002296325774708}
+      _MemberName: ChangeImageColor
+      _PersistentArguments:
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 1
+        _Z: 1
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 2
+        _String: LeanTweenType, LeanTween, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &8930002296325774708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,15 +921,81 @@ MonoBehaviour:
     - _Target: {fileID: 7903992628577329902}
       _MemberName: AttackUnit
       _PersistentArguments: []
+    - _Target: {fileID: 7903992628577329902}
+      _MemberName: SelectButtonUIEvent
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: CursedOnion.Game.General.UI.Buttons.UIButton, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 3274593431037236024}
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
     _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 8698686429912146081}
+      _MemberName: ChangeImageColor
+      _PersistentArguments:
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0.79587597
+        _Z: 0.023584902
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 2
+        _String: LeanTweenType, LeanTween, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   OnDeselect:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 8698686429912146081}
+      _MemberName: ChangeImageColor
+      _PersistentArguments:
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 1
+        _Z: 1
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 2
+        _String: LeanTweenType, LeanTween, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &8698686429912146081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,15 +1155,81 @@ MonoBehaviour:
     - _Target: {fileID: 7903992628577329902}
       _MemberName: MoveUnit
       _PersistentArguments: []
+    - _Target: {fileID: 7903992628577329902}
+      _MemberName: SelectButtonUIEvent
+      _PersistentArguments:
+      - _Type: 13
+        _Int: 0
+        _String: CursedOnion.Game.General.UI.Buttons.UIButton, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 376745739966379319}
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
     _PersistentCalls: []
   ButtonGroupId: 0
   OnSelect:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 9105673213857831398}
+      _MemberName: ChangeImageColor
+      _PersistentArguments:
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 0.79587597
+        _Z: 0.023584902
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 2
+        _String: LeanTweenType, LeanTween, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   OnDeselect:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 9105673213857831398}
+      _MemberName: ChangeImageColor
+      _PersistentArguments:
+      - _Type: 10
+        _Int: 0
+        _String: 
+        _X: 1
+        _Y: 1
+        _Z: 1
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 4
+        _Int: 2
+        _String: LeanTweenType, LeanTween, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
+      - _Type: 5
+        _Int: 0
+        _String: 
+        _X: 0.2
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &9105673213857831398
 MonoBehaviour:
   m_ObjectHideFlags: 0

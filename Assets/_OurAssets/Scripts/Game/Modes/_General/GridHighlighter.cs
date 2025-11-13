@@ -47,8 +47,6 @@ namespace CursedOnion.Game.Modes.General
         
         public HighlightPlane PlaceHighlightPlaneAt(Vector3 worldPosition, Color color)
         {
-            Debug.Log(pool != null);
-            
             Tile3d onTile = grid.GetTileAtWorldPosition(worldPosition);
 
             if (!grid.TryGetTileAtWorldPosition(worldPosition + Vector3.down, out Tile3d belowTile)) return null;

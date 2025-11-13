@@ -21,9 +21,9 @@ namespace CursedOnion.Game.Modes.General
             float xRotation = isStair ? -45f : 0f;
             float yRotation = tile.GetYRotation();
             
-            float zScale = isStair ? 0.144f : 0.1f;
+            float zScale = isStair ? 0.1414f : 0.1f;
             
-            transform.position = worldPosition + tile.GetDisplayOffset() + new Vector3(0, 0.002f, 0);
+            transform.position = worldPosition + tile.GetDisplayOffset() + new Vector3(0, 0.001f, 0);
             transform.eulerAngles = new Vector3(xRotation, yRotation, 0);
             
             var newScale = transform.localScale;

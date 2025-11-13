@@ -34,7 +34,7 @@ namespace CursedOnion.Game.General.UI.Buttons.Extensions
         void CheckPlacedUnits(int unitCount)
         {
             bool canBeInteracted = unitCount > 0;
-            uiButton.SetInterative(canBeInteracted);
+            uiButton.SetInteractive(canBeInteracted);
         }
         
     }

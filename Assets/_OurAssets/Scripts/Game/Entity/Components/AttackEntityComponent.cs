@@ -23,21 +23,19 @@ namespace CursedOnion.Game.Entity.Components
             var position = AssignedEntity.transform.position;
             
             grid.ResetPaint();
-            if (AssignedEntity.GetStats().SpecialAbilityType is ArcherAbility)
+            bool isMeleeUnit = AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility;
+
+            grid.TryWorldToGridPosition(position, out Vector3 gridPos);
+            if (!isMeleeUnit)
             {
-                Debug.LogWarning("ESTO DEBE SER DIFERENTE");
-                grid.TryWorldToGridPosition(position, out Vector3 gridPos);
-                AStarPathFinder.InsertActionRange(reachableTiles, grid, gridPos);
-                Debug.Log(reachableTiles);
-                grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
+                AStarPathFinder.InsertRangeAttackPositions(reachableTiles, grid, gridPos, 2, true);
             }
             else
             {
-                grid.TryWorldToGridPosition(position, out Vector3 gridPos);
-                AStarPathFinder.InsertActionRange(reachableTiles, grid, gridPos);
-                Debug.Log(reachableTiles);
-                grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
+                AStarPathFinder.InsertMeleeAttackPositions(reachableTiles, grid, gridPos);
             }
+            
+            grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
         }
         public virtual bool ValidateAttack(SimpleEntity target)
         {
@@ -70,16 +68,16 @@ namespace CursedOnion.Game.Entity.Components
 
             nextAttackMultiplier = 1;
             
-            if (!target.GetFlags().HasDied() && AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility)
+            /*if (!target.GetFlags().HasDied() && AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility)
             {
                 int counterDamage = target.GetStats().AttackStat;
 
                 Debug.Log($"{target.name} contraataca a {AssignedEntity.name} causando {counterDamage} de daño.");
 
                 AssignedEntity.Damage(counterDamage);
-            }
+            }*/
             
-            AssignedEntity.GetFlags().RaiseFlag(EntityFlag.HasAttacked);
+            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
         }
         
     }

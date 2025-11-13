@@ -54,10 +54,14 @@ namespace CursedOnion.Game.General.UI.Buttons
             else OnDeselect.Invoke();
         }
         
-        public void SetInterative(bool isInteractive)
+        public void SetInteractive(bool isInteractive)
         {
+            UnityButton ??= GetComponent<Button>();
+            
             if(!isInteractive) SelectButton(false);
-            UnityButton.interactable = isInteractive;
+            
+            Interactable = isInteractive;
+            UnityButton.interactable = Interactable;
         }
         
     }
