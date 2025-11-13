@@ -3,7 +3,7 @@ using CursedOnion.Locators;
 using Reflex.Extensions;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Entity
 {
     public class FollowCamera : MonoBehaviour
     {

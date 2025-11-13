@@ -1425,6 +1425,29 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
+--- !u!1 &169536553 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3162293030459347720, guid: 2fbc959796b38c74e922c5d720ee59a8, type: 3}
+  m_PrefabInstance: {fileID: 1396649356}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &169536560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169536553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f21e425e8c89a4439e29b8e41098414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 2
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  System: {fileID: 11400000, guid: 95a452fe58327a0e8b8464cdda7128ff, type: 2}
 --- !u!1 &177397468
 GameObject:
   m_ObjectHideFlags: 0
@@ -8061,7 +8084,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3162293030459347720, guid: 2fbc959796b38c74e922c5d720ee59a8, type: 3}
       propertyPath: m_Name
-      value: UnitPrefab (3)
+      value: UnitPrefab (3) (Enemigo)
       objectReference: {fileID: 0}
     - target: {fileID: 3162293030459347720, guid: 2fbc959796b38c74e922c5d720ee59a8, type: 3}
       propertyPath: m_IsActive
@@ -8070,7 +8093,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3162293030459347720, guid: 2fbc959796b38c74e922c5d720ee59a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 169536560}
   m_SourcePrefab: {fileID: 100100000, guid: 2fbc959796b38c74e922c5d720ee59a8, type: 3}
 --- !u!1001 &1417361335
 PrefabInstance:
