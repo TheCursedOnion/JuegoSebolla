@@ -28,7 +28,15 @@ MonoBehaviour:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
+      lookupTexture: {fileID: 2800000, guid: 1292a056b7e741c47b8f8a17acd4f876, type: 3}
+    - layerName: casco
+      animatorController: {fileID: 9100000, guid: ff51c68c856967e4fb1095f74d0e68fb, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
+    - layerName: shield
+      animatorController: {fileID: 9100000, guid: 0b5ca3121b3b05b40892753d8a85b585, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
   - groupName: griego
     layers:
     - layerName: uv
@@ -37,11 +45,11 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 652797f99331a2e4c82e0af11947e426, type: 3}
     - layerName: casco
       animatorController: {fileID: 9100000, guid: d33903479949f044f966e91a63c2b611, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
     - layerName: escudo
       animatorController: {fileID: 9100000, guid: 0b5ca3121b3b05b40892753d8a85b585, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   - groupName: persa
     layers:
@@ -51,12 +59,21 @@ MonoBehaviour:
       lookupTexture: {fileID: 2800000, guid: 6a81dd51028c4094bbfea27bc6cee181, type: 3}
     - layerName: gorro
       animatorController: {fileID: 9100000, guid: 61a272b035b7d83439b6f6b629edbf23, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
     - layerName: escudo
       animatorController: {fileID: 9100000, guid: 0b5ca3121b3b05b40892753d8a85b585, type: 2}
-      baseMaterial: {fileID: 0}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
+  entityComponentController:
+    PlaceEntityComponent:
+      rid: 7085409355759353966
+    MoveEntityComponent:
+      rid: 7085409355759353967
+    AttackEntityComponent:
+      rid: 7085409355759353968
+    AbilityEntityComponent:
+      rid: 7085409355759353969
   references:
     version: 2
     RefIds:
@@ -67,3 +84,19 @@ MonoBehaviour:
         AbilityMinRange: 0
         AbilityMaxRange: 0
         AdditionalHPFactor: 20
+    - rid: 7085409355759353966
+      type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        blockEntryDirectionsOnPlacement: 0
+    - rid: 7085409355759353967
+      type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        movementColor: {r: 0, g: 0, b: 1, a: 1}
+    - rid: 7085409355759353968
+      type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        attackColor: {r: 1, g: 0, b: 0, a: 1}
+    - rid: 7085409355759353969
+      type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

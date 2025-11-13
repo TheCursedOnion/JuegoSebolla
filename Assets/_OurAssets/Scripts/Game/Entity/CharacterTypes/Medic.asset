@@ -28,13 +28,23 @@ MonoBehaviour:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
+      lookupTexture: {fileID: 2800000, guid: a248c765a4dbd0347aeb1b6e47be30c4, type: 3}
   - groupName: griego
     layers:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
       lookupTexture: {fileID: 2800000, guid: 30ba88ef1437b7845832e64e002f19c9, type: 3}
+  - groupName: persa
+    layers:
+    - layerName: uv
+      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 39b84899432af5646ba7913d0321ba15, type: 3}
+    - layerName: gorro
+      animatorController: {fileID: 9100000, guid: 61a272b035b7d83439b6f6b629edbf23, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
   entityComponentController:
     PlaceEntityComponent:
       rid: 592454535954301358
