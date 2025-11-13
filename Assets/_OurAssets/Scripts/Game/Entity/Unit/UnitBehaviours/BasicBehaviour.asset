@@ -13,8 +13,136 @@ MonoBehaviour:
   m_Name: BasicBehaviour
   m_EditorClassIdentifier: 
   data:
-    graphs: []
+    graphs:
+    - name: 01-BasicBehaviour
+      id: 623e7d88-3324-4ba5-990d-1d85208fb3f1
+      graph:
+        rid: 6291014419662504024
+      nodes:
+      - name: EnemyTurn
+        id: fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
+        position: {x: 850, y: 146}
+        node:
+          rid: 6291014419662504025
+        references: []
+        parentIds: []
+        childIds:
+        - 412008a0-8f84-4316-9831-41baac6b8bcd
+        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+      - name: EnemyClose?
+        id: 412008a0-8f84-4316-9831-41baac6b8bcd
+        position: {x: 647, y: 336}
+        node:
+          rid: 6291014419662504026
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014419662504027
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
+        childIds:
+        - d135adb0-d1be-4cfd-82f6-707c8b441de1
+      - name: Salchipapa
+        id: 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+        position: {x: 1078, y: 344}
+        node:
+          rid: 6291014419662504029
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014419662504030
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
+        childIds: []
+      - name: HA ENTRADO
+        id: d135adb0-d1be-4cfd-82f6-707c8b441de1
+        position: {x: 663, y: 574}
+        node:
+          rid: 6291014419662504031
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014419662504032
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 412008a0-8f84-4316-9831-41baac6b8bcd
+        childIds: []
     pushPerceptions: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6291014419662504024
+      type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014419662504025
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014419662504026
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014419662504027
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIUnitController
+          methodName: isTrue
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014419662504029
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014419662504030
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: Salchipapa
+        update:
+          componentName: 
+          methodName: 
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014419662504031
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014419662504032
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: HaEntrado
+        update:
+          componentName: 
+          methodName: 
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 

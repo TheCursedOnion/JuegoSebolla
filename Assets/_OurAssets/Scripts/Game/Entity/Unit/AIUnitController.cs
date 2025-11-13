@@ -8,5 +8,20 @@ namespace CursedOnion.Game.Entity
         {
             
         }
+
+        public bool isTrue()
+        {
+            return true;
+        }
+
+        public void HaEntrado()
+        {
+            Debug.Log("HA ENTRADO");
+        }
+
+        public void Salchipapa()
+        {
+            Debug.Log("Salchipapa!");
+        }
     }
 }
