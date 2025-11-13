@@ -60,12 +60,11 @@ namespace CursedOnion.Game.Entity
                     if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
                     Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
 
-                    if (nextAirTile.IsBlocked()) continue;
-                    if (visited.Contains(nextAirPos)) continue;
+                    if (nextAirTile == null || nextAirTile.IsBlocked() || visited.Contains(nextAirPos)) continue;
 
                     var nextAirDescriptor = nextAirTile.GetTileDescriptor();
 
-                    if (!nextAirDescriptor.IsAirBlock && !nextAirDescriptor.IsFullBlock && possibleDirection == Vector3.forward)
+                    if (!nextAirDescriptor.IsAirBlock && !nextAirDescriptor.IsFullBlock)
                     {
                         // Caso: escalera desde abajo (subir)
                         Vector3 stairPos = nextAirPos;
@@ -76,21 +75,21 @@ namespace CursedOnion.Game.Entity
 
                         var stairDesc = stairTile.GetTileDescriptor();
 
-                        // Si la escalera permite subir y no está visitada
-                        if (!visited.Contains(stairPos))
+                        if (!visited.Contains(stairPos) && nextAirTile.CanBeAccessedFrom(possibleDirection))
                         {
-                            frontier.Enqueue((stairPos, currentCost + stairDesc.Cost));
+                            frontier.Enqueue((stairPos, currentCost + nextAirDescriptor.Cost));
                             positions.Add(stairPos);
                             visited.Add(stairPos);
 
-                            // Mira hacia arriba en diagonal (0,1,1)
-                            Vector3 stairTopPos = stairPos + new Vector3(0, 1, 1);
+                            // Posición diagonal hacia arriba según la dirección de entrada
+                            Vector3 stairTopPos = stairPos + possibleDirection + Vector3.up;
+
                             if (levelGrid.IsGridPositionInBounds(stairTopPos))
                             {
                                 Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
                                 if (stairTopTile != null && !stairTopTile.IsBlocked() && !visited.Contains(stairTopPos))
                                 {
-                                    frontier.Enqueue((stairTopPos, currentCost + stairDesc.Cost)); // +1 opcional si subir cuesta más
+                                    frontier.Enqueue((stairTopPos, currentCost + stairDesc.Cost));
                                     positions.Add(stairTopPos);
                                     visited.Add(stairTopPos);
                                 }
@@ -98,48 +97,39 @@ namespace CursedOnion.Game.Entity
                         }
                     }
 
+                    // Caso: escalera desde arriba (bajar)
+                    Vector3 stairDownPos = currentAirPos + possibleDirection + Vector3.down;
+                    if (levelGrid.IsGridPositionInBounds(stairDownPos))
+                    {
+                        Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
+                        if (stairDownTile != null && !stairDownTile.IsBlocked() && !visited.Contains(stairDownPos))
+                        {
+                            var stairDownDesc = stairDownTile.GetTileDescriptor();
+                            if (!stairDownDesc.IsAirBlock && !stairDownDesc.IsFullBlock)
+                            {
+                                frontier.Enqueue((stairDownPos, currentCost + stairDownDesc.Cost));
+                                positions.Add(stairDownPos);
+                                visited.Add(stairDownPos);
+                            }
+                        }
+                    }
+
+                    // Caso: movimiento normal (suelo)
                     Vector3 nextGroundPos = nextAirPos + Vector3.down;
                     if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
+
                     Tile3d nextGroundTile = levelGrid.GetTileAtGridPosition(nextGroundPos);
+                    if (nextGroundTile == null) continue;
 
-                    var groundDescriptor = nextGroundTile.GetTileDescriptor();
-                    if (groundDescriptor.IsAirBlock || groundDescriptor.IsFluidBlock)
-                        continue;
+                    var groundDesc = nextGroundTile.GetTileDescriptor();
+                    if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
 
-                    else if (!groundDescriptor.IsFullBlock)
+                    DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
+                    if (nextAirTile.CanBeAccessedFrom(moveDir) && currentCost <= movementRange)
                     {
-                        if (possibleDirection == Vector3.back)
-                        {
-                            Vector3 backDown = new Vector3(0, -1, -1);
-                            Vector3 stairPos = currentAirPos + backDown;
-
-                            if (!levelGrid.IsGridPositionInBounds(stairPos)) continue;
-
-                            Tile3d stairTile = levelGrid.GetTileAtGridPosition(stairPos);
-                            if (stairTile == null) continue;
-
-                            var stairDesc = stairTile.GetTileDescriptor();
-
-                            if (stairTile != null && !stairTile.IsBlocked() && !visited.Contains(stairPos))
-                            {
-                                frontier.Enqueue((stairPos, currentCost + stairDesc.Cost));
-                                positions.Add(stairPos);
-                                visited.Add(stairPos);
-                            }
-
-                        }
-
-                    }
-                    else
-                    {
-                        DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
-
-                        if (nextAirTile.CanBeAccessedFrom(moveDir) && currentCost <= movementRange)
-                        {
-                            frontier.Enqueue((nextAirPos, currentCost + groundDescriptor.Cost));
-                            positions.Add(nextAirPos);
-                            visited.Add(nextAirPos);
-                        }
+                        frontier.Enqueue((nextAirPos, currentCost + groundDesc.Cost));
+                        positions.Add(nextAirPos);
+                        visited.Add(nextAirPos);
                     }
                 }
 
@@ -217,41 +207,41 @@ namespace CursedOnion.Game.Entity
 
                 var nextAirDesc = nextAirTile.GetTileDescriptor();
 
-                //Escalera hacia arriba (subir)
-                if (!nextAirDesc.IsAirBlock && !nextAirDesc.IsFullBlock && possibleDirection == Vector3.forward)
+                // ===== ESCALERA: Subir =====
+                if (!nextAirDesc.IsAirBlock && !nextAirDesc.IsFullBlock)
                 {
-                    neighbours.Add(nextAirPos);
+                    Vector3Int stairPos = nextAirPos;
 
-                    // Tile diagonal hacia arriba
-                    Vector3Int stairTopPos = nextAirPos + new Vector3Int(0, 1, 1);
-                    if (levelGrid.IsGridPositionInBounds(stairTopPos))
+                    if (!neighbours.Contains(stairPos) && nextAirTile.CanBeAccessedFrom(possibleDirection))
                     {
-                        Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                        if (stairTopTile != null && !stairTopTile.IsBlocked())
-                            neighbours.Add(stairTopPos);
+                        neighbours.Add(stairPos);
+
+                        // Posición diagonal hacia arriba según la dirección de entrada
+                        Vector3Int stairTopPos = stairPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.up;
+
+                        if (levelGrid.IsGridPositionInBounds(stairTopPos))
+                        {
+                            Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
+                            if (stairTopTile != null && !stairTopTile.IsBlocked())
+                                neighbours.Add(stairTopPos);
+                        }
                     }
                 }
 
-
-                // Escalera hacia abajo (bajar)
-                Vector3Int stairDownPos = currentAirPos + new Vector3Int(0, -1, -1);
-
+                // ===== ESCALERA: Bajar =====
+                Vector3Int stairDownPos = currentAirPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.down;
                 if (levelGrid.IsGridPositionInBounds(stairDownPos))
                 {
                     Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
                     if (stairDownTile != null && !stairDownTile.IsBlocked())
                     {
-                        var stairDesc = stairDownTile.GetTileDescriptor();
-
-                        // Solo permitir bajar si el tile debajo es escalera (o no es aire/full)
-                        if (!stairDesc.IsAirBlock && !stairDesc.IsFullBlock)
-                        {
+                        var stairDownDesc = stairDownTile.GetTileDescriptor();
+                        if (!stairDownDesc.IsAirBlock && !stairDownDesc.IsFullBlock)
                             neighbours.Add(stairDownPos);
-                        }
                     }
                 }
 
-                //Movimiento normal (suelo)
+                // ===== SUELO normal =====
                 Vector3Int nextGroundPos = nextAirPos + Vector3Int.down;
                 if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
 
@@ -259,8 +249,7 @@ namespace CursedOnion.Game.Entity
                 if (nextGroundTile == null) continue;
 
                 var groundDesc = nextGroundTile.GetTileDescriptor();
-                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock)
-                    continue; // no hay suelo
+                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue; // no hay suelo
 
                 DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
                 if (nextAirTile.CanBeAccessedFrom(moveDir))
