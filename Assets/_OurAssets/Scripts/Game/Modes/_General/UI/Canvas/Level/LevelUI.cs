@@ -81,7 +81,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             turnSystem.EndTurn();
         }
 
-        public void OnStartButtonPressed()
+        public void OnStartTurnButtonPressed()
         {
             levelManager.GetTurnSystem().BeginBattle();
         }

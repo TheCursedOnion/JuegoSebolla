@@ -12,9 +12,9 @@ namespace CursedOnion.Game.Modes.Menu.UI
         
         public void DisableButtons()
         {
-            playButton.SetInterative(false);
-            optionsButton.SetInterative(false);
-            creditsButton.SetInterative(false);
+            playButton.SetInteractive(false);
+            optionsButton.SetInteractive(false);
+            creditsButton.SetInteractive(false);
         }
     }
 }

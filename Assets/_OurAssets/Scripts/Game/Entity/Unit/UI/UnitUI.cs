@@ -1,5 +1,7 @@
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.General.UI.Buttons;
+using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Extensions;
 using UnityEngine;
@@ -9,15 +11,20 @@ namespace CursedOnion.Game.Entity.UI
 {
     public class UnitUI : MonoBehaviour
     {
+        [SerializeField] private UIButton moveButton;
+        [SerializeField] private UIButton attackButton;
+        [SerializeField] private UIButton specialButton;
+        
         LevelEvents levelEvents;
-        
+        UIEvents uiEvents;
         Unit associatedUnit;
-        
         CommandParameters commonParameters;
         public void Initialize()
         {
-            levelEvents = gameObject.scene.GetSceneContainer().Resolve<LevelEvents>();
-
+            var container = gameObject.scene.GetSceneContainer();
+            levelEvents = container.Resolve<LevelEvents>();
+            uiEvents = container.Resolve<UIEvents>();
+            
             CommandParameters.Builder parametersBuilder = new CommandParameters.Builder();
             commonParameters = parametersBuilder.SetExecuteOnce(true).Build();
         }
@@ -34,9 +41,17 @@ namespace CursedOnion.Game.Entity.UI
         {
             if(entity is not Unit unit) return;
             
-            //Debug.Log("Update UI");
+            var flags = unit.GetFlags();
+            
+            moveButton.SetInteractive(!flags.HasMoved());
+            attackButton.SetInteractive(!flags.HasAttacked());
+            specialButton.SetInteractive(!flags.HasUsedAbility());
         }
-        
+
+        public void SelectButtonUIEvent(UIButton button)
+        {
+            uiEvents.SelectButton(button);
+        }
         public void MoveUnit()
         {
             levelEvents.CallPrepareCommand<MoveCommand>(commonParameters);

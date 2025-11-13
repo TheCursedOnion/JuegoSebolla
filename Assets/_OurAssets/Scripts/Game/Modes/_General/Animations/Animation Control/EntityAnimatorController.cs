@@ -11,7 +11,7 @@ namespace CursedOnion.Game.Modes.General.Animations
         {
             if (animator == null) return;
 
-            if (animationName.ToLower().Contains("heal")) //Para curar hay que reproducir la otra animación antes
+            if (animationName.ToLower().Contains("heal")) //Para curar hay que reproducir la otra animaciï¿½n antes
             {
                 animator.SetBool("isHealing", true);
                 animator.Play("buff");
@@ -32,5 +32,7 @@ namespace CursedOnion.Game.Modes.General.Animations
             if (animator == null)
                 animator = GetComponent<Animator>();
         }
+        
+        
     }
 }

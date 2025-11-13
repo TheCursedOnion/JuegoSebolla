@@ -80,7 +80,7 @@ namespace CursedOnion.Game.Inputs
         }
         private void Rotate(DirectionFlag direction)
         {
-            float rotateAmount = direction == DirectionFlag.Left ? 45 : -45;
+            float rotateAmount = direction == DirectionFlag.Left ? -45 : 45;
 
             var cinemachinePanTilt = cinemachineContainer.PanTilt;
             

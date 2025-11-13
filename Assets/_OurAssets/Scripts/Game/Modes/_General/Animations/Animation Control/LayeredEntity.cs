@@ -16,6 +16,7 @@ namespace CursedOnion.Game.Modes.General.Animations
     [ExecuteAlways]
     public class LayeredEntity : MonoBehaviour
     {
+        [SerializeField] GameObject spritesContainer;
         [SerializeField] GameObject animationLayerPrefab;
         [SerializeField] string testAnimation;
         
@@ -34,7 +35,7 @@ namespace CursedOnion.Game.Modes.General.Animations
             {
                 var layer = layerGroup.layers[i];
                 
-                GameObject animationLayer = Instantiate(animationLayerPrefab, transform);
+                GameObject animationLayer = Instantiate(animationLayerPrefab, spritesContainer.transform);
                 
                 SpriteRenderer layerSpriteRenderer = animationLayer.GetComponent<SpriteRenderer>();
                 
@@ -57,11 +58,10 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
         public void PlayAnimation(string animationName)
         {
-            for (int i = 0; i < transform.childCount; i++)
+            for (int i = 0; i < spritesContainer.transform.childCount; i++)
             {
-                var layerAnimator = transform.GetChild(i).GetComponent<EntityAnimatorController>();
+                var layerAnimator = spritesContainer.transform.GetChild(i).GetComponent<EntityAnimatorController>();
                 layerAnimator.PlayAnimation(animationName);
-
             }
         }
 

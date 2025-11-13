@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CursedOnion.Extensions;
+using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.Helpers;
+using CursedOnion.Locators;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity.Components
@@ -50,6 +53,7 @@ namespace CursedOnion.Game.Entity.Components
             if (undo)
             {
                 transform.position = newPosition;
+                AssignedEntity.GetFlags().ResetFlag(UsedFlags);
             }
             else
             {
@@ -71,7 +75,7 @@ namespace CursedOnion.Game.Entity.Components
                 AssignedEntity.StartCoroutine(MoveAlongPath(path));
             }
             
-            AssignedEntity.GetFlags().RaiseFlag(EntityFlag.HasMoved);
+            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
         }
 
         public virtual async Task<bool> ValidateMove(Vector3 newPosition)
@@ -87,37 +91,26 @@ namespace CursedOnion.Game.Entity.Components
         private IEnumerator MoveAlongPath(List<Vector3> path)
         {
             var transform = EntityTransform;
+            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
             
             AssignedEntity.EntityController.PlaceEntityComponent.Remove();
 
             float speed = 5f;
             Vector3 lastPosition = transform.position;
 
-            foreach (var pos in path)
+            foreach (var position in path)
             {
-                Vector3 direction = pos - lastPosition;
+                Vector3 direction = position - lastPosition;
+                RotateEntity(camera, transform, direction);
 
-                if (direction.x > 0.01f)
+                while (Vector3.Distance(transform.position, position) > 0.01f)
                 {
-                    Vector3 scale = transform.localScale;
-                    scale.x = Mathf.Abs(scale.x) * -1f;
-                    transform.localScale = scale;
-                }
-                else if (direction.x < -0.01f)
-                {
-                    Vector3 scale = transform.localScale;
-                    scale.x = Mathf.Abs(scale.x);
-                    transform.localScale = scale;
-                }
-
-                while (Vector3.Distance(transform.position, pos) > 0.01f)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, pos, speed * Time.deltaTime);
+                    transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
                     yield return null;
                 }
 
-                transform.position = pos;
-                lastPosition = pos;
+                transform.position = position;
+                lastPosition = position;
                 yield return null;
             }
             
@@ -125,6 +118,25 @@ namespace CursedOnion.Game.Entity.Components
                 layeredEntity.PlayAnimation("idle");
             
             AssignedEntity.EntityController.PlaceEntityComponent.Place();
+        }
+
+        private void RotateEntity(GlobalCamera camera, Transform transform, Vector3 movementDirection)
+        {
+            float degrees = camera.GetCameraPanAngles();
+            movementDirection = Quaternion.AngleAxis(-degrees, Vector3.up) * movementDirection;
+            
+            if (movementDirection.x > 0.01f)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x) * -1f;
+                transform.localScale = scale;
+            }
+            else if (movementDirection.x < -0.01f)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x);
+                transform.localScale = scale;
+            }
         }
     }
 }

@@ -16,12 +16,11 @@ namespace CursedOnion.Game.Entity
         public virtual void ActivateAbility(Unit unit, SimpleEntity target = null) { }
         public virtual void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
-            var stats = subject.GetStats();
             var grid = subject.Grid;
             var transform = subject.transform;
             
-            var ability = stats.SpecialAbilityType;
-            grid.InsertReachablePositions(reachablePositionsList, transform.position, stats.SpecialAbilityType.AbilityMinRange, ability.AbilityMaxRange);
+            if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
+                AStarPathFinder.InsertMeleeAttackPositions(reachablePositionsList, grid, gridPos);
         }
     }
     
@@ -122,6 +121,18 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class ArcherAbility : SpecialAbility
     {
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var stats = subject.GetStats();
+            var grid = subject.Grid;
+            var transform = subject.transform;
+            
+            var ability = stats.SpecialAbilityType;
+            
+            if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
+                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 2, false);
+        }
+        
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
 

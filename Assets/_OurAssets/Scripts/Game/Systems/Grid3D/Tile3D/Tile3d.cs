@@ -119,6 +119,11 @@ namespace CursedOnion.Game.Systems.Grid
         {
             return descriptor.IsFullBlock;
         }
+
+        public bool IsStairTile()
+        {
+            return !descriptor.IsAirBlock && !descriptor.IsFullBlock && !descriptor.IsFluidBlock;
+        }
         public bool IsFluidTile()
         {
             return descriptor.IsFluidBlock;

@@ -25,15 +25,16 @@ namespace CursedOnion.Game.General.UI
         [Tooltip("Se invoca cuando se suelta el botón (dentro o fuera)")]
         public UltEvent OnPointerUpEvent;
             
-        protected bool isPointerInside = false;
-        protected bool isPressed = false;
+        protected bool IsPointerInside = false;
+        protected bool IsPressed = false;
+        protected bool Interactable = true;
         
         /// <summary>
         /// Cuando el puntero entra en el área del objeto
         /// </summary>
         public void OnPointerEnter(PointerEventData eventData)
         {
-            isPointerInside = true;
+            IsPointerInside = true;
             OnPointerEnterEvent?.Invoke();
             
             //Debug.Log($"[PointerEventDetector] Puntero entró en: {gameObject.name}");
@@ -44,7 +45,7 @@ namespace CursedOnion.Game.General.UI
         /// </summary>
         public void OnPointerExit(PointerEventData eventData)
         {
-            isPointerInside = false;
+            IsPointerInside = false;
             OnPointerExitEvent?.Invoke();
             
             //Debug.Log($"[PointerEventDetector] Puntero salió de: {gameObject.name}");
@@ -55,7 +56,7 @@ namespace CursedOnion.Game.General.UI
         /// </summary>
         public void OnPointerDown(PointerEventData eventData)
         {
-            isPressed = true;
+            IsPressed = true;
             OnPointerDownEvent?.Invoke();
             
             //Debug.Log($"[PointerEventDetector] Botón presionado en: {gameObject.name}");
@@ -66,10 +67,10 @@ namespace CursedOnion.Game.General.UI
         /// </summary>
         public void OnPointerUp(PointerEventData eventData)
         {
-            isPressed = false;
+            IsPressed = false;
             
             // Verificar si se soltó dentro o fuera del objeto
-            if (isPointerInside)
+            if (IsPointerInside)
             {
                 //Debug.Log($"[PointerEventDetector] Botón soltado DENTRO de: {gameObject.name}");
             }
@@ -87,20 +88,9 @@ namespace CursedOnion.Game.General.UI
         /// </summary>
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnPointerClickInsideEvent?.Invoke();
-            
+            if(Interactable) OnPointerClickInsideEvent?.Invoke();
             //Debug.Log($"[PointerEventDetector] Click completado en: {gameObject.name}");
         }
-
-        /// <summary>
-        /// Método público para verificar si el puntero está dentro
-        /// </summary>
-        public bool IsPointerInside() => isPointerInside;
-
-        /// <summary>
-        /// Método público para verificar si está presionado
-        /// </summary>
-        public bool IsPressed() => isPressed;
 
     }
 }
