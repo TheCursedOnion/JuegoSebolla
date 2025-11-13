@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5492332614874731683}
   - component: {fileID: 772138361516465267}
   - component: {fileID: 1229745498971454729}
-  - component: {fileID: 2809618462814331242}
   - component: {fileID: 4971155005925703945}
   m_Layer: 0
   m_Name: UnitPrefab
@@ -92,26 +91,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animationLayerPrefab: {fileID: 4970596132176400840, guid: 695f041c38f2e5741ab5064e868719a4, type: 3}
   testAnimation: 
---- !u!114 &2809618462814331242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3162293030459347720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bc979ea4d85d1141a86515fc10138cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlaceEntityComponent:
-    blockEntryDirectionsOnPlacement: 0
-  MoveEntityComponent:
-    movementColor: {r: 0, g: 0, b: 1, a: 1}
-  AttackEntityComponent:
-    attackColor: {r: 1, g: 0, b: 0, a: 1}
-  AbilityEntityComponent:
-    abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &4971155005925703945
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -148,6 +148,11 @@ namespace CursedOnion.Game.Systems.Level
 
             InvokeEndTurn();
         }
+        public void EndTurnForAIUnit(Unit unit)
+        {
+            EndTurnForUnit(unit);
+            if(activeUnits.Count == 0) InvokeEndTurn();
+        }
         void EndTurnForUnit(Unit unit)
         {
             if (activeUnits.Contains(unit))

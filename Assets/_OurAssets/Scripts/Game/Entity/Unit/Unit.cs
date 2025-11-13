@@ -85,7 +85,19 @@ namespace CursedOnion.Game.Entity
 
         void SetComponents()
         {
-            EntityController ??= gameObject.AddComponent<EntityComponentController>();
+            switch(GetSide())
+            {
+                case BattleSide.Ally:
+                    EntityController ??= gameObject.AddComponent<PlayerUnitController>();
+                    break;
+                case BattleSide.Enemy:
+                    EntityController ??= gameObject.AddComponent<AIUnitController>();
+                    break;
+                default:
+                    //EntityController ??= gameObject.AddComponent<EntityComponentController>();
+                    break;
+            }
+            //EntityController ??= gameObject.AddComponent<EntityComponentController>();
             EntityController.Initialize(this, Data.GetEntityComponents());
         }
 
