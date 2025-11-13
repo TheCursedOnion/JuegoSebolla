@@ -9,6 +9,7 @@ namespace CursedOnion.Game.Entity.Components
         [SerializeField] Color abilityColor = Color.yellow;
         
         private static List<Vector3> reachableTiles = new();
+        
         public virtual void VisualizeAbility()
         {
             var stats = AssignedEntity.GetStats();

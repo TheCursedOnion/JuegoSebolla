@@ -35,19 +35,18 @@ namespace CursedOnion.Game.Systems.Level
             GetComponent<MeshRenderer>().sharedMaterials = asset.MeshMaterials;
         }
         #endif
-
         public void SetLevelProperties()
         {
+            LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
             LevelAsset.Grid.PrepareGrid(GetComponent<GridHighlighter>());
                 
             LevelEvents = GetComponent<LevelEvents>();
             LevelScoreVariables = new LevelScoreData(LevelEvents, LevelAsset.LevelData);
-            CurrentLevelState = LevelAsset.LevelData.StartingState;
-        }
-        void Awake()
-        {
-            LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
-            //LevelAsset.Grid.PaintTileAtGridPosition(Vector3.up, Color.blue);
+            
+            SetNewLevelState(LevelAsset.LevelData.StartingState);
+            
+            turnSystem = GetComponent<TurnSystem>();
+            turnSystem.Initialize(LevelEvents);
         }
         
 

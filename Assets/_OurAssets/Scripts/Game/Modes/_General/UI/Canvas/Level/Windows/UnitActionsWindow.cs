@@ -15,29 +15,23 @@ namespace CursedOnion
         private Dictionary<GameObject, GameObject> actionsUI = new();
         
         private Unit unit;
-        public Unit Unit => unit;
         private void OnEnable()
         {
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
-
-            levelManager.GetTurnSystem().OnTurnStart += OnTurnChanged;
-            levelManager.GetTurnSystem().OnTurnEnd += OnTurnChanged;
+            levelEvents.OnTurnEnded += OnTurnChanged;
         }
 
         private void OnDisable()
         {
             levelEvents.OnEntitySelected -= SetEntity;
             levelEvents.OnNoEntitySelected -= SetNullEntity;
-
-            levelManager.GetTurnSystem().OnTurnStart -= OnTurnChanged;
-            levelManager.GetTurnSystem().OnTurnEnd -= OnTurnChanged;
+            levelEvents.OnTurnEnded -= OnTurnChanged;
         }
 
         private void OnTurnChanged()
         {
-            if (unit != null)
-                UpdateActionsWindow();
+            if (unit != null) UpdateActionsWindow();
         }
 
         void SetNullEntity()
@@ -59,11 +53,10 @@ namespace CursedOnion
             }
 
             var ui = unit.GetUI();
-            GameObject instancedUI;
-            
-            if (!actionsUI.TryGetValue(ui, out instancedUI))
+
+            if (!actionsUI.TryGetValue(ui, out var instancedUI))
             {
-                instancedUI = GameObject.Instantiate(ui, transform);
+                instancedUI = Instantiate(ui, transform);
                 instancedUI.GetComponent<UnitUI>().Initialize();
                 instancedUI.name = ui.name;
                 actionsUI.Add(ui, instancedUI);

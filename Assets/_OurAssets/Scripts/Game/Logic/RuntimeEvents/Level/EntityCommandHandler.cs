@@ -33,12 +33,14 @@ namespace CursedOnion.Game.Commands
             levelEvents.OnEntitySelected += SelectEntity;
             levelEvents.OnCommandPrepareCalled += PrepareCommand;
             levelEvents.OnPreparedCommandCancelled += ResetCommand;
+            levelEvents.OnTurnEnded += ClearCommandStack;
         }
         public void Dispose()
         {
             levelEvents.OnEntitySelected -= SelectEntity;
             levelEvents.OnCommandPrepareCalled -= PrepareCommand;
             levelEvents.OnPreparedCommandCancelled -= ResetCommand;
+            levelEvents.OnTurnEnded -= ClearCommandStack;
         }
         private void SelectEntity(SimpleEntity entity)
         {
@@ -67,47 +69,6 @@ namespace CursedOnion.Game.Commands
             var previsualizeMethod = typeof(CommandFactory).GetMethod("PreVisualize", BindingFlags.Public | BindingFlags.Static);
             var genericMethod = previsualizeMethod.MakeGenericMethod(preparedCommand);
             genericMethod.Invoke(null, new object[] { commandSubject });
-            
-            if (commandSubject is Unit unitSubject)
-            {
-                Grid3d grid = unitSubject.Grid;
-                
-                Vector3 unitPos = unitSubject.transform.position;
-                
-                /*if (preparedCommand == typeof(MoveCommand))
-                {
-                    int moveRange = unitSubject.GetStats().MovementStat;
-                    grid.HighlightMovementRange(unitPos, moveRange, Color.blue);
-                }
-                else*/
-                /*if (preparedCommand == typeof(AttackCommand))
-                {
-                    grid.ResetPaint();
-                    if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)
-                    {
-                        grid.HighlightActionRange(unitPos, 2, 2, Color.red);
-                    }
-                    else
-                    {
-                        grid.HighlightActionRange(unitPos, 1, 1, Color.red);
-                    }
-                }
-                else */
-                /*if (preparedCommand == typeof(AbilityCommand))
-                {
-                    grid.ResetPaint();
-                    int abilityMinRange = unitSubject.GetStats().SpecialAbilityType.AbilityMinRange;
-                    int abilityMaxRange = unitSubject.GetStats().SpecialAbilityType.AbilityMaxRange;
-                    if (unitSubject.GetStats().SpecialAbilityType is ArcherAbility)
-                    {
-                        grid.HighlightArcherAbilityRange(unitPos, abilityMinRange, abilityMaxRange, Color.yellow);
-                    }
-                    else
-                    {
-                        grid.HighlightActionRange(unitPos, abilityMinRange, abilityMaxRange, Color.yellow);
-                    }
-                }*/
-            }
         }
 
         public void ExecuteCommand(CommandParameters parameters)
@@ -137,9 +98,9 @@ namespace CursedOnion.Game.Commands
             
             levelEvents.SelectEntity(null);
         }
-        
-        public void ClearCommandStack()
+        void ClearCommandStack()
         {
+            ResetCommand();
             commandManager.ClearStack();
         }
 

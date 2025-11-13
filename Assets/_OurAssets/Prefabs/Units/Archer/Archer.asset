@@ -43,34 +43,34 @@ MonoBehaviour:
       animatorController: {fileID: 9100000, guid: 6496b3a1372645d4a831df2553510941, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
-  entityComponentController:
+  entityComponents:
     PlaceEntityComponent:
-      rid: 592454535954300928
+      rid: 592454543302459609
     MoveEntityComponent:
-      rid: 592454532923654524
+      rid: 592454543302459610
     AttackEntityComponent:
-      rid: 592454532923654525
+      rid: 592454543302459611
     AbilityEntityComponent:
-      rid: 592454532923654526
+      rid: 592454543302459612
   references:
     version: 2
     RefIds:
-    - rid: 592454532923654524
-      type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
-      data:
-        movementColor: {r: 0, g: 0.631639, b: 1, a: 0.6}
-    - rid: 592454532923654525
-      type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
-      data:
-        attackColor: {r: 0.5849056, g: 0, b: 0, a: 0.6}
-    - rid: 592454532923654526
-      type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
-      data:
-        abilityColor: {r: 1, g: 0.63037336, b: 0.015686274, a: 0.6}
-    - rid: 592454535954300928
+    - rid: 592454543302459609
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
         blockEntryDirectionsOnPlacement: 51
+    - rid: 592454543302459610
+      type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        movementColor: {r: 0, g: 0.29803923, b: 1, a: 0.6}
+    - rid: 592454543302459611
+      type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        attackColor: {r: 1, g: 0, b: 0, a: 1}
+    - rid: 592454543302459612
+      type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     - rid: 6291014342755483648
       type: {class: ArcherAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:

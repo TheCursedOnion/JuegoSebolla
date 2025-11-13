@@ -10,21 +10,6 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Entity.Components
 {
-    public class EntityComponent
-    {
-        protected SimpleEntity AssignedEntity;
-        protected Transform EntityTransform => AssignedEntity.transform;
-
-        public virtual void ConfigureComponent(SimpleEntity assignedEntity)
-        {
-            AssignedEntity = assignedEntity;
-        }
-        public void ProcessTurn()
-        {
-            
-        }
-    }
-
     [System.Serializable]
     public class MoveEntityComponent : EntityComponent
     {

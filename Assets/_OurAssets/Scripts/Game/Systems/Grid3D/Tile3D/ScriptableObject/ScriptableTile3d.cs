@@ -10,10 +10,8 @@ namespace CursedOnion.Game.Systems.Grid.Scriptable
         public Tile3dDescriptor TileDescriptor;
         public Tile3d ProduceTile(Transform tileComponentTransform, TileAttributes tileAttributes)
         {
-            var tile3d = new Tile3d(TileDescriptor, tileAttributes);
-            
             var rotation = tileComponentTransform.rotation.eulerAngles;
-            tile3d.RotateTile(rotation.y);
+            var tile3d = new Tile3d(TileDescriptor, tileAttributes, rotation.y);
             
             return tile3d;
         }

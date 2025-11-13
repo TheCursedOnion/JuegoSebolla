@@ -21,6 +21,7 @@ namespace CursedOnion.Game.Objects
 
         TileSelector tileSelector;
         TileSelectorBehaviour currentBehaviour;
+        public TileSelectorBehaviour GetCurrentBehaviour() => currentBehaviour;
         public void SetBehaviour(TileSelectorBehaviour behaviour)
         {
             currentBehaviour = behaviour;

@@ -9,14 +9,14 @@ using Reflex.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CursedOnion.Game.Events;
 using UnityEngine;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Systems.Level
 {
     public class TurnSystem : MonoBehaviour
     {
-        [Inject] private LevelAsset levelAsset;
-        [Inject] private CommandManager commandManager;
+        private LevelEvents levelEvents;
         
         [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
         [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
@@ -29,11 +29,22 @@ namespace CursedOnion
 
         [SerializeField] private List<Unit> activeUnits = new List<Unit>();
         public List<Unit> GetActiveUnits() => activeUnits;
+        public void Initialize(LevelEvents levelEvents)
+        {
+            this.levelEvents = levelEvents;
+            levelEvents.OnUnitTurnRegisterPetition += AddUnit;
+        }
 
-        public event Action OnTurnStart;
-        public event Action OnTurnEnd;
+        private void OnDisable()
+        {
+            levelEvents.OnUnitTurnRegisterPetition -= AddUnit;
+            foreach (var unit in activeUnits.ToList())
+            {
+                EndTurnForUnit(unit);
+            }
+        }
 
-        public void AddUnit(Unit unit)
+        void AddUnit(Unit unit)
         {
             if (unit.GetSide() == BattleSide.Enemy)
             {
@@ -50,10 +61,13 @@ namespace CursedOnion
             if(enemies.Contains(unit)) enemies.Remove(unit);
         }
 
-        public void OrganizeLists()
+        public void BeginBattle()
+        {
+            OrganizeLists();
+        }
+        void OrganizeLists()
         { 
             Debug.Log("======== NUEVA RONDA EMPIEZA ========");
-            
             if (allies.Count == 0 || enemies.Count == 0) return;
             
             allies = allies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
@@ -67,49 +81,49 @@ namespace CursedOnion
         }
         
         //private void StartTurnFor(List<Unit> )
-
         private void StartInitiativeGroup()
         {
             Debug.Log($"-- Iniciativa actual: {currentInitiative} --");
-            commandManager.ClearStack();
+            
+            var turnGroup = !alliesProcessedForCurrentInitiative
+                ? allies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList()
+                : enemies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
+            alliesProcessedForCurrentInitiative = !alliesProcessedForCurrentInitiative;
 
-            var allyGroup = allies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
-            var enemyGroup = enemies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
+            if (turnGroup.Count > 0)
+                HandleGroup(turnGroup);
+            else
+                MoveToNextTurn();
+        }
+        void MoveToNextTurn()
+        {
+            if (alliesProcessedForCurrentInitiative)
+            {
+                currentInitiative--;
+                if (currentInitiative > 0)
+                    StartInitiativeGroup();
+                else
+                    OrganizeLists();
+            }
+            else
+            {
+                StartInitiativeGroup();
+            }
+        }
 
-            if (!alliesProcessedForCurrentInitiative && allyGroup.Count > 0)
+        void HandleGroup(List<Unit> groupList)
+        {
+            if (groupList.Count > 0)
             {
                 activeUnits.Clear();
-                activeUnits.AddRange(allyGroup);
+                activeUnits.AddRange(groupList);
 
-                alliesProcessedForCurrentInitiative = true;
-
-                foreach (var unit in allyGroup)
+                foreach (var unit in groupList)
                 {
                     unit.OnEntityUpdate += ProcessEntityUpdate;
                     unit.EntityController.ProcessTurn();
                 }
-                return;
             }
-
-            if (enemyGroup.Count > 0)
-            {
-                activeUnits.Clear();
-                activeUnits.AddRange(enemyGroup);
-
-                foreach (var enemy in enemyGroup)
-                {
-                    enemy.OnEntityUpdate += ProcessEntityUpdate;
-                    enemy.EntityController.ProcessTurn();
-                }
-            }
-            
-            alliesProcessedForCurrentInitiative = false;
-
-            currentInitiative--;
-            if (currentInitiative > 0)
-                StartInitiativeGroup();
-            else
-                OrganizeLists();
         }
         
         void ProcessEntityUpdate(SimpleEntity entity)
@@ -127,28 +141,27 @@ namespace CursedOnion
 
         public void EndTurn()
         {
-            if (activeUnits == null || activeUnits.Count == 0)
-            {
-                Debug.Log("No hay unidades activas.");
-                return;
-            }
-
             foreach (var unit in activeUnits.ToList())
             {
                 EndTurnForUnit(unit);
             }
-            OnTurnEnd?.Invoke();
-        }
 
-        public void EndTurnForUnit(Unit unit)
+            InvokeEndTurn();
+        }
+        void EndTurnForUnit(Unit unit)
         {
             if (activeUnits.Contains(unit))
             {
                 unit.OnEntityUpdate -= ProcessEntityUpdate;
                 activeUnits.Remove(unit);
-                
-                if(activeUnits.Count == 0) StartInitiativeGroup();
             }
+        }
+        private void InvokeEndTurn()
+        {
+            levelEvents.InvokeTurnEnd();
+            
+            if(allies.Count > 0 && enemies.Count > 0)
+                MoveToNextTurn();
         }
 
     }

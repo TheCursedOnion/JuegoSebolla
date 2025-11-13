@@ -31,6 +31,19 @@ namespace CursedOnion.Game.Objects
     }
     public class TileSelector : MonoBehaviour
     {
+        enum MoveResult
+        {
+            Success,
+            OnAir,
+            OnWater,
+            OnNotFullTile,
+            OnFullTile,
+            Impossible,
+        }
+        
+        const string Model = "TileSelector Model";
+        const string Controller = "TileSelector Controller";
+        
         [SerializeField, ReadOnly] Vector3 gridPosition;
         
         [Inject] LevelManager levelManager;
@@ -39,8 +52,10 @@ namespace CursedOnion.Game.Objects
         
         [Inject] CameraLocator cameraLocator;
         private GlobalCamera globalCamera;
-        
-        [SerializeField] TileSelectorController controller;
+
+        [SerializeField, BoxGroup(Model)] float yModelOffset = 0.05f;
+        [SerializeField, BoxGroup(Model)] private GameObject tileModel;
+        [SerializeField, BoxGroup(Controller)] TileSelectorController controller;
 
         private EntityCommandHandler entityCommandHandler;
 
@@ -89,6 +104,8 @@ namespace CursedOnion.Game.Objects
                 case LevelState.InBattle: controller.SetBehaviour(GetBehaviour<TileSelectorBattleBehaviour>());
                     break;
             }
+            
+            controller.GetCurrentBehaviour().SoftSelect(SelectTile());
         }
 
         public void SelectEntity(SimpleEntity entity)
@@ -97,28 +114,27 @@ namespace CursedOnion.Game.Objects
         }
         public bool MovePosition(Vector3 moveDirection)
         {
-            
             Vector3 newPosition = transform.position + moveDirection;
-            int result = TrySetAtPosition(newPosition);
+            MoveResult result = TrySetAtPosition(newPosition);
             switch (result)
             {
-                case 1: MovePosition(moveDirection - Vector3.up); break;
-                case 2: MovePosition(moveDirection + Vector3.up); break;
+                case MoveResult.OnAir: return MovePosition(moveDirection - Vector3.up);
+                case MoveResult.OnFullTile: return MovePosition(moveDirection + Vector3.up);
             }
-            return result == 0; // 0 = success
+            return result == MoveResult.Success || result == MoveResult.OnNotFullTile;
         }
         public bool PlaceAtPointerPosition()
         {
             if (IsPointerOverUI()) return false;
             
             Ray ray = globalCamera.Camera.ScreenPointToRay(Input.mousePosition);
-            int result = -1;
+            MoveResult result = MoveResult.Impossible;
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 Vector3 hitPoint = hit.point + hit.normal * 0.1f;
                 result = TrySetAtPosition(hitPoint);
             }
-            return result == 0;
+            return result == MoveResult.Success || result == MoveResult.OnNotFullTile;
         }
         bool IsPointerOverUI()
         {
@@ -138,30 +154,57 @@ namespace CursedOnion.Game.Objects
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
             return new SelectionData(gridPosition, tile);
         }
-        public 
-        int TrySetAtPosition(Vector3 position)
+        MoveResult TrySetAtPosition(Vector3 position)
         {
             Grid3d grid = levelAsset.Grid;
             
-            if (!grid.TryWorldToGridPosition(position, out Vector3 gridPos)) return -1;
-            
+            if (!grid.TryWorldToGridPosition(position, out Vector3 gridPos)) return MoveResult.Impossible;
+
             Tile3d tile = grid.GetTileAtGridPosition(gridPos);
-            if (!tile.IsEmptyTile())
-            {
-                return 2;
-            }
+            bool isFull = tile.IsFullTile();
+            bool isEmpty = tile.IsEmptyTile();
+            bool isFluid = tile.IsFluidTile();
             
+            if (isFull && !isEmpty)
+                return MoveResult.OnFullTile;
+
+            if (!isFull && !isEmpty)
+            {
+                SetPosition(gridPos, position, tile);
+                return MoveResult.OnNotFullTile;
+            }
+
             Vector3 belowPos = position - Vector3.up;
-            if (!grid.TryWorldToGridPosition(belowPos, out Vector3 belowGridPos)) return -1;
+            if (!grid.TryWorldToGridPosition(belowPos, out Vector3 belowGridPos)) return MoveResult.Impossible;
 
             Tile3d belowTile = grid.GetTileAtGridPosition(belowGridPos);
-            
-            if (belowTile.IsEmptyTile()) return 1;
-            
-            gridPosition = gridPos;
-            transform.position = position.CenterOnTile();
-            return 0;
+            bool belowFull = belowTile.IsFullTile();
+            bool belowEmpty = belowTile.IsEmptyTile();
+            bool belowFluid = belowTile.IsFluidTile();
+
+            if (belowEmpty || !belowFull) return MoveResult.OnAir;
+
+            if (belowFluid)
+            {
+                Debug.Log("De momento permito que te puedas mover sobre fluidos");
+                //return MoveResult.OnWater;
+            }
+
+            SetPosition(gridPos, position, tile);
+            return MoveResult.Success;
         }
+        
+        void SetPosition(Vector3 gridPosition, Vector3 position, Tile3d onTile)
+        {
+            this.gridPosition = gridPosition;
+            transform.position = position.CenterOnTile();
+            
+            float xRotation = !onTile.IsFullTile() && !onTile.IsEmptyTile() ? -45f : 0f;
+            tileModel.transform.localPosition = onTile.GetDisplayOffset() + Vector3.up * yModelOffset;
+            tileModel.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
+
+        }
+        
         
     }
 }
