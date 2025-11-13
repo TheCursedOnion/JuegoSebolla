@@ -15,9 +15,20 @@ namespace CursedOnion.Game.Modes.General
         public void SetHighlightAt(Vector3 worldPosition, Tile3d tile, Color color)
         {
             highlightMaterial.SetColor(highlightColorId, color);
-            transform.position = worldPosition + new Vector3(0, 0.001f, 0);
-            //Debug.Log("PINTADA TILE: " );
-            //tile.DebugTile();
+
+            bool isStair = !tile.IsFullTile() && !tile.IsEmptyTile();
+            
+            float xRotation = isStair ? -45f : 0f;
+            float yRotation = tile.GetYRotation();
+            
+            float zScale = isStair ? 0.144f : 0.1f;
+            
+            transform.position = worldPosition + tile.GetDisplayOffset() + new Vector3(0, 0.002f, 0);
+            transform.eulerAngles = new Vector3(xRotation, yRotation, 0);
+            
+            var newScale = transform.localScale;
+            newScale.z = zScale;
+            transform.localScale = newScale;
         }
         
     }

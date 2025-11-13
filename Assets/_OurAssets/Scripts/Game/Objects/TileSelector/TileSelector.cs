@@ -108,9 +108,9 @@ namespace CursedOnion.Game.Objects
             controller.GetCurrentBehaviour().SoftSelect(SelectTile());
         }
 
-        public void SelectEntity(SimpleEntity entity)
+        public void TrySelectEntity(SimpleEntity entity)
         {
-            levelEvents.SelectEntity(entity);
+            if(!entityCommandHandler.HasPreparedCommand()) levelEvents.SelectEntity(entity);
         }
         public bool MovePosition(Vector3 moveDirection)
         {
@@ -200,8 +200,9 @@ namespace CursedOnion.Game.Objects
             transform.position = position.CenterOnTile();
             
             float xRotation = !onTile.IsFullTile() && !onTile.IsEmptyTile() ? -45f : 0f;
+            float yRotation = onTile.GetYRotation();
             tileModel.transform.localPosition = onTile.GetDisplayOffset() + Vector3.up * yModelOffset;
-            tileModel.transform.localEulerAngles = new Vector3(xRotation, 0, 0);
+            tileModel.transform.localEulerAngles = new Vector3(xRotation, yRotation, 0);
 
         }
         

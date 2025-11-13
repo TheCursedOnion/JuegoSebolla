@@ -22,12 +22,11 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
         
         SimpleEntity containedEntity;
-        private float eulerYRotation;
+        [SerializeField] private float eulerYRotation;
         public static Tile3d Default => new(Tile3dDescriptor.Default, TileAttributes.Default);
 
         public Tile3d(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes, float eulerYRotation = 0)
         {
-            
             Configure(tileDescriptor, tileAttributes, eulerYRotation);
         }
         public void Configure(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes, float eulerYRotation)
@@ -91,6 +90,8 @@ namespace CursedOnion.Game.Systems.Grid
             this.attributes = tile.attributes;
 
             this.containedEntity = tile.containedEntity;
+            
+            this.eulerYRotation = tile.eulerYRotation;
             
             this.blockedEntryDirections = tile.blockedEntryDirections;
             this.transformedEntryDirections = tile.transformedEntryDirections;

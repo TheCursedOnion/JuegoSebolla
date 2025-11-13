@@ -120,6 +120,11 @@ namespace CursedOnion.Game.Systems.Grid
                 gridPosition.z >= 0 && gridPosition.z < size.z;
         }
 
+        public bool IsWorldPositionInBounds(Vector3 worldPosition)
+        {
+            return TryWorldToGridPosition(worldPosition, out Vector3 gridPos) && IsGridPositionInBounds(gridPos);
+        }
+
         public bool IsIndexInBounds(int index)
         {
             return index >= 0 && index < tiles.Length;
@@ -176,6 +181,24 @@ namespace CursedOnion.Game.Systems.Grid
             }
         }
 
+        public bool TryGetTileAtWorldPosition(Vector3 worldPosition, out Tile3d tile)
+        {
+            tile = null;
+            if (TryWorldPositionToGridIndex(worldPosition, out int gridIndex))
+            {
+                tile = tiles[gridIndex];
+            }
+            return tile != null;
+        }
+        public bool TryGetTileAtGridPosition(Vector3 gridPosition, out Tile3d tile)
+        {
+            tile = null;
+            if (TryGridPositionToIndex(gridPosition, out int gridIndex))
+            {
+                tile = tiles[gridIndex];
+            }
+            return tile != null;
+        }
 
 
         void ResetGrid()
@@ -289,13 +312,14 @@ namespace CursedOnion.Game.Systems.Grid
         List<HighlightPlane> highlightedPlanes = new();
         public void PaintTileAtWorldPosition(Vector3 worldPosition, Color color)
         {
-            if(TryWorldToGridPosition(worldPosition, out Vector3 gridPosition)) 
-                highlightedPlanes.Add(highlighter.PlaceHighlightPlaneAt(worldPosition, color));
+            if (IsWorldPositionInBounds(worldPosition))
+                AddToHighlightedPlanes(highlighter.PlaceHighlightPlaneAt(worldPosition, color));
+                
         }
         public void PaintTileAtGridPosition(Vector3 gridPosition, Color color)
         {
             if (TryGridToWorldPosition(gridPosition, out Vector3 worldPosition))
-                highlightedPlanes.Add(highlighter.PlaceHighlightPlaneAt(worldPosition.CenterOnTile(), color));
+                AddToHighlightedPlanes(highlighter.PlaceHighlightPlaneAt(worldPosition.CenterOnTile(), color));
         }
 
         public void PaintTilesAtGridPositions(List<Vector3> positions, Color color)
@@ -307,7 +331,11 @@ namespace CursedOnion.Game.Systems.Grid
                 PaintTileAtGridPosition(positions[i], color);
             }
         }
-        
+
+        void AddToHighlightedPlanes(HighlightPlane plane)
+        {
+            if(plane != null) highlightedPlanes.Add(plane);
+        }
         public void ResetPaint()
         {
             if(highlightedPlanes.Count == 0) return;

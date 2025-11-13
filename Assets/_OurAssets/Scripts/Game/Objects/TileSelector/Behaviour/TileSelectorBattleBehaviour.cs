@@ -21,7 +21,7 @@ namespace CursedOnion.Game.Objects
 
         public override void SoftSelect(SelectionData data)
         {
-            TileSelector.SelectEntity(data.Tile.GetContainedEntity());
+            TileSelector.TrySelectEntity(data.Tile.GetContainedEntity());
         }
 
         void LaunchCommand(Vector3 gridPosition, Tile3d tile)

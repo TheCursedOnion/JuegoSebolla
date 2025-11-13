@@ -49,9 +49,16 @@ namespace CursedOnion.Game.Modes.General
         {
             Debug.Log(pool != null);
             
+            Tile3d onTile = grid.GetTileAtWorldPosition(worldPosition);
+
+            if (!grid.TryGetTileAtWorldPosition(worldPosition + Vector3.down, out Tile3d belowTile)) return null;
+
+            if (onTile.IsEmptyTile() && !belowTile.IsFullTile()) return null;
+            if (onTile.IsFullTile()) return null;
+            
             HighlightPlane plane = pool.Get();
             
-            plane.SetHighlightAt(worldPosition, grid.GetTileAtWorldPosition(worldPosition) , color);
+            plane.SetHighlightAt(worldPosition, onTile , color);
             return plane;
         }
         public void RetrieveHighlightPlane(HighlightPlane plane)
