@@ -54,6 +54,26 @@ namespace CursedOnion.Game.Entity
                 if (!levelGrid.IsGridPositionInBounds(currentAirPos)) continue;
                 Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
 
+                var currentDesc = currentAirTile.GetTileDescriptor();
+                bool isOnStair = !currentDesc.IsAirBlock && !currentDesc.IsFullBlock;
+
+                if (isOnStair)
+                {
+                    foreach (var stairDir in currentAirTile.GetExitDirectionVector())
+                    {
+                        Vector3 stairTopPos = currentAirPos + stairDir;
+                        if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
+
+                        Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
+                        if (stairTopTile != null && !stairTopTile.IsBlocked() && !visited.Contains(stairTopPos))
+                        {
+                            frontier.Enqueue((stairTopPos, currentCost + currentDesc.Cost));
+                            positions.Add(stairTopPos);
+                            visited.Add(stairTopPos);
+                         }
+                    }
+                }
+
                 foreach (var possibleDirection in currentAirTile.GetExitDirectionVector())
                 {
                     Vector3 nextAirPos = currentAirPos + possibleDirection;
@@ -194,9 +214,28 @@ namespace CursedOnion.Game.Entity
             List<Vector3Int> neighbours = new();
 
             Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
-            if (currentAirTile == null)
-                return neighbours;
+            if (currentAirTile == null) return neighbours;
 
+            var currentDesc = currentAirTile.GetTileDescriptor();
+            bool isOnStair = !currentDesc.IsAirBlock && !currentDesc.IsFullBlock;
+
+            // ===== Caso: si estás encima de una escalera, subir según su dirección =====
+            if (isOnStair)
+            {
+                foreach (var stairDir in currentAirTile.GetExitDirectionVector())
+                {
+                    Vector3Int stairTopPos = currentAirPos + Vector3Int.FloorToInt(stairDir);
+                    if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
+
+                    Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
+                    if (stairTopTile != null && !stairTopTile.IsBlocked())
+                    {
+                        neighbours.Add(stairTopPos);
+                    }
+                }
+            }
+
+            // ===== Iterar todas las direcciones de salida del tile actual =====
             foreach (var possibleDirection in currentAirTile.GetExitDirectionVector())
             {
                 Vector3Int nextAirPos = currentAirPos + Vector3Int.FloorToInt(possibleDirection);
@@ -207,18 +246,15 @@ namespace CursedOnion.Game.Entity
 
                 var nextAirDesc = nextAirTile.GetTileDescriptor();
 
-                // ===== ESCALERA: Subir =====
-                if (!nextAirDesc.IsAirBlock && !nextAirDesc.IsFullBlock)
+                // ===== Escalera: entrar o subir =====
+                if (!nextAirDesc.IsAirBlock && !nextAirDesc.IsFullBlock && nextAirTile.CanBeAccessedFrom(possibleDirection))
                 {
-                    Vector3Int stairPos = nextAirPos;
-
-                    if (!neighbours.Contains(stairPos) && nextAirTile.CanBeAccessedFrom(possibleDirection))
+                    if (!neighbours.Contains(nextAirPos))
                     {
-                        neighbours.Add(stairPos);
+                        neighbours.Add(nextAirPos);
 
                         // Posición diagonal hacia arriba según la dirección de entrada
-                        Vector3Int stairTopPos = stairPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.up;
-
+                        Vector3Int stairTopPos = nextAirPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.up;
                         if (levelGrid.IsGridPositionInBounds(stairTopPos))
                         {
                             Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
@@ -228,7 +264,7 @@ namespace CursedOnion.Game.Entity
                     }
                 }
 
-                // ===== ESCALERA: Bajar =====
+                // ===== Escalera: bajar =====
                 Vector3Int stairDownPos = currentAirPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.down;
                 if (levelGrid.IsGridPositionInBounds(stairDownPos))
                 {
@@ -241,7 +277,7 @@ namespace CursedOnion.Game.Entity
                     }
                 }
 
-                // ===== SUELO normal =====
+                // ===== Movimiento normal sobre suelo =====
                 Vector3Int nextGroundPos = nextAirPos + Vector3Int.down;
                 if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
 
@@ -249,7 +285,7 @@ namespace CursedOnion.Game.Entity
                 if (nextGroundTile == null) continue;
 
                 var groundDesc = nextGroundTile.GetTileDescriptor();
-                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue; // no hay suelo
+                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
 
                 DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
                 if (nextAirTile.CanBeAccessedFrom(moveDir))
@@ -260,6 +296,7 @@ namespace CursedOnion.Game.Entity
 
             return neighbours;
         }
+
 
 
 
