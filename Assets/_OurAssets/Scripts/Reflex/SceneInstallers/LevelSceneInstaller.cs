@@ -14,16 +14,11 @@ namespace CursedOnion.Installers
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             levelManager ??= GameObject.FindWithTag("LevelManager").GetComponent<LevelManager>();
-            containerBuilder.AddSingleton(levelManager.LevelAsset, typeof(LevelAsset));
             
             levelManager.SetLevelProperties();
             containerBuilder.AddSingleton(levelManager,  typeof(LevelManager));
+            containerBuilder.AddSingleton(levelManager.LevelAsset, typeof(LevelAsset));
             containerBuilder.AddSingleton(levelManager.LevelEvents, typeof(LevelEvents));
-        }
-
-        void Start()
-        {
-            //levelManager.LevelEvents.InvokeInitialCalls();
         }
     }
 }

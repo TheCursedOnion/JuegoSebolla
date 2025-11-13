@@ -15,16 +15,35 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] Tile3dDescriptor descriptor = Tile3dDescriptor.Default;
         [SerializeField] TileAttributes attributes;
         
+        
         [SerializeField] DirectionFlag transformedExitDirections = DirectionFlag.None;
         [SerializeField] DirectionFlag transformedEntryDirections = DirectionFlag.None;
         
         [SerializeField] DirectionFlag blockedEntryDirections = DirectionFlag.None;
+        
         SimpleEntity containedEntity;
+        private float eulerYRotation;
         public static Tile3d Default => new(Tile3dDescriptor.Default, TileAttributes.Default);
 
-        public Tile3d(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes)
+        public Tile3d(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes, float eulerYRotation = 0)
         {
-            Configure(tileDescriptor, tileAttributes);
+            
+            Configure(tileDescriptor, tileAttributes, eulerYRotation);
+        }
+        public void Configure(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes, float eulerYRotation)
+        {
+            descriptor = tileDescriptor;
+            attributes = tileAttributes;
+            
+            this.eulerYRotation = eulerYRotation;
+            transformedExitDirections = tileDescriptor.AllowedExitDirections;
+            transformedEntryDirections = tileDescriptor.AllowedEntryDirections;
+            RotateTile();
+        }
+        void RotateTile()
+        {
+            DirectionHelper.RotateFlagsAroundYAxis(ref transformedExitDirections, eulerYRotation);
+            DirectionHelper.RotateFlagsAroundYAxis(ref transformedEntryDirections, eulerYRotation);
         }
         
         #region Getters & Setters
@@ -41,6 +60,9 @@ namespace CursedOnion.Game.Systems.Grid
             blockedEntryDirections &= unblockDirections;
         }
         
+        public float GetYRotation() => eulerYRotation;
+        public Vector3 GetDisplayOffset() => descriptor.DisplayOffset;
+        
         public DirectionFlag GetEntryDirections() => transformedEntryDirections;
         public DirectionFlag GetExitDirections() => transformedExitDirections;
         public List<Vector3> GetExitDirectionVector() => DirectionHelper.GetDirectionVectors(transformedExitDirections);
@@ -53,24 +75,15 @@ namespace CursedOnion.Game.Systems.Grid
         public TileAttributes GetTileAttributes() => attributes;
         #endregion
         
-        public void Configure(Tile3dDescriptor tileDescriptor, TileAttributes tileAttributes)
-        {
-            descriptor = tileDescriptor;
-            attributes = tileAttributes;
-            transformedExitDirections = tileDescriptor.AllowedExitDirections;
-            transformedEntryDirections = tileDescriptor.AllowedEntryDirections;
-        }
-
-        public void RotateTile(float eulerYRotation)
-        {
-            DirectionHelper.RotateFlagsAroundYAxis(ref transformedExitDirections, eulerYRotation);
-            DirectionHelper.RotateFlagsAroundYAxis(ref transformedEntryDirections, eulerYRotation);
-        }
         public Tile3d Clone()
         {
             var clone = Default;
             clone.ReplaceAttributes(this);
             return clone;
+        }
+        public void ResetTile()
+        {
+            RemoveEntity(blockedEntryDirections);
         }
         public void ReplaceAttributes(Tile3d tile)
         {

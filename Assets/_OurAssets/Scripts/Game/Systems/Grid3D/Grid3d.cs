@@ -34,6 +34,7 @@ namespace CursedOnion.Game.Systems.Grid
         [SerializeField] private Tile3d[] tiles;
 
         #region Constructor
+        protected Grid3d() {}
         public Grid3d(Vector3 size, Vector3 origin, Tilemap[] layers)
         {
             this.size = size.CastToVectorInt();
@@ -81,6 +82,8 @@ namespace CursedOnion.Game.Systems.Grid
         {
             this.highlighter = highlighter;
             this.highlighter.Initialize(this);
+            
+            ResetGrid();
         }
         #endregion
 
@@ -174,6 +177,16 @@ namespace CursedOnion.Game.Systems.Grid
         }
 
 
+
+        void ResetGrid()
+        {
+            ResetPaint();
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                tiles[i].ResetTile();
+            }
+        }
+        
         public void InsertReachablePositions(List<Vector3> reachablePositions, Vector3 startWorldPos, int minRange, int maxRange)
         {
             ComputeReachablePositionsInternal(startWorldPos, minRange, maxRange, reachablePositions);
@@ -297,7 +310,6 @@ namespace CursedOnion.Game.Systems.Grid
         
         public void ResetPaint()
         {
-            Debug.Log("ResetPaint");
             if(highlightedPlanes.Count == 0) return;
             
             foreach (var plane in highlightedPlanes)

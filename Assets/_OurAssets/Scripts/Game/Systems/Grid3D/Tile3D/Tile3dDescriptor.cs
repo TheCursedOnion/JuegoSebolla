@@ -28,6 +28,7 @@ namespace CursedOnion.Game.Systems.Grid
         }
         
         public int Cost;
+        public Vector3 DisplayOffset;
         
         public bool IsFullBlock = true;
         public bool IsFluidBlock = false;

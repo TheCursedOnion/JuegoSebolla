@@ -41,6 +41,7 @@ namespace CursedOnion.Game.Entity
             {
                 SetLevelVariables();
                 SetSide(EntitySide);
+                SetComponents();
                 AfterSpawn();
             }
         }
@@ -60,21 +61,17 @@ namespace CursedOnion.Game.Entity
         {
             Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
             spawnedUnit.SetSide(side);
+            spawnedUnit.SetComponents();
             spawnedUnit.PlacedManually = true;
             
             AfterSpawn();
         }
         void AfterSpawn()
         {
-            EntityController.PlaceEntityComponent.Place();
+            EntityController.PlaceEntityComponent?.Place();
             Stats.SetStats(Data);
             
             baseMovement = GetStats().MovementStat;
-
-            var turnSystem = levelManager.GetTurnSystem();
-            
-            turnSystem.AddUnit(this);
-            
 
             if (unitUI != null) unitUI.SetActive(false);
             
@@ -84,18 +81,12 @@ namespace CursedOnion.Game.Entity
         void SetSide(BattleSide side)
         {
             EntitySide = side;
-            
-            if(EntityController == null) Debug.LogWarning("EntityController es null, hay que cambiar esto por los controllers correspondientes");
+        }
 
-            EntityController = Data.GetEntityController().Clone();
-            EntityController ??= side switch
-            {
-                BattleSide.Enemy => EntityComponentController.Default,
-                BattleSide.Ally => EntityComponentController.Default,
-                _ => null
-            };
-
-            EntityController?.Initialize(this);
+        void SetComponents()
+        {
+            EntityController ??= gameObject.AddComponent<EntityComponentController>();
+            EntityController.Initialize(this, Data.GetEntityComponents());
         }
 
         public bool TryErasingUnit(LevelManager manager)

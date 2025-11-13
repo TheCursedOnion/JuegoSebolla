@@ -31,8 +31,8 @@ namespace CursedOnion.Game.Entity
         [SubclassSelector, SerializeReference, BoxGroup(EntityExtras)] private SpecialAbility specialAbility;
         [SerializeField, BoxGroup(EntityExtras)] private List<AnimationLayerGroup> animationLayers;
         
-        [SerializeField, BoxGroup(EntityController)] private EntityComponentController entityComponentController;
-        public EntityComponentController GetEntityController() => entityComponentController;
+        [SerializeField, BoxGroup(EntityController)] private EntityComponents entityComponents;
+        public EntityComponents GetEntityComponents() => entityComponents;
         public string GetName()
         { 
             return entityName;

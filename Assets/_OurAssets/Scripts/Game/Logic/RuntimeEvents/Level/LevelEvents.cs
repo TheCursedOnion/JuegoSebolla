@@ -2,10 +2,7 @@
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
-using NaughtyAttributes;
-using Reflex.Attributes;
-using Unity.VisualScripting;
-using UnityEngine;
+using Unit = CursedOnion.Game.Entity.Unit;
 
 namespace CursedOnion.Game.Events
 {
@@ -51,12 +48,22 @@ namespace CursedOnion.Game.Events
         }
         
         public event Action<LevelState, LevelState> OnLevelStateChange;
-        
         public void InvokeLevelState(LevelState previousState, LevelState newState)
         {
             OnLevelStateChange?.Invoke(previousState, newState);
             CancelPreparedCommand();
         }
-        
+
+
+        public event Action<Unit> OnUnitTurnRegisterPetition;
+        public void RegisterUnitForTurn(Unit unit)
+        {
+            OnUnitTurnRegisterPetition?.Invoke(unit);
+        }
+        public event Action OnTurnEnded;
+        public void InvokeTurnEnd()
+        {
+            OnTurnEnded?.Invoke();
+        }
     }
 }

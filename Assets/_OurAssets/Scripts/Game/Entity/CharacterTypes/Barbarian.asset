@@ -28,62 +28,44 @@ MonoBehaviour:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 4851eee89b458b1418cb6ed358e58d72, type: 3}
-    - layerName: sword
-      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
-      lookupTexture: {fileID: 0}
+      lookupTexture: {fileID: 2800000, guid: 2e3ae58a54a38204585aaacccbf67a87, type: 3}
   - groupName: griego
     layers:
     - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: e1f3686ea62307842bba27cd7d809ba5, type: 3}
-    - layerName: sword
-      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
-      lookupTexture: {fileID: 0}
-  - groupName: persa
-    layers:
-    - layerName: uv
-      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
-      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 45461fed3f4ab4b4c8407fb58b50dd8f, type: 3}
-    - layerName: sword
-      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
-      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
-      lookupTexture: {fileID: 0}
-  entityComponentController:
+      lookupTexture: {fileID: 2800000, guid: 1b5289e8c668cea4ab800e801a2f28a9, type: 3}
+  entityComponents:
     PlaceEntityComponent:
-      rid: 7085409355759353970
+      rid: 592454543302459605
     MoveEntityComponent:
-      rid: 592454532923654532
+      rid: 592454543302459606
     AttackEntityComponent:
-      rid: 592454532923654533
+      rid: 592454543302459607
     AbilityEntityComponent:
-      rid: 592454532923654534
+      rid: 592454543302459608
   references:
     version: 2
     RefIds:
-    - rid: 592454532923654532
+    - rid: 592454543302459605
+      type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
+      data:
+        blockEntryDirectionsOnPlacement: 51
+    - rid: 592454543302459606
       type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
-        movementColor: {r: 0, g: 0.51428366, b: 1, a: 0.68235296}
-    - rid: 592454532923654533
+        movementColor: {r: 0, g: 0.29611325, b: 1, a: 0.6}
+    - rid: 592454543302459607
       type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
-        attackColor: {r: 0.7924528, g: 0, b: 0, a: 0.69411767}
-    - rid: 592454532923654534
+        attackColor: {r: 1, g: 0, b: 0, a: 0.6}
+    - rid: 592454543302459608
       type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
-        abilityColor: {r: 0.7735849, g: 0.71194464, b: 0, a: 0.59607846}
+        abilityColor: {r: 1, g: 0.5070822, b: 0.015686274, a: 0.69803923}
     - rid: 6291014306457452544
       type: {class: BarbarianAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:
         SelfTargetOnly: 0
         AbilityMinRange: 1
         AbilityMaxRange: 1
-    - rid: 7085409355759353970
-      type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
-      data:
-        blockEntryDirectionsOnPlacement: 0
