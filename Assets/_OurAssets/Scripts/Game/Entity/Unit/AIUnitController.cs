@@ -25,7 +25,7 @@ namespace CursedOnion.Game.Entity
 
         Unit unit;
 
-        List<Vector3> reachableAttackTiles = new();
+        List<Vector3> reachableAttackPositions = new();
         List<Vector3> reachableMovePositions = new();
         Vector3 targetedGridPosToMove;
         Vector3 targetedPosToMove;
@@ -53,20 +53,20 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
             var position = unit.transform.position;
 
-            reachableAttackTiles.Clear();
+            reachableAttackPositions.Clear();
             bool isMeleeUnit = unit.GetStats().SpecialAbilityType is not ArcherAbility;
 
             grid.TryWorldToGridPosition(position, out Vector3 gridPos);
             if (!isMeleeUnit)
             {
-                AStarPathFinder.InsertRangeAttackPositions(reachableAttackTiles, grid, gridPos, 2, true);
+                AStarPathFinder.InsertRangeAttackPositions(reachableAttackPositions, grid, gridPos, 2, true);
             }
             else
             {
-                AStarPathFinder.InsertMeleeAttackPositions(reachableAttackTiles, grid, gridPos);
+                AStarPathFinder.InsertMeleeAttackPositions(reachableAttackPositions, grid, gridPos);
             }
 
-            foreach(var pos in reachableAttackTiles)
+            foreach(var pos in reachableAttackPositions)
             {
                 Tile3d tile = grid.GetTileAtGridPosition(pos);
                 if (tile != null && tile.GetContainedEntity() != null && tile.GetContainedEntity().GetSide() != unit.GetSide())
