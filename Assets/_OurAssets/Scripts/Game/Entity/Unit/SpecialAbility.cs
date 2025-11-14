@@ -1,6 +1,7 @@
 using CursedOnion.Game.Systems.Grid;
 using System;
 using System.Collections.Generic;
+using CursedOnion.Game.Entity.Components;
 using UnityEngine;
 using CursedOnion.Game.Systems.Level;
 
@@ -45,7 +46,7 @@ namespace CursedOnion.Game.Entity
                 return;
             }
             
-            unit.EntityController.AttackEntityComponent.SetNextAttackMultiplier(DamageMultiplier);
+            unit.EntityController.GetEntityComponent<AttackEntityComponent>().SetNextAttackMultiplier(DamageMultiplier);
         }
     }
 

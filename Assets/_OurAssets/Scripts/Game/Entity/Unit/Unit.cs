@@ -3,6 +3,8 @@ using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using System;
+using Reflex.Core;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -24,9 +26,6 @@ namespace CursedOnion.Game.Entity
         [ReadOnly] public bool PlacedManually = false;
 
         public SpecialAbility SpecialAbility;
-
-        [Inject] LevelManager levelManager;
-
         
         // Ability Status
         private int additionalHP = 0;
@@ -39,50 +38,35 @@ namespace CursedOnion.Game.Entity
         {
             if (!PlacedManually)
             {
-                SetLevelVariables();
+                SetLevelVariables(LevelManager);
                 SetSide(EntitySide);
                 SetComponents();
                 AfterSpawn();
             }
         }
         
-        public bool TrySpawningUnit(GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        public bool TrySpawningUnit(LevelManager levelManager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
-            SetLevelVariables();
-            
-            bool isPlaced = LevelManager.TryPlacingUnit(Data.GetPrice());
+            bool isPlaced = levelManager.TryPlacingUnit(Data.GetPrice());
             if (isPlaced)
             {
-                Spawn(unitPrefab, atPosition, side);
+                Spawn(levelManager, unitPrefab, atPosition, side);
             }
             return isPlaced;
         }
-        void Spawn(GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        void Spawn(LevelManager levelManager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
         {
             Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
+            spawnedUnit.SetLevelVariables(levelManager);
+            spawnedUnit.PlacedManually = true;
             spawnedUnit.SetSide(side);
             spawnedUnit.SetComponents();
-            spawnedUnit.PlacedManually = true;
-            
-            AfterSpawn();
-        }
-        void AfterSpawn()
-        {
-            EntityController.PlaceEntityComponent?.Place();
-            Stats.SetStats(Data);
-            
-            baseMovement = GetStats().MovementStat;
-
-            if (unitUI != null) unitUI.SetActive(false);
-            
-            InitializeAnimations();
-            transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
+            spawnedUnit.AfterSpawn();
         }
         void SetSide(BattleSide side)
         {
             EntitySide = side;
         }
-
         void SetComponents()
         {
             switch(GetSide())
@@ -97,16 +81,27 @@ namespace CursedOnion.Game.Entity
                     //EntityController ??= gameObject.AddComponent<EntityComponentController>();
                     break;
             }
-            //EntityController ??= gameObject.AddComponent<EntityComponentController>();
             EntityController.Initialize(this, Data.GetEntityComponents());
         }
-
-        public bool TryErasingUnit(LevelManager manager)
+        void AfterSpawn()
         {
-            bool canBeErased = PlacedManually && EntitySide == BattleSide.Ally;
+            Stats.SetStats(Data);
+            
+            baseMovement = GetStats().MovementStat;
+
+            if (unitUI != null) unitUI.SetActive(false);
+            
+            InitializeAnimations();
+            transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
+        }
+
+        public bool TryErasingUnit()
+        {
+            bool canBeErased = PlacedManually && EntitySide == BattleSide.Ally && LevelManager != null;
             if (canBeErased)
             {
-                manager.EraseUnit(Data.GetPrice());
+                Debug.Log($"{name} se ha eliminado.");
+                LevelManager.EraseUnit(Data.GetPrice());
                 Dispose();
             }
             return canBeErased;
@@ -174,16 +169,6 @@ namespace CursedOnion.Game.Entity
             this.GetStats().MovementStat = baseMovement;
         }
 
-        private void OnDestroy()
-        {
-            if (levelManager != null)
-            {
-                var turnSystem = levelManager.GetTurnSystem();
-                //turnSystem.OnTurnStart -= HandleTurnStart;
-                //turnSystem.OnTurnEnd -= HandleTurnEnd;
-            }
-        }
-
         #region Health
         public void SetAdditionalHP(int factor)
         {
@@ -212,7 +197,7 @@ namespace CursedOnion.Game.Entity
             Stats.CurrentHealthStat -= damage;
             if (Stats.CurrentHealthStat <= 0)
             { 
-                levelManager.GetTurnSystem().RemoveUnit(this);
+                LevelManager.GetTurnSystem().RemoveUnit(this);
                 
                 Die(); 
             }

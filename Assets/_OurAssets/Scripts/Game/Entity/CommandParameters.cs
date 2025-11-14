@@ -10,6 +10,7 @@ namespace CursedOnion.Game.Commands
 {
     public class CommandParameters
     {
+        public Container Container;
         //On Execution
         public bool ExecuteOnce;
        
@@ -32,6 +33,8 @@ namespace CursedOnion.Game.Commands
         {
             if(parameters == null || other == null) return;
             
+            parameters.Container ??= other.Container;
+            
             parameters.Subject ??= other.Subject;
             
             parameters.Target ??= other.Target;
@@ -43,6 +46,7 @@ namespace CursedOnion.Game.Commands
             
             parameters.ExecuteAction ??= other.ExecuteAction;
             parameters.ExecuteCondition ??= other.ExecuteCondition;
+            parameters.ExecuteOnce |= other.ExecuteOnce;
         }
 
         public static void ResetParameters(CommandParameters parameters)
@@ -64,7 +68,11 @@ namespace CursedOnion.Game.Commands
         public class Builder
         {
             private CommandParameters parameters = new CommandParameters();
-
+            public Builder SetContainer(Container container)
+            {
+                parameters.Container = container;
+                return this;
+            }
             public Builder SetCommandSubject(SimpleEntity commandSubject)
             {
                 parameters.Subject = commandSubject;

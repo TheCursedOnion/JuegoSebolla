@@ -20,10 +20,9 @@ namespace CursedOnion.Game.Entity.Components
         
         private List<Vector3> previousReachablePositions = new();
         private Vector3 lastTargetPosition;
-        public override void ConfigureComponent(SimpleEntity assignedEntity)
+        public override void ConfigureComponent(EntityComponentController controller)
         {
-            base.ConfigureComponent(assignedEntity);
-            Debug.Log("Configurado");
+            base.ConfigureComponent(controller);
             lastTargetPosition = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
         }
         
@@ -43,7 +42,7 @@ namespace CursedOnion.Game.Entity.Components
             
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             
-            AssignedEntity.LevelManager.LevelAsset.Grid.PaintTilesAtGridPositions(previousReachablePositions, movementColor);
+            AssignedEntity.LevelManager.Grid.PaintTilesAtGridPositions(previousReachablePositions, movementColor);
         }
         public virtual void DoMove(Vector3 newPosition, bool undo)
         {
@@ -92,8 +91,8 @@ namespace CursedOnion.Game.Entity.Components
         {
             var transform = EntityTransform;
             var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
-            
-            AssignedEntity.EntityController.PlaceEntityComponent.Remove();
+            var placeComponent = AssignedController.GetEntityComponent<PlaceEntityComponent>();
+            placeComponent.RemoveEntity();
 
             float speed = 5f;
             Vector3 lastPosition = transform.position;
@@ -117,7 +116,7 @@ namespace CursedOnion.Game.Entity.Components
             if(AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
                 layeredEntity.PlayAnimation("idle");
             
-            AssignedEntity.EntityController.PlaceEntityComponent.Place();
+            placeComponent.PlaceEntity();
         }
 
         private void RotateEntity(GlobalCamera camera, Transform transform, Vector3 movementDirection)

@@ -5,6 +5,7 @@ using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using TMPro;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             
             CommandParameters.Builder builder = new CommandParameters.Builder();
             builder.SetExecuteOnce(false).SetLevelManager(levelManager);
+            Debug.Log(gameObject.scene.GetSceneContainer().GetHashCode());
             
             spawnParameters = builder.Build();
             eraseParameters = builder.Build();

@@ -17,9 +17,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 19668f4e32a870140a34ebdf76ab5a8d, type: 2}
   - {fileID: 2100000, guid: 74ef9d1aa1d5a2a498a116bca33b682a, type: 2}
   LevelData:
-    startingGold: 0
+    startingGold: 1000
     goal: 0
-    startingState: 2
+    startingState: 1
   Grid:
     mesh: {fileID: 4300000, guid: d923d422f59444041b5ac275573511b1, type: 2}
     startingOffset: {x: 0, y: 0, z: 0}
@@ -1746,7 +1746,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 51
+      blockedEntryDirections: 0
       eulerYRotation: 0
     - descriptor:
         Cost: 1
@@ -3384,7 +3384,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 51
+      blockedEntryDirections: 0
       eulerYRotation: 0
     - descriptor:
         Cost: 0

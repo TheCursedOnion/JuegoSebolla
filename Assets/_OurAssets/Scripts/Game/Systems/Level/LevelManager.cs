@@ -2,6 +2,7 @@ using System;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General;
+using CursedOnion.Game.Systems.Grid;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -15,6 +16,7 @@ namespace CursedOnion.Game.Systems.Level
     public class LevelManager : MonoBehaviour
     {
         [Expandable] public LevelAsset LevelAsset;
+        public Grid3d Grid => LevelAsset.Grid;
         public Vector3 LevelManagerOrigin => GetComponent<MeshRenderer>().bounds.min;
         
         public LevelEvents LevelEvents;

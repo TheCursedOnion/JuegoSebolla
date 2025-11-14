@@ -32,12 +32,24 @@ namespace CursedOnion.Game.Systems.Level
         public void Initialize(LevelEvents levelEvents)
         {
             this.levelEvents = levelEvents;
+            levelEvents.OnLevelStateChange += TryToBegin;
             levelEvents.OnUnitTurnRegisterPetition += AddUnit;
+            levelEvents.OnUnitTurnUnregisterPetition += RemoveUnit;
         }
 
+        void TryToBegin(LevelState previousState, LevelState newState)
+        {
+            if(newState == LevelState.InBattle) BeginBattle();
+        }
+        public void BeginBattle()
+        {
+            OrganizeLists();
+        }
         private void OnDisable()
         {
+            levelEvents.OnLevelStateChange -= TryToBegin;
             levelEvents.OnUnitTurnRegisterPetition -= AddUnit;
+            levelEvents.OnUnitTurnUnregisterPetition -= RemoveUnit;
             foreach (var unit in activeUnits.ToList())
             {
                 EndTurnForUnit(unit);
@@ -57,13 +69,9 @@ namespace CursedOnion.Game.Systems.Level
         }
         public void RemoveUnit(Unit unit)
         {
+            if(activeUnits.Contains(unit)) activeUnits.Remove(unit);
             if(allies.Contains(unit)) allies.Remove(unit);
             if(enemies.Contains(unit)) enemies.Remove(unit);
-        }
-
-        public void BeginBattle()
-        {
-            OrganizeLists();
         }
         void OrganizeLists()
         { 
@@ -120,22 +128,8 @@ namespace CursedOnion.Game.Systems.Level
 
                 foreach (var unit in groupList)
                 {
-                    unit.OnEntityUpdate += ProcessEntityUpdate;
                     unit.EntityController.ProcessTurn();
                 }
-            }
-        }
-        
-        void ProcessEntityUpdate(SimpleEntity entity)
-        {
-            if(entity is not Unit unit) return;
-            
-            if (unit.GetFlags().HasDied())
-            {
-                EndTurnForUnit(unit);
-                
-                if(allies.Contains(unit)) allies.Remove(unit);
-                if(enemies.Contains(unit)) enemies.Remove(unit);
             }
         }
 
@@ -155,11 +149,7 @@ namespace CursedOnion.Game.Systems.Level
         }
         void EndTurnForUnit(Unit unit)
         {
-            if (activeUnits.Contains(unit))
-            {
-                unit.OnEntityUpdate -= ProcessEntityUpdate;
-                activeUnits.Remove(unit);
-            }
+            if (activeUnits.Contains(unit)) activeUnits.Remove(unit);
         }
         private void InvokeEndTurn()
         {

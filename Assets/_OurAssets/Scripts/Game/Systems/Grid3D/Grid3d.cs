@@ -229,7 +229,6 @@ namespace CursedOnion.Game.Systems.Grid
 
         public void PaintTilesAtGridPositions(List<Vector3> positions, Color color)
         {
-            Debug.Log(positions.Count);
             for (int i = 0; i < positions.Count; i++)
             {
                 if(i==0) ResetPaint();
@@ -259,6 +258,22 @@ namespace CursedOnion.Game.Systems.Grid
                 tiles[i] ??= Tile3d.Default;
                 tiles[i].DebugTile();
             }
+        }
+        
+        public Grid3d Clone()
+        {
+            Grid3d clone = (Grid3d) MemberwiseClone();
+            
+            clone.highlighter = null;
+            
+            clone.tiles = new Tile3d[this.tiles.Length];
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                clone.tiles[i] = tiles[i]?.Clone();
+            }
+            
+            clone.highlightedPlanes = new List<HighlightPlane>();
+            return clone;
         }
     }
 }

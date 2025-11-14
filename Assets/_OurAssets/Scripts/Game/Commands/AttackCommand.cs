@@ -1,48 +1,51 @@
 using System;
 using CursedOnion.Game.Entity;
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 
 namespace CursedOnion.Game.Commands
 {
-    public class AttackCommand : EntityCommand, IClearStackCommand
+    public class AttackCommand : IClearStackCommand
     {
+        private SimpleEntity commandSubject;
         private SimpleEntity target;
 
         
-        public static AttackCommand Create(SimpleEntity commandSubject, SimpleEntity target)
+        public static AttackCommand Create(CommandParameters parameters)
         {
-            if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
-            return new AttackCommand(commandSubject, target);
+            try
+            {
+                if(!parameters.Subject) throw new ArgumentException($"[AttackCommand] No se puede ejecutar: No tiene un CommandSubject");
+                if(parameters.Target == null) throw new ArgumentException($"[AttackCommand] No se puede ejecutar: No tiene target");
+                
+                return new AttackCommand(parameters.Subject, parameters.Target);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                return null;
+            }
         }
-        private AttackCommand(SimpleEntity commandSubject, SimpleEntity target) : base(commandSubject) 
+        private AttackCommand(SimpleEntity commandSubject, SimpleEntity target)
         {
+            this.commandSubject = commandSubject;
             this.target = target;
         }
-        public static void Prepare(SimpleEntity subject)
+        public static void Prepare(CommandParameters parameters)
         {
-            subject?.EntityController.AttackEntityComponent.VisualizeAttack();
+            parameters.Subject?.EntityController.GetEntityComponent<AttackEntityComponent>().VisualizeAttack();
         }
         
         public bool CanExecute()
         {
-            if (!CommandSubject)
-            {
-                Debug.LogWarning($"[AttackCommand] No se puede ejecutar: No tiene un CommandSubject");
-                return false;
-            }
-            if (!CommandSubject.EntityController.AttackEntityComponent.ValidateAttack(target))
-            {
-                Debug.LogWarning($"[AttackCommand] No se puede ejecutar: {CommandSubject.name} no puede atacar");
-                return false;
-            }
-            return true;
+            return commandSubject.EntityController.GetEntityComponent<AttackEntityComponent>().ValidateAttack(target);
         }
         public bool Execute()
         {
             if(!CanExecute()) return false;
 
-            CommandSubject.EntityController.AttackEntityComponent.DoAttack(target, false);
+            commandSubject.EntityController.GetEntityComponent<AttackEntityComponent>().DoAttack(target, false);
             return true;
         }
     }
