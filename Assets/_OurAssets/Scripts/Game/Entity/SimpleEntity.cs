@@ -29,10 +29,7 @@ namespace CursedOnion.Game.Entity
         [HorizontalLine(height: 2f, color: EColor.Violet)]
         [FormerlySerializedAs("Data")]
         [Expandable] public StatData StatData;
-        
-        //Stats (They Get Defined)
-        protected ExtendedEntityStats Stats;
-        public ExtendedEntityStats GetStats() => Stats;
+        public ExtendedEntityStats Stats;
         
         //Flags
         protected EntityFlags Flags;
@@ -57,7 +54,7 @@ namespace CursedOnion.Game.Entity
         protected void DefineStats(StatData data)
         {
             StatData = data;
-            Stats.SetStats(data);
+            Stats.SetWithData(data);
         }
         public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)

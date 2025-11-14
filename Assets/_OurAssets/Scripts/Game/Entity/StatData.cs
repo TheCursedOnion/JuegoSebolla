@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CursedOnion.Game.Modes.General.Animations;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static CursedOnion.Game.Modes.General.Animations.LayeredEntity;
 using Random = UnityEngine.Random;
 
@@ -11,69 +12,48 @@ namespace CursedOnion.Game.Entity
     [CreateAssetMenu(fileName = "New Stat Data", menuName = "Game/Entity/Stats Data")]
     public class StatData : ScriptableObject
     {
-        const string EntityProperties = "Entity Properties";
-        const string EntityUI = "Entity UI";
-        const string EntityExtras = "Entity Extras";
-        const string EntityController = "Entity Controller";
-        const string VisualData = "Visual Data";
-        
-        [SerializeField, BoxGroup(EntityProperties)] private string entityName;
+        private const string EntityProperties = "Entity Properties";
+        private const string EntityUI = "Entity UI";
+        private const string EntityExtras = "Entity Extras";
+        private const string EntityController = "Entity Controller";
+        private const string VisualData = "Visual Data";
 
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int hpRange;
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int attackRange;
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int defenseRange;
-        [SerializeField, MinMaxSlider(0, Byte.MaxValue), BoxGroup(EntityProperties)] private Vector2Int initiativeRange;
-        [SerializeField, BoxGroup(EntityProperties)] private int movement;
-        [SerializeField, BoxGroup(EntityProperties)] private int price;
+        [Serializable]
+        public struct StatRange
+        {
+            [MinMaxSlider(0, byte.MaxValue)]
+            public Vector2Int Range;
 
-        [SerializeField, BoxGroup(EntityUI)] private GameObject characterUI;
+            public int RandomValue => UnityEngine.Random.Range(Range.x, Range.y + 1);
+        }
+        
+        [BoxGroup(EntityProperties)] public string EntityName;
+        [BoxGroup(EntityProperties)] public string EntityNameKey;
 
-        [SubclassSelector, SerializeReference, BoxGroup(EntityExtras)] private SpecialAbility specialAbility;
-        [SerializeField, BoxGroup(EntityExtras)] private List<AnimationLayerGroup> animationLayers;
+        [BoxGroup(EntityProperties)] public StatRange Hp;
+        [BoxGroup(EntityProperties)] public StatRange Attack;
+        [BoxGroup(EntityProperties)] public StatRange Defense;
+        [BoxGroup(EntityProperties)] public StatRange Initiative;
+
+        [BoxGroup(EntityProperties)] public int Movement;
+        [BoxGroup(EntityProperties)] public int Price;
         
-        [SerializeField, BoxGroup(EntityController)] private EntityComponents entityComponents;
+        [BoxGroup(EntityUI)] public GameObject CharacterUI;
         
-        [SerializeField, BoxGroup(VisualData)] public Sprite InspectorSprite;
-        public EntityComponents GetEntityComponents() => entityComponents;
-        public string GetName()
-        { 
-            return entityName;
-        }
-        public int GetRandomHP()
-        {
-            return Random.Range(hpRange.x, hpRange.y + 1);
-        }
-        public int GetRandomInitiative()
-        {
-            return Random.Range(initiativeRange.x, initiativeRange.y + 1);
-        }
-        public int GetRandomAttack()
-        {
-            return Random.Range(attackRange.x, attackRange.y + 1);
-        }
-        public int GetRandomDefense()
-        {
-            return Random.Range(defenseRange.x, defenseRange.y + 1);
-        }
-        public int GetMovement()
-        {
-            return movement;
-        }
-        public int GetPrice()
-        {
-            return price;
-        }
-        public GameObject GetUI()
-        {
-            return characterUI;
-        }
-        public SpecialAbility GetSpecialAbility()
-        {
-            return specialAbility;
-        }
-        public List<AnimationLayerGroup> GetAnimationLayers()
-        {
-            return animationLayers;
-        }
+        [BoxGroup(EntityExtras), SerializeReference, SubclassSelector] public SpecialAbility SpecialAbility;
+
+        [BoxGroup(EntityExtras)] public List<AnimationLayerGroup> AnimationLayers;
+        
+        [BoxGroup(EntityController)] public EntityComponents EntityComponents;
+        
+        [BoxGroup(VisualData)] public Sprite InspectorSprite;
+        public GameObject UI => CharacterUI;
+        public int GetPrice() => Price;
+        public int GetMovement() => Movement;
+
+        public int GetRandomHP() => Hp.RandomValue;
+        public int GetRandomAttack() => Attack.RandomValue;
+        public int GetRandomDefense() => Defense.RandomValue;
+        public int GetRandomInitiative() => Initiative.RandomValue;
     }
 }

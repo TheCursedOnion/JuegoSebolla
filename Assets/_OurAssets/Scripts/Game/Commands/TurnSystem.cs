@@ -79,11 +79,11 @@ namespace CursedOnion.Game.Systems.Level
             Debug.Log("======== NUEVA RONDA EMPIEZA ========");
             if (allies.Count == 0 || enemies.Count == 0) return;
             
-            allies = allies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
-            enemies = enemies.OrderByDescending(u => u.GetStats().InitiativeStat).ToList();
+            allies = allies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
+            enemies = enemies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
 
-            var maxAllyInitiative = allies[0].GetStats().InitiativeStat;
-            var maxEnemyInitiative = enemies[0].GetStats().InitiativeStat;
+            var maxAllyInitiative = allies[0].Stats.InitiativeStat;
+            var maxEnemyInitiative = enemies[0].Stats.InitiativeStat;
             currentInitiative = Mathf.Max(maxEnemyInitiative, maxAllyInitiative);
             
             StartInitiativeGroup();
@@ -95,8 +95,8 @@ namespace CursedOnion.Game.Systems.Level
             Debug.Log($"-- Iniciativa actual: {currentInitiative} --");
             
             var turnGroup = !alliesProcessedForCurrentInitiative
-                ? allies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList()
-                : enemies.Where(u => u.GetStats().InitiativeStat == currentInitiative).ToList();
+                ? allies.Where(u => u.Stats.InitiativeStat == currentInitiative).ToList()
+                : enemies.Where(u => u.Stats.InitiativeStat == currentInitiative).ToList();
             alliesProcessedForCurrentInitiative = !alliesProcessedForCurrentInitiative;
 
             if (turnGroup.Count > 0)

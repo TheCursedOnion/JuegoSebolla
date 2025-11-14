@@ -37,7 +37,7 @@ namespace CursedOnion.Game.Settings
         }
         void UpdateText(LanguageSetting.Language language)
         {
-            localizedGUIText.SetUsedKey((int)language);
+            localizedGUIText.SetUsedKeyIndex((int)language);
         }
     }
 }

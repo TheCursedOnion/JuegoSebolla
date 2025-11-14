@@ -12,16 +12,16 @@ namespace CursedOnion.Game.Entity.Components
         
         public virtual void VisualizeAbility()
         {
-            var stats = AssignedEntity.GetStats();
+            var stats = AssignedEntity.Stats;
             stats.SpecialAbilityType.InsertReachableTiles(reachableTiles, AssignedEntity);
             AssignedEntity.Grid.PaintTilesAtGridPositions(reachableTiles, abilityColor);
         }
         public virtual void DoAbility(SimpleEntity target, bool undo)
         {
-            if(AssignedEntity is not Unit unit || unit.GetStats().SpecialAbilityType == null) return;
+            if(AssignedEntity is not Unit unit || unit.Stats.SpecialAbilityType == null) return;
             
             unit.Grid.ResetPaint();
-            unit.GetStats().SpecialAbilityType.ActivateAbility(unit, target);
+            unit.Stats.SpecialAbilityType.ActivateAbility(unit, target);
             AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
                 
             reachableTiles.Clear();
@@ -36,7 +36,7 @@ namespace CursedOnion.Game.Entity.Components
                 Debug.LogWarning("ValidateAbility falló: target es null");
                 return false;
             }
-            if (AssignedEntity.GetStats().SpecialAbilityType.SelfTargetOnly) 
+            if (AssignedEntity.Stats.SpecialAbilityType.SelfTargetOnly) 
                 return target != AssignedEntity;
             
             return reachableTiles != null && reachableTiles.Contains(target.transform.position);

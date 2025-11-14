@@ -38,7 +38,7 @@ namespace CursedOnion.Game.Entity.Components
         
         public virtual async Task VisualizeMovement()
         {
-            int moveRange = AssignedEntity.GetStats().MovementStat;
+            int moveRange = AssignedEntity.Stats.MovementStat;
             
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             
@@ -81,7 +81,7 @@ namespace CursedOnion.Game.Entity.Components
         {
             AssignedEntity.Grid.ResetPaint();
             
-            int moveRange = AssignedEntity.GetStats().MovementStat;
+            int moveRange = AssignedEntity.Stats.MovementStat;
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             Vector3Int target = newPosition.CastToVectorInt();
             

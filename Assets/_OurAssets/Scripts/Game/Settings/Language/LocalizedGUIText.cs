@@ -21,23 +21,33 @@ namespace CursedOnion.Game.Localization
         void OnEnable()
         {
             languageSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().LanguageSettings;
-            languageSetting.OnChange += UpdateText;
-            UpdateText(LanguageSetting.Language.Spanish);
+            languageSetting.OnChange += OnLenguageChange;
+            UpdateText();
         }
         void OnDisable()
         {
-            languageSetting.OnChange -= UpdateText;
+            languageSetting.OnChange -= OnLenguageChange;
         }
-        void UpdateText(LanguageSetting.Language _)
+        
+        public void SetKey(string key)
+        {
+            this.key = key;
+            UpdateText();
+        }
+        public void SetUsedKeyIndex(int index)
+        {
+            useKeyIndex = index;
+            UpdateText();
+        }
+        void OnLenguageChange(LanguageSetting.Language _)
+        {
+            UpdateText();
+        }
+
+        void UpdateText()
         {
             languageSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().LanguageSettings;
             textMesh.text = languageSetting.GetLocalizedString(!useMultipleKeys ? key : keys[useKeyIndex]);
-        }
-        
-        public void SetUsedKey(int index)
-        {
-            useKeyIndex = index;
-            UpdateText(LanguageSetting.Language.Spanish);
         }
     }
 }

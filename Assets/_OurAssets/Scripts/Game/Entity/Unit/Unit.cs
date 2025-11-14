@@ -81,11 +81,11 @@ namespace CursedOnion.Game.Entity
                     //EntityController ??= gameObject.AddComponent<EntityComponentController>();
                     break;
             }
-            EntityController.Initialize(this, StatData.GetEntityComponents());
+            EntityController.Initialize(this, StatData.EntityComponents);
         }
         void AfterSpawn()
         {
-            baseMovement = GetStats().MovementStat;
+            baseMovement = Stats.MovementStat;
 
             if (unitUI != null) unitUI.SetActive(false);
             
@@ -110,7 +110,7 @@ namespace CursedOnion.Game.Entity
             if (layeredEntity == null)
                 layeredEntity = gameObject.AddComponent<LayeredEntity>();
 
-            var animationGroups = GetStats().AnimationLayers;
+            var animationGroups = Stats.AnimationLayers;
 
             if (animationGroups == null || animationGroups.Count == 0)
             {
@@ -118,7 +118,7 @@ namespace CursedOnion.Game.Entity
                 return;
             }
 
-            var currentGroup = animationGroups[1]; // o el que quieras seleccionar
+            var currentGroup = animationGroups[0]; // o el que quieras seleccionar
 
             if (currentGroup.layers == null || currentGroup.layers.Count == 0)
             {
@@ -164,13 +164,13 @@ namespace CursedOnion.Game.Entity
                     isConfused = false;
                 }
             }
-            this.GetStats().MovementStat = baseMovement;
+            this.Stats.MovementStat = baseMovement;
         }
 
         #region Health
         public void SetAdditionalHP(int factor)
         {
-            additionalHP = GetStats().MaxHealthStat * factor / 100;
+            additionalHP = Stats.MaxHealthStat * factor / 100;
             Debug.Log($"{name} recibe {additionalHP} de HP adicional.");
         }
 

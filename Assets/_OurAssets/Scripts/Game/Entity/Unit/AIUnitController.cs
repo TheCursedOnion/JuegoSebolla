@@ -16,11 +16,11 @@ namespace CursedOnion.Game.Entity
         public AssetBehaviourRunner GetBehaviourRunner() => runner;
 
         TurnSystem turnSystem;
-
-        public void Start()
+        public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
+            base.Initialize(entity, components);
             runner = gameObject.GetComponent<AssetBehaviourRunner>();
-            turnSystem = levelManager.GetTurnSystem();
+            turnSystem = AssignedEntity.LevelManager.GetTurnSystem();
         }
 
         public override void ProcessTurn()
