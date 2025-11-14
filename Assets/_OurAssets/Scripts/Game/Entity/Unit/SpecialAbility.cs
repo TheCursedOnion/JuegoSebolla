@@ -28,23 +28,23 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class SoldierAbility : SpecialAbility
     {
-        public float DamageMultiplier = 1.3f; 
+        public float DamageMultiplier = 1.3f;
+
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var grid = subject.Grid;
+
+            if (grid.TryWorldToGridPosition(subject.transform.position, out Vector3 gridPos))
+            {
+                reachablePositionsList.Clear();
+
+                reachablePositionsList.Add(gridPos);
+            }
+        }
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Soldier: Aumentando daño del próximo ataque");
-            
-            var grid = unit.Grid;
-            if (!grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos)) return;
-            if (!grid.TryWorldToGridPosition(unit.transform.position, out Vector3 unitGridPos)) return;
-
-            Vector3 dir = targetGridPos - unitGridPos;
-            dir.y = 0;
-
-            if (Mathf.Abs(dir.x) > 0 && Mathf.Abs(dir.z) > 0)
-            {
-                return;
-            }
             
             unit.EntityController.GetEntityComponent<AttackEntityComponent>().SetNextAttackMultiplier(DamageMultiplier);
         }
@@ -55,6 +55,17 @@ namespace CursedOnion.Game.Entity
     {
         public int AdditionalHPFactor = 20;
 
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var grid = subject.Grid;
+
+            if (grid.TryWorldToGridPosition(subject.transform.position, out Vector3 gridPos))
+            {
+                reachablePositionsList.Clear();
+
+                reachablePositionsList.Add(gridPos);
+            }
+        }
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Tank: Aumentando HP adicional");
@@ -65,6 +76,15 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class ThiefAbility : SpecialAbility
     {
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var grid = subject.Grid;
+            var transform = subject.transform;
+
+            if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
+                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 1, false);
+        }
+
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             if (target is Unit targetUnit)
@@ -79,6 +99,15 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class BarbarianAbility : SpecialAbility
     {
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var grid = subject.Grid;
+            var transform = subject.transform;
+
+            if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
+                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 1, false);
+        }
+
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             if (target is Unit targetUnit)
@@ -94,6 +123,19 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class ExplorerAbility : SpecialAbility
     {
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var grid = subject.Grid;
+
+            if (grid.TryWorldToGridPosition(subject.transform.position, out Vector3 gridPos))
+            {
+                reachablePositionsList.Clear();
+
+                reachablePositionsList.Add(gridPos);
+            }
+        }
+
+
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Explorer: Aumentando movimiento en 2");
@@ -105,6 +147,15 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class HealerAbility : SpecialAbility
     {
+        public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
+        {
+            var grid = subject.Grid;
+            var transform = subject.transform;
+
+            if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
+                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 1, false);
+        }
+
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             if (target is Unit targetUnit)

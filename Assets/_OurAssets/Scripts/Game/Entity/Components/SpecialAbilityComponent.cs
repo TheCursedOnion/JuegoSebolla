@@ -36,10 +36,15 @@ namespace CursedOnion.Game.Entity.Components
                 Debug.LogWarning("ValidateAbility falló: target es null");
                 return false;
             }
+            if (!grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos))
+            {
+                Debug.LogWarning("ValidateAbility falló: No se pudo convertir target a grid");
+                return false;
+            }
             if (AssignedEntity.Stats.SpecialAbilityType.SelfTargetOnly) 
-                return target != AssignedEntity;
+                return target == AssignedEntity;
             
-            return reachableTiles != null && reachableTiles.Contains(target.transform.position);
+            return reachableTiles.Contains(targetGridPos);
         }
     }
 }

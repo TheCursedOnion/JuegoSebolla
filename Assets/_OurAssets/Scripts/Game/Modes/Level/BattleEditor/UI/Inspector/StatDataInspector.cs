@@ -62,7 +62,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             spritePreview.sprite = data.InspectorSprite;
             entityName.SetKey(data.EntityNameKey);
             
-            Debug.Log(data.EntityNameKey);
+            //Debug.Log(data.EntityNameKey);
             
             hp.SetValue(stats.CurrentHealthStat);
             attack.SetValue(stats.AttackStat);

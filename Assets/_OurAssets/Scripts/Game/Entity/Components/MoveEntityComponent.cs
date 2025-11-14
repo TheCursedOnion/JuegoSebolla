@@ -27,9 +27,7 @@ namespace CursedOnion.Game.Entity.Components
         }
         
         public virtual async Task CalculateReachablePositions(Grid3d levelGrid, Vector3 startWorldPos, int movementRange, int yieldFrequency = 100)
-        {
-            Debug.Log(lastTargetPosition +"; " +startWorldPos);
-            
+        {   
             if (Vector3.Distance(lastTargetPosition, startWorldPos) < 0.1f) return;
             
             lastTargetPosition = startWorldPos;
