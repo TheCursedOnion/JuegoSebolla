@@ -14,6 +14,81 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     graphs:
+    - name: TurnFSM
+      id: 6c7b982d-e15d-42fb-8db6-7e19f0664e21
+      graph:
+        rid: 6291014435267674227
+      nodes:
+      - name: NoTurn
+        id: 018b79ce-176f-418b-b5f5-844b2a55bac0
+        position: {x: 594, y: 238}
+        node:
+          rid: 6291014435267674228
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014435267674249
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - a68b8f86-8ba9-47bb-a299-0ba88ac71746
+        childIds:
+        - ed55297b-821c-4310-a57c-505fee83249a
+      - name: Turn
+        id: 74cebb98-8363-46d4-8dae-92a134a3a409
+        position: {x: 1259, y: 237}
+        node:
+          rid: 6291014435267674229
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014435267674230
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - ed55297b-821c-4310-a57c-505fee83249a
+        childIds:
+        - a68b8f86-8ba9-47bb-a299-0ba88ac71746
+      - name: StartTurn
+        id: ed55297b-821c-4310-a57c-505fee83249a
+        position: {x: 918, y: 106}
+        node:
+          rid: 6291014435267674231
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014435267674246
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 018b79ce-176f-418b-b5f5-844b2a55bac0
+        childIds:
+        - 74cebb98-8363-46d4-8dae-92a134a3a409
+      - name: EndTurn
+        id: a68b8f86-8ba9-47bb-a299-0ba88ac71746
+        position: {x: 926, y: 391}
+        node:
+          rid: 6291014435267674248
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 74cebb98-8363-46d4-8dae-92a134a3a409
+        childIds:
+        - 018b79ce-176f-418b-b5f5-844b2a55bac0
     - name: 01-BasicBehaviour
       id: 623e7d88-3324-4ba5-990d-1d85208fb3f1
       graph:
@@ -21,7 +96,7 @@ MonoBehaviour:
       nodes:
       - name: EnemyTurn
         id: fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
-        position: {x: 850, y: 146}
+        position: {x: 871, y: 131}
         node:
           rid: 6291014419662504025
         references: []
@@ -31,7 +106,7 @@ MonoBehaviour:
         - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
       - name: EnemyClose?
         id: 412008a0-8f84-4316-9831-41baac6b8bcd
-        position: {x: 647, y: 336}
+        position: {x: 683, y: 343}
         node:
           rid: 6291014419662504026
         references:
@@ -52,7 +127,7 @@ MonoBehaviour:
         references:
         - fieldName: Action
           value:
-            rid: 6291014419662504030
+            rid: 6291014435267674225
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
@@ -60,13 +135,13 @@ MonoBehaviour:
         childIds: []
       - name: HA ENTRADO
         id: d135adb0-d1be-4cfd-82f6-707c8b441de1
-        position: {x: 663, y: 574}
+        position: {x: 586, y: 574}
         node:
           rid: 6291014419662504031
         references:
         - fieldName: Action
           value:
-            rid: 6291014419662504032
+            rid: 6291014435267674189
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
@@ -76,6 +151,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 6291014419662504024
       type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
@@ -94,7 +171,7 @@ MonoBehaviour:
           methodName: 
         check:
           componentName: AIUnitController
-          methodName: isTrue
+          methodName: IsEnemyClose
         reset:
           componentName: 
           methodName: 
@@ -107,36 +184,18 @@ MonoBehaviour:
     - rid: 6291014419662504029
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014419662504030
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AIUnitController
-          methodName: Salchipapa
-        update:
-          componentName: 
-          methodName: 
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
     - rid: 6291014419662504031
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014419662504032
+    - rid: 6291014435267674189
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
           componentName: AIUnitController
           methodName: HaEntrado
         update:
-          componentName: 
-          methodName: 
+          componentName: AIUnitController
+          methodName: EndAction
         stop:
           componentName: 
           methodName: 
@@ -146,3 +205,68 @@ MonoBehaviour:
         unpause:
           componentName: 
           methodName: 
+    - rid: 6291014435267674225
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: Salchipapa
+        update:
+          componentName: AIUnitController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014435267674227
+      type: {class: FSM, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6291014435267674228
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6291014435267674229
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6291014435267674230
+      type: {class: SubgraphAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        ExecuteOnLoop: 0
+        InterruptOptions: 2
+        subgraphId: 623e7d88-3324-4ba5-990d-1d85208fb3f1
+    - rid: 6291014435267674231
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: -1
+    - rid: 6291014435267674246
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIUnitController
+          methodName: StartTurn
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014435267674248
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 6
+    - rid: 6291014435267674249
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: AIUnitController
+          methodName: EndAITurn
