@@ -10,102 +10,89 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
-  m_Name: Tank
+  m_Name: Explorer
   m_EditorClassIdentifier: 
-  EntityName: Tank
-  EntityNameKey: unit_tank
+  EntityName: Explorer
+  EntityNameKey: unit_explorer
   Hp:
-    Range: {x: 22, y: 24}
+    Range: {x: 15, y: 17}
   Attack:
-    Range: {x: 9, y: 11}
+    Range: {x: 12, y: 14}
   Defense:
-    Range: {x: 10, y: 12}
+    Range: {x: 8, y: 9}
   Initiative:
-    Range: {x: 3, y: 5}
-  Movement: 4
+    Range: {x: 8, y: 10}
+  Movement: 6
   Price: 600
   CharacterUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
   SpecialAbility:
-    rid: 592454580667416663
+    rid: 6291014444939214954
   AnimationLayers:
   - groupName: griego
     layers:
-    - layerName: base
+    - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 652797f99331a2e4c82e0af11947e426, type: 3}
-    - layerName: shield
-      animatorController: {fileID: 9100000, guid: 0b5ca3121b3b05b40892753d8a85b585, type: 2}
-      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
-      lookupTexture: {fileID: 0}
-    - layerName: helmet
-      animatorController: {fileID: 9100000, guid: d33903479949f044f966e91a63c2b611, type: 2}
+      lookupTexture: {fileID: 2800000, guid: b3e39af216f56d94284a5ba84f82439e, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   - groupName: persa
     layers:
-    - layerName: base
+    - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 6a81dd51028c4094bbfea27bc6cee181, type: 3}
-    - layerName: shield
-      animatorController: {fileID: 9100000, guid: 0b5ca3121b3b05b40892753d8a85b585, type: 2}
-      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
-      lookupTexture: {fileID: 0}
-    - layerName: helmet
-      animatorController: {fileID: 9100000, guid: 61a272b035b7d83439b6f6b629edbf23, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 1a1ed43349fdcc84ea31384530678f14, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   - groupName: romano
     layers:
-    - layerName: base
+    - layerName: uv
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
-      lookupTexture: {fileID: 2800000, guid: 1292a056b7e741c47b8f8a17acd4f876, type: 3}
-    - layerName: shield
-      animatorController: {fileID: 9100000, guid: 0b5ca3121b3b05b40892753d8a85b585, type: 2}
-      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
-      lookupTexture: {fileID: 0}
-    - layerName: helmet
-      animatorController: {fileID: 9100000, guid: ff51c68c856967e4fb1095f74d0e68fb, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 492ebaf7d32b4914ba1a7fb4af010744, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
   EntityComponents:
     PlaceEntityComponent:
-      rid: 592454580667416664
+      rid: 6291014444939214956
     MoveEntityComponent:
-      rid: 592454580667416665
+      rid: 6291014444939214957
     AttackEntityComponent:
-      rid: 592454580667416666
+      rid: 6291014444939214958
     AbilityEntityComponent:
-      rid: 592454580667416667
-  InspectorSprite: {fileID: 21300000, guid: a1a2f0788fa16de4b81e7b6bd84a52d9, type: 3}
+      rid: 6291014444939214959
+  InspectorSprite: {fileID: 21300000, guid: e31bb28ac8a05924790abc93b987be17, type: 3}
   references:
     version: 2
     RefIds:
-    - rid: 592454580667416663
-      type: {class: TankAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+    - rid: 6291014444939214954
+      type: {class: ExplorerAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:
         SelfTargetOnly: 0
         AbilityMinRange: 0
         AbilityMaxRange: 0
-        AdditionalHPFactor: 20
-    - rid: 592454580667416664
+    - rid: 6291014444939214956
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
         UsedFlags: 0
         blockEntryDirectionsOnPlacement: 0
-    - rid: 592454580667416665
+    - rid: 6291014444939214957
       type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
         UsedFlags: 0
         movementColor: {r: 0, g: 0, b: 1, a: 1}
-    - rid: 592454580667416666
+    - rid: 6291014444939214958
       type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
         UsedFlags: 0
         attackColor: {r: 1, g: 0, b: 0, a: 1}
-    - rid: 592454580667416667
+    - rid: 6291014444939214959
       type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
         UsedFlags: 0

@@ -92,11 +92,11 @@ namespace CursedOnion.Game.Entity
     }
 
     [System.Serializable]
-    public class KnightAbility : SpecialAbility
+    public class ExplorerAbility : SpecialAbility
     {
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
-            Debug.Log("Activando habilidad de Knight: Aumentando movimiento en 2");
+            Debug.Log("Activando habilidad de Explorer: Aumentando movimiento en 2");
             unit.Stats.MovementStat += 2;
         }
 

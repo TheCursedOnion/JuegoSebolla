@@ -26,14 +26,38 @@ MonoBehaviour:
   Price: 450
   CharacterUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
   SpecialAbility:
-    rid: -2
+    rid: 6291014444939214948
   AnimationLayers:
   - groupName: griego
     layers:
     - layerName: base
       animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
       baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 30ba88ef1437b7845832e64e002f19c9, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
+  - groupName: persa
+    layers:
+    - layerName: base
+      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: 39b84899432af5646ba7913d0321ba15, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
+  - groupName: romano
+    layers:
+    - layerName: base
+      animatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
       lookupTexture: {fileID: 2800000, guid: a248c765a4dbd0347aeb1b6e47be30c4, type: 3}
+    - layerName: sword
+      animatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
   EntityComponents:
     PlaceEntityComponent:
       rid: 592454580667416677
@@ -47,8 +71,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 592454580667416677
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
@@ -69,3 +91,9 @@ MonoBehaviour:
       data:
         UsedFlags: 0
         abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    - rid: 6291014444939214948
+      type: {class: HealerAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
+      data:
+        SelfTargetOnly: 0
+        AbilityMinRange: 1
+        AbilityMaxRange: 1
