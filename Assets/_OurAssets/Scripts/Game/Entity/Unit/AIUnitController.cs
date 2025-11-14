@@ -81,13 +81,15 @@ namespace CursedOnion.Game.Entity
 
         public void EnemyAttack()
         {
-            Debug.Log("EL ENEMIGO VA A ATACAR");
+            Debug.Log("EL ENEMIGO VA A ATACAR A" + targetedEnemy);
+            GetEntityComponent<AttackEntityComponent>().DoAttack(targetedEnemy, false);
+
 
         }
         public Status EndAttack()
         {
             Debug.Log("ENEMY HA ATACADO: SUCCESS");
-
+            targetedEnemy = null;
             return Status.Success;
         }
 
@@ -109,37 +111,52 @@ namespace CursedOnion.Game.Entity
             float bestDistance = float.MaxValue;
             Vector3 bestTile = default;
 
+            bool isMeleeUnit = unit.Stats.SpecialAbilityType is not ArcherAbility;
+
             foreach (var ally in allyUnit)
             {
                 if (!unit.Grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos))
                     continue;
 
-                Vector3[] dirs =
-                {
-                    new Vector3Int(1, 0, 0),
-                    new Vector3Int(-1, 0, 0),
-                    new Vector3Int(0, 0, 1),
-                    new Vector3Int(0, 0, -1),
-                };
+                List<Vector3> candidatePositions = new List<Vector3>();
 
-                foreach (var dir in dirs)
+                if (isMeleeUnit)
                 {
-                    Vector3 adjacent = allyGridPos + dir;
+                    // Posiciones adyacentes al aliado
+                    Vector3[] dirs =
+                    {
+                        new Vector3(1, 0, 0),
+                        new Vector3(-1, 0, 0),
+                        new Vector3(0, 0, 1),
+                        new Vector3(0, 0, -1),
+                    };
 
-                    if (!unit.Grid.IsGridPositionInBounds(adjacent))
+                    foreach (var dir in dirs)
+                    {
+                        Vector3 adjacent = allyGridPos + dir;
+                        if (unit.Grid.IsGridPositionInBounds(adjacent))
+                            candidatePositions.Add(adjacent);
+                    }
+                }
+                else
+                {
+                    // Para arqueros: posiciones desde las que puede atacar al aliado
+                    AStarPathFinder.InsertRangeAttackPositions(candidatePositions, unit.Grid, allyGridPos, 2, true);
+                }
+
+                foreach (var pos in candidatePositions)
+                {
+                    if (!reachableMovePositions.Contains(pos))
                         continue;
 
-                    if (!reachableMovePositions.Contains(adjacent))
-                        continue;
-
-                    unit.Grid.TryGridToWorldPosition(adjacent, out Vector3 worldPos);
+                    unit.Grid.TryGridToWorldPosition(pos, out Vector3 worldPos);
 
                     float dist = Vector3.Distance(unit.transform.position, worldPos);
 
                     if (dist < bestDistance)
                     {
                         bestDistance = dist;
-                        bestTile = adjacent;
+                        bestTile = pos;
                     }
                 }
             }
@@ -158,22 +175,70 @@ namespace CursedOnion.Game.Entity
 
         public void EnemyMove()
         {
-            Debug.Log("EL ENEMIGO VA A MOVERSE A "+ targetedPosToMove + "DESDE "+ unit.transform.position);
-            //unit.transform.position = targetedPosToMove; //test
-
             GetEntityComponent<MoveEntityComponent>().DoMove(targetedGridPosToMove, false);
         }
 
         public void SearchAndMoveToUnit()
         {
             Debug.Log("EL ENEMIGO VA A BUSCAR UNA UNIDAD Y MOVERSE HACIA ELLA");
+            targetedGridPosToMove = Vector3.zero;
+
+            //Obtener la unidad aliada más cercana
+            Unit closestAlly = null;
+            float bestAllyDistance = float.MaxValue;
+
+            foreach (var ally in turnSystem.GetAllyUnits())
+            {
+                float dist = Vector3.Distance(unit.transform.position, ally.transform.position);
+
+                if (dist < bestAllyDistance)
+                {
+                    bestAllyDistance = dist;
+                    closestAlly = ally;
+                }
+            }
+
+            if (!unit.Grid.TryWorldToGridPosition(closestAlly.transform.position, out Vector3 allyGridPos))
+                return;
+
+            // Buscar entre reachableMovePositions la casilla MÁS CERCANA al aliado
+            float bestTileDist = float.MaxValue;
+            Vector3 bestTile = default;
+
+            foreach (var reachable in reachableMovePositions)
+            {
+                float dist = Vector3.Distance(reachable, allyGridPos);
+
+                if (dist < bestTileDist)
+                {
+                    bestTileDist = dist;
+                    bestTile = reachable;
+                }
+            }
+
+            targetedGridPosToMove = bestTile;
+
+            if (unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
+            {
+                targetedPosToMove = targetWorld.CenterOnTile();
+            }
+
+            GetEntityComponent<MoveEntityComponent>().DoMove(targetedGridPosToMove, false);
         }
 
         public Status EndMove()
         {
-            if (Vector3.Distance(unit.transform.position, targetedPosToMove) > 0.01f)
+            Vector3 pos = unit.transform.position;
+            Vector3 target = targetedPosToMove;
+
+            bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.01f && Mathf.Abs(pos.z - target.z) < 0.01f;
+            bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
+
+            if (!xzAligned || !yCloseEnough)
                 return Status.Running;
 
+            targetedGridPosToMove = Vector3.zero;
+            targetedPosToMove = Vector3.zero;
             return Status.Success;
         }
 
