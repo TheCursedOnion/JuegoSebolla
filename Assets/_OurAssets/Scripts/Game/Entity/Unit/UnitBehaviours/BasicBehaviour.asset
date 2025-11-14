@@ -89,24 +89,25 @@ MonoBehaviour:
         - 74cebb98-8363-46d4-8dae-92a134a3a409
         childIds:
         - 018b79ce-176f-418b-b5f5-844b2a55bac0
-    - name: 01-BasicBehaviour
+    - name: BasicBehaviour
       id: 623e7d88-3324-4ba5-990d-1d85208fb3f1
       graph:
         rid: 6291014419662504024
       nodes:
       - name: EnemyTurn
-        id: fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
-        position: {x: 871, y: 131}
+        id: d7c39f00-891d-454c-adc4-67125560d5b0
+        position: {x: 0, y: 0}
         node:
-          rid: 6291014419662504025
+          rid: 6291014439572340818
         references: []
         parentIds: []
         childIds:
         - 412008a0-8f84-4316-9831-41baac6b8bcd
-        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
-      - name: EnemyClose?
+        - 6716db00-6af9-4c90-b0e4-c5f86d61a562
+        - 74cb029c-eb40-4885-bd5a-c478a059c22a
+      - name: EnemyInAttackRange?
         id: 412008a0-8f84-4316-9831-41baac6b8bcd
-        position: {x: 683, y: 343}
+        position: {x: -300, y: 200}
         node:
           rid: 6291014419662504026
         references:
@@ -116,12 +117,12 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
             Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         parentIds:
-        - fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
+        - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds:
         - d135adb0-d1be-4cfd-82f6-707c8b441de1
-      - name: Salchipapa
+      - name: EnemyMove
         id: 58298b1a-722d-4c19-9aaa-4cba56f65a8a
-        position: {x: 1078, y: 344}
+        position: {x: 0, y: 400}
         node:
           rid: 6291014419662504029
         references:
@@ -131,21 +132,50 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - fa4cbbb4-4fee-4e2a-be41-cb1d38b849cc
+        - 6716db00-6af9-4c90-b0e4-c5f86d61a562
         childIds: []
-      - name: HA ENTRADO
+      - name: EnemyAttack
         id: d135adb0-d1be-4cfd-82f6-707c8b441de1
-        position: {x: 586, y: 574}
+        position: {x: -284, y: 416}
         node:
           rid: 6291014419662504031
         references:
         - fieldName: Action
           value:
-            rid: 6291014435267674189
+            rid: 6291014439572340825
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
         - 412008a0-8f84-4316-9831-41baac6b8bcd
+        childIds: []
+      - name: EnemyInMovementRange?
+        id: 6716db00-6af9-4c90-b0e4-c5f86d61a562
+        position: {x: 0, y: 200}
+        node:
+          rid: 6291014439572340821
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014439572340822
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+      - name: SearchAndMoveToUnit
+        id: 74cb029c-eb40-4885-bd5a-c478a059c22a
+        position: {x: 300, y: 200}
+        node:
+          rid: 6291014439572340826
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014439572340827
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds: []
     pushPerceptions: []
   references:
@@ -156,10 +186,6 @@ MonoBehaviour:
     - rid: 6291014419662504024
       type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014419662504025
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
     - rid: 6291014419662504026
       type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
@@ -171,7 +197,7 @@ MonoBehaviour:
           methodName: 
         check:
           componentName: AIUnitController
-          methodName: IsEnemyClose
+          methodName: IsEnemyInAttackRange
         reset:
           componentName: 
           methodName: 
@@ -187,33 +213,15 @@ MonoBehaviour:
     - rid: 6291014419662504031
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014435267674189
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AIUnitController
-          methodName: HaEntrado
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
     - rid: 6291014435267674225
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
           componentName: AIUnitController
-          methodName: Salchipapa
+          methodName: EnemyMove
         update:
           componentName: AIUnitController
-          methodName: EndAction
+          methodName: EndMove
         stop:
           componentName: 
           methodName: 
@@ -270,3 +278,67 @@ MonoBehaviour:
         method:
           componentName: AIUnitController
           methodName: EndAITurn
+    - rid: 6291014439572340818
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014439572340821
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014439572340822
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIUnitController
+          methodName: IsEnemyInMovementRange
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014439572340825
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: EnemyAttack
+        update:
+          componentName: AIUnitController
+          methodName: EndAttack
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014439572340826
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014439572340827
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: SearchAndMoveToUnit
+        update:
+          componentName: AIUnitController
+          methodName: EndMove
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
