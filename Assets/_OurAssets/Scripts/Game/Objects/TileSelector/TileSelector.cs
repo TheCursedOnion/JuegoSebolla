@@ -84,12 +84,14 @@ namespace CursedOnion.Game.Objects
 
         private void OnEnable()
         {
+            levelEvents.OnTurnFocus += FocusOnEntity;
             levelEvents.OnLevelStateChange += UpdateBehaviour;
         }
 
         private void OnDisable()
         {
-            levelEvents.OnLevelStateChange += UpdateBehaviour;
+            levelEvents.OnTurnFocus -= FocusOnEntity;
+            levelEvents.OnLevelStateChange -= UpdateBehaviour;
         }
 
         void UpdateBehaviour(LevelState previousState, LevelState currentState)
@@ -110,8 +112,11 @@ namespace CursedOnion.Game.Objects
 
         public void TrySelectEntity(SimpleEntity entity)
         {
-            Debug.Log(entityCommandHandler.HasPreparedCommand());
             if(!entityCommandHandler.HasPreparedCommand()) levelEvents.SelectEntity(entity);
+        }
+        void FocusOnEntity(SimpleEntity entity)
+        {
+            TrySetAtPosition(entity.transform.position);
         }
         public bool MovePosition(Vector3 moveDirection)
         {

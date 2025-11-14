@@ -9,6 +9,7 @@ using Reflex.Core;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CursedOnion.Game.Entity
 {
@@ -24,8 +25,10 @@ namespace CursedOnion.Game.Entity
         public EntityComponentController EntityController;
         [SerializeField] protected LayeredEntity layeredEntity;
         
+        
         [HorizontalLine(height: 2f, color: EColor.Violet)]
-        [Expandable] public EntityData Data;
+        [FormerlySerializedAs("Data")]
+        [Expandable] public StatData StatData;
         
         //Stats (They Get Defined)
         protected ExtendedEntityStats Stats;
@@ -51,7 +54,11 @@ namespace CursedOnion.Game.Entity
         {
             EntityController.Dispose();
         }
-        
+        protected void DefineStats(StatData data)
+        {
+            StatData = data;
+            Stats.SetStats(data);
+        }
         public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)
         {

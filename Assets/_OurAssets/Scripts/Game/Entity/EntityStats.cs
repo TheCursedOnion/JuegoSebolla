@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Entity
     {
         public int CurrentHealthStat;
         public int MaxHealthStat;
-        public virtual void SetStats(EntityData data)
+        public virtual void SetStats(StatData data)
         {
             CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
         }
@@ -25,7 +25,7 @@ namespace CursedOnion.Game.Entity
         public int PriceStat;
         public SpecialAbility SpecialAbilityType;
         public List<AnimationLayerGroup> AnimationLayers;
-        public override void SetStats(EntityData data)
+        public override void SetStats(StatData data)
         {
             CurrentHealthStat = MaxHealthStat = data.GetRandomHP();
             AttackStat = data.GetRandomAttack();

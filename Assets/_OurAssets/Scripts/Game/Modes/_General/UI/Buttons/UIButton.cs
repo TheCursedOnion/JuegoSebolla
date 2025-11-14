@@ -4,6 +4,7 @@ using NaughtyAttributes;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using UltEvents;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,16 +28,24 @@ namespace CursedOnion.Game.General.UI.Buttons
         protected virtual void OnEnable()
         {
             UiEvents.OnButtonSelected += OnSelectButton;
+            UiEvents.OnButtonUnselected += OnUnselectButton;
+            
             UiEvents.OnButtonGroupSelected += OnSelectButtonGroup;
         }
         protected virtual void OnDisable()
         {
             UiEvents.OnButtonSelected -= OnSelectButton;
+            UiEvents.OnButtonUnselected -= OnUnselectButton;
+            
             UiEvents.OnButtonGroupSelected -= OnSelectButtonGroup;
         }
         protected void OnSelectButton(UIButton button)
         {
             SelectButton(button == this);
+        }
+        protected void OnUnselectButton(UIButton button)
+        {
+            if(button == this) SelectButton(false);
         }
         protected void OnSelectButtonGroup(int group)
         {
@@ -44,7 +53,8 @@ namespace CursedOnion.Game.General.UI.Buttons
         }
         protected void SelectButton(bool select)
         {
-            if(select == IsSelected) return;
+            if(IsSelected == select) return;
+            
             IsSelected = select;
             InvokeSelectionEvents();
         }
@@ -52,6 +62,22 @@ namespace CursedOnion.Game.General.UI.Buttons
         {
             if(IsSelected) OnSelect.Invoke();
             else OnDeselect.Invoke();
+        }
+        
+        public void ToggleSelfSelect()
+        {
+            if(!IsSelected)
+                UiEvents.SelectButton(this);
+            else
+                UiEvents.UnselectButton(this);
+        }
+        public void SelfSelect()
+        {
+            UiEvents.SelectButton(this);
+        }
+        public void SelfGroupSelect()
+        {
+            UiEvents.SelectButtonGroup(ButtonGroupId);
         }
         
         public void SetInteractive(bool isInteractive)

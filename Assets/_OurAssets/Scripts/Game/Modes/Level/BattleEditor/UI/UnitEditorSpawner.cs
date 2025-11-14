@@ -3,9 +3,12 @@ using System.Linq;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
+using Reflex.Core;
 using Reflex.Extensions;
+using Reflex.Injectors;
 using TMPro;
 using UnityEngine;
 
@@ -13,62 +16,62 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 {
     public class UnitEditorSpawner : MonoBehaviour
     {
+        [SerializeField] private GameObject unitPrefab;
+        
+        [Inject] UIEvents uiEvents;
         [Inject] LevelManager levelManager;
         LevelEvents levelEvents;
         
         GameObject selectedUnit;
+        StatData lastSelectedStats;
+        
         private CommandParameters spawnParameters;
         private CommandParameters eraseParameters;
 
         private void Awake()
         {
+            AttributeInjector.Inject(this, gameObject.scene.GetSceneContainer());
             levelEvents = levelManager.LevelEvents;
             
             CommandParameters.Builder builder = new CommandParameters.Builder();
             builder.SetExecuteOnce(false).SetLevelManager(levelManager);
-            Debug.Log(gameObject.scene.GetSceneContainer().GetHashCode());
             
             spawnParameters = builder.Build();
             eraseParameters = builder.Build();
             
         }
-
-        private void OnEnable()
-        {
-            levelEvents.OnNoEntitySelected += UnselectUnit;
-        }
         private void OnDisable()
         {
-            levelEvents.OnNoEntitySelected -= UnselectUnit;
+            uiEvents.UnselectAllButtons();
         }
 
-        public void ToggleSelectForSpawn(GameObject unitPrefab)
+        public void ToggleSelectForSpawn(UnitButtonSpawner buttonSpawner)
         {
-            if (selectedUnit != null && selectedUnit == unitPrefab)
+            var statData = buttonSpawner.GetUnitStats();
+            if (lastSelectedStats != null && lastSelectedStats == statData)
             {
-                levelEvents.SelectEntity(null);
+                lastSelectedStats = null;
+                levelEvents.SelectStatData(null);
                 levelEvents.CancelPreparedCommand();
                 return;
             }
             
-            selectedUnit = unitPrefab;
-            spawnParameters.EntityPrefab = selectedUnit;
+            lastSelectedStats = statData;
             
-            Unit unit = unitPrefab.GetComponent<Unit>();
-            levelEvents.SelectEntity(unit);
+            selectedUnit = unitPrefab;
+            spawnParameters.Prefab = unitPrefab;
+            spawnParameters.EntityStatData = statData;
+                
+            levelEvents.SelectStatData(statData);
 
             levelEvents.CallPrepareCommand<SpawnCommand>(spawnParameters);
         }
-        void UnselectUnit()
-        {
-            selectedUnit = null;
-        }
-        
         public void ToggleEraser()
         {
-            if (selectedUnit != null)
+            if (lastSelectedStats != null)
             {
-                levelEvents.SelectEntity(null);
+                lastSelectedStats = null;
+                levelEvents.SelectStatData(null);
                 levelEvents.CancelPreparedCommand();
             }
 
@@ -79,7 +82,5 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         {
             levelManager.SetNewLevelState(LevelState.InBattle);
         }
-
-        
     }
 }

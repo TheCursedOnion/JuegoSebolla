@@ -65,15 +65,18 @@ namespace CursedOnion.Game.Commands
             var genericMethod = previsualizeMethod.MakeGenericMethod(preparedCommand);
 
             preparedParameters.Subject = selectedEntity;
-            Debug.Log($"Selected entity: {selectedEntity?.name}");
             genericMethod.Invoke(null, new object[] { preparedParameters });
         }
 
         public void ExecuteCommand(CommandParameters parameters)
         {
             LaunchCommand(parameters);
-            
-            if(preparedParameters != null && preparedParameters.ExecuteOnce) ResetCommand();
+
+            if (preparedParameters != null && preparedParameters.ExecuteOnce)
+            {
+                uiEvents.UnselectAllButtons();
+                ResetCommand();
+            }
         }
         void LaunchCommand(CommandParameters parameters)
         {
@@ -87,7 +90,6 @@ namespace CursedOnion.Game.Commands
             parameters.Subject = selectedEntity;
             var command = genericMethod.Invoke(null, new object[] { parameters });
             
-            uiEvents.UnselectAllButtons();
             if(command != null) commandManager.ExecuteCommand((ICommand)command);
         }
         private void ResetCommand()

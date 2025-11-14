@@ -11,6 +11,7 @@ namespace CursedOnion.Game.Commands
     {
         private LevelManager levelManager;
         private GameObject unitPrefab;
+        private StatData unitStatsData;
         
         private Vector3 spawnPosition;
         private Tile3d targetTile;
@@ -19,12 +20,13 @@ namespace CursedOnion.Game.Commands
         {
             try
             {
-                if(!parameters.EntityPrefab) throw new ArgumentException($"[SpawnCommand] Spawn Unit cannot be null");
+                if(!parameters.Prefab) throw new ArgumentException($"[SpawnCommand] Spawn Unit prefab cannot be null");
+                if(!parameters.EntityStatData) throw new ArgumentException($"[SpawnCommand] Spawn Stat Data cannot be null");
                 if(parameters.Position == null) throw new ArgumentException($"[SpawnCommand] Spawn Unit position cannot be null");
                 if(parameters.TargetTile == null) throw new ArgumentException($"[SpawnCommand] Spawn Unit target tile cannot be null");
                 if(parameters.LevelManager == null) throw new ArgumentException($"[SpawnCommand] Level Manager cannot be null");
                 
-                return new SpawnCommand(parameters.LevelManager, parameters.EntityPrefab, parameters.Position.Value, parameters.TargetTile);
+                return new SpawnCommand(parameters.LevelManager, parameters.Prefab, parameters.EntityStatData, parameters.Position.Value, parameters.TargetTile);
             }
             catch (Exception e)
             {
@@ -32,10 +34,11 @@ namespace CursedOnion.Game.Commands
                 return null;
             }
         }
-        private SpawnCommand(LevelManager levelManager, GameObject unitPrefab, Vector3 spawnPosition, Tile3d targetTile)
+        private SpawnCommand(LevelManager levelManager, GameObject unitPrefab, StatData data, Vector3 spawnPosition, Tile3d targetTile)
         {
             this.levelManager = levelManager;
             this.unitPrefab = unitPrefab;
+            this.unitStatsData = data;
             this.targetTile = targetTile;
             this.spawnPosition = spawnPosition;
         }
@@ -60,7 +63,7 @@ namespace CursedOnion.Game.Commands
         {
             if(!CanExecute()) return false;
             Unit unit = unitPrefab.GetComponent<Unit>();
-            return unit != null && unit.TrySpawningUnit(levelManager, unitPrefab, spawnPosition, BattleSide.Ally);
+            return unit != null && unit.TrySpawningUnit(levelManager, unitPrefab, unitStatsData, spawnPosition, BattleSide.Ally);
         }
         
     }

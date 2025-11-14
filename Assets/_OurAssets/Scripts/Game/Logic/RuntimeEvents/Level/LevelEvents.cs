@@ -29,6 +29,12 @@ namespace CursedOnion.Game.Events
                 OnNoEntitySelected?.Invoke();
         }
         
+        public event Action<StatData> OnStatDataSelected;
+        public void SelectStatData(StatData data)
+        {
+            OnStatDataSelected?.Invoke(data);
+        }
+        
         public event Action<Type, CommandParameters> OnCommandPrepareCalled;
         public void CallPrepareCommand<T>()
         {
@@ -71,6 +77,12 @@ namespace CursedOnion.Game.Events
         public void InvokeTurnEnd()
         {
             OnTurnEnded?.Invoke();
+        }
+
+        public event Action<SimpleEntity> OnTurnFocus;
+        public void InvokeTurnFocus(SimpleEntity entity)
+        {
+            OnTurnFocus?.Invoke(entity);
         }
     }
 }

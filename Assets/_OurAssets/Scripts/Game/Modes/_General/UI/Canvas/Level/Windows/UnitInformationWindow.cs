@@ -15,38 +15,50 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         [Inject] LevelEvents levelEvents;
         private void OnEnable()
         {
-            levelEvents.OnEntitySelected += UpdateStatsDisplay;
-            levelEvents.OnNoEntitySelected += ClearStatsDisplay;
+            levelEvents.OnStatDataSelected += UpdateStatsDisplay;
+            levelEvents.OnEntitySelected += UpdateDisplayWithEntity;
+            levelEvents.OnNoEntitySelected += ClearTextDisplay;
         }
         private void OnDisable()
         {
-            levelEvents.OnEntitySelected -= UpdateStatsDisplay;
-            levelEvents.OnNoEntitySelected -= ClearStatsDisplay;       
+            levelEvents.OnStatDataSelected -= UpdateStatsDisplay;
+            levelEvents.OnEntitySelected -= UpdateDisplayWithEntity;
+            levelEvents.OnNoEntitySelected -= ClearTextDisplay;
         }
-        void UpdateStatsDisplay(SimpleEntity entity)
+
+        void UpdateDisplayWithEntity(SimpleEntity entity)
         {
-            if (entity is Unit unit)
-            {
-                UpdateStatsDisplayUnit(unit);
-            }
+            UpdateStatText(entity);
         }
-        void ClearStatsDisplay()
+        void UpdateStatsDisplay(StatData statData)
+        {
+            Debug.Log(statData);
+            
+            if(statData == null) ClearTextDisplay();
+            else UpdateDataText(statData);
+        }
+        void ClearTextDisplay()
         {
             if (statsText == null) return;
             statsText.text = "";
         }
-        void UpdateStatsDisplayUnit(Unit unit)
+        void UpdateDataText(StatData data)
         {
             if (statsText == null) return;
             
-            ExtendedEntityStats stats = unit.GetStats();
-            statsText.text = $"{unit.Data.GetName()} -> {stats.InitiativeStat}\n" +
-                              $"HP -> {stats.CurrentHealthStat}\n" +
-                              $"MaxHP -> {stats.MaxHealthStat}\n" +
-                              $"attack -> {stats.AttackStat}\n" +
-                              $"defense -> {stats.DefenseStat}\n" +
-                              $"movement -> {stats.MovementStat}\n" +
-                              $"price -> {stats.PriceStat}";
+            statsText.text = $"{data.GetName()} -> LOS DATOS";
+        }
+
+        void UpdateStatText(SimpleEntity entity)
+        {
+            var stats = entity.GetStats();
+            statsText.text = $"{entity.StatData.GetName()} -> {stats.InitiativeStat}\n" +
+                             $"HP -> {stats.CurrentHealthStat}\n" +
+                             $"MaxHP -> {stats.MaxHealthStat}\n" +
+                             $"attack -> {stats.AttackStat}\n" +
+                             $"defense -> {stats.DefenseStat}\n" +
+                             $"movement -> {stats.MovementStat}\n" +
+                             $"price -> {stats.PriceStat}";
         }
     }
 }

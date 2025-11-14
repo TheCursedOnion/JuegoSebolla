@@ -7,20 +7,28 @@ namespace CursedOnion.Game.Modes.General.UI.Events
     public class UIEvents
     {
         public event Action<UIButton> OnButtonSelected;
+        public event Action<UIButton> OnButtonUnselected;
         public event Action<int> OnButtonGroupSelected;
+        public event Action<int> OnButtonGroupUnselected;
         
         public void SelectButton(UIButton interactiveButton)
         {
             OnButtonSelected?.Invoke(interactiveButton);
         }
+        public void UnselectButton(UIButton interactiveButton)
+        {
+            OnButtonUnselected?.Invoke(interactiveButton);
+        }
+        
         public void SelectButtonGroup(int group)
         {
             OnButtonGroupSelected?.Invoke(group);
         }
-        public void UnselectButton(UIButton interactiveButton)
+        public void UnselectButtonGroup(int group)
         {
-            OnButtonSelected?.Invoke(interactiveButton);
+            OnButtonGroupUnselected?.Invoke(group);
         }
+        
         public void UnselectAllButtons()
         {
             OnButtonSelected?.Invoke(null);

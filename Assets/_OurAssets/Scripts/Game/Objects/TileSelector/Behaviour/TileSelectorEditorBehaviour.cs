@@ -14,7 +14,6 @@ namespace CursedOnion.Game.Objects
                 CommandParameters.Builder builder = new();
                 builder.SetPosition(TileSelector.transform.position);
                 builder.SetTargetTile(data.Tile);
-                Debug.Log($"{data.Tile.GetContainedEntity()?.name}");
                 LaunchCommand(builder.Build());
             }
         }

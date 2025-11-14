@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71e83627ca68a048a1cfb5cc5b23611, type: 3}
   m_Name: Medic
   m_EditorClassIdentifier: 
-  entityName: 
+  entityName: Medic
   hpRange: {x: 13, y: 15}
   attackRange: {x: 7, y: 9}
   defenseRange: {x: 3, y: 5}
@@ -66,24 +66,29 @@ MonoBehaviour:
       rid: 592454543302459660
     AbilityEntityComponent:
       rid: 592454543302459661
+  InspectorSprite: {fileID: 21300000, guid: 64d71f28f9c69b842b5f6d685186dea4, type: 3}
   references:
     version: 2
     RefIds:
     - rid: 592454543302459658
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 0
         blockEntryDirectionsOnPlacement: 0
     - rid: 592454543302459659
       type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 0
         movementColor: {r: 0, g: 0.29803923, b: 1, a: 0.6}
     - rid: 592454543302459660
       type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 0
         attackColor: {r: 1, g: 0, b: 0, a: 1}
     - rid: 592454543302459661
       type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
+        UsedFlags: 0
         abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
     - rid: 6291014305501675719
       type: {class: HealerAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}

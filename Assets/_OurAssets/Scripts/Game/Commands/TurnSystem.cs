@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CursedOnion.Game.Events;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CursedOnion.Game.Systems.Level
 {
@@ -121,16 +122,24 @@ namespace CursedOnion.Game.Systems.Level
 
         void HandleGroup(List<Unit> groupList)
         {
-            if (groupList.Count > 0)
+            if (groupList.Count == 0) return;
+            
+            activeUnits.Clear();
+            activeUnits.AddRange(groupList);
+            
+            foreach (var unit in activeUnits)
             {
-                activeUnits.Clear();
-                activeUnits.AddRange(groupList);
-
-                foreach (var unit in groupList)
-                {
-                    unit.EntityController.ProcessTurn();
-                }
+                unit.EntityController.ProcessTurn();
             }
+            
+            ChooseStartingUnit();
+            
+        }
+
+        void ChooseStartingUnit()
+        {
+            //int randomIndex = Random.Range(0, activeUnits.Count);
+            levelEvents.InvokeTurnFocus(activeUnits[0]);
         }
 
         public void EndTurn()

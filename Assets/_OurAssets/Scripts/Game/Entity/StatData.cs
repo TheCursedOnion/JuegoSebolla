@@ -8,14 +8,14 @@ using Random = UnityEngine.Random;
 
 namespace CursedOnion.Game.Entity
 {
-    [CreateAssetMenu(fileName = "New Entity Data", menuName = "Game/Entity/Entity Data")]
-
-    public class EntityData : ScriptableObject
+    [CreateAssetMenu(fileName = "New Stat Data", menuName = "Game/Entity/Stats Data")]
+    public class StatData : ScriptableObject
     {
         const string EntityProperties = "Entity Properties";
         const string EntityUI = "Entity UI";
         const string EntityExtras = "Entity Extras";
         const string EntityController = "Entity Controller";
+        const string VisualData = "Visual Data";
         
         [SerializeField, BoxGroup(EntityProperties)] private string entityName;
 
@@ -32,6 +32,8 @@ namespace CursedOnion.Game.Entity
         [SerializeField, BoxGroup(EntityExtras)] private List<AnimationLayerGroup> animationLayers;
         
         [SerializeField, BoxGroup(EntityController)] private EntityComponents entityComponents;
+        
+        [SerializeField, BoxGroup(VisualData)] public Sprite InspectorSprite;
         public EntityComponents GetEntityComponents() => entityComponents;
         public string GetName()
         { 

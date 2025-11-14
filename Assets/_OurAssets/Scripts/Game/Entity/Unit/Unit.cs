@@ -18,8 +18,7 @@ namespace CursedOnion.Game.Entity
     public class Unit : SimpleEntity
     {
         // Character UI
-        [HorizontalLine(height: 2f, color: EColor.Violet)]
-        
+        [HorizontalLine(height: 2f, color: EColor.Violet)] 
         [SerializeField] GameObject unitUI;
         public GameObject GetUI() => unitUI;
 
@@ -32,12 +31,12 @@ namespace CursedOnion.Game.Entity
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
         private int baseMovement;
-
         
         public void Start()
         {
             if (!PlacedManually)
             {
+                DefineStats(StatData);
                 SetLevelVariables(LevelManager);
                 SetSide(EntitySide);
                 SetComponents();
@@ -45,23 +44,24 @@ namespace CursedOnion.Game.Entity
             }
         }
         
-        public bool TrySpawningUnit(LevelManager levelManager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        public bool TrySpawningUnit(LevelManager levelManager, GameObject unitPrefab, StatData data, Vector3 atPosition, BattleSide side)
         {
-            bool isPlaced = levelManager.TryPlacingUnit(Data.GetPrice());
+            bool isPlaced = levelManager.TryPlacingUnit(data.GetPrice());
             if (isPlaced)
             {
-                Spawn(levelManager, unitPrefab, atPosition, side);
+                Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
+                spawnedUnit.ManualInitialization(levelManager, data, side);
             }
             return isPlaced;
         }
-        void Spawn(LevelManager levelManager, GameObject unitPrefab, Vector3 atPosition, BattleSide side)
+        void ManualInitialization(LevelManager levelManager, StatData data, BattleSide side)
         {
-            Unit spawnedUnit = Instantiate(unitPrefab, atPosition, Quaternion.identity).GetComponent<Unit>();
-            spawnedUnit.SetLevelVariables(levelManager);
-            spawnedUnit.PlacedManually = true;
-            spawnedUnit.SetSide(side);
-            spawnedUnit.SetComponents();
-            spawnedUnit.AfterSpawn();
+            PlacedManually = true;
+            DefineStats(data);
+            SetLevelVariables(levelManager);
+            SetSide(side);
+            SetComponents();
+            AfterSpawn();
         }
         void SetSide(BattleSide side)
         {
@@ -81,12 +81,10 @@ namespace CursedOnion.Game.Entity
                     //EntityController ??= gameObject.AddComponent<EntityComponentController>();
                     break;
             }
-            EntityController.Initialize(this, Data.GetEntityComponents());
+            EntityController.Initialize(this, StatData.GetEntityComponents());
         }
         void AfterSpawn()
         {
-            Stats.SetStats(Data);
-            
             baseMovement = GetStats().MovementStat;
 
             if (unitUI != null) unitUI.SetActive(false);
@@ -101,7 +99,7 @@ namespace CursedOnion.Game.Entity
             if (canBeErased)
             {
                 Debug.Log($"{name} se ha eliminado.");
-                LevelManager.EraseUnit(Data.GetPrice());
+                LevelManager.EraseUnit(StatData.GetPrice());
                 Dispose();
             }
             return canBeErased;
