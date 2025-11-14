@@ -1,6 +1,7 @@
 using CursedOnion.Game.Systems.Grid;
 using System;
 using System.Collections.Generic;
+using CursedOnion.Game.Entity.Components;
 using UnityEngine;
 using CursedOnion.Game.Systems.Level;
 
@@ -45,7 +46,7 @@ namespace CursedOnion.Game.Entity
                 return;
             }
             
-            unit.EntityController.AttackEntityComponent.SetNextAttackMultiplier(DamageMultiplier);
+            unit.EntityController.GetEntityComponent<AttackEntityComponent>().SetNextAttackMultiplier(DamageMultiplier);
         }
     }
 
@@ -96,7 +97,7 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Knight: Aumentando movimiento en 2");
-            unit.GetStats().MovementStat += 2;
+            unit.Stats.MovementStat += 2;
         }
 
     }
@@ -111,7 +112,7 @@ namespace CursedOnion.Game.Entity
                 if (targetUnit.GetSide() != unit.GetSide())
                     return;
                 Debug.Log("Activando habilidad de Healer: Curando al objetivo");
-                int healedAmount = (int)Math.Ceiling(unit.GetStats().CurrentHealthStat * 0.5f);
+                int healedAmount = (int)Math.Ceiling(unit.Stats.CurrentHealthStat * 0.5f);
                 targetUnit.Heal(healedAmount);
             }
         }
@@ -123,7 +124,7 @@ namespace CursedOnion.Game.Entity
     {
         public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
-            var stats = subject.GetStats();
+            var stats = subject.Stats;
             var grid = subject.Grid;
             var transform = subject.transform;
             
@@ -156,7 +157,7 @@ namespace CursedOnion.Game.Entity
                 Mathf.Clamp(direction.z, -1, 1)
             );
 
-            int damage = Mathf.CeilToInt(unit.GetStats().AttackStat * 0.4f);
+            int damage = Mathf.CeilToInt(unit.Stats.AttackStat * 0.4f);
 
             for (int i = 0; i < 3; i++)
             {

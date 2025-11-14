@@ -7,13 +7,14 @@ using CursedOnion.Game.Systems.Level;
 using JetBrains.Annotations;
 using Reflex.Attributes;
 using System.Collections.Generic;
+using CursedOnion.Game.Entity.Components;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
     public class AIUnitController : EntityComponentController
     {
-        [Inject] LevelManager levelManager;
+        LevelManager levelManager;
         AssetBehaviourRunner runner;
         bool startTurn;
 
@@ -31,13 +32,13 @@ namespace CursedOnion.Game.Entity
         Vector3 targetedPosToMove;
         SimpleEntity targetedEnemy;
 
-        public void Start()
+        public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
+            base.Initialize(entity, components);
             runner = gameObject.GetComponent<AssetBehaviourRunner>();
-            turnSystem = levelManager.GetTurnSystem();
-            unit = gameObject.GetComponent<Unit>();
+            turnSystem = entity.LevelManager.GetTurnSystem();
+            unit = entity as Unit;
         }
-
         public override void ProcessTurn()
         {
             startTurn = true;
@@ -54,7 +55,7 @@ namespace CursedOnion.Game.Entity
             var position = unit.transform.position;
 
             reachableAttackPositions.Clear();
-            bool isMeleeUnit = unit.GetStats().SpecialAbilityType is not ArcherAbility;
+            bool isMeleeUnit = unit.Stats.SpecialAbilityType is not ArcherAbility;
 
             grid.TryWorldToGridPosition(position, out Vector3 gridPos);
             if (!isMeleeUnit)
@@ -102,7 +103,7 @@ namespace CursedOnion.Game.Entity
                 reachableMovePositions,
                 unit.Grid,
                 unit.transform.position,
-                unit.GetStats().MovementStat
+                unit.Stats.MovementStat
             );
 
             float bestDistance = float.MaxValue;
@@ -160,8 +161,7 @@ namespace CursedOnion.Game.Entity
             Debug.Log("EL ENEMIGO VA A MOVERSE A "+ targetedPosToMove + "DESDE "+ unit.transform.position);
             //unit.transform.position = targetedPosToMove; //test
 
-            MoveEntityComponent.DoMove(targetedGridPosToMove, false);
-
+            GetEntityComponent<MoveEntityComponent>().DoMove(targetedGridPosToMove, false);
         }
 
         public void SearchAndMoveToUnit()
@@ -179,15 +179,10 @@ namespace CursedOnion.Game.Entity
 
         public void EndAITurn()
         {
-            if (turnSystem != null && gameObject.GetComponent<Unit>() != null)
+            if (turnSystem != null)
             {
-                var unit = gameObject.GetComponent<Unit>();
-
-                if (turnSystem.GetActiveUnits().Contains(unit))
-                {
-                    startTurn = false;
-                    turnSystem.EndTurnForAIUnit(unit);
-                }
+                startTurn = false;
+                turnSystem.EndTurnForAIUnit(unit);
             }
         }
     }

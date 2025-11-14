@@ -23,7 +23,7 @@ namespace CursedOnion.Game.Entity.Components
             var position = AssignedEntity.transform.position;
             
             grid.ResetPaint();
-            bool isMeleeUnit = AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility;
+            bool isMeleeUnit = AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility;
 
             grid.TryWorldToGridPosition(position, out Vector3 gridPos);
             if (!isMeleeUnit)
@@ -57,9 +57,9 @@ namespace CursedOnion.Game.Entity.Components
         }
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
-            int rawDamage = Mathf.CeilToInt(AssignedEntity.GetStats().AttackStat * nextAttackMultiplier);
+            int rawDamage = Mathf.CeilToInt(AssignedEntity.Stats.AttackStat * nextAttackMultiplier);
 
-            int targetDefense = target.GetStats().DefenseStat;
+            int targetDefense = target.Stats.DefenseStat;
             int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
 
             Debug.Log($"{AssignedEntity.name} ataca a {target.name} causando {finalDamage} de daño.");

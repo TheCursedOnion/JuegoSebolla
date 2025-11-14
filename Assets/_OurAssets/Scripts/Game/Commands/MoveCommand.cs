@@ -1,58 +1,59 @@
 using System;
 using CursedOnion.Game.Entity;
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 using UnityEngine.Splines;
 
 namespace CursedOnion.Game.Commands
 {
-    public class MoveCommand : EntityCommand, IStackableCommand
+    public class MoveCommand : IStackableCommand
     {
+        private SimpleEntity commandSubject;
         private Vector3 previousPosition;
         private Vector3 targetPosition;
 
         private bool previousHasMoved;
-
-        public static MoveCommand Create(SimpleEntity commandSubject, Vector3 newPosition)
+        public static MoveCommand Create(CommandParameters parameters)
         {
-            return new MoveCommand(commandSubject, newPosition);
+            try
+            {
+                if(!parameters.Subject) throw new ArgumentException($"[MoveCommand] No se puede ejecutar: No tiene un CommandSubject");
+                if(parameters.Position == null) throw new ArgumentException($"[MoveCommand] No se puede ejecutar: No tiene posición");
+            
+                return new MoveCommand(parameters.Subject, parameters.Position.Value);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                return null;
+            }
         }
-        public static void Prepare(SimpleEntity subject)
-        {
-           _ = subject?.EntityController.MoveEntityComponent.VisualizeMovement();
+        public static void Prepare(CommandParameters parameters)
+        { 
+            _ = parameters.Subject?.EntityController.GetEntityComponent<MoveEntityComponent>().VisualizeMovement();
         }
-        private MoveCommand(SimpleEntity commandSubject, Vector3 newPosition) : base(commandSubject)
+        private MoveCommand(SimpleEntity commandSubject, Vector3 newPosition)
         {
+            this.commandSubject = commandSubject;
             this.targetPosition = newPosition;
         }
-        
-        
         public bool CanExecute()
         {
-            if (!CommandSubject)
-            {
-                Debug.LogWarning($"[MoveCommand] No se puede ejecutar: No tiene un CommandSubject");
-                return false;
-            }
-            if (!CommandSubject.EntityController.MoveEntityComponent.ValidateMove(targetPosition).Result)
-            {
-                Debug.LogWarning($"[MoveCommand] No se puede ejecutar: {CommandSubject.name} no puede moverse a {targetPosition}");
-                return false;
-            }
-            return true;
+            return commandSubject.EntityController.GetEntityComponent<MoveEntityComponent>().ValidateMove(targetPosition).Result;
         }
         public bool Execute()
         {
             if (!CanExecute()) return false;
             
-            previousPosition = CommandSubject.transform.position;
-            CommandSubject.EntityController.MoveEntityComponent.DoMove(targetPosition, false);
+            previousPosition = commandSubject.transform.position;
+            commandSubject.EntityController.GetEntityComponent<MoveEntityComponent>().DoMove(targetPosition, false);
             return true;
         }
 
         public void Undo()
         {
-            CommandSubject.EntityController.MoveEntityComponent.DoMove(targetPosition, true);
+            commandSubject.EntityController.GetEntityComponent<MoveEntityComponent>().DoMove(targetPosition, true);
         }
     }
 }

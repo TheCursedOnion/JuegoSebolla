@@ -9,16 +9,23 @@ namespace CursedOnion.Game.Commands
 {
     public class EraseCommand : ICommand
     {
-        private Unit eraseUnit;
-        private LevelManager levelManager;
-        public static EraseCommand Create(LevelManager levelEvents, Tile3d eraseTile)
+        private readonly Tile3d targetTile;
+        public static EraseCommand Create(CommandParameters parameters)
         {
-            return new EraseCommand(levelEvents, eraseTile.GetContainedEntity());
+            try
+            {
+                if(parameters.TargetTile == null) throw new ArgumentException($"[EraseCommand] Target tile cannot be null");
+                return new EraseCommand(parameters.TargetTile);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                throw;
+            }
         }
-        private EraseCommand(LevelManager levelManager, SimpleEntity eraseEntity)
+        private EraseCommand(Tile3d targetTile)
         {
-            this.eraseUnit = eraseEntity as Unit;
-            this.levelManager = levelManager;
+            this.targetTile = targetTile;
         }
         public void OnPrepare()
         {
@@ -26,12 +33,15 @@ namespace CursedOnion.Game.Commands
         }
         public bool CanExecute()
         {
-            return eraseUnit && levelManager != null;
+            Debug.Log(targetTile.GetContainedEntity());
+            return targetTile.GetContainedEntity() as Unit && targetTile.GetTileAttributes().CanUnitsSpawnHere;
         }
         public bool Execute()
         {
+            Debug.Log("Erase");
             if(!CanExecute()) return false;
-            return eraseUnit.TryErasingUnit(levelManager);
+            Debug.Log("Erase2");
+            return ((Unit)targetTile.GetContainedEntity()).TryErasingUnit();
         }
         
     }

@@ -1,7 +1,6 @@
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Level;
-using CursedOnion.Game.Modes.General.UI.Events;
-using NaughtyAttributes;
+using CursedOnion.Game.Systems.Grid;
 using Reflex.Core;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace CursedOnion.Installers
             
             levelManager.SetLevelProperties();
             containerBuilder.AddSingleton(levelManager,  typeof(LevelManager));
-            containerBuilder.AddSingleton(levelManager.LevelAsset, typeof(LevelAsset));
+            containerBuilder.AddSingleton(levelManager.Grid, typeof(Grid3d));
             containerBuilder.AddSingleton(levelManager.LevelEvents, typeof(LevelEvents));
         }
     }

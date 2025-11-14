@@ -10,6 +10,7 @@ namespace CursedOnion.Game.Modes.General.UI
     public class GoldCounter : MonoBehaviour
     {
         [Inject] LevelManager levelManager;
+        
         [SerializeField] private TextMeshProUGUI goldText;
 
         private void Awake()
@@ -30,7 +31,7 @@ namespace CursedOnion.Game.Modes.General.UI
 
         void UpdateGoldText(int gold)
         {
-            goldText.text = $"Dinero: {gold.ToString()}";
+            goldText.text = gold.ToString();
         }
     }
 }

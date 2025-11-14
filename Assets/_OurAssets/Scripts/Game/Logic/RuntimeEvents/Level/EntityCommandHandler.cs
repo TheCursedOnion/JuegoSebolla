@@ -11,6 +11,7 @@ using System.Reflection;
 using CursedOnion.Game.Modes.General.UI.Events;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Debug = UnityEngine.Debug;
 
 namespace CursedOnion.Game.Commands
 {
@@ -21,7 +22,6 @@ namespace CursedOnion.Game.Commands
         [Inject] private readonly CommandManager commandManager;
         
         private SimpleEntity selectedEntity;
-        private SimpleEntity commandSubject;
         
         private Type preparedCommand;
         
@@ -46,18 +46,11 @@ namespace CursedOnion.Game.Commands
         }
         private void SelectEntity(SimpleEntity entity)
         {
-            selectedEntity = entity;
-            SetCommandSubject();
-        }
-        private void SetCommandSubject()
-        {
-            if(selectedEntity ==null) ResetCommand();
-            else if(commandSubject != selectedEntity) commandManager.ClearStack();
+            if(entity ==null) ResetCommand();
+            else if(selectedEntity != entity) commandManager.ClearStack();
             
-            commandSubject = selectedEntity;
+            selectedEntity = entity;
         }
-
-        
         public bool HasPreparedCommand()
         {
             return preparedCommand != null;
@@ -70,14 +63,20 @@ namespace CursedOnion.Game.Commands
             
             var previsualizeMethod = typeof(CommandFactory).GetMethod("PreVisualize", BindingFlags.Public | BindingFlags.Static);
             var genericMethod = previsualizeMethod.MakeGenericMethod(preparedCommand);
-            genericMethod.Invoke(null, new object[] { commandSubject });
+
+            preparedParameters.Subject = selectedEntity;
+            genericMethod.Invoke(null, new object[] { preparedParameters });
         }
 
         public void ExecuteCommand(CommandParameters parameters)
         {
             LaunchCommand(parameters);
-            
-            if(preparedParameters != null && preparedParameters.ExecuteOnce) ResetCommand();
+
+            if (preparedParameters != null && preparedParameters.ExecuteOnce)
+            {
+                uiEvents.UnselectAllButtons();
+                ResetCommand();
+            }
         }
         void LaunchCommand(CommandParameters parameters)
         {
@@ -88,10 +87,9 @@ namespace CursedOnion.Game.Commands
             
             CommandParameters.CombineParameters(parameters, preparedParameters);
             
-            parameters.Subject = commandSubject;
+            parameters.Subject = selectedEntity;
             var command = genericMethod.Invoke(null, new object[] { parameters });
             
-            uiEvents.UnselectAllButtons();
             if(command != null) commandManager.ExecuteCommand((ICommand)command);
         }
         private void ResetCommand()
@@ -101,7 +99,7 @@ namespace CursedOnion.Game.Commands
             
             //levelEvents.SelectEntity(null);
         }
-        void ClearCommandStack()
+        public void ClearCommandStack()
         {
             ResetCommand();
             levelEvents.SelectEntity(null);

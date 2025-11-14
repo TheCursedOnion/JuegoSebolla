@@ -7,19 +7,15 @@ namespace CursedOnion.Game.Entity.Components
     public class PlaceEntityComponent : EntityComponent
     {
         [SerializeField] private DirectionFlag blockEntryDirectionsOnPlacement;
-        
-        public override void ConfigureComponent(SimpleEntity assignedEntity)
-        {
-            AssignedEntity = assignedEntity;
-            Place();
-        }
-        public void Place()
+        public void PlaceEntity()
         {
             var grid = AssignedEntity.Grid;
-            grid.GetTileAtWorldPosition(AssignedEntity.transform.position).PlaceEntity(AssignedEntity, blockEntryDirectionsOnPlacement);
+            var tile = grid.GetTileAtWorldPosition(AssignedEntity.transform.position);
+            tile.PlaceEntity(AssignedEntity, blockEntryDirectionsOnPlacement);
         }
-        public void Remove()
+        public void RemoveEntity()
         {
+            if(AssignedEntity == null) return;
             var grid = AssignedEntity.Grid;
             grid.GetTileAtWorldPosition(AssignedEntity.transform.position).RemoveEntity(~blockEntryDirectionsOnPlacement);
         }

@@ -6,18 +6,23 @@ namespace CursedOnion.Game.Commands
     public class ActionCommand : ICommand
     {
         private Action action;
-        public static ActionCommand Create(Action action)
+        public static ActionCommand Create(CommandParameters parameters)
         {
-            return new ActionCommand(action);
+            try
+            {
+                if(parameters.ExecuteAction == null) throw new ArgumentException($"[ActionCommand] Action cannot be null");
+                return new ActionCommand(parameters.ExecuteAction);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                throw;
+            }
+            
         }
         private ActionCommand(Action action)
         {
             this.action = action;
-        }
-
-        public void OnPrepare()
-        {
-            
         }
 
         public bool CanExecute()

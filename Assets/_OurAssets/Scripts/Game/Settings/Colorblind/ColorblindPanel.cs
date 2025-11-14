@@ -41,7 +41,7 @@ namespace CursedOnion.Game.Settings
         }
         void UpdateText(ColorblindSetting.ColorblindMode colorblindMode)
         {
-            localizedGUIText.SetUsedKey((int)colorblindMode);
+            localizedGUIText.SetUsedKeyIndex((int)colorblindMode);
         }
         
     }

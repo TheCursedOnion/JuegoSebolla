@@ -30,6 +30,7 @@ namespace CursedOnion.Game.Modes.General.Animations
         private AnimationLayerGroup layerGroup;
         public void InitializeLayers(AnimationLayerGroup layerGroup)
         {
+            Debug.Log("AAA");
             this.layerGroup = layerGroup;
             for (int i = 0; i < layerGroup.layers.Count; i++)
             {

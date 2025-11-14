@@ -1,45 +1,48 @@
 using System;
 using CursedOnion.Game.Entity;
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 
 namespace CursedOnion.Game.Commands
 {
-    public class AbilityCommand : EntityCommand, IClearStackCommand
+    public class AbilityCommand : IClearStackCommand
     {
+        private SimpleEntity commandSubject;
         private SimpleEntity target;
-        public static void Prepare(SimpleEntity subject)
+        public static void Prepare(CommandParameters parameters)
         {
-            subject?.EntityController.AbilityEntityComponent.VisualizeAbility();
+            parameters.Subject?.EntityController.GetEntityComponent<SpecialAbilityComponent>().VisualizeAbility();
         }
-        public static AbilityCommand Create(SimpleEntity commandSubject, SimpleEntity target)
+        public static AbilityCommand Create(CommandParameters parameters)
         {
-            if(!commandSubject) throw new ArgumentException($"Command subject cannot be null");
-            return new AbilityCommand(commandSubject, target);
+            try
+            {
+                if(!parameters.Subject) throw new ArgumentException($"[AbilityCommand] Command subject cannot be null");
+                if(!parameters.Target) throw new ArgumentException($"[AbilityCommand] Target cannot be null");
+            
+                return new AbilityCommand(parameters.Subject, parameters.Target);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                return null;
+            }
         }
-        private AbilityCommand(SimpleEntity commandSubject, SimpleEntity target) : base(commandSubject) 
+        private AbilityCommand(SimpleEntity commandSubject, SimpleEntity target)
         {
+            this.commandSubject = commandSubject;
             this.target = target;
         }
         public bool CanExecute()
         {
-            if (!CommandSubject)
-            {
-                Debug.LogWarning($"[AbilityCommand] No se puede ejecutar: No tiene un CommandSubject");
-                return false;
-            }
-            if (!CommandSubject.EntityController.AbilityEntityComponent.ValidateAbility(target))
-            {
-                Debug.LogWarning($"[AbilityCommand] No se puede ejecutar: {CommandSubject.name} no puede usar la habilidad");
-                return false;
-            }
-            return true;
+            return commandSubject.EntityController.GetEntityComponent<SpecialAbilityComponent>().ValidateAbility(target);
         }
         public bool Execute()
         {
             if(!CanExecute()) return false;
 
-            CommandSubject.EntityController.AbilityEntityComponent.DoAbility(target, false);
+            commandSubject.EntityController.GetEntityComponent<SpecialAbilityComponent>().DoAbility(target, false);
             return true;
         }
     }

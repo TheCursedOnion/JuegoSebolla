@@ -4,14 +4,18 @@ using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
+using Reflex.Attributes;
+using Reflex.Core;
 using Reflex.Extensions;
+using Reflex.Injectors;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CursedOnion.Game.Entity
 {
     public class SimpleEntity : MonoBehaviour
     {
-        [HideInInspector] public LevelManager LevelManager;
+        [HideInInspector, Inject] public LevelManager LevelManager;
         [HideInInspector] public LevelEvents LevelEvents;
         [HideInInspector] public Grid3d Grid;
 
@@ -21,12 +25,11 @@ namespace CursedOnion.Game.Entity
         public EntityComponentController EntityController;
         [SerializeField] protected LayeredEntity layeredEntity;
         
-        [HorizontalLine(height: 2f, color: EColor.Violet)]
-        [Expandable] public EntityData Data;
         
-        //Stats (They Get Defined)
-        protected ExtendedEntityStats Stats;
-        public ExtendedEntityStats GetStats() => Stats;
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        [FormerlySerializedAs("Data")]
+        [Expandable] public StatData StatData;
+        public ExtendedEntityStats Stats;
         
         //Flags
         protected EntityFlags Flags;
@@ -48,20 +51,22 @@ namespace CursedOnion.Game.Entity
         {
             EntityController.Dispose();
         }
-        
+        protected void DefineStats(StatData data)
+        {
+            StatData = data;
+            Stats.SetWithData(data);
+        }
         public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)
         {
             layeredEntity = this.layeredEntity;
             return layeredEntity != null;
         }
-        protected void SetLevelVariables()
+        protected void SetLevelVariables(LevelManager manager)
         {
-            var container = this.gameObject.scene.GetSceneContainer();
-            
-            LevelManager = container.Resolve<LevelManager>();
+            LevelManager = manager;
             LevelEvents = LevelManager.LevelEvents;
-            Grid = LevelManager.LevelAsset.Grid;
+            Grid = LevelManager.Grid;
         }
         
         public virtual void Damage(int damage)

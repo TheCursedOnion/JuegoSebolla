@@ -29,13 +29,19 @@ namespace CursedOnion.Game.Events
                 OnNoEntitySelected?.Invoke();
         }
         
+        public event Action<StatData> OnStatDataSelected;
+        public void SelectStatData(StatData data)
+        {
+            OnStatDataSelected?.Invoke(data);
+        }
+        
         public event Action<Type, CommandParameters> OnCommandPrepareCalled;
-        public void CallPrepareCommand<T>() where T : ICommand
+        public void CallPrepareCommand<T>()
         {
             var commandType = typeof(T);
             OnCommandPrepareCalled?.Invoke(commandType, null);
         }
-        public void CallPrepareCommand<T>(CommandParameters parameters) where T : ICommand
+        public void CallPrepareCommand<T>(CommandParameters parameters)
         {
             var commandType = typeof(T);
             OnCommandPrepareCalled?.Invoke(commandType, parameters);
@@ -60,10 +66,23 @@ namespace CursedOnion.Game.Events
         {
             OnUnitTurnRegisterPetition?.Invoke(unit);
         }
+        
+        public event Action<Unit> OnUnitTurnUnregisterPetition;
+        public void UnregisterUnitForTurn(Unit unit)
+        {
+            OnUnitTurnUnregisterPetition?.Invoke(unit);
+        }
+        
         public event Action OnTurnEnded;
         public void InvokeTurnEnd()
         {
             OnTurnEnded?.Invoke();
+        }
+
+        public event Action<SimpleEntity> OnTurnFocus;
+        public void InvokeTurnFocus(SimpleEntity entity)
+        {
+            OnTurnFocus?.Invoke(entity);
         }
     }
 }

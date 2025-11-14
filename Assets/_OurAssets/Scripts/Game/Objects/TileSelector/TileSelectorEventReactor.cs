@@ -10,7 +10,6 @@ namespace CursedOnion.Game.Objects
 {
     public class TileSelectorEventReactor : MonoBehaviour
     {
-        [Inject] LevelAsset levelAsset;
         [Inject] CameraLocator cameraLocator;
         CameraEvents cameraEvents;
 

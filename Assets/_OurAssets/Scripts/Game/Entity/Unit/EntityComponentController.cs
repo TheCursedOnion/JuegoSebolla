@@ -20,11 +20,26 @@ namespace CursedOnion.Game.Entity
     public class EntityComponentController : MonoBehaviour, IDisposable
     {
         
-        protected SimpleEntity AssignedEntity;
-        [SerializeField, ReadOnly] public PlaceEntityComponent PlaceEntityComponent;
-        [SerializeField, ReadOnly] public MoveEntityComponent MoveEntityComponent;
-        [SerializeField, ReadOnly] public AttackEntityComponent AttackEntityComponent;
-        [SerializeField, ReadOnly] public SpecialAbilityComponent AbilityEntityComponent;
+        [SerializeField]  protected SimpleEntity AssignedEntity;
+        [SerializeField, ReadOnly] protected PlaceEntityComponent PlaceEntityComponent;
+        [SerializeField, ReadOnly] protected MoveEntityComponent MoveEntityComponent;
+        [SerializeField, ReadOnly] protected AttackEntityComponent AttackEntityComponent;
+        [SerializeField, ReadOnly] protected SpecialAbilityComponent AbilityEntityComponent;
+        
+        public SimpleEntity GetAssignedEntity() => AssignedEntity;
+        public T GetEntityComponent<T>() where T : EntityComponent
+        {
+            EntityComponent component = typeof(T) switch
+            {
+                _ when typeof(T) == typeof(PlaceEntityComponent) => PlaceEntityComponent,
+                _ when typeof(T) == typeof(MoveEntityComponent) => MoveEntityComponent,
+                _ when typeof(T) == typeof(AttackEntityComponent) => AttackEntityComponent,
+                _ when typeof(T) == typeof(SpecialAbilityComponent) => AbilityEntityComponent,
+                _ => null
+            };
+
+            return component?.GetComponent(this) as T;
+        }
         public virtual void Initialize(SimpleEntity entity, EntityComponents components)
         {
             AssignedEntity = entity;
@@ -33,28 +48,21 @@ namespace CursedOnion.Game.Entity
             AttackEntityComponent = components.AttackEntityComponent;
             AbilityEntityComponent = components.AbilityEntityComponent;
             
-            PlaceEntityComponent?.ConfigureComponent(entity);
-            MoveEntityComponent?.ConfigureComponent(entity);
-            AttackEntityComponent?.ConfigureComponent(entity);
-            AbilityEntityComponent?.ConfigureComponent(entity);
+            GetEntityComponent<PlaceEntityComponent>().PlaceEntity();
             
             AssignedEntity.OnEntityUpdate += ProcessEntityUpdate;
             RegisterEntityForTurn();
         }
+        
+        #region Turn Handling
         void RegisterEntityForTurn()
         {
             if (AssignedEntity is Unit unit)
             {
                 var levelEvents = unit.LevelManager.LevelEvents;
-                
                 levelEvents.RegisterUnitForTurn(unit);
                 levelEvents.OnTurnEnded += EndTurn;
             }
-        }
-
-        protected virtual void ProcessEntityUpdate(SimpleEntity entity)
-        {
-            
         }
         public virtual void ProcessTurn()
         {
@@ -66,14 +74,20 @@ namespace CursedOnion.Game.Entity
         {
             AssignedEntity.Grid.ResetPaint();
         }
-        
+        #endregion
+        protected virtual void ProcessEntityUpdate(SimpleEntity entity)
+        {
+            
+        }
         public virtual void Dispose()
         {
-            PlaceEntityComponent?.Remove();
+            PlaceEntityComponent?.RemoveEntity();
             
             AssignedEntity.OnEntityUpdate -= ProcessEntityUpdate;
             if (AssignedEntity is Unit unit)
             {
+                var levelEvents = unit.LevelManager.LevelEvents;
+                levelEvents.UnregisterUnitForTurn(unit);
                 unit.LevelManager.LevelEvents.OnTurnEnded -= EndTurn;
             }
         }

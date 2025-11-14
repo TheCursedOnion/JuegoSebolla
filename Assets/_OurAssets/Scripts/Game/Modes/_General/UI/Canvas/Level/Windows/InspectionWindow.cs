@@ -14,8 +14,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         
         public void ShowUnitInfo()
         {
-            unitTurnOrder.SetActive(true);
             unitInfo.SetActive(true);
+            unitTurnOrder.SetActive(false);
         }
         public void ShowUnitTurnOrder()
         {

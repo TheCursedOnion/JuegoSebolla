@@ -45,7 +45,7 @@ namespace CursedOnion.Game.Objects
         [SerializeField, ReadOnly] Vector3 gridPosition;
         
         [Inject] LevelManager levelManager;
-        private LevelAsset levelAsset;
+        private Grid3d grid;
         private LevelEvents levelEvents;
         
         [Inject] CameraLocator cameraLocator;
@@ -65,10 +65,11 @@ namespace CursedOnion.Game.Objects
         
         public void Awake()
         {
-            levelAsset = levelManager.LevelAsset;
+            grid = levelManager.Grid;
             levelEvents = levelManager.LevelEvents;
             
             entityCommandHandler = new(gameObject.scene.GetSceneContainer());
+            Debug.Log(gameObject.scene.GetSceneContainer().GetHashCode());
             
             globalCamera = cameraLocator.GlobalCamera;
 
@@ -83,12 +84,14 @@ namespace CursedOnion.Game.Objects
 
         private void OnEnable()
         {
+            levelEvents.OnTurnFocus += FocusOnEntity;
             levelEvents.OnLevelStateChange += UpdateBehaviour;
         }
 
         private void OnDisable()
         {
-            levelEvents.OnLevelStateChange += UpdateBehaviour;
+            levelEvents.OnTurnFocus -= FocusOnEntity;
+            levelEvents.OnLevelStateChange -= UpdateBehaviour;
         }
 
         void UpdateBehaviour(LevelState previousState, LevelState currentState)
@@ -103,12 +106,17 @@ namespace CursedOnion.Game.Objects
                     break;
             }
             
+            entityCommandHandler.ClearCommandStack();
             controller.GetCurrentBehaviour().SoftSelect(SelectTile());
         }
 
         public void TrySelectEntity(SimpleEntity entity)
         {
             if(!entityCommandHandler.HasPreparedCommand()) levelEvents.SelectEntity(entity);
+        }
+        void FocusOnEntity(SimpleEntity entity)
+        {
+            TrySetAtPosition(entity.transform.position);
         }
         public bool MovePosition(Vector3 moveDirection)
         {
@@ -148,14 +156,11 @@ namespace CursedOnion.Game.Objects
         }
         public SelectionData SelectTile()
         {
-            Grid3d grid = levelAsset.Grid;
             Tile3d tile = grid.GetTileAtGridPosition(gridPosition);
             return new SelectionData(gridPosition, tile);
         }
         MoveResult TrySetAtPosition(Vector3 position)
         {
-            Grid3d grid = levelAsset.Grid;
-            
             if (!grid.TryWorldToGridPosition(position, out Vector3 gridPos)) return MoveResult.Impossible;
             Vector3 abovePos = position + Vector3.up;
             Vector3 belowPos = position - Vector3.up;

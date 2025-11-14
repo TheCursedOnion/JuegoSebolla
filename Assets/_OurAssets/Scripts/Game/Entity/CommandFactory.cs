@@ -4,20 +4,9 @@ using CursedOnion.Game.Entity;
 
 namespace CursedOnion.Game.Commands
 {
-    
-    //TODO: Quitarla
-    public class EntityCommand
-    {
-        protected readonly SimpleEntity CommandSubject;
-
-        public EntityCommand(SimpleEntity commandSubject)
-        {
-            CommandSubject = commandSubject;
-        }
-    }
     public abstract class CommandFactory
     {
-        private static readonly Dictionary<Type, Action<SimpleEntity>> preFactories =
+        private static readonly Dictionary<Type, Action<CommandParameters>> preFactories =
             new()
             {
                 { typeof(MoveCommand), MoveCommand.Prepare },
@@ -28,20 +17,15 @@ namespace CursedOnion.Game.Commands
         private static readonly Dictionary<Type, Func<CommandParameters, ICommand>> factories =
             new()
             {
-                { typeof(MoveCommand), (p) => MoveCommand.Create(p.Subject, p.Position.Value) },
-                { typeof(AttackCommand), (p) => AttackCommand.Create(p.Subject, p.Target) },
-                { typeof(AbilityCommand), (p) => AbilityCommand.Create(p.Subject, p.Target) },
-                { typeof(SpawnCommand), (p) =>
-                    {
-                        if(p.Target) return null;
-                        return SpawnCommand.Create(p.EntityPrefab, p.Position.Value, p.TargetTile);
-                    }
-                },
-                { typeof(EraseCommand), (p) => EraseCommand.Create(p.LevelManager, p.TargetTile)},
-                { typeof(ActionCommand), (p) => ActionCommand.Create(p.ExecuteAction)}
+                { typeof(MoveCommand), MoveCommand.Create },
+                { typeof(AttackCommand), AttackCommand.Create },
+                { typeof(AbilityCommand), AbilityCommand.Create },
+                { typeof(SpawnCommand), SpawnCommand.Create },
+                { typeof(EraseCommand), EraseCommand.Create},
+                { typeof(ActionCommand), ActionCommand.Create}
             };
         
-        public static void PreVisualize<T>(SimpleEntity parameters) where T : ICommand
+        public static void PreVisualize<T>(CommandParameters parameters) where T : ICommand
         {
             if (preFactories.TryGetValue(typeof(T), out var preVisualize))
                 preVisualize(parameters);

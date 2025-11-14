@@ -2,6 +2,7 @@
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Entity;
+using CursedOnion.Game.Modes.Level.BattleEditor.UI;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
 using TMPro;
@@ -11,42 +12,49 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
 {
     public class UnitInformationWindow : MonoBehaviour
     {
-        [SerializeField] TextMeshProUGUI statsText;
+        [SerializeField] StatDataInspector inspector;
         [Inject] LevelEvents levelEvents;
+        
+        void Awake()
+        {
+            ClearInspector();
+        }
         private void OnEnable()
         {
-            levelEvents.OnEntitySelected += UpdateStatsDisplay;
-            levelEvents.OnNoEntitySelected += ClearStatsDisplay;
+            levelEvents.OnStatDataSelected += UpdateStatsDisplay;
+            levelEvents.OnEntitySelected += UpdateDisplayWithEntity;
+            levelEvents.OnNoEntitySelected += ClearInspector;
         }
         private void OnDisable()
         {
-            levelEvents.OnEntitySelected -= UpdateStatsDisplay;
-            levelEvents.OnNoEntitySelected -= ClearStatsDisplay;       
+            levelEvents.OnStatDataSelected -= UpdateStatsDisplay;
+            levelEvents.OnEntitySelected -= UpdateDisplayWithEntity;
+            levelEvents.OnNoEntitySelected -= ClearInspector;
         }
-        void UpdateStatsDisplay(SimpleEntity entity)
+
+        void UpdateDisplayWithEntity(SimpleEntity entity)
         {
-            if (entity is Unit unit)
-            {
-                UpdateStatsDisplayUnit(unit);
-            }
+            UpdateStatText(entity);
         }
-        void ClearStatsDisplay()
+        void UpdateStatsDisplay(StatData statData)
         {
-            if (statsText == null) return;
-            statsText.text = "";
-        }
-        void UpdateStatsDisplayUnit(Unit unit)
-        {
-            if (statsText == null) return;
+            Debug.Log(statData);
             
-            ExtendedEntityStats stats = unit.GetStats();
-            statsText.text = $"{unit.Data.GetName()} -> {stats.InitiativeStat}\n" +
-                              $"HP -> {stats.CurrentHealthStat}\n" +
-                              $"MaxHP -> {stats.MaxHealthStat}\n" +
-                              $"attack -> {stats.AttackStat}\n" +
-                              $"defense -> {stats.DefenseStat}\n" +
-                              $"movement -> {stats.MovementStat}\n" +
-                              $"price -> {stats.PriceStat}";
+            if(statData == null) ClearInspector();
+            else UpdateDataText(statData);
+        }
+        void ClearInspector()
+        {
+            inspector.ClearInspector();
+        }
+        void UpdateDataText(StatData data)
+        {
+            inspector.SetInspectorStatData(data);
+        }
+
+        void UpdateStatText(SimpleEntity entity)
+        {
+            inspector.SetInspectorStats(entity);
         }
     }
 }
