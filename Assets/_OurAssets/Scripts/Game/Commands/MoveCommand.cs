@@ -30,9 +30,8 @@ namespace CursedOnion.Game.Commands
             }
         }
         public static void Prepare(CommandParameters parameters)
-        {
-            Debug.Log(parameters.Subject);
-           _ = parameters.Subject?.EntityController.GetEntityComponent<MoveEntityComponent>().VisualizeMovement();
+        { 
+            _ = parameters.Subject?.EntityController.GetEntityComponent<MoveEntityComponent>().VisualizeMovement();
         }
         private MoveCommand(SimpleEntity commandSubject, Vector3 newPosition)
         {

@@ -128,25 +128,6 @@ namespace CursedOnion.Game.Entity
             
             layeredEntity.InitializeLayers(currentGroup);
         }
-        /*private void HandleTurnStart(Unit unit)
-        {
-            if (unit == this)
-            {
-                //Debug.Log($"{name} puede actuar, mostrando su UI");
-                if (unitUI != null)
-                    unitUI.SetActive(true);
-            }
-        }
-
-        private void HandleTurnEnd(Unit unit)
-        {
-            if (unit == this)
-            {
-                //Debug.Log($"{name} termina su turno, ocultando su UI");
-                if (unitUI != null)
-                    unitUI.SetActive(false);
-            }
-        }*/
 
         public void ApplyConfusion(int turns)
         {
