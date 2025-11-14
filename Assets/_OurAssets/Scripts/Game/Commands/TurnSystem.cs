@@ -29,6 +29,8 @@ namespace CursedOnion.Game.Systems.Level
 
         [SerializeField] private List<Unit> activeUnits = new List<Unit>();
         public List<Unit> GetActiveUnits() => activeUnits;
+        public List<Unit> GetAllyUnits() => allies;
+        public List<Unit> GetEnemyUnits() => enemies;
         public void Initialize(LevelEvents levelEvents)
         {
             this.levelEvents = levelEvents;
