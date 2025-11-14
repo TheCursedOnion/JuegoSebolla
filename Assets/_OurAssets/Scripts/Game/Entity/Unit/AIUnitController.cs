@@ -2,6 +2,7 @@ using BehaviourAPI.Core;
 using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Systems.Level;
+using JetBrains.Annotations;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace CursedOnion.Game.Entity
     {
         [Inject] LevelManager levelManager;
         AssetBehaviourRunner runner;
-        public bool startTurn;
+        bool startTurn;
 
         public AssetBehaviourRunner GetBehaviourRunner() => runner;
 
@@ -33,37 +34,58 @@ namespace CursedOnion.Game.Entity
             return startTurn;
         }
 
-        public bool IsEnemyClose()
+        public bool IsEnemyInAttackRange()
         {
             return true;
         }
 
-        public void HaEntrado()
+        public void EnemyAttack()
         {
-            Debug.Log("HA ENTRADO");
+            Debug.Log("EL ENEMIGO VA A ATACAR");
+
+        }
+        public Status EndAttack()
+        {
+            Debug.Log("ENEMY HA ATACDO: SUCCESS");
+
+            return Status.Success;
+        }
+
+
+        public bool IsEnemyInMovementRange()
+        {
+            return true;
+        }
+
+        public void EnemyMove()
+        {
+            Debug.Log("EL ENEMIGO VA A MOVERSE");
 
         }
 
-        public void Salchipapa()
+        public void SearchAndMoveToUnit()
         {
-            Debug.Log("Salchipapa!");
+            Debug.Log("EL ENEMIGO VA A BUSCAR UNA UNIDAD Y MOVERSE HACIA ELLA");
         }
 
-        public Status EndAction()
+        public Status EndMove()
         {
-            Debug.Log("TERMINA HOSTIAS");
+            Debug.Log("ENEMY SE HA MOVIDO: SUCCESS");
 
             return Status.Success;
         }
 
         public void EndAITurn()
         {
-            var unit = gameObject.GetComponent<Unit>();
-
-            if (turnSystem.GetActiveUnits().Contains(unit))
+            if (turnSystem != null && gameObject.GetComponent<Unit>() != null)
             {
-                startTurn = false;
-                turnSystem.EndTurnForAIUnit(unit);
+                var unit = gameObject.GetComponent<Unit>();
+
+                if (turnSystem.GetActiveUnits().Contains(unit))
+                {
+                    startTurn = false;
+                    turnSystem.EndTurnForAIUnit(unit);
+                }
             }
         }
     }
