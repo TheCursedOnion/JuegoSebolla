@@ -49,6 +49,7 @@ namespace CursedOnion.Game.Entity
             return startTurn;
         }
 
+        #region AttackLogic
         public bool IsEnemyInAttackRange()
         {
             var grid = unit.Grid;
@@ -92,14 +93,16 @@ namespace CursedOnion.Game.Entity
             targetedEnemy = null;
             return Status.Success;
         }
+        #endregion
 
-
+        #region MovementLogic
         public bool IsEnemyInMovementRange()
         {
             allyUnit = turnSystem.GetAllyUnits();
             reachableMovePositions.Clear();
 
             targetedGridPosToMove = Vector3.zero;
+            targetedEnemy = null;
 
             AStarPathFinder.InsertReachablePositionsAsyncBFS(
                 reachableMovePositions,
@@ -110,6 +113,7 @@ namespace CursedOnion.Game.Entity
 
             float bestDistance = float.MaxValue;
             Vector3 bestTile = default;
+            SimpleEntity bestTargetedEnemy = null;
 
             bool isMeleeUnit = unit.Stats.SpecialAbilityType is not ArcherAbility;
 
@@ -157,6 +161,7 @@ namespace CursedOnion.Game.Entity
                     {
                         bestDistance = dist;
                         bestTile = pos;
+                        bestTargetedEnemy = ally;
                     }
                 }
             }
@@ -165,6 +170,7 @@ namespace CursedOnion.Game.Entity
                 return false;
 
             targetedGridPosToMove = bestTile;
+            targetedEnemy = bestTargetedEnemy;
 
             unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld);
             targetedPosToMove = targetWorld.CenterOnTile();
@@ -241,6 +247,7 @@ namespace CursedOnion.Game.Entity
             targetedPosToMove = Vector3.zero;
             return Status.Success;
         }
+        #endregion
 
         public void EndAITurn()
         {

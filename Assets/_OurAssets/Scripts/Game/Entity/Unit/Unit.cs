@@ -174,6 +174,9 @@ namespace CursedOnion.Game.Entity
             }
 
             Stats.CurrentHealthStat -= damage;
+
+            if (TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("hurt");
+
             if (Stats.CurrentHealthStat <= 0)
             { 
                 LevelManager.GetTurnSystem().RemoveUnit(this);
