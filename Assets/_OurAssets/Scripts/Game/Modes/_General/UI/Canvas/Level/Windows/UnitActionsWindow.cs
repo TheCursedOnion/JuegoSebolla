@@ -10,13 +10,22 @@ namespace CursedOnion
 {
     public class UnitActionsWindow : MonoBehaviour
     {
-        [Inject] LevelEvents levelEvents;
-        [Inject] LevelManager levelManager;
+        LevelManager levelManager;
+        LevelEvents levelEvents;
+        
         private Dictionary<GameObject, GameObject> actionsUI = new();
         
         private Unit unit;
+        
+        public void Initialize(LevelManager levelManager)
+        {
+            this.levelManager = levelManager;
+            levelEvents = levelManager.LevelEvents;
+            OnEnable();
+        }
         private void OnEnable()
         {
+            OnDisable();
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
             levelEvents.OnTurnEnded += OnTurnChanged;
@@ -42,6 +51,7 @@ namespace CursedOnion
         void SetEntity(SimpleEntity entity)
         {
             unit = entity as Unit;
+            Debug.Log(unit);
             UpdateActionsWindow();
         }
         void UpdateActionsWindow()

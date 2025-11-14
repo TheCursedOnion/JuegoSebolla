@@ -2,6 +2,7 @@
 using System.Linq;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
@@ -15,10 +16,12 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
     {
         const string SettingsContainer = "Settings Container Variables";
         const string GameplayContainer = "Gameplay Container Variables";
-        
+        const string CameraContainer = "Camera Container Variables";
         [Inject] LevelManager levelManager;
+        
         [SerializeField] private UnitActionsWindow actionsWindow;
         
+        [SerializeField, BoxGroup(CameraContainer)] private GameObject cameraButtonsContainer;
         [SerializeField, BoxGroup(SettingsContainer)] private GameObject settingsContainer;
         
         [SerializeField, BoxGroup(GameplayContainer)] private GameObject gameplayContainer;
@@ -28,6 +31,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         private void OnEnable()
         {
             levelManager.LevelEvents.OnLevelStateChange += OnChangeLevelState;
+            actionsWindow.Initialize(levelManager);
             OnChangeLevelState(LevelState.InBattle, levelManager.CurrentLevelState);
         }
 
@@ -40,12 +44,14 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         public void Pause()
         {
             settingsContainer.SetActive(true);
+            cameraButtonsContainer.SetActive(false);
             gameplayContainer.SetActive(false);
         }
 
         public void Unpause()
         {
             settingsContainer.SetActive(false);
+            cameraButtonsContainer.SetActive(true);
             gameplayContainer.SetActive(true);
         }
         #endregion

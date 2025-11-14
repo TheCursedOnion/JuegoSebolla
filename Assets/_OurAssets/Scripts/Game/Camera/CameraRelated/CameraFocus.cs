@@ -12,6 +12,8 @@ namespace CursedOnion.Game.Cameras
         [Inject] CameraLocator cameraLocator;
         
         [SerializeField] private bool focusOnAwake;
+
+        [SerializeField] private Vector3 positionDamping = Vector3.one;
         [SerializeField] private Vector3 distanceOffset;
         [SerializeField] private float tiltOnFocus;
         
@@ -24,7 +26,7 @@ namespace CursedOnion.Game.Cameras
         [Button]
         public void Focus()
         {
-            cameraLocator.GlobalCamera.FocusCameraOn(this.transform, distanceOffset, tiltOnFocus, focusTime);
+            cameraLocator.GlobalCamera.FocusCameraOn(this.transform, positionDamping, distanceOffset, tiltOnFocus, focusTime);
         }
     }
 }

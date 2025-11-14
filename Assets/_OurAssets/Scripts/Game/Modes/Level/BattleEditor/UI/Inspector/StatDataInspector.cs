@@ -33,7 +33,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         {
             statDataContainer.SetActive(enable);
             Color color = background.color;
-            color.a = enable ? 0.8f : 0.1f;
+            color.a = enable ? 0.8f : 0.3f;
             background.color = color;
         }
 
@@ -61,8 +61,6 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             
             spritePreview.sprite = data.InspectorSprite;
             entityName.SetKey(data.EntityNameKey);
-            
-            Debug.Log(data.EntityNameKey);
             
             hp.SetValue(stats.CurrentHealthStat);
             attack.SetValue(stats.AttackStat);

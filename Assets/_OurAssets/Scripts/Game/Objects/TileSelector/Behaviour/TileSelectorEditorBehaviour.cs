@@ -20,7 +20,7 @@ namespace CursedOnion.Game.Objects
         public override void SoftSelect(SelectionData data)
         {
             if (!CommandHandler.HasPreparedCommand())
-                TileSelector.TrySelectEntity(data.Tile.GetContainedEntity());
+                TileSelector.InvokeEntitySelection(data.Tile.GetContainedEntity());
         }
         void LaunchCommand(CommandParameters parameters)
         {

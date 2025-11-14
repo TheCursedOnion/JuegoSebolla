@@ -1,10 +1,10 @@
 ﻿using System;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
-using CursedOnion.Game.Systems.Level;
+using CursedOnion.Game.Events;
 using Unit = CursedOnion.Game.Entity.Unit;
 
-namespace CursedOnion.Game.Events
+namespace CursedOnion.Game.Systems.Level
 {
     public class LevelEvents : RuntimeEvents
     {
@@ -12,6 +12,11 @@ namespace CursedOnion.Game.Events
         public void UpdateGold(int gold)
         {
             OnGoldUpdated?.Invoke(gold);
+        }
+        public event Action OnNotEnoughGold;
+        public void InvokeNotEnoughGold()
+        {
+            OnNotEnoughGold?.Invoke();
         }
         
         public event Action<int> OnUnitPlacedCountUpdated;

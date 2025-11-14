@@ -4,8 +4,8 @@ Shader "Custom/StencilWriter"
     {
         ZWrite Off
         ColorMask 0
-        Cull Off
-        ZTest LEqual
+        Cull Front
+        ZTest Never
         
         Stencil
         {
@@ -13,9 +13,9 @@ Shader "Custom/StencilWriter"
             Comp Always       // Siempre pasa
             Pass Replace      // Escribe el valor Ref
             Fail Keep
-            ZFail Keep
+            ZFail Replace
             ReadMask 2        // Solo lee el bit 1
-            WriteMask 2       // Solo escribe en el bit 1
+            WriteMask 2      // Solo escribe en el bit 1
         }
         
         Pass

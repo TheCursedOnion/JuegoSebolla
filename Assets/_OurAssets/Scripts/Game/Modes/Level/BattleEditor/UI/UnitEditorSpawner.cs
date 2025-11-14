@@ -50,9 +50,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             var statData = buttonSpawner.GetUnitStats();
             if (lastSelectedStats != null && lastSelectedStats == statData)
             {
-                lastSelectedStats = null;
-                levelEvents.SelectStatData(null);
-                levelEvents.CancelPreparedCommand();
+                DeselectAll();
                 return;
             }
             
@@ -70,12 +68,17 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         {
             if (lastSelectedStats != null)
             {
-                lastSelectedStats = null;
-                levelEvents.SelectStatData(null);
-                levelEvents.CancelPreparedCommand();
+                DeselectAll();
             }
 
             levelEvents.CallPrepareCommand<EraseCommand>(eraseParameters);
+        }
+
+        public void DeselectAll()
+        {
+            lastSelectedStats = null;
+            levelEvents.SelectStatData(null);
+            levelEvents.CancelPreparedCommand();
         }
 
         public void StartBattle()

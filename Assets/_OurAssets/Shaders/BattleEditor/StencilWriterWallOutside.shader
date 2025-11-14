@@ -6,7 +6,7 @@ Shader "Custom/StencilWriterWall"
 
         Cull Back
         ZWrite Off          // No escribimos profundidad, solo leemos
-        ZTest LEqual          // Solo pasa si el fragmento está más cercano que lo dibujado previamente
+        ZTest Greater          // Solo pasa si el fragmento está más cercano que lo dibujado previamente
         ColorMask 0         // No pintamos color
 
         Stencil

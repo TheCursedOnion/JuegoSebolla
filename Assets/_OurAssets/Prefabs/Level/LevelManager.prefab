@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: -3701062552954863103}
   - component: {fileID: 4696058765749894797}
   - component: {fileID: 5341839661419800288}
+  - component: {fileID: -5457047723248449988}
+  - component: {fileID: 5577351795143573384}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: LevelManager
@@ -104,6 +106,7 @@ MonoBehaviour:
   LevelAsset: {fileID: 0}
   LevelEvents: {fileID: -3701062552954863103}
   CurrentLevelState: 0
+  turnSystem: {fileID: 0}
 --- !u!114 &-3701062552954863103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +137,9 @@ MonoBehaviour:
     InBetweenTime: 0
     Type: 0
     Color: {r: 0, g: 0, b: 0, a: 0}
+  allies: []
+  enemies: []
+  activeUnits: []
 --- !u!64 &5341839661419800288
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -156,3 +162,28 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &-5457047723248449988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7495996748520605803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aea254d8952469f853efbcb6465a321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightPlanePrefab: {fileID: 5950456215449996586, guid: 3aba440786f2a6f448bbb5a2eb74e8c2, type: 3}
+--- !u!114 &5577351795143573384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7495996748520605803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf2cb71b2773a645b4770a28ccb44fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
