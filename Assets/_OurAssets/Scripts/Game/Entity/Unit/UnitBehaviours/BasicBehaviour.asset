@@ -96,7 +96,7 @@ MonoBehaviour:
       nodes:
       - name: EnemyTurn
         id: d7c39f00-891d-454c-adc4-67125560d5b0
-        position: {x: 0, y: 0}
+        position: {x: 75, y: 0}
         node:
           rid: 6291014439572340818
         references: []
@@ -122,7 +122,7 @@ MonoBehaviour:
         - d135adb0-d1be-4cfd-82f6-707c8b441de1
       - name: EnemyMove
         id: 58298b1a-722d-4c19-9aaa-4cba56f65a8a
-        position: {x: 0, y: 400}
+        position: {x: 0, y: 600}
         node:
           rid: 6291014419662504029
         references:
@@ -132,11 +132,11 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - 6716db00-6af9-4c90-b0e4-c5f86d61a562
+        - 74c3fe5b-8536-4f3e-a887-c2fd3320940c
         childIds: []
       - name: EnemyAttack
         id: d135adb0-d1be-4cfd-82f6-707c8b441de1
-        position: {x: -284, y: 416}
+        position: {x: -300, y: 400}
         node:
           rid: 6291014419662504031
         references:
@@ -150,7 +150,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyInMovementRange?
         id: 6716db00-6af9-4c90-b0e4-c5f86d61a562
-        position: {x: 0, y: 200}
+        position: {x: 150, y: 200}
         node:
           rid: 6291014439572340821
         references:
@@ -162,10 +162,10 @@ MonoBehaviour:
         parentIds:
         - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds:
-        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+        - 74c3fe5b-8536-4f3e-a887-c2fd3320940c
       - name: SearchAndMoveToUnit
         id: 74cb029c-eb40-4885-bd5a-c478a059c22a
-        position: {x: 300, y: 200}
+        position: {x: 450, y: 200}
         node:
           rid: 6291014439572340826
         references:
@@ -176,6 +176,31 @@ MonoBehaviour:
             Culture=neutral, PublicKeyToken=null
         parentIds:
         - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds: []
+      - name: MoveAndAttack
+        id: 74c3fe5b-8536-4f3e-a887-c2fd3320940c
+        position: {x: 150, y: 400}
+        node:
+          rid: 6291014444939214929
+        references: []
+        parentIds:
+        - 6716db00-6af9-4c90-b0e4-c5f86d61a562
+        childIds:
+        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+        - 16adcaca-14c8-4efd-936f-3a1aafa700b5
+      - name: EnemyAttackAfterMove
+        id: 16adcaca-14c8-4efd-936f-3a1aafa700b5
+        position: {x: 300, y: 600}
+        node:
+          rid: 6291014444939214930
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014444939214931
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 74c3fe5b-8536-4f3e-a887-c2fd3320940c
         childIds: []
     pushPerceptions: []
   references:
@@ -333,6 +358,31 @@ MonoBehaviour:
         update:
           componentName: AIUnitController
           methodName: EndMove
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014444939214929
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014444939214930
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014444939214931
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: EnemyAttack
+        update:
+          componentName: AIUnitController
+          methodName: EndAttack
         stop:
           componentName: 
           methodName: 
