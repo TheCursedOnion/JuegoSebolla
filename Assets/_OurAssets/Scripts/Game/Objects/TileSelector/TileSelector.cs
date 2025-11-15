@@ -15,6 +15,7 @@ using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
+using Reflex.Injectors;
 
 namespace CursedOnion.Game.Objects
 {
@@ -45,10 +46,10 @@ namespace CursedOnion.Game.Objects
         [SerializeField, ReadOnly] Vector3 gridPosition;
         
         [Inject] LevelManager levelManager;
-        private Grid3d grid;
-        private LevelEvents levelEvents;
-        
+        [Inject] Grid3d grid;
+        [Inject] LevelEvents levelEvents;
         [Inject] CameraLocator cameraLocator;
+        
         private GlobalCamera globalCamera;
 
         [SerializeField, BoxGroup(Model)] float yModelOffset = 0.05f;
@@ -56,6 +57,7 @@ namespace CursedOnion.Game.Objects
         [SerializeField, BoxGroup(Controller)] TileSelectorController controller;
 
         private EntityCommandHandler entityCommandHandler;
+        EntityCommandHandler EntityCommandHandler => entityCommandHandler;
 
         [SerializeReference, SubclassSelector, SerializeField] TileSelectorBehaviour[] behaviours;
         private T GetBehaviour<T>() where T : TileSelectorBehaviour
@@ -65,11 +67,10 @@ namespace CursedOnion.Game.Objects
         
         public void Awake()
         {
-            grid = levelManager.Grid;
-            levelEvents = levelManager.LevelEvents;
+            var container = gameObject.scene.GetSceneContainer();
+            AttributeInjector.Inject(this, container);
             
-            entityCommandHandler = new(gameObject.scene.GetSceneContainer());
-            Debug.Log(gameObject.scene.GetSceneContainer().GetHashCode());
+            entityCommandHandler = new(container);
             
             globalCamera = cameraLocator.GlobalCamera;
 
@@ -86,12 +87,14 @@ namespace CursedOnion.Game.Objects
         {
             levelEvents.OnTurnFocus += FocusOnEntity;
             levelEvents.OnLevelStateChange += UpdateBehaviour;
+            levelEvents.OnStatDataSelected += ProcessStatDataUpdate;
         }
 
         private void OnDisable()
         {
             levelEvents.OnTurnFocus -= FocusOnEntity;
             levelEvents.OnLevelStateChange -= UpdateBehaviour;
+            levelEvents.OnStatDataSelected -= ProcessStatDataUpdate;
         }
 
         void UpdateBehaviour(LevelState previousState, LevelState currentState)
@@ -110,9 +113,13 @@ namespace CursedOnion.Game.Objects
             controller.GetCurrentBehaviour().SoftSelect(SelectTile());
         }
 
-        public void TrySelectEntity(SimpleEntity entity)
+        public void ProcessStatDataUpdate(StatData statData)
         {
-            if(!entityCommandHandler.HasPreparedCommand()) levelEvents.SelectEntity(entity);
+            if (!statData) InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
+        }
+        public void InvokeEntitySelection(SimpleEntity entity)
+        {
+            levelEvents.SelectEntity(entity);
         }
         void FocusOnEntity(SimpleEntity entity)
         {

@@ -1,24 +1,39 @@
 ﻿using System;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
-using CursedOnion.Game.Systems.Level;
+using CursedOnion.Game.Events;
 using Unit = CursedOnion.Game.Entity.Unit;
 
-namespace CursedOnion.Game.Events
+namespace CursedOnion.Game.Systems.Level
 {
     public class LevelEvents : RuntimeEvents
     {
+        #region GoldEvents
         public event Action<int> OnGoldUpdated;
         public void UpdateGold(int gold)
         {
             OnGoldUpdated?.Invoke(gold);
         }
-        
+        public event Action OnNotEnoughGold;
+        public void InvokeNotEnoughGold()
+        {
+            OnNotEnoughGold?.Invoke();
+        }
+        #endregion
+
+        #region SpawnEvents
+
         public event Action<int> OnUnitPlacedCountUpdated;
         public void UpdateUnitPlacedCount(int count)
         {
             OnUnitPlacedCountUpdated?.Invoke(count);
         }
+
+        #endregion
+
+
+        #region Selection Events
+
         public event Action<SimpleEntity> OnEntitySelected;
         public event Action OnNoEntitySelected;
         public void SelectEntity(SimpleEntity entity)
@@ -34,7 +49,11 @@ namespace CursedOnion.Game.Events
         {
             OnStatDataSelected?.Invoke(data);
         }
-        
+
+        #endregion
+
+        #region Command Events
+
         public event Action<Type, CommandParameters> OnCommandPrepareCalled;
         public void CallPrepareCommand<T>()
         {
@@ -52,7 +71,12 @@ namespace CursedOnion.Game.Events
         {
             OnPreparedCommandCancelled?.Invoke();
         }
-        
+
+        #endregion
+
+
+        #region Level Flow Events
+
         public event Action<LevelState, LevelState> OnLevelStateChange;
         public void InvokeLevelState(LevelState previousState, LevelState newState)
         {
@@ -84,5 +108,19 @@ namespace CursedOnion.Game.Events
         {
             OnTurnFocus?.Invoke(entity);
         }
+
+        #endregion
+
+        #region Graphic Events
+
+        public event Action<bool> OnEnableBlackAndWhite;
+
+        public void EnableBlackAndWhite(bool enable)
+        {
+            OnEnableBlackAndWhite?.Invoke(enable);
+        }
+
+        #endregion
+
     }
 }

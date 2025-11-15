@@ -1056,6 +1056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusOnAwake: 0
+  positionDamping: {x: 1, y: 1, z: 1}
   distanceOffset: {x: 0, y: -15, z: -100}
   tiltOnFocus: 50
   focusTime: 1
@@ -2224,6 +2225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusOnAwake: 0
+  positionDamping: {x: 1, y: 1, z: 1}
   distanceOffset: {x: 0, y: 0, z: -60}
   tiltOnFocus: 0
   focusTime: 1
@@ -3013,6 +3015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusOnAwake: 0
+  positionDamping: {x: 1, y: 1, z: 1}
   distanceOffset: {x: 0, y: -7, z: -75}
   tiltOnFocus: 0
   focusTime: 1
@@ -4740,6 +4743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusOnAwake: 1
+  positionDamping: {x: 1, y: 1, z: 1}
   distanceOffset: {x: 0, y: 0, z: -105}
   tiltOnFocus: 10
   focusTime: 1.5
@@ -4979,7 +4983,7 @@ MonoBehaviour:
       _PersistentArguments:
       - _Type: 2
         _Int: 0
-        _String: AlphaScene
+        _String: GridTesting
         _X: 0
         _Y: 0
         _Z: 0

@@ -5,28 +5,37 @@ using CursedOnion.Game.Events;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CursedOnion
 {
     public class UnitActionsWindow : MonoBehaviour
     {
-        [Inject] LevelEvents levelEvents;
-        [Inject] LevelManager levelManager;
+        [SerializeField] private Image actionsImageBackground;
+        LevelManager levelManager;
+        LevelEvents levelEvents;
         private Dictionary<GameObject, GameObject> actionsUI = new();
-        
         private Unit unit;
+        
+        public void Initialize(LevelManager levelManager)
+        {
+            this.levelManager = levelManager;
+            levelEvents = levelManager.LevelEvents;
+            OnEnable();
+        }
         private void OnEnable()
         {
+            OnDisable();
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
-            levelEvents.OnTurnEnded += OnTurnChanged;
+            //levelEvents.OnTurnEnded += OnTurnChanged;
         }
 
         private void OnDisable()
         {
             levelEvents.OnEntitySelected -= SetEntity;
             levelEvents.OnNoEntitySelected -= SetNullEntity;
-            levelEvents.OnTurnEnded -= OnTurnChanged;
+            //levelEvents.OnTurnEnded -= OnTurnChanged;
         }
 
         private void OnTurnChanged()
@@ -36,40 +45,54 @@ namespace CursedOnion
 
         void SetNullEntity()
         {
-            unit = null;
+            ShowActionsWindow(false);
             DisableChildren();
+            unit = null;
         }
         void SetEntity(SimpleEntity entity)
         {
+            DisableChildren();
+            
             unit = entity as Unit;
-            UpdateActionsWindow();
+            bool hasTurn = unit != null && levelManager.GetTurnSystem().IsUnitActive(unit);
+            
+            ShowActionsWindow(hasTurn);
+            if (hasTurn) UpdateActionsWindow();
+        }
+        void ShowActionsWindow(bool show)
+        {
+            Color color = actionsImageBackground.color;
+            color.a = show ? 0.7f : 0;
+            actionsImageBackground.color = color;
         }
         void UpdateActionsWindow()
         {
-            if (!levelManager.GetTurnSystem().GetActiveUnits().Contains(unit))
-            {
-                DisableChildren();
-                return;
-            }
-
             var ui = unit.GetUI();
-
-            if (!actionsUI.TryGetValue(ui, out var instancedUI))
+            GetCorrespondingUI(ui);
+        }
+        void GetCorrespondingUI(GameObject uiKey)
+        {
+            if (!actionsUI.TryGetValue(uiKey, out var instancedUI))
             {
-                instancedUI = Instantiate(ui, transform);
+                instancedUI = Instantiate(uiKey, transform);
                 instancedUI.GetComponent<UnitUI>().Initialize();
-                instancedUI.name = ui.name;
-                actionsUI.Add(ui, instancedUI);
+                instancedUI.name = uiKey.name;
+                actionsUI.Add(uiKey, instancedUI);
             }
-            instancedUI.GetComponent<UnitUI>().AssociateUnit(unit);
-            instancedUI.SetActive(true);
+            ConfigureUI(instancedUI.GetComponent<UnitUI>(), unit);
+        }
+        void ConfigureUI(UnitUI ui, Unit unit)
+        {
+            ui.AssociateUnit(unit);
+            ui.gameObject.SetActive(true);
         }
         void DisableChildren()
         {
-            foreach (var action in actionsUI)
+            foreach (var ui in actionsUI)
             {
-                action.Value.SetActive(false);
+                ui.Value.SetActive(false);
             }
         }
+        
     }
 }

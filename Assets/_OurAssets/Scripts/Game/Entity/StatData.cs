@@ -24,7 +24,7 @@ namespace CursedOnion.Game.Entity
             [MinMaxSlider(0, byte.MaxValue)]
             public Vector2Int Range;
 
-            public int RandomValue => UnityEngine.Random.Range(Range.x, Range.y + 1);
+            public int RandomValue => Random.Range(Range.x, Range.y + 1);
         }
         
         [BoxGroup(EntityProperties)] public string EntityName;

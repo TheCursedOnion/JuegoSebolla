@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using CursedOnion.Game.Modes.General.UI.Events;
+using CursedOnion.Game.Systems.Level;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Debug = UnityEngine.Debug;

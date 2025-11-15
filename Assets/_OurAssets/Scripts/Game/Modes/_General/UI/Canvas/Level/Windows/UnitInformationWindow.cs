@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Entity;
@@ -21,27 +22,15 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         }
         private void OnEnable()
         {
-            levelEvents.OnStatDataSelected += UpdateStatsDisplay;
-            levelEvents.OnEntitySelected += UpdateDisplayWithEntity;
+            levelEvents.OnStatDataSelected += UpdateDataText;
+            levelEvents.OnEntitySelected += UpdateStatText;
             levelEvents.OnNoEntitySelected += ClearInspector;
         }
         private void OnDisable()
         {
-            levelEvents.OnStatDataSelected -= UpdateStatsDisplay;
-            levelEvents.OnEntitySelected -= UpdateDisplayWithEntity;
+            levelEvents.OnStatDataSelected -= UpdateDataText;
+            levelEvents.OnEntitySelected -= UpdateStatText;
             levelEvents.OnNoEntitySelected -= ClearInspector;
-        }
-
-        void UpdateDisplayWithEntity(SimpleEntity entity)
-        {
-            UpdateStatText(entity);
-        }
-        void UpdateStatsDisplay(StatData statData)
-        {
-            Debug.Log(statData);
-            
-            if(statData == null) ClearInspector();
-            else UpdateDataText(statData);
         }
         void ClearInspector()
         {
@@ -49,7 +38,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         }
         void UpdateDataText(StatData data)
         {
-            inspector.SetInspectorStatData(data);
+            if(data == null) ClearInspector();
+            else inspector.SetInspectorStatData(data);
         }
 
         void UpdateStatText(SimpleEntity entity)

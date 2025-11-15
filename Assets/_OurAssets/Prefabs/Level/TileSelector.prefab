@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 8716212812798102155}
   - component: {fileID: 1778151861528627983}
   - component: {fileID: 1388741486472617589}
+  - component: {fileID: 7530038862882380867}
   m_Layer: 0
   m_Name: TileSelector
   m_TagString: Untagged
@@ -362,6 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focusOnAwake: 1
+  positionDamping: {x: 1, y: 1, z: 1}
   distanceOffset: {x: 0, y: 0, z: -6}
   tiltOnFocus: 35
   focusTime: 1
@@ -377,6 +379,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd05198e85499b04abf09f7d7b57d550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7530038862882380867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3723169174483445520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a1def576bc97945aaff2f7cf173da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseWithLevel: 1
 --- !u!1 &6126757579829251379
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,14 +13,15 @@ namespace CursedOnion.Game.Cameras
         public CinemachineFollow Follow;
         public CinemachineCameraOffset Offset;
         
-        public void FocusOn(Transform target, Vector3 offset, float tiltOnFocus, float time = 0f)
+        public void FocusOn(Transform target, Vector3 positionDamping, Vector3 offset, float tiltOnFocus, float time = 0f)
         {
-            SetTarget(target, offset, time);
+            SetTarget(target, positionDamping, offset, time);
             SetPanCenter(target.transform.eulerAngles.y);
             SetTiltCenter(tiltOnFocus);
         }
-        public void SetTarget(Transform target, Vector3 offset, float adjustTime)
+        public void SetTarget(Transform target, Vector3 positionDamping, Vector3 offset, float adjustTime)
         {
+            Follow.TrackerSettings.PositionDamping = positionDamping;
             CinemachineCamera.Follow = target;
             StopAllCoroutines();
             SetOffset(offset, adjustTime);
@@ -56,7 +57,7 @@ namespace CursedOnion.Game.Cameras
         {
             this.SetTiltCenterAndValue(other.PanTilt.TiltAxis.Center);
             this.SetPanCenterAndValue(other.PanTilt.PanAxis.Center);
-            this.SetTarget(other.CinemachineCamera.Follow, other.Offset.Offset, 0f);
+            this.SetTarget(other.CinemachineCamera.Follow, other.Follow.TrackerSettings.PositionDamping, other.Offset.Offset, 0f);
         }
         
         IEnumerator IEOffset(Vector3 offset, float time)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,15 +42,6 @@ namespace CursedOnion.Game.Modes.General.Animations
         
         #region Métodos de Escala
         /// <summary>
-        /// Escala el objeto a un tamaño específico
-        /// </summary>
-        public void ScaleTo(Vector3 targetScale, float duration)
-        {
-            SafeTween("scale",
-                LeanTween.scale(targetTransform.gameObject, targetScale, duration));
-        }
-
-        /// <summary>
         /// Escala el objeto uniformemente
         /// </summary>
         public void UniformScaleTo(float targetScale, LeanTweenType easing, float duration)
@@ -59,7 +51,7 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
         
         /// <summary>
-        /// Escala el objeto uniformemente
+        /// Escala el objeto a un tamaño específico
         /// </summary>
         public void ScaleTo(Vector3 targetScale, LeanTweenType easing, float duration)
         {
@@ -594,10 +586,10 @@ namespace CursedOnion.Game.Modes.General.Animations
             StoreOriginalValues();
         }
         #endregion
-
+        
         private void OnDisable()
         {
-            ResetToOriginalAnimated(0f);
+            //ResetToOriginalAnimated(0f);
         }
     }
 }
