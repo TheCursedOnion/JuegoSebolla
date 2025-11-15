@@ -116,7 +116,7 @@ MonoBehaviour:
         childIds:
         - 412008a0-8f84-4316-9831-41baac6b8bcd
         - 6716db00-6af9-4c90-b0e4-c5f86d61a562
-        - 74cb029c-eb40-4885-bd5a-c478a059c22a
+        - 854242bc-9c78-4eb3-b820-68450c35e85b
       - name: EnemyInAttackRange?
         id: 412008a0-8f84-4316-9831-41baac6b8bcd
         position: {x: 0, y: 400}
@@ -175,9 +175,9 @@ MonoBehaviour:
         - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds:
         - 74c3fe5b-8536-4f3e-a887-c2fd3320940c
-      - name: SearchAndMoveToUnit
+      - name: MoveAfterSearch
         id: 74cb029c-eb40-4885-bd5a-c478a059c22a
-        position: {x: 600, y: 400}
+        position: {x: 600, y: 600}
         node:
           rid: 6291014439572340826
         references:
@@ -187,7 +187,7 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - d7c39f00-891d-454c-adc4-67125560d5b0
+        - 854242bc-9c78-4eb3-b820-68450c35e85b
         childIds: []
       - name: MoveAndAttack
         id: 74c3fe5b-8536-4f3e-a887-c2fd3320940c
@@ -217,7 +217,7 @@ MonoBehaviour:
         childIds: []
       - name: InitialWait
         id: 458c672d-50c8-49a3-acf3-8122f14deaf6
-        position: {x: -157, y: 216}
+        position: {x: -300, y: 200}
         node:
           rid: 6291014457700384854
         references:
@@ -257,6 +257,21 @@ MonoBehaviour:
         parentIds:
         - 74c3fe5b-8536-4f3e-a887-c2fd3320940c
         childIds: []
+      - name: SearchAndViablePathToEnemy
+        id: 854242bc-9c78-4eb3-b820-68450c35e85b
+        position: {x: 600, y: 400}
+        node:
+          rid: 6291014462651498582
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014462651498583
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - 74cb029c-eb40-4885-bd5a-c478a059c22a
     pushPerceptions: []
   references:
     version: 2
@@ -409,7 +424,7 @@ MonoBehaviour:
       data:
         start:
           componentName: AIUnitController
-          methodName: SearchAndMoveToUnit
+          methodName: EnemyMove
         update:
           componentName: AIUnitController
           methodName: EndMove
@@ -472,3 +487,24 @@ MonoBehaviour:
       type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
         delayTime: 1.5
+    - rid: 6291014462651498582
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014462651498583
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIUnitController
+          methodName: SearchAndFindPath
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
