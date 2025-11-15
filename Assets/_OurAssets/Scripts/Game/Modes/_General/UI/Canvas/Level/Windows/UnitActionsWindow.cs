@@ -31,6 +31,7 @@ namespace CursedOnion
         }
         private void OnEnable()
         {
+            if (levelEvents == null) return;
             OnDisable();
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
@@ -39,6 +40,7 @@ namespace CursedOnion
 
         private void OnDisable()
         {
+            if (levelEvents == null) return;
             levelEvents.OnEntitySelected -= SetEntity;
             levelEvents.OnNoEntitySelected -= SetNullEntity;
             levelEvents.OnTurnBegin -= OnTurnChanged;

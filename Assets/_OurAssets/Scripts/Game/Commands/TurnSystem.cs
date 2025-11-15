@@ -202,29 +202,21 @@ namespace CursedOnion.Game.Systems.Level
                 MoveToNextTurn();
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                transitionData.Color = Color.red;
-                sceneServiceUser.ChangeScene(resetScene, transitionData);
-            }
-                
-        }
-
         private void CheckForBattleEnd()
         {
             if (allies.Count == 0)
             {
                 Debug.Log("Ha ganado el bando Enemigo");
                 transitionData.Color = Color.red;
+                sceneServiceUser.ChangeScene(resetScene, transitionData);
             }
             if (enemies.Count == 0)
             {
                 Debug.Log("Ha ganado el bando Aliado");
                 transitionData.Color = Color.blue;
+                sceneServiceUser.ChangeScene(resetScene, transitionData);
             }
-            sceneServiceUser.ChangeScene(resetScene, transitionData);
+            
         }
 
     }
