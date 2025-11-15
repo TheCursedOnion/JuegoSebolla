@@ -52,7 +52,7 @@ namespace CursedOnion.Game.Entity
         {
             EntityController.Dispose();
         }
-        protected void DefineStats(StatData data)
+        protected virtual void DefineStats(StatData data)
         {
             StatData = data;
             Stats.SetWithData(data);

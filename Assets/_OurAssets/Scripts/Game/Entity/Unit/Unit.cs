@@ -33,6 +33,7 @@ namespace CursedOnion.Game.Entity
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
         public int baseMovement;
+        public float AttackMultiplier = 1f;
         
         public void Start()
         {
@@ -65,6 +66,14 @@ namespace CursedOnion.Game.Entity
             SetComponents();
             AfterSpawn();
         }
+
+        protected override void DefineStats(StatData data)
+        {
+            base.DefineStats(data);
+            AttackMultiplier = 1f;
+        }
+        
+
         void SetSide(BattleSide side)
         {
             EntitySide = side;
