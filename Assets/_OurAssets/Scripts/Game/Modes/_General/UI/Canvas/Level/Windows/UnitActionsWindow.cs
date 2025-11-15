@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
 using UnityEngine;
@@ -12,8 +13,12 @@ namespace CursedOnion
     public class UnitActionsWindow : MonoBehaviour
     {
         [SerializeField] private Image actionsImageBackground;
+        [SerializeField] private UIButton turnButton;
+        
         LevelManager levelManager;
         LevelEvents levelEvents;
+        TurnSystem turnSystem;
+        
         private Dictionary<GameObject, GameObject> actionsUI = new();
         private Unit unit;
         
@@ -21,6 +26,7 @@ namespace CursedOnion
         {
             this.levelManager = levelManager;
             levelEvents = levelManager.LevelEvents;
+            turnSystem = levelManager.GetTurnSystem();
             OnEnable();
         }
         private void OnEnable()
@@ -28,19 +34,20 @@ namespace CursedOnion
             OnDisable();
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
-            //levelEvents.OnTurnEnded += OnTurnChanged;
+            levelEvents.OnTurnBegin += OnTurnChanged;
         }
 
         private void OnDisable()
         {
             levelEvents.OnEntitySelected -= SetEntity;
             levelEvents.OnNoEntitySelected -= SetNullEntity;
-            //levelEvents.OnTurnEnded -= OnTurnChanged;
+            levelEvents.OnTurnBegin -= OnTurnChanged;
         }
 
-        private void OnTurnChanged()
+        private void OnTurnChanged(bool isPlayerTurn)
         {
-            if (unit != null) UpdateActionsWindow();
+            //if (unit != null) UpdateActionsWindow();
+            turnButton.SetInteractive(isPlayerTurn);
         }
 
         void SetNullEntity()
@@ -54,7 +61,7 @@ namespace CursedOnion
             DisableChildren();
             
             unit = entity as Unit;
-            bool hasTurn = unit != null && levelManager.GetTurnSystem().IsUnitActive(unit);
+            bool hasTurn = unit != null && unit.GetSide() != BattleSide.Enemy && turnSystem.IsUnitActive(unit);
             
             ShowActionsWindow(hasTurn);
             if (hasTurn) UpdateActionsWindow();

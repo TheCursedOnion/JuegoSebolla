@@ -7033,6 +7033,7 @@ GameObject:
   - component: {fileID: 750684600}
   - component: {fileID: 750684607}
   - component: {fileID: 750684608}
+  - component: {fileID: 750684609}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: LevelManager
@@ -7076,10 +7077,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resetScene: BootScene
   transitionData:
-    Duration: 0
-    InBetweenTime: 0
-    Type: 0
+    Duration: 1
+    InBetweenTime: 2.25
+    Type: 2
     Color: {r: 0, g: 0, b: 0, a: 0}
+  sceneServiceUser: {fileID: 750684609}
   allies: []
   enemies: []
   activeUnits: []
@@ -7207,6 +7209,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bf2cb71b2773a645b4770a28ccb44fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &750684609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750684599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9547f774b2c4fe0adbb31d91b0e98f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onSceneLoadCalled:
+    _PersistentCalls: []
+  onSceneLoadCompleted:
+    _PersistentCalls: []
 --- !u!1 &752562032
 GameObject:
   m_ObjectHideFlags: 0
@@ -20307,6 +20325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionsImageBackground: {fileID: 2108568730}
+  turnButton: {fileID: 752562038}
 --- !u!4 &2111284520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8470264880036326994, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
