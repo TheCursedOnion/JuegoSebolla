@@ -12,12 +12,15 @@ namespace CursedOnion.Game.Entity.Components
     {
         [SerializeField] protected Color attackColor = Color.red;
         
-        private float nextAttackMultiplier = 1;
         List<Vector3> reachableTiles = new();
         
         public void SetNextAttackMultiplier(float multiplier)
         {
-            nextAttackMultiplier = multiplier;
+            var unit = AssignedEntity as Unit;
+            if (unit != null)
+            {
+                unit.AttackMultiplier = multiplier;
+            }
         }
 
         public virtual void VisualizeAttack()
@@ -54,12 +57,17 @@ namespace CursedOnion.Game.Entity.Components
                 Debug.LogWarning($"{AssignedEntity.name} no puede atacar a {target.name} porque son del mismo bando.");
                 return false;
             }
+            if(AssignedEntity is not Unit)
+            {
+                return false;
+            }
 
             if (!AssignedEntity.Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos)) return false;
             return reachableTiles.Contains(targetGridPos);
         }
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
+            var unit = AssignedEntity as Unit;
             var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
 
             RotateEntityTowards(camera, AssignedEntity.transform, target.transform);
@@ -72,8 +80,10 @@ namespace CursedOnion.Game.Entity.Components
             {
                 if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("shoot");
             }
+            
+            int rawDamage = Mathf.CeilToInt(AssignedEntity.Stats.AttackStat * unit.AttackMultiplier);
 
-            int rawDamage = Mathf.CeilToInt(AssignedEntity.Stats.AttackStat * nextAttackMultiplier);
+            Debug.Log($"{AssignedEntity.name} ataque base: {AssignedEntity.Stats.AttackStat} y multiplicador: {unit.AttackMultiplier}");
 
             int targetDefense = target.Stats.DefenseStat;
             int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
@@ -82,7 +92,7 @@ namespace CursedOnion.Game.Entity.Components
 
             target.Damage(finalDamage);
 
-            nextAttackMultiplier = 1;
+            unit.AttackMultiplier = 1;
             
             /*if (!target.GetFlags().HasDied() && AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
             {

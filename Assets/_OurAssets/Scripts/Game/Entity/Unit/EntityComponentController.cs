@@ -81,8 +81,8 @@ namespace CursedOnion.Game.Entity
         }
         public virtual void Dispose()
         {
-            PlaceEntityComponent?.RemoveEntity();
-            
+            GetEntityComponent<PlaceEntityComponent>().RemoveEntity();
+
             AssignedEntity.OnEntityUpdate -= ProcessEntityUpdate;
             if (AssignedEntity is Unit unit)
             {

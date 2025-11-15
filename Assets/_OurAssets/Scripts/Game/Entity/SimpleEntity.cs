@@ -46,13 +46,10 @@ namespace CursedOnion.Game.Entity
         }
         public void Dispose()
         {
+            EntityController.Dispose();
             Destroy(gameObject);
         }
-        void OnDisable()
-        {
-            EntityController.Dispose();
-        }
-        protected void DefineStats(StatData data)
+        protected virtual void DefineStats(StatData data)
         {
             StatData = data;
             Stats.SetWithData(data);
@@ -84,8 +81,6 @@ namespace CursedOnion.Game.Entity
         {
             GetFlags().RaiseFlag(EntityFlag.HasDied);
             OnEntityUpdate?.Invoke(this);
-            var placeComponent = EntityController.GetComponent<PlaceEntityComponent>();
-            placeComponent.RemoveEntity();
             Dispose();
         }
         
