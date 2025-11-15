@@ -38,14 +38,12 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         }
         void UpdateDataText(StatData data)
         {
-            Debug.Log($"A");
             if(data == null) ClearInspector();
             else inspector.SetInspectorStatData(data);
         }
 
         void UpdateStatText(SimpleEntity entity)
         {
-            Debug.Log($"B");
             inspector.SetInspectorStats(entity);
         }
     }

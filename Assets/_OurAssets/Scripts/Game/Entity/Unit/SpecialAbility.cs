@@ -10,6 +10,7 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class SpecialAbility
     {
+        public Sprite AbilityIcon;
         public bool SelfTargetOnly = false;
         public int AbilityMinRange = 0;
         public int AbilityMaxRange = 0;

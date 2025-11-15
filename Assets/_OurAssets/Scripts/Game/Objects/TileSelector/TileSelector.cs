@@ -119,7 +119,6 @@ namespace CursedOnion.Game.Objects
         }
         public void InvokeEntitySelection(SimpleEntity entity)
         {
-            Debug.Log($"Invoking entity selection for {entity}");
             levelEvents.SelectEntity(entity);
         }
         void FocusOnEntity(SimpleEntity entity)

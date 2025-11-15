@@ -91,9 +91,8 @@ namespace CursedOnion.Game.Systems.Level
             
             StartInitiativeGroup();
         }
-        
         //private void StartTurnFor(List<Unit> )
-        private void StartInitiativeGroup()
+        void StartInitiativeGroup()
         {
             Debug.Log($"-- Iniciativa actual: {currentInitiative} --");
             
@@ -122,7 +121,6 @@ namespace CursedOnion.Game.Systems.Level
                 StartInitiativeGroup();
             }
         }
-
         void HandleGroup(List<Unit> groupList)
         {
             if (groupList.Count == 0) return;
@@ -138,13 +136,13 @@ namespace CursedOnion.Game.Systems.Level
             ChooseStartingUnit();
             
         }
-
         void ChooseStartingUnit()
         {
             //int randomIndex = Random.Range(0, activeUnits.Count);
             levelEvents.InvokeTurnFocus(activeUnits[0]);
         }
-
+        
+        public bool IsUnitActive(Unit unit) => activeUnits.Contains(unit);
         public void EndTurn()
         {
             foreach (var unit in activeUnits.ToList())

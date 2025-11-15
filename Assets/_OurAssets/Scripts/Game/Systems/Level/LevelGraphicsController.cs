@@ -17,12 +17,12 @@ namespace CursedOnion.Game.Systems.Level
             EnableBlackAndWhiteEditorMode(false);
             
             this.levelEvents = levelEvents;
-            levelEvents.OnStatDataSelected += ValidateStatData;
+            levelEvents.OnEnableBlackAndWhite += EnableBlackAndWhiteEditorMode;
             levelEvents.OnLevelStateChange += ProcessLevelChange;
         }
         private void OnDisable()
         {
-            levelEvents.OnStatDataSelected -= ValidateStatData;
+            levelEvents.OnEnableBlackAndWhite -= EnableBlackAndWhiteEditorMode;
             levelEvents.OnLevelStateChange -= ProcessLevelChange;
             EnableBlackAndWhiteEditorMode(false);
         }
@@ -30,10 +30,6 @@ namespace CursedOnion.Game.Systems.Level
         void ProcessLevelChange(LevelState previousState, LevelState newState)
         {
             EnableBlackAndWhiteEditorMode(false);
-        }
-        void ValidateStatData(StatData data)
-        {
-            EnableBlackAndWhiteEditorMode(data != null);
         }
         void EnableBlackAndWhiteEditorMode(bool enable)
         {

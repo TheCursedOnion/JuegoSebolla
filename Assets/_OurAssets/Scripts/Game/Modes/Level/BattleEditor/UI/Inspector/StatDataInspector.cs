@@ -24,6 +24,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         [SerializeField] private StatLine movementSpeed;
         [SerializeField] private StatLine priceValue;
 
+        private SimpleEntity selectedEntity;
         public void ClearInspector()
         {
             EnableInspector(false);
@@ -56,19 +57,29 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         {
             EnableInspector(true);
             
+            RegisterForEntityUpdate(entity);
+            
             var data = entity.StatData;
             var stats = entity.Stats;
             
             spritePreview.sprite = data.InspectorSprite;
             entityName.SetKey(data.EntityNameKey);
             
-            hp.SetValue(stats.CurrentHealthStat);
+            hp.SetValue($"{stats.CurrentHealthStat}/{stats.MaxHealthStat}");
             attack.SetValue(stats.AttackStat);
             defense.SetValue(stats.DefenseStat);
             initiative.SetValue(stats.InitiativeStat);
             
             movementSpeed.SetValue(stats.MovementStat);
             priceValue.SetValue(stats.PriceStat);
+        }
+
+        void RegisterForEntityUpdate(SimpleEntity entity)
+        {
+            if(selectedEntity != null) entity.OnEntityUpdate -= SetInspectorStats;
+            
+            selectedEntity = entity;
+            selectedEntity.OnEntityUpdate += SetInspectorStats;
         }
     }
 }
