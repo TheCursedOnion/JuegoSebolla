@@ -40,8 +40,7 @@ namespace CursedOnion.Game.Commands
         }
         public bool Execute()
         {
-            if(!CanExecute()) return false;
-
+            if (!CanExecute()) return false;
             commandSubject.EntityController.GetEntityComponent<SpecialAbilityComponent>().DoAbility(target, false);
             return true;
         }

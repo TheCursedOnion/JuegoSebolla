@@ -23,6 +23,8 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         LevelEvents levelEvents;
         
         GameObject selectedUnit;
+
+        private int lastMode = -1;
         StatData lastSelectedStats;
         
         private CommandParameters spawnParameters;
@@ -50,12 +52,12 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             var statData = buttonSpawner.GetUnitStats();
             if (lastSelectedStats != null && lastSelectedStats == statData)
             {
-                lastSelectedStats = null;
-                levelEvents.SelectStatData(null);
-                levelEvents.CancelPreparedCommand();
+                DeselectAll();
+                EnableEditorVisualEffect(lastMode != 1);
                 return;
             }
             
+            lastMode = 1;
             lastSelectedStats = statData;
             
             selectedUnit = unitPrefab;
@@ -63,19 +65,38 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             spawnParameters.EntityStatData = statData;
                 
             levelEvents.SelectStatData(statData);
-
+            levelEvents.EnableBlackAndWhite(true);
             levelEvents.CallPrepareCommand<SpawnCommand>(spawnParameters);
         }
         public void ToggleEraser()
         {
             if (lastSelectedStats != null)
             {
-                lastSelectedStats = null;
-                levelEvents.SelectStatData(null);
-                levelEvents.CancelPreparedCommand();
+                DeselectAll();
             }
 
+            if (lastMode == 0)
+            {
+                EnableEditorVisualEffect(false);
+                return;
+            }
+            
+
+            lastMode = 0;
+            levelEvents.EnableBlackAndWhite(true);
             levelEvents.CallPrepareCommand<EraseCommand>(eraseParameters);
+        }
+
+        public void DeselectAll()
+        {
+            lastSelectedStats = null;
+            levelEvents.SelectStatData(null);
+            levelEvents.CancelPreparedCommand();
+        }
+        public void EnableEditorVisualEffect(bool enable)
+        {
+            levelEvents.EnableBlackAndWhite(enable);
+            lastMode = -1;
         }
 
         public void StartBattle()

@@ -17,8 +17,7 @@ namespace CursedOnion.Game.Commands
             try
             {
                 if(!parameters.Subject) throw new ArgumentException($"[AttackCommand] No se puede ejecutar: No tiene un CommandSubject");
-                if(parameters.Target == null) throw new ArgumentException($"[AttackCommand] No se puede ejecutar: No tiene target");
-                
+
                 return new AttackCommand(parameters.Subject, parameters.Target);
             }
             catch (Exception e)

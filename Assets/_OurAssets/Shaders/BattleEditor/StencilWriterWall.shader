@@ -12,7 +12,7 @@ Shader "Custom/StencilWriterWall"
         Stencil
         {
             Ref 2             // Usa bit 1
-            Comp Always       // Siempre pasa
+            Comp Equal       // Siempre pasa
             Pass Zero      // Escribe el valor Ref
             Fail Keep
             ZFail Keep

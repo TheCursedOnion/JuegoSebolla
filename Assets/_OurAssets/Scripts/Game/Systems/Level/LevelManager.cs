@@ -15,16 +15,20 @@ namespace CursedOnion.Game.Systems.Level
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
+        [ReadOnly] public LevelState CurrentLevelState;
+        
+        public LevelEvents LevelEvents;
+        public LevelScoreData LevelScoreVariables;
+        public LevelGraphicsController GraphicsController;
+
+        [SerializeField] private TurnSystem turnSystem;
+        public TurnSystem GetTurnSystem() => turnSystem;
+        
+        [HorizontalLine(height: 2f, color: EColor.Blue)]
         [Expandable] public LevelAsset LevelAsset;
         public Grid3d Grid => LevelAsset.Grid;
         public Vector3 LevelManagerOrigin => GetComponent<MeshRenderer>().bounds.min;
         
-        public LevelEvents LevelEvents;
-        public LevelScoreData LevelScoreVariables;
-        [ReadOnly] public LevelState CurrentLevelState;
-
-        [SerializeField] private TurnSystem turnSystem;
-        public TurnSystem GetTurnSystem() => turnSystem;
 
         #if UNITY_EDITOR
         public void Initialize(LevelAsset asset)
@@ -42,13 +46,16 @@ namespace CursedOnion.Game.Systems.Level
             LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
             LevelAsset.Grid.PrepareGrid(GetComponent<GridHighlighter>());
                 
-            LevelEvents = GetComponent<LevelEvents>();
+            LevelEvents ??= GetComponent<LevelEvents>();
             LevelScoreVariables = new LevelScoreData(LevelEvents, LevelAsset.LevelData);
             
             SetNewLevelState(LevelAsset.LevelData.StartingState);
             
             turnSystem = GetComponent<TurnSystem>();
             turnSystem.Initialize(LevelEvents);
+            
+            GraphicsController ??= GetComponent<LevelGraphicsController>();
+            GraphicsController.Initialize(LevelEvents);
         }
         
 
@@ -99,6 +106,7 @@ namespace CursedOnion.Game.Systems.Level
         {
             if (gold < 0 || RemainingGold < gold)
             {
+                levelEvents.InvokeNotEnoughGold();
                 return false;
             }
             return ModifyGold(-gold);

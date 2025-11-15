@@ -1,20 +1,14 @@
 ﻿using System;
 using CursedOnion.Extensions;
-using CursedOnion.Game.Commands;
-using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.Inputs;
-using CursedOnion.Game.Systems.Level;
+using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Locators;
 using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
-using Reflex.Injectors;
 using UnityEngine;
 
 namespace CursedOnion.Game.Objects
 {
-    public class TileSelectorController : MonoBehaviour, IController
+    public class TileSelectorController : MonoBehaviour, IController, IPausable
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
         [Inject] private CameraLocator cameraLocator;
@@ -57,6 +51,9 @@ namespace CursedOnion.Game.Objects
             reader.MoveSelector -= MoveSelector;
             reader.Select -= HardSelect;
         }
+        
+        public void Pause() => Disable();
+        public void Unpause() => Enable();
         #endregion
         
         void MoveSelector(Vector2 direction)

@@ -19,5 +19,9 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         {
             valueText.text = value.ToString();
         }
+        public void SetValue(string value)
+        {
+            valueText.text = value;
+        }
     }
 }

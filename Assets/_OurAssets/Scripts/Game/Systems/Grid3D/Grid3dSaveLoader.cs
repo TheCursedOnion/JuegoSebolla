@@ -1,4 +1,5 @@
-﻿using CursedOnion.Game.Systems.Level;
+﻿#if UNITY_EDITOR
+using CursedOnion.Game.Systems.Level;
 using CursedOnion.ScriptableObjects;
 using CursedOnion.Tools;
 using NaughtyAttributes;
@@ -105,3 +106,4 @@ namespace CursedOnion.Game.Systems.Grid
         */
     }
 }
+#endif

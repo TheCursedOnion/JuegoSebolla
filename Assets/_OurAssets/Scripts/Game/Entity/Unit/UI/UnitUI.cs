@@ -14,6 +14,7 @@ namespace CursedOnion.Game.Entity.UI
         [SerializeField] private UIButton moveButton;
         [SerializeField] private UIButton attackButton;
         [SerializeField] private UIButton specialButton;
+        [SerializeField] private Image abilityImage;
         
         LevelEvents levelEvents;
         UIEvents uiEvents;
@@ -31,21 +32,24 @@ namespace CursedOnion.Game.Entity.UI
 
         public void AssociateUnit(Unit unit)
         {
+            if (associatedUnit != null) associatedUnit.OnEntityUpdate -= ProcessEntityUpdate;
+            
             associatedUnit = unit;
-            associatedUnit.OnEntityUpdate -= UpdateUI;
-            associatedUnit.OnEntityUpdate += UpdateUI;
-            UpdateUI(associatedUnit);
+            associatedUnit.OnEntityUpdate += ProcessEntityUpdate;
+            
+            UpdateUI();
         }
-
-        void UpdateUI(SimpleEntity entity)
+        void ProcessEntityUpdate(SimpleEntity entity)
         {
-            if(entity is not Unit unit) return;
-            
-            var flags = unit.GetFlags();
-            
+            if (entity is Unit && entity == associatedUnit) UpdateUI();
+        }
+        void UpdateUI()
+        {
+            var flags = associatedUnit.GetFlags();
             moveButton.SetInteractive(!flags.HasMoved());
             attackButton.SetInteractive(!flags.HasAttacked());
             specialButton.SetInteractive(!flags.HasUsedAbility());
+            abilityImage.sprite = associatedUnit.StatData.SpecialAbility?.AbilityIcon;
         }
 
         public void SelectButtonUIEvent(UIButton button)
