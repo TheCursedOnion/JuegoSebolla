@@ -84,13 +84,14 @@ namespace CursedOnion.Game.Entity.Components
 
             nextAttackMultiplier = 1;
             
-            /*if (!target.GetFlags().HasDied() && AssignedEntity.GetStats().SpecialAbilityType is not ArcherAbility)
+            /*if (!target.GetFlags().HasDied() && AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
             {
-                int counterDamage = target.GetStats().AttackStat;
+                int counterDamage = target.Stats.AttackStat;
 
                 Debug.Log($"{target.name} contraataca a {AssignedEntity.name} causando {counterDamage} de daño.");
 
-                AssignedEntity.Damage(counterDamage);
+                var targetCounter = target as Unit;
+                target.EntityController.GetComponent<AttackEntityComponent>().DoAttack(AssignedEntity, false);
             }*/
             
             AssignedEntity.GetFlags().RaiseFlag(UsedFlags);

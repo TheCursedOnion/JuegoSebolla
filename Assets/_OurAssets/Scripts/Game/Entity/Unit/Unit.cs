@@ -1,10 +1,12 @@
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Modes.General.Animations;
+using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using Reflex.Attributes;
-using System;
 using Reflex.Core;
 using Reflex.Extensions;
+using System;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -183,7 +185,6 @@ namespace CursedOnion.Game.Entity
             if (Stats.CurrentHealthStat <= 0)
             { 
                 LevelManager.GetTurnSystem().RemoveUnit(this);
-                
                 Die(); 
             }
 

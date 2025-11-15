@@ -184,19 +184,18 @@ namespace CursedOnion.Game.Entity
             GetEntityComponent<MoveEntityComponent>().DoMove(targetedGridPosToMove, false);
         }
 
-        public void SearchAndMoveToUnit()
+        public bool SearchAndFindPath()
         {
             Debug.Log("EL ENEMIGO VA A BUSCAR UNA UNIDAD Y MOVERSE HACIA ELLA");
+
             targetedGridPosToMove = Vector3.zero;
 
-            //Obtener la unidad aliada más cercana
             Unit closestAlly = null;
             float bestAllyDistance = float.MaxValue;
 
             foreach (var ally in turnSystem.GetAllyUnits())
             {
                 float dist = Vector3.Distance(unit.transform.position, ally.transform.position);
-
                 if (dist < bestAllyDistance)
                 {
                     bestAllyDistance = dist;
@@ -204,17 +203,36 @@ namespace CursedOnion.Game.Entity
                 }
             }
 
-            if (!unit.Grid.TryWorldToGridPosition(closestAlly.transform.position, out Vector3 allyGridPos))
-                return;
+            if (closestAlly == null)
+                return false;
 
-            // Buscar entre reachableMovePositions la casilla MÁS CERCANA al aliado
+            float maxAllowedDistance = unit.Stats.MovementStat * 2; // demasiado lejos, no te busca
+
+            if (bestAllyDistance > maxAllowedDistance)
+            {
+                return false;
+            }
+
+            if (!unit.Grid.TryWorldToGridPosition(closestAlly.transform.position, out Vector3 allyGridPos))
+                return false;
+
+            reachableMovePositions.Clear();
+            AStarPathFinder.InsertReachablePositionsAsyncBFS(
+                reachableMovePositions,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
+
+            if (reachableMovePositions.Count == 0)
+                return false; 
+
             float bestTileDist = float.MaxValue;
             Vector3 bestTile = default;
 
             foreach (var reachable in reachableMovePositions)
             {
                 float dist = Vector3.Distance(reachable, allyGridPos);
-
                 if (dist < bestTileDist)
                 {
                     bestTileDist = dist;
@@ -224,12 +242,12 @@ namespace CursedOnion.Game.Entity
 
             targetedGridPosToMove = bestTile;
 
-            if (unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
-            {
-                targetedPosToMove = targetWorld.CenterOnTile();
-            }
+            if (!unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
+                return false;
 
-            GetEntityComponent<MoveEntityComponent>().DoMove(targetedGridPosToMove, false);
+            targetedPosToMove = targetWorld.CenterOnTile();
+
+            return true;
         }
 
         public Status EndMove()
@@ -237,7 +255,7 @@ namespace CursedOnion.Game.Entity
             Vector3 pos = unit.transform.position;
             Vector3 target = targetedPosToMove;
 
-            bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.01f && Mathf.Abs(pos.z - target.z) < 0.01f;
+            bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.05f && Mathf.Abs(pos.z - target.z) < 0.05f;
             bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
 
             if (!xzAligned || !yCloseEnough)

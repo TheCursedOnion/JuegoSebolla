@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
@@ -8,6 +8,7 @@ using Reflex.Attributes;
 using Reflex.Core;
 using Reflex.Extensions;
 using Reflex.Injectors;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -83,6 +84,8 @@ namespace CursedOnion.Game.Entity
         {
             GetFlags().RaiseFlag(EntityFlag.HasDied);
             OnEntityUpdate?.Invoke(this);
+            var placeComponent = EntityController.GetComponent<PlaceEntityComponent>();
+            placeComponent.RemoveEntity();
             Dispose();
         }
         
