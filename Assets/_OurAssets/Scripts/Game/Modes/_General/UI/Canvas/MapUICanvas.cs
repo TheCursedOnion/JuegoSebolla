@@ -1,28 +1,35 @@
 ﻿using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic;
+using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Game.Objects;
+using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 
 namespace CursedOnion.Game.General.UI.Canvases
 {
-    public class MapUICanvas : MonoBehaviour, IUICanvas
+    public class MapUICanvas : MonoBehaviour, IUICanvas, IPausable
     {
-        [Inject] MapEvents mapEvents;
+        const string SettingsContainer = "Settings Container Variables";
+        const string GameplayContainer = "Gameplay Container Variables";
+        const string CameraContainer = "Camera Container Variables";
         
-        [SerializeField] private GameObject PlayLevelButton;
-        void Awake()
+        //[SerializeField, BoxGroup(CameraContainer)] private GameObject cameraButtonsContainer;
+        [SerializeField, BoxGroup(SettingsContainer)] private GameObject settingsContainer;
+        [SerializeField, BoxGroup(GameplayContainer)] private GameObject gameplayContainer;
+
+        #region Settings Region
+        public void Pause()
         {
-            mapEvents.OnLevelPlatformChange += UpdateMapCanvas;
-        }
-        void OnDestroy()
-        {
-            mapEvents.OnLevelPlatformChange -= UpdateMapCanvas;
+            settingsContainer.SetActive(true);
+            gameplayContainer.SetActive(false);
         }
 
-        void UpdateMapCanvas(LevelPlatform inspectedLevel)
+        public void Unpause()
         {
-            PlayLevelButton.SetActive(!inspectedLevel.IsEmptyLevel());
+            settingsContainer.SetActive(false);
+            gameplayContainer.SetActive(true);
         }
+        #endregion
     }
 }

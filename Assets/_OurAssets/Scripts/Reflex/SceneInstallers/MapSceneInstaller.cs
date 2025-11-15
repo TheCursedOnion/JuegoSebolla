@@ -13,8 +13,10 @@ namespace CursedOnion.Installers
         //[SerializeField] private GameObject mapCanvas;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
+            mapManager ??= GameObject.FindWithTag("MapManager").GetComponent<MapManager>();
+            
             containerBuilder.AddSingleton(mapManager, typeof(MapManager));
-            containerBuilder.AddSingleton(new MapEvents(), typeof(MapEvents));
+            containerBuilder.AddSingleton(mapManager.MapEvents, typeof(MapEvents));
         }
     }
 }

@@ -57,7 +57,7 @@ namespace CursedOnion.Game.Cameras
         {
             this.SetTiltCenterAndValue(other.PanTilt.TiltAxis.Center);
             this.SetPanCenterAndValue(other.PanTilt.PanAxis.Center);
-            this.SetTarget(other.CinemachineCamera.Follow, other.Follow.TrackerSettings.PositionDamping, other.Offset.Offset, 0f);
+            this.SetTarget(other.CinemachineCamera.Follow, Vector3.zero, other.Offset.Offset, 0f);
         }
         
         IEnumerator IEOffset(Vector3 offset, float time)
