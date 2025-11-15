@@ -30,7 +30,7 @@ namespace CursedOnion.Game.Entity
         private int additionalHP = 0;
         private bool isConfused = false;
         private int confusedTurnsRemaining = 0;
-        private int baseMovement;
+        public int baseMovement;
         
         public void Start()
         {
@@ -148,14 +148,6 @@ namespace CursedOnion.Game.Entity
 
         public void UpdateStatusEffects()
         {
-            if (isConfused)
-            {
-                confusedTurnsRemaining--;
-                if (confusedTurnsRemaining <= 0)
-                {
-                    isConfused = false;
-                }
-            }
             this.Stats.MovementStat = baseMovement;
         }
 

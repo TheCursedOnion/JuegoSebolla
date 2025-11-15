@@ -110,8 +110,11 @@ namespace CursedOnion.Game.Entity.Components
                 lastPosition = position;
                 yield return null;
             }
-            
-            if(AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
+
+            Unit unit = AssignedEntity as Unit;
+            unit.UpdateStatusEffects();
+
+            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
                 layeredEntity.PlayAnimation("idle");
             
             placeComponent.PlaceEntity();

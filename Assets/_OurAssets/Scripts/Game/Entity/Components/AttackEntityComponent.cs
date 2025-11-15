@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CursedOnion.Game.Cameras;
+using CursedOnion.Locators;
+using Reflex.Extensions;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -57,7 +60,12 @@ namespace CursedOnion.Game.Entity.Components
         }
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
-            if(AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
+            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
+
+            RotateEntityTowards(camera, AssignedEntity.transform, target.transform);
+            RotateEntityTowards(camera, target.transform, AssignedEntity.transform);
+
+            if (AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
             {
                 if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("punch");
             }else if (AssignedEntity.Stats.SpecialAbilityType is ArcherAbility)
@@ -87,6 +95,33 @@ namespace CursedOnion.Game.Entity.Components
             
             AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
         }
-        
+
+        private void RotateEntityTowards(GlobalCamera camera, Transform entityTransform, Transform targetTransform)
+        {
+            Vector3 direction = (targetTransform.position - entityTransform.position);
+            direction.y = 0;
+
+            RotateEntity(camera, entityTransform, direction);
+        }
+
+        private void RotateEntity(GlobalCamera camera, Transform transform, Vector3 movementDirection)
+        {
+            float degrees = camera.GetCameraPanAngles();
+            movementDirection = Quaternion.AngleAxis(-degrees, Vector3.up) * movementDirection;
+
+            if (movementDirection.x > 0.01f)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x) * -1f;
+                transform.localScale = scale;
+            }
+            else if (movementDirection.x < -0.01f)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = Mathf.Abs(scale.x);
+                transform.localScale = scale;
+            }
+        }
+
     }
 }
