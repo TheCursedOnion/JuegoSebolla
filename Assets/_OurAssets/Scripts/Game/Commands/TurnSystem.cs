@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Logic.Services;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,6 +22,7 @@ namespace CursedOnion.Game.Systems.Level
         
         [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
         [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
+        [BoxGroup("End Game"), SerializeField] SceneServiceUser sceneServiceUser;
         
         int currentInitiative;
         private bool alliesProcessedForCurrentInitiative = false;
@@ -148,7 +150,8 @@ namespace CursedOnion.Game.Systems.Level
             {
                 ChooseStartingEnemyUnit();
             }
-
+            
+            levelEvents.InvokeTurnBegin(alliesProcessedForCurrentInitiative);
         }
         void ChooseStartingUnit()
         {
@@ -199,19 +202,29 @@ namespace CursedOnion.Game.Systems.Level
                 MoveToNextTurn();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                transitionData.Color = Color.red;
+                sceneServiceUser.ChangeScene(resetScene, transitionData);
+            }
+                
+        }
+
         private void CheckForBattleEnd()
         {
             if (allies.Count == 0)
             {
                 Debug.Log("Ha ganado el bando Enemigo");
-                return;
+                transitionData.Color = Color.red;
             }
-
             if (enemies.Count == 0)
             {
                 Debug.Log("Ha ganado el bando Aliado");
-                return;
+                transitionData.Color = Color.blue;
             }
+            sceneServiceUser.ChangeScene(resetScene, transitionData);
         }
 
     }

@@ -6,11 +6,11 @@ namespace CursedOnion.Game.Events
 {
     public class MapEvents : RuntimeEvents
     {
-        public event Action<LevelPlatform> OnLevelPlatformChange;
-        public void OnLevelPlatformChanged(LevelPlatform newLevel)
+        public event Action<LevelInformation> OnLevelSelected;
+        public void SelectLevel(LevelPlatform newLevel)
         {
             if (!Enabled) return;
-            OnLevelPlatformChange?.Invoke(newLevel);
+            OnLevelSelected?.Invoke(newLevel.LevelInformation);
         }
     }
 }

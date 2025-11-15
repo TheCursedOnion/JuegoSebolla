@@ -9,10 +9,12 @@ namespace CursedOnion.Installers
     {
         [Expandable, SerializeField] CameraLocator cameraLocator;
         [Expandable, SerializeField] private UITransitionLocator uiTransitionLocator;
+        [Expandable, SerializeField] private RuntimeVariableLocator variableLocator;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
             containerBuilder.AddSingleton(cameraLocator, typeof(CameraLocator));
             containerBuilder.AddSingleton(uiTransitionLocator, typeof(UITransitionLocator));
+            containerBuilder.AddSingleton(variableLocator, typeof(RuntimeVariableLocator));
         }
     }
 }

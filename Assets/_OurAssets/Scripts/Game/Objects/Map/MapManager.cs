@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic;
+using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -10,7 +11,8 @@ namespace CursedOnion.Game.Objects
 {
     public class MapManager : MonoBehaviour
     {
-        [Inject] private MapEvents mapEvents;
+        [Inject] RuntimeVariableLocator variableLocator;
+        public MapEvents MapEvents;
         [SerializeField, ReadOnly] List<LevelPlatform> levels = new List<LevelPlatform>();
         
         int selectedLevel;
@@ -19,18 +21,13 @@ namespace CursedOnion.Game.Objects
             if (!levels.Contains(level))
             {
                 levels.Add(level);
-                levels.Sort((a, b) => a.LevelInformation.LevelID.CompareTo(b.LevelInformation.LevelID));
+                levels.Sort((a, b) => a.LevelInformation.LevelIndex.CompareTo(b.LevelInformation.LevelIndex));
             }
         }
-
-        private void Awake()
-        {
-            //TODO: Conocer el último nivel completado/jugado
-        }
-
         void Start()
         {
-            mapEvents.OnLevelPlatformChanged(levels[selectedLevel]);
+            selectedLevel = variableLocator.LastLevelPlayed;
+            levels[selectedLevel].Select();
         }
 
         public bool TryGetSelectedLevelScene(out string levelSceneName)
@@ -52,7 +49,7 @@ namespace CursedOnion.Game.Objects
         {
             if (moveIndex == 1 && selectedLevel == levels.Count - 1 || moveIndex == -1 && selectedLevel == 0) return;
             selectedLevel += moveIndex;
-            mapEvents.OnLevelPlatformChanged(levels[selectedLevel]);
+            levels[selectedLevel].Select();
         }
         
     }

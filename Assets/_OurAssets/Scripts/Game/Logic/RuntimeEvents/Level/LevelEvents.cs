@@ -96,7 +96,12 @@ namespace CursedOnion.Game.Systems.Level
         {
             OnUnitTurnUnregisterPetition?.Invoke(unit);
         }
-        
+
+        public event Action<bool> OnTurnBegin;
+        public void InvokeTurnBegin(bool isPlayerTurn)
+        {
+            OnTurnBegin?.Invoke(isPlayerTurn);
+        }
         public event Action OnTurnEnded;
         public void InvokeTurnEnd()
         {
