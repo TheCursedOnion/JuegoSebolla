@@ -57,6 +57,14 @@ namespace CursedOnion.Game.Entity.Components
         }
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
+            if(AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
+            {
+                if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("punch");
+            }else if (AssignedEntity.Stats.SpecialAbilityType is ArcherAbility)
+            {
+                if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("shoot");
+            }
+
             int rawDamage = Mathf.CeilToInt(AssignedEntity.Stats.AttackStat * nextAttackMultiplier);
 
             int targetDefense = target.Stats.DefenseStat;

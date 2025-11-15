@@ -73,9 +73,16 @@ namespace CursedOnion.Game.Systems.Level
         }
         public void RemoveUnit(Unit unit)
         {
-            if(activeUnits.Contains(unit)) activeUnits.Remove(unit);
-            if(allies.Contains(unit)) allies.Remove(unit);
-            if(enemies.Contains(unit)) enemies.Remove(unit);
+            if (activeUnits.Contains(unit))
+                activeUnits.Remove(unit);
+
+            if (allies.Contains(unit))
+                allies.Remove(unit);
+
+            if (enemies.Contains(unit))
+                enemies.Remove(unit);
+
+            CheckForBattleEnd();
         }
         void OrganizeLists()
         { 
@@ -127,21 +134,34 @@ namespace CursedOnion.Game.Systems.Level
             
             activeUnits.Clear();
             activeUnits.AddRange(groupList);
-            
-            foreach (var unit in activeUnits)
+
+            bool groupIsAllies = groupList[0].GetSide() == BattleSide.Ally;
+
+            if (groupIsAllies)
             {
-                unit.EntityController.ProcessTurn();
+                foreach (var unit in activeUnits)
+                    unit.EntityController.ProcessTurn();
+
+                ChooseStartingUnit();
             }
-            
-            ChooseStartingUnit();
-            
+            else
+            {
+                ChooseStartingEnemyUnit();
+            }
+
         }
         void ChooseStartingUnit()
         {
             //int randomIndex = Random.Range(0, activeUnits.Count);
             levelEvents.InvokeTurnFocus(activeUnits[0]);
         }
-        
+
+        void ChooseStartingEnemyUnit()
+        {
+            levelEvents.InvokeTurnFocus(activeUnits[0]);
+            activeUnits[0].EntityController.ProcessTurn();
+        }
+
         public bool IsUnitActive(Unit unit) => activeUnits.Contains(unit);
         public void EndTurn()
         {
@@ -152,21 +172,46 @@ namespace CursedOnion.Game.Systems.Level
 
             InvokeEndTurn();
         }
+
         public void EndTurnForAIUnit(Unit unit)
         {
             EndTurnForUnit(unit);
-            if(activeUnits.Count == 0) InvokeEndTurn();
+            if (activeUnits.Count > 0)
+            {
+                ChooseStartingEnemyUnit();
+            }
+            else
+            {
+                InvokeEndTurn();
+            }
         }
+
         void EndTurnForUnit(Unit unit)
         {
             if (activeUnits.Contains(unit)) activeUnits.Remove(unit);
         }
+
         private void InvokeEndTurn()
         {
             levelEvents.InvokeTurnEnd();
             
             if(allies.Count > 0 && enemies.Count > 0)
                 MoveToNextTurn();
+        }
+
+        private void CheckForBattleEnd()
+        {
+            if (allies.Count == 0)
+            {
+                Debug.Log("Ha ganado el bando Enemigo");
+                return;
+            }
+
+            if (enemies.Count == 0)
+            {
+                Debug.Log("Ha ganado el bando Aliado");
+                return;
+            }
         }
 
     }

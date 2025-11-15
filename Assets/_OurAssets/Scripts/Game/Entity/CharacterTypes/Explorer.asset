@@ -74,6 +74,7 @@ MonoBehaviour:
     - rid: 6291014444939214954
       type: {class: ExplorerAbility, ns: CursedOnion.Game.Entity, asm: Assembly-CSharp}
       data:
+        AbilityIcon: {fileID: 0}
         SelfTargetOnly: 0
         AbilityMinRange: 0
         AbilityMaxRange: 0
@@ -81,19 +82,19 @@ MonoBehaviour:
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
         UsedFlags: 0
-        blockEntryDirectionsOnPlacement: 0
+        blockEntryDirectionsOnPlacement: 51
     - rid: 6291014444939214957
       type: {class: MoveEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
-        UsedFlags: 0
+        UsedFlags: 10
         movementColor: {r: 0, g: 0, b: 1, a: 1}
     - rid: 6291014444939214958
       type: {class: AttackEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
-        UsedFlags: 0
+        UsedFlags: 12
         attackColor: {r: 1, g: 0, b: 0, a: 1}
     - rid: 6291014444939214959
       type: {class: SpecialAbilityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:
-        UsedFlags: 0
+        UsedFlags: 12
         abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

@@ -118,7 +118,18 @@ namespace CursedOnion.Game.Entity
                 return;
             }
 
-            var currentGroup = animationGroups[0]; // o el que quieras seleccionar
+            var currentGroup = animationGroups[0]; // default
+
+            switch (GetSide())// o el que quieras seleccionar
+            {
+                case BattleSide.Ally:
+                    currentGroup = animationGroups[0];
+                    break;
+                case BattleSide.Enemy:
+                    currentGroup = animationGroups[1];
+                    break;
+            }
+                    
 
             if (currentGroup.layers == null || currentGroup.layers.Count == 0)
             {
