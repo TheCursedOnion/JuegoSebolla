@@ -16,12 +16,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 93b75a62111954d858a680d57486ae57, type: 2}
   - {fileID: 2100000, guid: 74ef9d1aa1d5a2a498a116bca33b682a, type: 2}
   LevelData:
-    startingGold: 6000
+    startingGold: 5000
     goal: 0
     startingState: 1
   Grid:
     mesh: {fileID: 4300000, guid: 5e15c47a35eb4a645904f0ba4f787c56, type: 2}
-    startingOffset: {x: 0, y: 0, z: 0}
+    startingOffset: {x: -39, y: 0, z: 0}
     origin: {x: -58, y: 0, z: -12}
     size: {x: 38, y: 5, z: 24}
     tiles:
@@ -4269,7 +4269,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4839,7 +4839,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4854,7 +4854,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 0
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4869,7 +4869,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4884,7 +4884,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5379,7 +5379,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5394,7 +5394,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5409,7 +5409,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 0
+      eulerYRotation: 90
     - descriptor:
         Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5439,7 +5439,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 0
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5454,7 +5454,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5469,7 +5469,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 270
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5949,7 +5949,7 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 0
+      eulerYRotation: 90
     - descriptor:
         Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -33022,7 +33022,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -45502,7 +45502,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -46252,7 +46252,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -46597,7 +46597,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -46867,7 +46867,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -47197,7 +47197,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -47407,7 +47407,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -51022,7 +51022,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -51607,7 +51607,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -52207,7 +52207,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
