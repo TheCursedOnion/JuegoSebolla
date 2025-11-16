@@ -204,6 +204,7 @@ namespace CursedOnion.Game.Systems.Level
 
         private void CheckForBattleEnd()
         {
+            Debug.Log($"Comprobando fin de batalla: Aliados restantes {allies.Count}, Enemigos restantes {enemies.Count}");
             if (allies.Count == 0)
             {
                 Debug.Log("Ha ganado el bando Enemigo");
