@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 3337645738524908298}
   - component: {fileID: 9155578524250271822}
   - component: {fileID: 5688396321082638336}
+  - component: {fileID: 2260417231693671898}
+  - component: {fileID: 6192284481998751071}
   m_Layer: 0
   m_Name: GameCamera
   m_TagString: Untagged
@@ -132,6 +134,33 @@ MonoBehaviour:
   PanTilt: {fileID: 8023546002002281699}
   Follow: {fileID: 2953126380328841513}
   Offset: {fileID: 8949739770279147249}
+--- !u!114 &2260417231693671898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375360451385869988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a1def576bc97945aaff2f7cf173da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseWithLevel: 1
+--- !u!114 &6192284481998751071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375360451385869988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b2b4431a194aea87ddd00c4a9dc509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dragSpeed: 0.01
+  damping: 10
 --- !u!1 &443472272150469883
 GameObject:
   m_ObjectHideFlags: 0

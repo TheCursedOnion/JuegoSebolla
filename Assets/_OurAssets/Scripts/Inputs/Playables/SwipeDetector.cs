@@ -1,0 +1,104 @@
+﻿using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+namespace CursedOnion.Game.Inputs
+{
+    public class SwipeDetector : MonoBehaviour
+    { 
+        public float dragSpeed = 0.1f; // velocidad de arrastre
+        public float damping = 10f;   // suavizado del movimiento
+
+        private Vector3 dragOrigin;
+        private Vector3 targetPosition;
+        
+        private bool dragStartedOnUI = true;
+        private bool isDragging = false;
+        
+        Camera cam;
+
+        void Start()
+        {
+            cam = Camera.main;
+            targetPosition = transform.position;
+        }
+
+        void Update()
+        {
+            #if UNITY_EDITOR || UNITY_STANDALONE
+                HandleMouseDrag();
+            #else
+                HandleTouchDrag();
+            #endif
+
+            if(isDragging)
+                transform.position = Vector3.Lerp(
+                    transform.position,
+                    targetPosition,
+                    Time.deltaTime * damping
+                );
+        }
+        void HandleMouseDrag()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                dragStartedOnUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+                dragOrigin = Input.mousePosition;
+                targetPosition = transform.position;
+            }
+
+            isDragging = Input.GetMouseButton(0);
+            if (isDragging && !dragStartedOnUI)
+            {
+                Vector3 delta = Input.mousePosition - dragOrigin;
+                dragOrigin = Input.mousePosition;
+
+                DragCamera(delta);
+            }
+        }
+        
+        void HandleTouchDrag()
+        {
+            if (Input.touchCount == 0) return;
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                dragStartedOnUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touch.fingerId);
+                dragOrigin = touch.position;
+                targetPosition = transform.position;
+            }
+            
+            isDragging = touch.phase == TouchPhase.Moved;
+            if (isDragging && !dragStartedOnUI)
+            {
+                var dragOrigin2D = new Vector2(dragOrigin.x, dragOrigin.y);
+                Vector3 delta = touch.position - dragOrigin2D;
+                dragOrigin = touch.position;
+
+                DragCamera(delta);
+            }
+        }
+        
+        void DragCamera(Vector3 delta)
+        {
+            // Convertir delta a desplazamiento en el mundo
+            Vector3 move = new Vector3(-delta.x, 0, -delta.y) * dragSpeed;
+
+            // aplicarlo en el plano XZ según la rotación de cámara
+            Vector3 right = cam.transform.right;
+            Vector3 forward = cam.transform.forward;
+
+            right.y = 0;
+            forward.y = 0;
+
+            right.Normalize();
+            forward.Normalize();
+
+            Vector3 worldMove = right * move.x + forward * move.z;
+
+            targetPosition += worldMove;
+        }
+
+    }
+}

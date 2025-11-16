@@ -67,6 +67,7 @@ namespace CursedOnion.Game.Cameras
             transform.rotation = other.transform.rotation;
             
             cinemachineContainer.MatchWith(other.cinemachineContainer);
+            cameraController.Unpause();
         }
         void OnDisable()
         {

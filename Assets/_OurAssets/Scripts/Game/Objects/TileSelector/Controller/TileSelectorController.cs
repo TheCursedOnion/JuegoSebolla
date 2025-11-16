@@ -26,6 +26,7 @@ namespace CursedOnion.Game.Objects
         {
             this.tileSelector = tileSelector;
             reader ??= InputReaderCollection.GetReader<TileSelectorInputReader>();
+            
             Enable();
         }
 
@@ -38,6 +39,7 @@ namespace CursedOnion.Game.Objects
         public void Enable()
         {
             Disable(); //Si no estaba suscrito, no pasa nada, y si lo estaba, evita que se suscriba más de una vez
+            reader.Enable();
             reader.MoveSelector += MoveSelector;
             reader.Select += HardSelect;
         }
@@ -48,12 +50,13 @@ namespace CursedOnion.Game.Objects
         }
         public void Disable()
         {
+            reader.Disable();
             reader.MoveSelector -= MoveSelector;
             reader.Select -= HardSelect;
         }
         
-        public void Pause() => Disable();
-        public void Unpause() => Enable();
+        public void Pause() => reader.Disable();
+        public void Unpause() => reader.Enable();
         #endregion
         
         void MoveSelector(Vector2 direction)
