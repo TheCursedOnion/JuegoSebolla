@@ -19,6 +19,7 @@ namespace CursedOnion.Game.Settings
             LanguageSettings.SetUsedLanguage(LanguageSetting.Language.Spanish);
             
             LanguageSettings.Initialize();
+            VolumeSettings.Initialize();
         }
         
         public VolumeSetting VolumeSettings;

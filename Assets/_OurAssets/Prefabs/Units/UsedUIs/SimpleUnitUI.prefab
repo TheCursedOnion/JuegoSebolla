@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1160321517524505919
 RectTransform:
   m_ObjectHideFlags: 0
@@ -464,6 +464,7 @@ GameObject:
   - component: {fileID: 8641732822901104291}
   - component: {fileID: 2547906823077768365}
   - component: {fileID: 8930002296325774708}
+  - component: {fileID: 50035627586823286}
   m_Layer: 5
   m_Name: Ability
   m_TagString: Untagged
@@ -675,6 +676,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 2547906823077768365}
+    - _Target: {fileID: 50035627586823286}
+      _MemberName: PlayGlobally
+      _PersistentArguments: []
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
@@ -751,6 +755,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 910153135848399826}
+--- !u!114 &50035627586823286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4635964194230615335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ffc06106304cc3824d5bcf25a7037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onlyPlayOnce: 0
+  _playOnEnable: 0
+  _stopOnDisable: 0
+  _overrideFadeOut: -1
+  _sound:
+    ID: 1073741838
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 4635964194230615335}
+  _overrideGroup: {fileID: 0}
+  _positionMode: 0
+  _delay: 0
 --- !u!1 &5888123202185279210
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,6 +881,7 @@ GameObject:
   - component: {fileID: 2407860315965731488}
   - component: {fileID: 3274593431037236024}
   - component: {fileID: 8698686429912146081}
+  - component: {fileID: 4480312272421886123}
   m_Layer: 5
   m_Name: Attack
   m_TagString: Untagged
@@ -1053,6 +1081,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 3274593431037236024}
+    - _Target: {fileID: 4480312272421886123}
+      _MemberName: PlayGlobally
+      _PersistentArguments: []
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
@@ -1129,6 +1160,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 1555081171391002370}
+--- !u!114 &4480312272421886123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6317759302422313936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ffc06106304cc3824d5bcf25a7037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onlyPlayOnce: 0
+  _playOnEnable: 0
+  _stopOnDisable: 0
+  _overrideFadeOut: -1
+  _sound:
+    ID: 1073741838
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 6317759302422313936}
+  _overrideGroup: {fileID: 0}
+  _positionMode: 0
+  _delay: 0
 --- !u!1 &9079912858287563952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,6 +1272,7 @@ GameObject:
   - component: {fileID: 5056428156961821883}
   - component: {fileID: 376745739966379319}
   - component: {fileID: 9105673213857831398}
+  - component: {fileID: 7789117221886008088}
   m_Layer: 5
   m_Name: Move
   m_TagString: Untagged
@@ -1417,6 +1472,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 376745739966379319}
+    - _Target: {fileID: 7789117221886008088}
+      _MemberName: PlayGlobally
+      _PersistentArguments: []
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
@@ -1493,3 +1551,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 2246359677010248224}
+--- !u!114 &7789117221886008088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9184292558766751300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ffc06106304cc3824d5bcf25a7037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onlyPlayOnce: 0
+  _playOnEnable: 0
+  _stopOnDisable: 0
+  _overrideFadeOut: -1
+  _sound:
+    ID: 1073741838
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 9184292558766751300}
+  _overrideGroup: {fileID: 0}
+  _positionMode: 0
+  _delay: 0

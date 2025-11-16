@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class ColorblindSetting : IGlobalVolumeSetting<ColorblindSetting.ColorblindMode>
+    public class ColorblindSetting : IGlobalVolumeSetting<ColorblindSetting.ColorblindMode>, IGlobalVolumeSetting
     {
         public enum ColorblindMode
         {

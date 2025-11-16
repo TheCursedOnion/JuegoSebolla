@@ -7,5 +7,6 @@ namespace CursedOnion.Locators
     public class RuntimeVariableLocator : ScriptableObject
     {
         public int LastLevelPlayed;
+        public bool IsGamePlayedOnMobile;
     }
 }

@@ -15,7 +15,7 @@ namespace Ami.BroAudio
         }
 
         [SerializeField] bool _onlyPlayOnce = false;
-        [SerializeField, FormerlySerializedAs("_playOnStart")] bool _playOnEnable = true;
+        [SerializeField, FormerlySerializedAs("_playOnStart")] bool _playOnEnable = false;
         [SerializeField] bool _stopOnDisable = false;
         [SerializeField] float _overrideFadeOut = -1f;
         [Space]

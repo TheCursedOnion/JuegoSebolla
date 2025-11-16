@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CursedOnion
 {
-    public class SkyMANAGER : MonoBehaviour
+    public class SkyManager : MonoBehaviour
     {
         public float skySpeed;
 

@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 5491992755208788537}
   - component: {fileID: 2056011504918901820}
   - component: {fileID: 3767817828988530664}
+  - component: {fileID: 4286769651457280857}
   m_Layer: 5
   m_Name: SpawnButton
   m_TagString: Untagged
@@ -280,6 +281,9 @@ MonoBehaviour:
     - _Target: {fileID: 5491992755208788537}
       _MemberName: ToggleSelfSelect
       _PersistentArguments: []
+    - _Target: {fileID: 4286769651457280857}
+      _MemberName: PlayGlobally
+      _PersistentArguments: []
   OnPointerUpOutsideEvent:
     _PersistentCalls: []
   OnPointerUpEvent:
@@ -287,7 +291,7 @@ MonoBehaviour:
   ButtonGroupId: 0
   OnSelect:
     _PersistentCalls:
-    - _Target: {fileID: 0}
+    - _Target: {fileID: 5133061282974094406}
       _MemberName: ChangeImageAlpha
       _PersistentArguments:
       - _Type: 5
@@ -316,7 +320,7 @@ MonoBehaviour:
         _Object: {fileID: 0}
   OnDeselect:
     _PersistentCalls:
-    - _Target: {fileID: 0}
+    - _Target: {fileID: 5133061282974094406}
       _MemberName: ChangeImageAlpha
       _PersistentArguments:
       - _Type: 5
@@ -371,6 +375,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTransform: {fileID: 4804685102002612287}
+--- !u!114 &4286769651457280857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265561604102262000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ffc06106304cc3824d5bcf25a7037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onlyPlayOnce: 0
+  _playOnEnable: 0
+  _stopOnDisable: 0
+  _overrideFadeOut: -1
+  _sound:
+    ID: 1073741838
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 2265561604102262000}
+  _overrideGroup: {fileID: 0}
+  _positionMode: 0
+  _delay: 0
 --- !u!1 &8957406848392635450
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using CursedOnion.Behaviours;
+using CursedOnion.Game.Audio;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Events;
 using CursedOnion.Locators;
@@ -60,6 +61,8 @@ namespace CursedOnion.Game.Cameras
             cameraBehaviours.Initialize(this);
             cameraController.Initialize(this);
             cameraController.Enable();
+            
+            GetComponent<MusicPlayer>()?.StartMusic();
         }
         void MatchWith(GlobalCamera other)
         {
