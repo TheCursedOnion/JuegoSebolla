@@ -18,7 +18,7 @@ namespace CursedOnion.Game.Objects
         
         public string NameKey;
         
-        public string levelScene;
+        [Scene] public string levelScene;
 
         public bool Validate()
         {

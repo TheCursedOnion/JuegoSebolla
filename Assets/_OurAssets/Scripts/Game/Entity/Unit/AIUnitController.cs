@@ -104,7 +104,7 @@ namespace CursedOnion.Game.Entity
             targetedGridPosToMove = Vector3.zero;
             targetedEnemy = null;
 
-            AStarPathFinder.InsertReachablePositionsAsyncBFS(
+            _ = AStarPathFinder.InsertReachablePositionsAsyncBFS(
                 reachableMovePositions,
                 unit.Grid,
                 unit.transform.position,
@@ -217,7 +217,7 @@ namespace CursedOnion.Game.Entity
                 return false;
 
             reachableMovePositions.Clear();
-            AStarPathFinder.InsertReachablePositionsAsyncBFS(
+            _ = AStarPathFinder.InsertReachablePositionsAsyncBFS(
                 reachableMovePositions,
                 unit.Grid,
                 unit.transform.position,

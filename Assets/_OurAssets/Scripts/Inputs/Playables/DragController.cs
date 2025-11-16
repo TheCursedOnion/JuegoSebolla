@@ -1,13 +1,16 @@
 ﻿using System;
+using CursedOnion.Locators;
+using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace CursedOnion.Game.Inputs
 {
-    public class SwipeDetector : MonoBehaviour
+    public class DragController : MonoBehaviour
     { 
-        public float dragSpeed = 0.1f; // velocidad de arrastre
-        public float damping = 10f;   // suavizado del movimiento
+        [Inject] RuntimeVariableLocator variableLocator;
+        public float dragSpeed = 0.1f;
+        public float damping = 10f;
 
         private Vector3 dragOrigin;
         private Vector3 targetPosition;
@@ -25,18 +28,14 @@ namespace CursedOnion.Game.Inputs
 
         void Update()
         {
-            #if UNITY_EDITOR || UNITY_STANDALONE
+            if(!variableLocator.IsGamePlayedOnMobile)
                 HandleMouseDrag();
-            #else
+            else
                 HandleTouchDrag();
-            #endif
 
-            if(isDragging)
-                transform.position = Vector3.Lerp(
-                    transform.position,
-                    targetPosition,
-                    Time.deltaTime * damping
-                );
+            if (isDragging)
+                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * damping);
+            
         }
         void HandleMouseDrag()
         {
@@ -82,10 +81,8 @@ namespace CursedOnion.Game.Inputs
         
         void DragCamera(Vector3 delta)
         {
-            // Convertir delta a desplazamiento en el mundo
             Vector3 move = new Vector3(-delta.x, 0, -delta.y) * dragSpeed;
-
-            // aplicarlo en el plano XZ según la rotación de cámara
+            
             Vector3 right = cam.transform.right;
             Vector3 forward = cam.transform.forward;
 
