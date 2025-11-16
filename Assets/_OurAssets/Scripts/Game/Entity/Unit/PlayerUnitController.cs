@@ -25,7 +25,7 @@ namespace CursedOnion.Game.Entity
         {
             bool entitySelected = entity == AssignedEntity;
 
-            turnIndicator.material.color = entitySelected ? Color.green : Color.gray;
+            turnIndicator.material.color = entitySelected ? Color.green : new Color(1, 0.87f, 0 , 1);
         }
         protected void UnselectEntity()
         {

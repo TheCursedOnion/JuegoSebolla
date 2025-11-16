@@ -48,7 +48,7 @@ namespace CursedOnion.Game.Entity
         {
             return startTurn;
         }
-
+        
         #region AttackLogic
         public bool IsEnemyInAttackRange()
         {
