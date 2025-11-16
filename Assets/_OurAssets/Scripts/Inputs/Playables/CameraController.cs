@@ -2,6 +2,7 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game;
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Helpers;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -11,7 +12,7 @@ using UnityEngine.InputSystem;
 namespace CursedOnion.Game.Inputs
 {
     [RequireComponent(typeof(GlobalCamera))]
-    public class CameraController : MonoBehaviour, IController
+    public class CameraController : MonoBehaviour, IController, IPausable
     {
         [SerializeField] private float moveSpeed;
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
@@ -42,6 +43,8 @@ namespace CursedOnion.Game.Inputs
             EnableMove(false);
             EnableRotate(false);
         }
+        public void Pause() => reader.Disable();
+        public void Unpause() => reader.Enable();
         
         bool canMove = true;
         public void EnableMove(bool enable)
@@ -56,9 +59,26 @@ namespace CursedOnion.Game.Inputs
             else
                 reader.RotateCamera -= RotateCamera;
         }
+        
+        Transform lastFollowedTarget;
+
         public void EnableFollow(bool enable)
         {
-            cinemachineContainer.Follow.enabled = enable;
+            var cam = cinemachineContainer.CinemachineCamera;
+            var target = cam.Follow;
+            if (!enable && target != null)
+            {
+                lastFollowedTarget = target;
+                cam.Follow = null;
+            }
+            else
+            {
+                if (lastFollowedTarget != null)
+                {
+                    cam.ForceCameraPosition(cam.transform.position, cam.transform.rotation);
+                    cam.Follow = lastFollowedTarget;
+                }
+            }
         }
 
         private Vector3 moveDir;
