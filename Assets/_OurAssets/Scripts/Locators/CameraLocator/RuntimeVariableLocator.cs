@@ -8,5 +8,10 @@ namespace CursedOnion.Locators
     {
         public int LastLevelPlayed;
         public bool IsGamePlayedOnMobile;
+        public void Initialize()
+        {
+            LastLevelPlayed = 0;
+            IsGamePlayedOnMobile = false;
+        }
     }
 }

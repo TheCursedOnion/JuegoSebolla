@@ -14,6 +14,8 @@ namespace CursedOnion.Installers
         {
             containerBuilder.AddSingleton(cameraLocator, typeof(CameraLocator));
             containerBuilder.AddSingleton(uiTransitionLocator, typeof(UITransitionLocator));
+            
+            variableLocator.Initialize();
             containerBuilder.AddSingleton(variableLocator, typeof(RuntimeVariableLocator));
         }
     }
