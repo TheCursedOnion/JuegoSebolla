@@ -56,6 +56,7 @@ namespace CursedOnion.Game.Modes.General
             
             HighlightPlane plane = pool.Get();
             
+            color.a = 0.5f;
             plane.SetHighlightAt(worldPosition, onTile , color);
             return plane;
         }
