@@ -20,10 +20,11 @@ namespace CursedOnion.Game.Entity.Components
         
         private List<Vector3> previousReachablePositions = new();
         private Vector3 lastTargetPosition;
-        public override void ConfigureComponent(EntityComponentController controller)
+        public override EntityComponent ConfigureComponent(EntityComponentController controller)
         {
             base.ConfigureComponent(controller);
             lastTargetPosition = new Vector3(Mathf.Infinity, Mathf.Infinity, Mathf.Infinity);
+            return this;
         }
         
         public virtual async Task CalculateReachablePositions(Grid3d levelGrid, Vector3 startWorldPos, int movementRange, int yieldFrequency = 100)

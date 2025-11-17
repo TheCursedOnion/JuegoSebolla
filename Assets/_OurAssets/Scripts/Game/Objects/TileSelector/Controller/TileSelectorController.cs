@@ -35,22 +35,24 @@ namespace CursedOnion.Game.Objects
         {
             reader ??= InputReaderCollection.GetReader<TileSelectorInputReader>();
             reader.PlaceSelector += PlaceSelector;
+            Enable();
         }
         public void Enable()
         {
-            Disable(); //Si no estaba suscrito, no pasa nada, y si lo estaba, evita que se suscriba más de una vez
+            Disable();
             reader.Enable();
+            reader.PlaceSelector += PlaceSelector;
             reader.MoveSelector += MoveSelector;
             reader.Select += HardSelect;
         }
         private void OnDisable()
         {
             Disable();
-            reader.PlaceSelector -= PlaceSelector;
         }
         public void Disable()
         {
             reader.Disable();
+            reader.PlaceSelector -= PlaceSelector;
             reader.MoveSelector -= MoveSelector;
             reader.Select -= HardSelect;
         }

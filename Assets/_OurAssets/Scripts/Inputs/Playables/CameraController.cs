@@ -1,7 +1,9 @@
 ﻿using System;
+using CursedOnion.Behaviours;
 using CursedOnion.Extensions;
 using CursedOnion.Game;
 using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Helpers;
 using NaughtyAttributes;
@@ -14,18 +16,32 @@ namespace CursedOnion.Game.Inputs
     [RequireComponent(typeof(GlobalCamera))]
     public class CameraController : MonoBehaviour, IController, IPausable
     {
-        [SerializeField] private float moveSpeed;
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
-        private CameraInputReader reader;
         
+        [SerializeField] private float moveSpeed;
+
+        [SerializeField] private CameraFocus cameraFreeGuide;
+        [SerializeField] private DragController dragController;
+        //TODO: ZoomController
+ 
+        private CameraInputReader reader;
         private CinemachineContainer cinemachineContainer;
+        bool isPaused = false;
+        
+        
+        
+        bool moveEnabled = true;
+        bool followEnabled = true;
+        Transform lastFollowedTarget;
         float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
         
-
         public void Initialize(GlobalCamera globalCamera)
         {
             this.cinemachineContainer = globalCamera.CinemachineContainer;
             reader = InputReaderCollection.GetReader<CameraInputReader>();
+            
+            dragController ??= GetComponent<DragController>();
+            dragController.Initialize(cameraFreeGuide.transform);
         }
         public void Enable()
         {
@@ -43,14 +59,21 @@ namespace CursedOnion.Game.Inputs
             EnableMove(false);
             EnableRotate(false);
         }
-        public void Pause() => reader.Disable();
-        public void Unpause() => reader.Enable();
+
+        public void Pause()
+        {
+            isPaused = true;
+            reader.Disable();
+        }
+        public void Unpause()
+        {
+            isPaused = false;
+            reader.Enable();
+        }
         
-        bool canMove = true;
         public void EnableMove(bool enable)
         {
-            canMove = enable;
-            //if(!canMove) moveDir = Vector3.zero;
+            moveEnabled = enable;
         }
         public void EnableRotate(bool enable)
         {
@@ -59,25 +82,35 @@ namespace CursedOnion.Game.Inputs
             else
                 reader.RotateCamera -= RotateCamera;
         }
-        
-        Transform lastFollowedTarget;
-
         public void EnableFollow(bool enable)
         {
-            var cam = cinemachineContainer.CinemachineCamera;
-            var target = cam.Follow;
-            if (!enable && target != null)
+            if(enable == followEnabled) return;
+            
+            followEnabled = enable;
+            
+            var cineCam = cinemachineContainer.CinemachineCamera;
+            if (!enable)
             {
-                lastFollowedTarget = target;
-                cam.Follow = null;
-            }
-            else
-            {
+                lastFollowedTarget = cineCam.Follow;
+
                 if (lastFollowedTarget != null)
                 {
-                    cam.ForceCameraPosition(cam.transform.position, cam.transform.rotation);
-                    cam.Follow = lastFollowedTarget;
+                    cameraFreeGuide.transform.position = lastFollowedTarget.position;
+                    cameraFreeGuide.RequestFocus();
+                    return;
                 }
+            }
+
+            if (lastFollowedTarget != null)
+            {
+                var focus = lastFollowedTarget.GetComponent<CameraFocus>();
+                if (focus != null)
+                {
+                    focus.RequestFocus();
+                    cameraFreeGuide.transform.position = focus.transform.position;
+                }
+
+                cineCam.Follow = lastFollowedTarget;
             }
         }
 
@@ -113,7 +146,11 @@ namespace CursedOnion.Game.Inputs
 
         void Update()
         {
-           if(canMove) transform.position += moveDir * (moveSpeed * Time.deltaTime);
+            if (moveEnabled && !isPaused)
+            {
+                cameraFreeGuide.transform.position += moveDir * (moveSpeed * Time.deltaTime);
+                dragController.HandleDrag();
+            }
         }
     }
 }

@@ -20,11 +20,16 @@ namespace CursedOnion.Game.Entity
     public class EntityComponentController : MonoBehaviour, IDisposable
     {
         
-        [SerializeField]  protected SimpleEntity AssignedEntity;
+        [SerializeField] protected SimpleEntity AssignedEntity;
         [SerializeField, ReadOnly] protected PlaceEntityComponent PlaceEntityComponent;
         [SerializeField, ReadOnly] protected MoveEntityComponent MoveEntityComponent;
         [SerializeField, ReadOnly] protected AttackEntityComponent AttackEntityComponent;
         [SerializeField, ReadOnly] protected SpecialAbilityComponent AbilityEntityComponent;
+
+        public PlaceEntityComponent PlaceComponent => GetEntityComponent<PlaceEntityComponent>();
+        public MoveEntityComponent MoveComponent => GetEntityComponent<MoveEntityComponent>();
+        public AttackEntityComponent AttackComponent => GetEntityComponent<AttackEntityComponent>();
+        public SpecialAbilityComponent AbilityComponent => GetEntityComponent<SpecialAbilityComponent>();
         
         public SimpleEntity GetAssignedEntity() => AssignedEntity;
         public T GetEntityComponent<T>() where T : EntityComponent
@@ -38,7 +43,7 @@ namespace CursedOnion.Game.Entity
                 _ => null
             };
 
-            return component?.GetComponent(this) as T;
+            return component?.ConfigureComponent(this) as T;
         }
         public virtual void Initialize(SimpleEntity entity, EntityComponents components)
         {

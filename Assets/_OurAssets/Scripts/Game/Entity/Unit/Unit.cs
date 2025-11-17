@@ -1,11 +1,6 @@
-using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Modes.General.Animations;
-using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
-using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
 using System;
 using UnityEngine;
 
@@ -13,9 +8,9 @@ namespace CursedOnion.Game.Entity
 {
     public enum BattleSide
     {
-        Neutral,
-        Ally,
-        Enemy
+        Neutral = -1,
+        Ally = 0,
+        Enemy = 1,
     }
     public class Unit : SimpleEntity
     {
@@ -88,9 +83,6 @@ namespace CursedOnion.Game.Entity
                 case BattleSide.Enemy:
                     EntityController ??= gameObject.AddComponent<AIUnitController>();
                     break;
-                default:
-                    //EntityController ??= gameObject.AddComponent<EntityComponentController>();
-                    break;
             }
             EntityController.Initialize(this, StatData.EntityComponents);
         }
@@ -117,38 +109,14 @@ namespace CursedOnion.Game.Entity
         }
         private void InitializeAnimations()
         {
-            layeredEntity = GetComponent<LayeredEntity>();
-            if (layeredEntity == null)
-                layeredEntity = gameObject.AddComponent<LayeredEntity>();
-
-            var animationGroups = Stats.AnimationLayers;
-
-            if (animationGroups == null || animationGroups.Count == 0)
-            {
-                Debug.LogWarning($"{name}: No se asignaron grupos de animación.");
-                return;
-            }
-
-            var currentGroup = animationGroups[0]; // default
-
-            switch (GetSide())// o el que quieras seleccionar
-            {
-                case BattleSide.Ally:
-                    currentGroup = animationGroups[0];
-                    break;
-                case BattleSide.Enemy:
-                    currentGroup = animationGroups[1];
-                    break;
-            }
-                    
-
-            if (currentGroup.layers == null || currentGroup.layers.Count == 0)
-            {
-                Debug.LogWarning($"{name}: El grupo '{currentGroup.groupName}' no tiene capas asignadas.");
-                return;
-            }
+            LayeredEntity = GetComponent<LayeredEntity>();
+            if (LayeredEntity == null) LayeredEntity = gameObject.AddComponent<LayeredEntity>();
             
-            layeredEntity.InitializeLayers(currentGroup);
+            int periodId = (int)LevelManager.LevelAsset.LevelData.TimePeriod;
+            int indexOffset = (int)EntitySide;
+            
+            Debug.Log($"Period: {periodId}, Index: {indexOffset} y {EntitySide}");
+            LayeredEntity.Initialize(Stats.AnimationLayers, periodId + indexOffset);
         }
 
         public void ApplyConfusion(int turns)

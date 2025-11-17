@@ -1,4 +1,6 @@
-﻿namespace CursedOnion.Helpers
+﻿using UnityEngine;
+
+namespace CursedOnion.Helpers
 {
     public class TransitionIndex
     {
@@ -7,8 +9,15 @@
         public void SetTransitionIndex(int index) => transitionIndex = index;
         public bool IsIndexEquals(int value)
         {
+            
             bool result = transitionIndex == value;
-            if(result) ResetTransitionIndex();
+            if (result)
+            {
+                Debug.Log("PRE"+transitionIndex);
+                Debug.Log("YES");
+                ResetTransitionIndex();
+                Debug.Log(transitionIndex);
+            }
             return result;
         }
     }

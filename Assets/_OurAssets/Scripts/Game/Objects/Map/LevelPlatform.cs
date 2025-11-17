@@ -44,7 +44,7 @@ namespace CursedOnion.Game.Objects
         {
             if(!IsValid()) return;
             
-            cameraFocus.Focus();
+            cameraFocus.RequestFocus();
             mapEvents.SelectLevel(this);
         }
         

@@ -28,7 +28,26 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
 
         private AnimationLayerGroup layerGroup;
-        public void InitializeLayers(AnimationLayerGroup layerGroup)
+
+        public void Initialize(List<AnimationLayerGroup> animationLayerGroups, int useIndex)
+        {
+            if (animationLayerGroups == null || animationLayerGroups.Count == 0)
+            {
+                Debug.LogWarning($"{name}: No se asignaron grupos de animación.");
+                return;
+            }
+            
+            AnimationLayerGroup layer = animationLayerGroups[useIndex];
+            if (layer.layers == null || layer.layers.Count == 0)
+            {
+                Debug.LogWarning($"{name}: El grupo '{layer.groupName}' no tiene capas asignadas.");
+                return;
+            }
+            
+            Debug.Log(useIndex);
+            ProcessLayer(layer);
+        }
+        void ProcessLayer(AnimationLayerGroup layerGroup)
         {
             this.layerGroup = layerGroup;
             for (int i = 0; i < layerGroup.layers.Count; i++)
@@ -46,7 +65,7 @@ namespace CursedOnion.Game.Modes.General.Animations
                         layerSpriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
                     else
                     {
-                        animationLayer.transform.position += Vector3.back * 0.001f;
+                        animationLayer.transform.position += Vector3.back * (0.001f * i);
                     }
                 }
 

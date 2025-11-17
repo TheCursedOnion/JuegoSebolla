@@ -24,7 +24,7 @@ namespace CursedOnion.Game.Entity
         [SerializeField] protected BattleSide EntitySide = BattleSide.Neutral;
         
         public EntityComponentController EntityController;
-        [SerializeField] protected LayeredEntity layeredEntity;
+        [SerializeField] protected LayeredEntity LayeredEntity;
         
         
         [HorizontalLine(height: 2f, color: EColor.Violet)]
@@ -57,7 +57,7 @@ namespace CursedOnion.Game.Entity
         public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)
         {
-            layeredEntity = this.layeredEntity;
+            layeredEntity = this.LayeredEntity;
             return layeredEntity != null;
         }
         protected void SetLevelVariables(LevelManager manager)

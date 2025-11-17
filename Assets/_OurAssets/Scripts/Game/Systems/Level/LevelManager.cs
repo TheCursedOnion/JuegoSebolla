@@ -10,8 +10,6 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Level
 {
-    public enum LevelState { InDialog, InBattleEditor, InBattle, Finished }
-
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {

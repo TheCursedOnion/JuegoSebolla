@@ -17,16 +17,16 @@ namespace CursedOnion.Game.Inputs
         
         private bool dragStartedOnUI = true;
         private bool isDragging = false;
-        
-        Camera cam;
 
-        void Start()
+        private Transform targetGuide;
+
+        public void Initialize(Transform guide)
         {
-            cam = Camera.main;
-            targetPosition = transform.position;
+            targetGuide = guide;
+            targetPosition = guide.position;
         }
 
-        void Update()
+        public void HandleDrag()
         {
             if(!variableLocator.IsGamePlayedOnMobile)
                 HandleMouseDrag();
@@ -83,8 +83,8 @@ namespace CursedOnion.Game.Inputs
         {
             Vector3 move = new Vector3(-delta.x, 0, -delta.y) * dragSpeed;
             
-            Vector3 right = cam.transform.right;
-            Vector3 forward = cam.transform.forward;
+            Vector3 right = targetGuide.transform.right;
+            Vector3 forward = targetGuide.transform.forward;
 
             right.y = 0;
             forward.y = 0;

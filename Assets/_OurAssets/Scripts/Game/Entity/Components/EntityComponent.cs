@@ -8,16 +8,12 @@ namespace CursedOnion.Game.Entity.Components
         protected SimpleEntity AssignedEntity;
         protected Transform EntityTransform => AssignedEntity.transform;
         [SerializeField] protected EntityFlag UsedFlags = EntityFlag.None;
-
-        public EntityComponent GetComponent(EntityComponentController controller)
-        {
-            ConfigureComponent(controller);
-            return this;
-        }
-        public virtual void ConfigureComponent(EntityComponentController controller)
+        
+        public virtual EntityComponent ConfigureComponent(EntityComponentController controller)
         {
             AssignedController = controller;
             AssignedEntity = controller.GetAssignedEntity();
+            return this;
         }
     }
 }

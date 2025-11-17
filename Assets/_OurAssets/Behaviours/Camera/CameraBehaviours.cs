@@ -36,7 +36,7 @@ namespace CursedOnion.Behaviours
         }
         
         public void ChangeToFreeMode() => transitionIndex.SetTransitionIndex((int)CameraMode.FreeMode);
-        public bool CanChangeToFreeMode() => transitionIndex.IsIndexEquals((int)CameraMode.FreeMode) || transitionIndex.IsIndexEquals(4);
+        public bool CanChangeToFreeMode() => transitionIndex.IsIndexEquals((int)CameraMode.FreeMode);
         public void EnterFreeMode()
         {
             cameraController.DisableAll();
@@ -49,7 +49,7 @@ namespace CursedOnion.Behaviours
         }
 
         public void ChangeToFixedMode() => transitionIndex.SetTransitionIndex((int)CameraMode.FixedMode);
-        public bool CanChangeToFixedMode() => transitionIndex.IsIndexEquals((int)CameraMode.FixedMode) || transitionIndex.IsIndexEquals(4);
+        public bool CanChangeToFixedMode() => transitionIndex.IsIndexEquals((int)CameraMode.FixedMode);
         public void EnterFixedMode()
         {
             cameraController.DisableAll();
@@ -63,9 +63,11 @@ namespace CursedOnion.Behaviours
 
         public void SwitchCameraModes()
         {
-            if (currentMode != CameraMode.None)
+            Debug.Log($"Switching camera modes from {currentMode} to {(currentMode == CameraMode.FreeMode ? CameraMode.FixedMode : CameraMode.FreeMode)}");
+            switch (currentMode)
             {
-                transitionIndex.SetTransitionIndex(4);
+                case CameraMode.FreeMode: EnterFixedMode(); break;
+                case CameraMode.FixedMode: EnterFreeMode(); break;
             }
         }
     }

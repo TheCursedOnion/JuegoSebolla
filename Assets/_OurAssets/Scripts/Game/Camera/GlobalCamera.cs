@@ -6,10 +6,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 using CursedOnion.Behaviours;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Events;
 using CursedOnion.Locators;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace CursedOnion.Game.Cameras
 {
@@ -63,6 +66,9 @@ namespace CursedOnion.Game.Cameras
             cameraController.Enable();
             
             GetComponent<MusicPlayer>()?.StartMusic();
+            
+            var pipelineAsset = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
+            pipelineAsset.EnableRenderFeature<FullScreenPassRendererFeature>(false);
         }
         void MatchWith(GlobalCamera other)
         {

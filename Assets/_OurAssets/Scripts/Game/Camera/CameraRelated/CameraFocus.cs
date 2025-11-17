@@ -20,11 +20,11 @@ namespace CursedOnion.Game.Cameras
         [SerializeField] private float focusTime = 1f;
         private void Awake()
         {
-            if(focusOnAwake) Focus();
+            if(focusOnAwake) RequestFocus();
         }
         
         [Button]
-        public void Focus()
+        public void RequestFocus()
         {
             cameraLocator.GlobalCamera.FocusCameraOn(this.transform, positionDamping, distanceOffset, tiltOnFocus, focusTime);
         }
