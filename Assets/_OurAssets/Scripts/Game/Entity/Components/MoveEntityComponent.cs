@@ -32,7 +32,7 @@ namespace CursedOnion.Game.Entity.Components
             if (Vector3.Distance(lastTargetPosition, startWorldPos) < 0.1f) return;
             
             lastTargetPosition = startWorldPos;
-            await AStarPathFinder.InsertReachablePositionsAsyncBFS(previousReachablePositions, levelGrid, startWorldPos, movementRange, yieldFrequency);
+            await AStarPathFinder.InsertReachableGridPositionsAsyncBFS(previousReachablePositions, levelGrid, startWorldPos, movementRange, yieldFrequency);
         }
         
         public virtual async Task VisualizeMovement()

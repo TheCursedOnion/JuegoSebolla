@@ -34,11 +34,11 @@ namespace CursedOnion.Game.Entity.Components
             grid.TryWorldToGridPosition(position, out Vector3 gridPos);
             if (!isMeleeUnit)
             {
-                AStarPathFinder.InsertRangeAttackPositions(reachableTiles, grid, gridPos, 2, true);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachableTiles, grid, gridPos, 2, false);
             }
             else
             {
-                AStarPathFinder.InsertMeleeAttackPositions(reachableTiles, grid, gridPos);
+                AStarPathFinder.InsertMeleeAttackGridPositions(reachableTiles, grid, gridPos);
             }
             
             grid.PaintTilesAtGridPositions(reachableTiles, attackColor);

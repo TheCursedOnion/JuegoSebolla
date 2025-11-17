@@ -61,11 +61,11 @@ namespace CursedOnion.Game.Entity
             grid.TryWorldToGridPosition(position, out Vector3 gridPos);
             if (!isMeleeUnit)
             {
-                AStarPathFinder.InsertRangeAttackPositions(reachableAttackPositions, grid, gridPos, 2, true);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachableAttackPositions, grid, gridPos, 2, true);
             }
             else
             {
-                AStarPathFinder.InsertMeleeAttackPositions(reachableAttackPositions, grid, gridPos);
+                AStarPathFinder.InsertMeleeAttackGridPositions(reachableAttackPositions, grid, gridPos);
             }
 
             foreach(var pos in reachableAttackPositions)
@@ -104,7 +104,7 @@ namespace CursedOnion.Game.Entity
             targetedGridPosToMove = Vector3.zero;
             targetedEnemy = null;
 
-            _ = AStarPathFinder.InsertReachablePositionsAsyncBFS(
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 reachableMovePositions,
                 unit.Grid,
                 unit.transform.position,
@@ -145,7 +145,7 @@ namespace CursedOnion.Game.Entity
                 else
                 {
                     // Para arqueros: posiciones desde las que puede atacar al aliado
-                    AStarPathFinder.InsertRangeAttackPositions(candidatePositions, unit.Grid, allyGridPos, 2, true);
+                    AStarPathFinder.InsertManhattanAttackGridPositions(candidatePositions, unit.Grid, allyGridPos, 2, true);
                 }
 
                 foreach (var pos in candidatePositions)
@@ -217,7 +217,7 @@ namespace CursedOnion.Game.Entity
                 return false;
 
             reachableMovePositions.Clear();
-            _ = AStarPathFinder.InsertReachablePositionsAsyncBFS(
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 reachableMovePositions,
                 unit.Grid,
                 unit.transform.position,

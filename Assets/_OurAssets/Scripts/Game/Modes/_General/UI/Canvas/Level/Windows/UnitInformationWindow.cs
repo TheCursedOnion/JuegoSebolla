@@ -38,7 +38,11 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         }
         void UpdateDataText(StatData data)
         {
-            if(data == null) ClearInspector();
+            if (data == null)
+            {
+                ClearInspector();
+                levelEvents.RequestTileSelection();
+            }
             else inspector.SetInspectorStatData(data);
         }
 

@@ -1,8 +1,7 @@
-﻿using CursedOnion.Game.Systems.Grid;
+﻿using System;
+using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Helpers;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -10,182 +9,354 @@ namespace CursedOnion.Game.Entity
 {
     public static class AStarPathFinder
     {
-        private static Vector3[] CentralXZ =
+        private static readonly Vector3Int[] CentralXZ =
         {
-            new(1, 0, 0),
-            new(-1, 0, 0),
-            new(0, 0, 1),
-            new(0, 0, -1)
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(-1, 0, 0),
+            new Vector3Int(0, 0, 1),
+            new Vector3Int(0, 0, -1),
         };
-        private static Vector3[] AllXZ =
-        {
-            new(1, 0, 0),
-            new(-1, 0, 0),
-            new(0, 0, 1),
-            new(0, 0, -1),
-            new(0.5f, 0, 0.5f),
-            new(-0.5f, 0, 0.5f),
-            new(0.5f, 0, -0.5f),
-            new(-0.5f, 0, -0.5f),
-        };
-        public static void InsertMeleeAttackPositions(List<Vector3> reachablePositions, Grid3d grid, Vector3 startGridPos)
-        {
-            Tile3d tile = grid.GetTileAtGridPosition(startGridPos);
-            var possibleDirections = tile.GetExitDirectionVector();
-            
-            reachablePositions.Clear();
-            foreach (var direction in possibleDirections)
-            {
-                var newPos = startGridPos + direction;
 
-                if (grid.TryGetTileAtGridPosition(newPos, out var nextTile) && !nextTile.IsFullTile()) 
-                    reachablePositions.Add(newPos);
+        private static readonly Vector3Int Up = Vector3Int.up;
+        private static readonly Vector3Int Down = Vector3Int.down;
+
+        #region Node
+
+        private class Node
+        {
+            public Vector3Int gridPosition;
+            public Node parent;
+            public float g;
+            public float h;
+            public float f => g + h;
+
+            public void Reset(Vector3Int gridPos, Node parent, float g, float h)
+            {
+                this.gridPosition = gridPos;
+                this.parent = parent;
+                this.g = g;
+                this.h = h;
             }
         }
-        public static void InsertRangeAttackPositions(List<Vector3> reachablePositions, Grid3d grid, Vector3 startGridPos, int distance, bool includeDiagonals)
+
+        private static readonly Stack<Node> NodePool = new();
+
+        private static Node RentNode(Vector3Int pos, Node parent, float g, float h)
         {
-            reachablePositions.Clear();
-            
-            Vector3 up = Vector3.up;
-            Vector3 down = Vector3.down;
-
-            var usedDirections = includeDiagonals ? AllXZ : CentralXZ;
-            foreach (var dir in usedDirections)
+            if (NodePool.Count > 0)
             {
-                Vector3 targetPos = startGridPos + new Vector3(dir.x * distance, dir.y, dir.z * distance);
+                var n = NodePool.Pop();
+                n.Reset(pos, parent, g, h);
+                return n;
+            }
 
-                if (!grid.TryGetTileAtGridPosition(targetPos, out Tile3d targetTile))
-                    continue;
+            return new Node { gridPosition = pos, parent = parent, g = g, h = h };
+        }
 
-                bool isTargetFull = targetTile.IsFullTile();
-                bool isTargetEmpty = targetTile.IsEmptyTile();
-                
-                if (isTargetFull && grid.TryGetTileAtGridPosition(targetPos + up, out Tile3d above) && above.IsEmptyTile())
+        private static void ReturnNode(Node n)
+        {
+            n.parent = null;
+            NodePool.Push(n);
+        }
+
+        #endregion
+
+        #region Priority Queue
+        class PriorityQueue<T>
+        {
+            private readonly List<(T item, float priority)> heap = new();
+
+            public int Count => heap.Count;
+
+            public void Enqueue(T item, float priority)
+            {
+                heap.Add((item, priority));
+                SiftUp(heap.Count - 1);
+            }
+
+            public T Dequeue()
+            {
+                if (heap.Count == 0) throw new InvalidOperationException("Queue empty");
+                var result = heap[0].item;
+                if (heap.Count == 1)
                 {
-                    reachablePositions.Add(targetPos + up);
-                    continue;
+                    heap.RemoveAt(0);
+                    return result;
                 }
 
-                if (!isTargetFull && !isTargetEmpty)
+                heap[0] = heap[heap.Count - 1];
+                heap.RemoveAt(heap.Count - 1);
+                SiftDown(0);
+                return result;
+            }
+
+            public void Clear() => heap.Clear();
+
+            private void SiftUp(int index)
+            {
+                while (index > 0)
                 {
-                    reachablePositions.Add(targetPos);
-                    continue;
+                    int parent = (index - 1) / 2;
+                    if (heap[index].priority >= heap[parent].priority) break;
+                    Swap(index, parent);
+                    index = parent;
                 }
-                
-                if (isTargetEmpty)
+            }
+
+            private void SiftDown(int index)
+            {
+                int n = heap.Count;
+                while (true)
                 {
-                    if (grid.TryGetTileAtGridPosition(targetPos + down, out Tile3d below))
+                    int left = 2 * index + 1;
+                    int right = left + 1;
+                    int smallest = index;
+
+                    if (left < n && heap[left].priority < heap[smallest].priority) smallest = left;
+                    if (right < n && heap[right].priority < heap[smallest].priority) smallest = right;
+
+                    if (smallest == index) break;
+                    Swap(index, smallest);
+                    index = smallest;
+                }
+            }
+
+            private void Swap(int a, int b)
+            {
+                (heap[a], heap[b]) = (heap[b], heap[a]);
+            }
+        }
+
+        #endregion
+
+        #region Insert Attack Methods
+
+        public static void InsertMeleeAttackGridPositions(List<Vector3> reachableGridPositions, Grid3d grid,
+            Vector3 startGridPos)
+        {
+            reachableGridPositions.Clear();
+
+            Vector3Int start = Vector3Int.FloorToInt(startGridPos);
+            Tile3d tile = grid.GetTileAtGridPosition(start);
+            if (tile == null) return;
+
+            foreach (var dirV in tile.GetExitDirectionVector())
+            {
+                Vector3Int dir = Vector3Int.FloorToInt(dirV);
+                Vector3Int newPos = start + dir;
+                if (grid.TryGetTileAtGridPosition(newPos, out var nextTile) && !nextTile.IsFullTile())
+                {
+                    reachableGridPositions.Add(newPos);
+                }
+            }
+        }
+
+        public static void InsertRangedAttackGridPositions(List<Vector3> reachableGridPositions, Grid3d grid,
+            Vector3 startGridPos, int range)
+        {
+            reachableGridPositions.Clear();
+
+            Vector3Int start = Vector3Int.FloorToInt(startGridPos);
+            foreach (var direction in CentralXZ)
+            {
+                var gridPos = start + direction * range;
+                TryToInsertGridPosition(reachableGridPositions, gridPos, grid);
+            }
+        }
+
+        public static void InsertManhattanAttackGridPositions(
+            List<Vector3> reachableGridPositions,
+            Grid3d grid,
+            Vector3 startGridPos,
+            int distance,
+            bool fill)
+        {
+            reachableGridPositions.Clear();
+
+            Vector3Int start = Vector3Int.FloorToInt(startGridPos);
+
+            for (int dx = -distance; dx <= distance; dx++)
+            {
+                int maxDz = distance - Mathf.Abs(dx);
+
+                for (int dz = -maxDz; dz <= maxDz; dz++)
+                {
+                    int manhattan = Mathf.Abs(dx) + Mathf.Abs(dz);
+
+                    if (!fill && manhattan != distance) continue;
+
+                    Vector3Int targetPos = new Vector3Int(start.x + dx, start.y, start.z + dz);
+                    TryToInsertGridPosition(reachableGridPositions, targetPos, grid);
+
+                }
+            }
+        }
+
+        static void TryToInsertGridPosition(List<Vector3> reachableGridPositions, Vector3Int targetPos, Grid3d grid)
+        {
+            if (!grid.TryGetTileAtGridPosition(targetPos, out Tile3d targetTile)) return;
+
+            bool isTargetFull = targetTile.IsFullTile();
+            bool isTargetEmpty = targetTile.IsEmptyTile();
+            bool isTargetStair = targetTile.IsStairTile();
+
+            if (isTargetFull)
+            {
+                if (grid.TryGetTileAtGridPosition(targetPos + Up, out Tile3d above) && above.IsEmptyTile())
+                {
+                    reachableGridPositions.Add(targetPos + Up);
+                }
+
+                return;
+            }
+
+            if (isTargetStair)
+            {
+                reachableGridPositions.Add(targetPos);
+                return;
+            }
+
+            if (isTargetEmpty)
+            {
+                Vector3Int belowPos = targetPos + Down;
+
+                if (grid.TryGetTileAtGridPosition(belowPos, out Tile3d below))
+                {
+                    if (below.IsStairTile())
                     {
-                        if (!below.IsEmptyTile())
-                        {
-                            if(below.IsFullTile())
-                                reachablePositions.Add(targetPos);
-                            else
-                                reachablePositions.Add(targetPos + down);
-                        }
-                        else if (grid.TryGetTileAtGridPosition(targetPos + down * 2, out Tile3d lastBelow)
-                            && !lastBelow.IsEmptyTile())
-                        {
-                            reachablePositions.Add(targetPos + down);
-                        }
+                        reachableGridPositions.Add(targetPos + Down);
+                        return;
+                    }
+
+                    if (below.IsFullTile())
+                    {
+                        reachableGridPositions.Add(targetPos);
+                        return;
+                    }
+
+                    Vector3Int lastBelowPos = targetPos + Down * 2;
+                    if (grid.TryGetTileAtGridPosition(lastBelowPos, out Tile3d lastBelow)
+                        && lastBelow.IsFullTile())
+                    {
+                        reachableGridPositions.Add(targetPos + Down);
                     }
                 }
             }
         }
-        
-        public static async Task InsertReachablePositionsAsyncBFS(
+
+        #endregion
+
+        #region Pathfinding Methods
+
+        public static async Task InsertReachableGridPositionsAsyncBFS(
             List<Vector3> positions,
             Grid3d levelGrid,
             Vector3 startWorldPos,
             int movementRange,
             int yieldFrequency = 100)
         {
-            if (!levelGrid.TryWorldToGridPosition(startWorldPos, out Vector3 startGrid))
+            if (!levelGrid.TryWorldToGridPosition(startWorldPos, out Vector3 startGridFloat))
                 return;
 
-            var frontier = new Queue<(Vector3 pos, int cost)>();
-            var visited = new HashSet<Vector3>();
+            Vector3Int start = Vector3Int.FloorToInt(startGridFloat);
 
             positions.Clear();
 
-            void TryAdd(Vector3 pos, int cost)
-            {
-                if (!visited.Contains(pos))
-                {
-                    frontier.Enqueue((pos, cost));
-                    visited.Add(pos);
-                    positions.Add(pos);
-                }
-            }
+            var frontier = new Queue<(Vector3Int pos, int cost)>();
+            var costSoFar = new Dictionary<Vector3Int, int>();
 
-            frontier.Enqueue((startGrid, 0));
-            visited.Add(startGrid);
+            frontier.Enqueue((start, 0));
+            costSoFar[start] = 0;
 
             int iterations = 0;
 
+            var neighbours = new List<Vector3Int>(8);
+
             while (frontier.Count > 0)
             {
-                var (currentAirPos, currentCost) = frontier.Dequeue();
+                var (currentPos, currentCost) = frontier.Dequeue();
 
-                if (!levelGrid.IsGridPositionInBounds(currentAirPos))
+                if (!levelGrid.IsGridPositionInBounds(currentPos))
                     continue;
 
-                Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
-                if (currentAirTile == null)
-                    continue;
+                Tile3d currentTile = levelGrid.GetTileAtGridPosition(currentPos);
+                if (currentTile == null) continue;
 
-                var currentDesc = currentAirTile.GetTileDescriptor();
-                bool isOnStair = !currentDesc.IsAirBlock && !currentDesc.IsFullBlock;
+                var currentDesc = currentTile.GetTileDescriptor();
+                bool isOnStair = currentDesc.IsStairBlock;
 
-                // --- Escaleras: movimiento dentro de la escalera ---
+                // Si es escalera, moverse según salidas
                 if (isOnStair)
                 {
-                    foreach (var stairDir in currentAirTile.GetExitDirectionVector())
+                    neighbours.Clear();
+                    FillExitDirectionsAsInts(currentTile, neighbours);
+                    foreach (var stairDir in neighbours)
                     {
-                        Vector3 stairTopPos = currentAirPos + stairDir;
+                        Vector3Int stairTopPos = currentPos + stairDir;
                         if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
 
                         Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
                         if (stairTopTile != null && !stairTopTile.IsBlocked())
-                            TryAdd(stairTopPos, currentCost + currentDesc.Cost);
+                        {
+                            int newCost = currentCost + Mathf.RoundToInt(currentDesc.Cost);
+                            if (newCost <= movementRange &&
+                                (!costSoFar.ContainsKey(stairTopPos) || newCost < costSoFar[stairTopPos]))
+                            {
+                                costSoFar[stairTopPos] = newCost;
+                                frontier.Enqueue((stairTopPos, newCost));
+                                positions.Add(stairTopPos);
+                            }
+                        }
                     }
                 }
 
-                // --- Movimientos horizontales y diagonales ---
-                foreach (var possibleDirection in currentAirTile.GetExitDirectionVector())
+                // Movimiento normal usando salidas de la tile
+                neighbours.Clear();
+                FillExitDirectionsAsInts(currentTile, neighbours);
+
+                foreach (var dir in neighbours)
                 {
-                    Vector3 nextAirPos = currentAirPos + possibleDirection;
+                    Vector3Int nextAirPos = currentPos + dir;
                     if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
 
                     Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
-                    if (nextAirTile == null || nextAirTile.IsBlocked())
-                        continue;
+                    if (nextAirTile == null || nextAirTile.IsBlocked()) continue;
 
-                    var nextAirDescriptor = nextAirTile.GetTileDescriptor();
+                    var nextAirDesc = nextAirTile.GetTileDescriptor();
 
-                    // --- Subir escalera ---
-                    if (!nextAirDescriptor.IsAirBlock && !nextAirDescriptor.IsFullBlock)
+                    // Subir a escalera
+                    if (nextAirDesc.IsStairBlock && nextAirTile.CanBeAccessedFrom(dir))
                     {
-                        Vector3 stairPos = nextAirPos;
-                        Tile3d stairTile = levelGrid.GetTileAtGridPosition(stairPos);
-                        if (stairTile == null || stairTile.IsBlocked()) continue;
-
-                        if (nextAirTile.CanBeAccessedFrom(possibleDirection))
+                        int newCost = currentCost + Mathf.RoundToInt(nextAirDesc.Cost);
+                        if (newCost <= movementRange &&
+                            (!costSoFar.ContainsKey(nextAirPos) || newCost < costSoFar[nextAirPos]))
                         {
-                            TryAdd(stairPos, currentCost + nextAirDescriptor.Cost);
+                            costSoFar[nextAirPos] = newCost;
+                            frontier.Enqueue((nextAirPos, newCost));
+                            positions.Add(nextAirPos);
+                        }
 
-                            Vector3 stairTopPos = stairPos + possibleDirection + Vector3.up;
-                            if (levelGrid.IsGridPositionInBounds(stairTopPos))
+                        // También intentar la posición superior de la escalera
+                        Vector3Int stairTopPos = nextAirPos + dir + Up;
+                        if (levelGrid.IsGridPositionInBounds(stairTopPos))
+                        {
+                            Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
+                            if (stairTopTile != null && !stairTopTile.IsBlocked())
                             {
-                                Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                                if (stairTopTile != null && !stairTopTile.IsBlocked())
-                                    TryAdd(stairTopPos, currentCost + nextAirDescriptor.Cost);
+                                int newCostTop = currentCost + Mathf.RoundToInt(nextAirDesc.Cost);
+                                if (newCostTop <= movementRange && (!costSoFar.ContainsKey(stairTopPos) ||
+                                                                    newCostTop < costSoFar[stairTopPos]))
+                                {
+                                    costSoFar[stairTopPos] = newCostTop;
+                                    frontier.Enqueue((stairTopPos, newCostTop));
+                                    positions.Add(stairTopPos);
+                                }
                             }
                         }
                     }
 
-                    // --- Bajar escalera ---
-                    Vector3 stairDownPos = currentAirPos + possibleDirection + Vector3.down;
+                    // Bajar escalera (pos actual + dir + down)
+                    Vector3Int stairDownPos = currentPos + dir + Down;
                     if (levelGrid.IsGridPositionInBounds(stairDownPos))
                     {
                         Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
@@ -193,26 +364,41 @@ namespace CursedOnion.Game.Entity
                         {
                             var stairDownDesc = stairDownTile.GetTileDescriptor();
                             if (!stairDownDesc.IsAirBlock && !stairDownDesc.IsFullBlock)
-                                TryAdd(stairDownPos, currentCost + stairDownDesc.Cost);
+                            {
+                                int newCost = currentCost + Mathf.RoundToInt(stairDownDesc.Cost);
+                                if (newCost <= movementRange && (!costSoFar.ContainsKey(stairDownPos) ||
+                                                                 newCost < costSoFar[stairDownPos]))
+                                {
+                                    costSoFar[stairDownPos] = newCost;
+                                    frontier.Enqueue((stairDownPos, newCost));
+                                    positions.Add(stairDownPos);
+                                }
+                            }
                         }
                     }
 
-                    // --- Movimiento normal sobre suelo ---
-                    Vector3 nextGroundPos = nextAirPos + Vector3.down;
-                    if (!levelGrid.IsGridPositionInBounds(nextGroundPos))
-                        continue;
+                    // Movimiento normal sobre suelo
+                    Vector3Int nextGroundPos = nextAirPos + Down;
+                    if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
 
                     Tile3d nextGroundTile = levelGrid.GetTileAtGridPosition(nextGroundPos);
-                    if (nextGroundTile == null)
-                        continue;
+                    if (nextGroundTile == null) continue;
 
                     var groundDesc = nextGroundTile.GetTileDescriptor();
-                    if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock)
-                        continue;
+                    if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
 
-                    DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
-                    if (nextAirTile.CanBeAccessedFrom(moveDir) && currentCost < movementRange)
-                        TryAdd(nextAirPos, currentCost + groundDesc.Cost);
+                    DirectionFlag moveDir = DirectionHelper.GetDirectionFlag((Vector3)dir);
+                    if (nextAirTile.CanBeAccessedFrom(moveDir))
+                    {
+                        int newCost = currentCost + Mathf.RoundToInt(groundDesc.Cost);
+                        if (newCost <= movementRange &&
+                            (!costSoFar.ContainsKey(nextAirPos) || newCost < costSoFar[nextAirPos]))
+                        {
+                            costSoFar[nextAirPos] = newCost;
+                            frontier.Enqueue((nextAirPos, newCost));
+                            positions.Add(nextAirPos);
+                        }
+                    }
                 }
 
                 iterations++;
@@ -220,86 +406,116 @@ namespace CursedOnion.Game.Entity
                     await Task.Yield();
             }
         }
-        public static List<Vector3> FindPath(Vector3 startGrid, Vector3 targetGrid, Grid3d levelGrid)
+
+        public static List<Vector3> FindPath(Vector3 startGridFloat, Vector3 targetGridFloat, Grid3d levelGrid)
         {
-            List<Node> openList = new List<Node>();
-            HashSet<Vector3Int> closedList = new HashSet<Vector3Int>();
+            Vector3Int start = Vector3Int.FloorToInt(startGridFloat);
+            Vector3Int target = Vector3Int.FloorToInt(targetGridFloat);
 
-            Vector3Int start = Vector3Int.FloorToInt(startGrid);
-            Vector3Int target = Vector3Int.FloorToInt(targetGrid);
+            if (!levelGrid.IsGridPositionInBounds(start) || !levelGrid.IsGridPositionInBounds(target))
+                return null;
 
-            Node startNode = new Node(start, null, 0, Heuristic(start, target));
-            openList.Add(startNode);
+            var openQueue = new PriorityQueue<Node>();
+            var openMap = new Dictionary<Vector3Int, Node>();
+            var closedCosts = new Dictionary<Vector3Int, float>();
 
+            var startNode = RentNode(start, null, 0f, Heuristic(start, target));
+            openQueue.Enqueue(startNode, startNode.f);
+            openMap[start] = startNode;
 
-            while (openList.Count > 0)
+            var neighbourList = new List<Vector3Int>(8);
+
+            while (openQueue.Count > 0)
             {
-                Node currentNode = openList.OrderBy(n => n.f).First();
-                openList.Remove(currentNode);
-                closedList.Add(currentNode.gridPos);
+                var current = openQueue.Dequeue();
 
-                if (currentNode.gridPos == target)
-                    return ReconstructPath(currentNode, levelGrid);
-
-                foreach (Vector3Int neighbourPos in GetNeighbours(currentNode.gridPos, levelGrid))
+                if (!openMap.TryGetValue(current.gridPosition, out var mapped) || mapped != current)
                 {
-                    if (closedList.Contains(neighbourPos))
-                        continue;
-
-                    Tile3d tile = levelGrid.GetTileAtGridPosition(neighbourPos);
-                    if (tile == null || tile.IsBlocked())
-                        continue;
-
-                    float tentativeG = currentNode.g + 1;
-
-                    Node existingNode = openList.FirstOrDefault(n => n.gridPos == neighbourPos);
-                    if (existingNode != null && tentativeG >= existingNode.g)
-                        continue;
-
-                    float h = Heuristic(neighbourPos, target);
-                    Node neighbourNode = new Node(neighbourPos, currentNode, tentativeG, h);
-
-                    if (existingNode != null)
-                        openList.Remove(existingNode);
-
-                    openList.Add(neighbourNode);
+                    // Nodo antiguo; devolver al pool y continuar
+                    ReturnNode(current);
+                    continue;
                 }
 
-            }
-            Debug.Log("No se encontro un camino.");
-            return null;
-        }
+                // Remover del mapa abierto porque ahora está en cerrado
+                openMap.Remove(current.gridPosition);
+                closedCosts[current.gridPosition] = current.g;
 
-        private static List<Vector3Int> GetNeighbours(Vector3Int currentAirPos, Grid3d levelGrid)
-        {
-            List<Vector3Int> neighbours = new();
-
-            Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
-            if (currentAirTile == null) return neighbours;
-
-            var currentDesc = currentAirTile.GetTileDescriptor();
-            bool isOnStair = !currentDesc.IsAirBlock && !currentDesc.IsFullBlock;
-
-            // ===== Caso: si estás encima de una escalera, subir según su dirección =====
-            if (isOnStair)
-            {
-                foreach (var stairDir in currentAirTile.GetExitDirectionVector())
+                if (current.gridPosition == target)
                 {
-                    Vector3Int stairTopPos = currentAirPos + Vector3Int.FloorToInt(stairDir);
-                    if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
+                    var path = ReconstructPathNodes(current, levelGrid);
+                    foreach (var kv in openMap)
+                        ReturnNode(kv.Value);
+                    ReturnNode(current);
+                    return path;
+                }
 
-                    Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                    if (stairTopTile != null && !stairTopTile.IsBlocked())
+                neighbourList.Clear();
+                FillNeighbours(current.gridPosition, levelGrid, neighbourList);
+
+                foreach (var neigh in neighbourList)
+                {
+                    Tile3d tile = levelGrid.GetTileAtGridPosition(neigh);
+                    if (tile == null || tile.IsBlocked()) continue;
+
+                    float tentativeG = current.g + 1f;
+
+                    if (closedCosts.TryGetValue(neigh, out float closedG) && tentativeG >= closedG)
+                        continue;
+
+                    if (openMap.TryGetValue(neigh, out var existingOpen))
                     {
-                        neighbours.Add(stairTopPos);
+                        if (tentativeG >= existingOpen.g)
+                            continue;
+
+
+                        existingOpen.parent = current;
+                        existingOpen.g = tentativeG;
+
+                        openQueue.Enqueue(existingOpen, existingOpen.f);
+                    }
+                    else
+                    {
+                        float h = Heuristic(neigh, target);
+                        var newNode = RentNode(neigh, current, tentativeG, h);
+                        openMap[neigh] = newNode;
+                        openQueue.Enqueue(newNode, newNode.f);
                     }
                 }
             }
 
-            // ===== Iterar todas las direcciones de salida del tile actual =====
-            foreach (var possibleDirection in currentAirTile.GetExitDirectionVector())
+            foreach (var kv in openMap) ReturnNode(kv.Value);
+
+            return null;
+        }
+
+        private static void FillNeighbours(Vector3Int currentAirPos, Grid3d levelGrid, List<Vector3Int> neighbours)
+        {
+            neighbours.Clear();
+
+            Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
+            if (currentAirTile == null) return;
+
+            var currentDesc = currentAirTile.GetTileDescriptor();
+            bool isOnStair = currentDesc.IsStairBlock;
+
+            if (isOnStair)
             {
-                Vector3Int nextAirPos = currentAirPos + Vector3Int.FloorToInt(possibleDirection);
+                var exits = currentAirTile.GetExitDirectionVector();
+                foreach (var v in exits)
+                {
+                    Vector3Int dir = Vector3Int.FloorToInt(v);
+                    Vector3Int stairTopPos = currentAirPos + dir;
+                    if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
+                    Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
+                    if (stairTopTile != null && !stairTopTile.IsBlocked()) neighbours.Add(stairTopPos);
+                }
+            }
+
+            var exitDirs = currentAirTile.GetExitDirectionVector();
+            foreach (var possibleDirection in exitDirs)
+            {
+                Vector3Int dir = Vector3Int.FloorToInt(possibleDirection);
+                Vector3Int nextAirPos = currentAirPos + dir;
                 if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
 
                 Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
@@ -307,26 +523,19 @@ namespace CursedOnion.Game.Entity
 
                 var nextAirDesc = nextAirTile.GetTileDescriptor();
 
-                // ===== Escalera: entrar o subir =====
-                if (!nextAirDesc.IsAirBlock && !nextAirDesc.IsFullBlock && nextAirTile.CanBeAccessedFrom(possibleDirection))
+                if (nextAirDesc.IsStairBlock && nextAirTile.CanBeAccessedFrom(possibleDirection))
                 {
-                    if (!neighbours.Contains(nextAirPos))
-                    {
-                        neighbours.Add(nextAirPos);
+                    if (!neighbours.Contains(nextAirPos)) neighbours.Add(nextAirPos);
 
-                        // Posición diagonal hacia arriba según la dirección de entrada
-                        Vector3Int stairTopPos = nextAirPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.up;
-                        if (levelGrid.IsGridPositionInBounds(stairTopPos))
-                        {
-                            Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                            if (stairTopTile != null && !stairTopTile.IsBlocked())
-                                neighbours.Add(stairTopPos);
-                        }
+                    Vector3Int stairTopPos = nextAirPos + dir + Up;
+                    if (levelGrid.IsGridPositionInBounds(stairTopPos))
+                    {
+                        Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
+                        if (stairTopTile != null && !stairTopTile.IsBlocked()) neighbours.Add(stairTopPos);
                     }
                 }
 
-                // ===== Escalera: bajar =====
-                Vector3Int stairDownPos = currentAirPos + Vector3Int.FloorToInt(possibleDirection) + Vector3Int.down;
+                Vector3Int stairDownPos = currentAirPos + dir + Down;
                 if (levelGrid.IsGridPositionInBounds(stairDownPos))
                 {
                     Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
@@ -338,8 +547,7 @@ namespace CursedOnion.Game.Entity
                     }
                 }
 
-                // ===== Movimiento normal sobre suelo =====
-                Vector3Int nextGroundPos = nextAirPos + Vector3Int.down;
+                Vector3Int nextGroundPos = nextAirPos + Down;
                 if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
 
                 Tile3d nextGroundTile = levelGrid.GetTileAtGridPosition(nextGroundPos);
@@ -349,59 +557,49 @@ namespace CursedOnion.Game.Entity
                 if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
 
                 DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
-                if (nextAirTile.CanBeAccessedFrom(moveDir))
-                {
-                    neighbours.Add(nextAirPos);
-                }
+                if (nextAirTile.CanBeAccessedFrom(moveDir)) neighbours.Add(nextAirPos);
             }
-
-            return neighbours;
         }
 
-
-
+        private static void FillExitDirectionsAsInts(Tile3d tile, List<Vector3Int> outDirections)
+        {
+            outDirections.Clear();
+            var exits = tile.GetExitDirectionVector();
+            foreach (var v in exits)
+                outDirections.Add(Vector3Int.FloorToInt(v));
+        }
 
         private static float Heuristic(Vector3Int a, Vector3Int b)
         {
-            // Distancia Manhattan en grid 3D
             return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y) + Mathf.Abs(a.z - b.z);
         }
 
-        private static List<Vector3> ReconstructPath(Node endNode, Grid3d levelGrid)
+        private static List<Vector3> ReconstructPathNodes(Node endNode, Grid3d levelGrid)
         {
-            List<Vector3> path = new();
-            Node current = endNode;
+            var path = new List<Vector3>();
+            var stackNodes = new Stack<Node>();
 
+            Node current = endNode;
             while (current != null)
             {
-                if (levelGrid.TryGridToWorldPosition(current.gridPos, out Vector3 worldPos))
-                {
-                    var offset = levelGrid.GetTileAtGridPosition(current.gridPos).GetDisplayOffset();
-                    worldPos += new Vector3(0.5f, 0f, 0.5f) + offset;
-                    path.Add(worldPos);
-                }
-
+                stackNodes.Push(current);
                 current = current.parent;
             }
 
-            path.Reverse();
+            while (stackNodes.Count > 0)
+            {
+                var n = stackNodes.Pop();
+                if (levelGrid.TryGridToWorldPosition(n.gridPosition, out Vector3 world))
+                {
+                    Tile3d t = levelGrid.GetTileAtGridPosition(n.gridPosition);
+                    var offset = t != null ? t.GetDisplayOffset() : Vector3.zero;
+                    path.Add(world + new Vector3(0.5f, 0f, 0.5f) + offset);
+                }
+            }
+
             return path;
         }
 
-        private class Node
-        {
-            public Vector3Int gridPos;
-            public Node parent;
-            public float g, h, f;
-
-            public Node(Vector3Int pos, Node parent, float g, float h)
-            {
-                this.gridPos = pos;
-                this.parent = parent;
-                this.g = g;
-                this.h = h;
-                this.f = g + h;
-            }
-        }
+        #endregion
     }
 }

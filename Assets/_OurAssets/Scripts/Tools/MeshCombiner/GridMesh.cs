@@ -110,7 +110,7 @@ namespace CursedOnion.Tools
                         Tile3d neighbourTile = grid.GetTileAtGridPosition(possibleNeighbourPosition);
                         isVisible = neighbourTile.IsEmptyTile() ||
                                     (tile.IsFullTile() && !neighbourTile.IsFullTile()) ||
-                                    (tile.IsFluidTile() && !neighbourTile.IsFluidTile()) ||
+                                    (tile.IsFluidTile() && !neighbourTile.IsFluidTile() && !neighbourTile.IsFullTile()) ||
                                     (!tile.IsFullTile() && !tile.IsFluidTile() && !neighbourTile.IsFullTile());
                     }
 

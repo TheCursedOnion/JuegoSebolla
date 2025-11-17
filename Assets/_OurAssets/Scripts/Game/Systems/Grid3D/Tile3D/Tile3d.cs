@@ -122,7 +122,7 @@ namespace CursedOnion.Game.Systems.Grid
 
         public bool IsStairTile()
         {
-            return !descriptor.IsStairBlock;
+            return descriptor.IsStairBlock;
         }
         public bool IsFluidTile()
         {

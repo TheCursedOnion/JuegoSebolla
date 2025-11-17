@@ -2,6 +2,7 @@
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Systems.Grid;
 using Unit = CursedOnion.Game.Entity.Unit;
 
 namespace CursedOnion.Game.Systems.Level
@@ -49,7 +50,12 @@ namespace CursedOnion.Game.Systems.Level
         {
             OnStatDataSelected?.Invoke(data);
         }
-
+        
+        public event Action OnTileSelectionRequested;
+        public void RequestTileSelection()
+        {
+            OnTileSelectionRequested?.Invoke();
+        }
         #endregion
 
         #region Command Events

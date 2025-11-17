@@ -29,9 +29,7 @@ namespace CursedOnion.Game.Inputs
         bool isPaused = false;
         
         
-        
-        bool moveEnabled = true;
-        bool followEnabled = true;
+        bool hasFreeMode = false;
         Transform lastFollowedTarget;
         float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
         
@@ -55,8 +53,7 @@ namespace CursedOnion.Game.Inputs
         }
         public void DisableAll()
         {
-            EnableFollow(false);
-            EnableMove(false);
+            hasFreeMode = false;
             EnableRotate(false);
         }
 
@@ -70,11 +67,6 @@ namespace CursedOnion.Game.Inputs
             isPaused = false;
             reader.Enable();
         }
-        
-        public void EnableMove(bool enable)
-        {
-            moveEnabled = enable;
-        }
         public void EnableRotate(bool enable)
         {
             if(enable)
@@ -82,25 +74,23 @@ namespace CursedOnion.Game.Inputs
             else
                 reader.RotateCamera -= RotateCamera;
         }
-        public void EnableFollow(bool enable)
+        
+        public void EnableFreeMode()
         {
-            if(enable == followEnabled) return;
-            
-            followEnabled = enable;
-            
+            Debug.Log("Free mode enabled");
             var cineCam = cinemachineContainer.CinemachineCamera;
-            if (!enable)
-            {
-                lastFollowedTarget = cineCam.Follow;
-
-                if (lastFollowedTarget != null)
-                {
-                    cameraFreeGuide.transform.position = lastFollowedTarget.position;
-                    cameraFreeGuide.RequestFocus();
-                    return;
-                }
-            }
-
+            
+            hasFreeMode = true;
+            if(lastFollowedTarget != null) cameraFreeGuide.transform.position = lastFollowedTarget.position;
+            
+            lastFollowedTarget = cineCam.Follow;
+            cineCam.Follow = cameraFreeGuide.transform;
+        }
+        public void EnableFixedMode()
+        {
+            hasFreeMode = false;
+            var cineCam = cinemachineContainer.CinemachineCamera;
+            
             if (lastFollowedTarget != null)
             {
                 var focus = lastFollowedTarget.GetComponent<CameraFocus>();
@@ -109,8 +99,11 @@ namespace CursedOnion.Game.Inputs
                     focus.RequestFocus();
                     cameraFreeGuide.transform.position = focus.transform.position;
                 }
-
                 cineCam.Follow = lastFollowedTarget;
+            }
+            else
+            {
+                lastFollowedTarget = cineCam.Follow;
             }
         }
 
@@ -146,7 +139,7 @@ namespace CursedOnion.Game.Inputs
 
         void Update()
         {
-            if (moveEnabled && !isPaused)
+            if (hasFreeMode && !isPaused)
             {
                 cameraFreeGuide.transform.position += moveDir * (moveSpeed * Time.deltaTime);
                 dragController.HandleDrag();

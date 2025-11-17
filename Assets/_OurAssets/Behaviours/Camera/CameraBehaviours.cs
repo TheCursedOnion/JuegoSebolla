@@ -41,7 +41,7 @@ namespace CursedOnion.Behaviours
         {
             cameraController.DisableAll();
             
-            cameraController.EnableMove(true);
+            cameraController.EnableFreeMode();
             cameraController.EnableRotate(true);
             
             currentMode = CameraMode.FreeMode;
@@ -54,7 +54,7 @@ namespace CursedOnion.Behaviours
         {
             cameraController.DisableAll();
             
-            cameraController.EnableFollow(true);
+            cameraController.EnableFixedMode();
             cameraController.EnableRotate(true);
             
             currentMode = CameraMode.FixedMode;

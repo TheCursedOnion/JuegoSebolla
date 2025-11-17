@@ -22,7 +22,7 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
             
             if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertMeleeAttackPositions(reachablePositionsList, grid, gridPos);
+                AStarPathFinder.InsertMeleeAttackGridPositions(reachablePositionsList, grid, gridPos);
         }
     }
     
@@ -83,7 +83,7 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
 
             if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 1, false);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
@@ -106,7 +106,7 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
 
             if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 1, false);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
@@ -154,7 +154,7 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
 
             if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 1, false);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
@@ -183,7 +183,7 @@ namespace CursedOnion.Game.Entity
             var ability = stats.SpecialAbilityType;
             
             if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertRangeAttackPositions(reachablePositionsList, grid, gridPos, 2, false);
+                AStarPathFinder.InsertRangedAttackGridPositions(reachablePositionsList, grid, gridPos, 2);
         }
         
         public override void ActivateAbility(Unit unit, SimpleEntity target)
