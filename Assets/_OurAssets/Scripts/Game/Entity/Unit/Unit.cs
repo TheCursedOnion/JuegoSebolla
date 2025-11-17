@@ -112,7 +112,7 @@ namespace CursedOnion.Game.Entity
             LayeredEntity = GetComponent<LayeredEntity>();
             if (LayeredEntity == null) LayeredEntity = gameObject.AddComponent<LayeredEntity>();
             
-            int periodId = (int)LevelManager.LevelAsset.LevelData.TimePeriod;
+            int periodId = (int)LevelManager.LevelAsset.LevelData.TimePeriod * 2;
             int indexOffset = (int)EntitySide;
             
             Debug.Log($"Period: {periodId}, Index: {indexOffset} y {EntitySide}");

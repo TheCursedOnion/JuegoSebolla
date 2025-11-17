@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BarcoTileBorde
   m_EditorClassIdentifier: 
   TileDescriptor:
-    Id: 16
-    Cost: 999
+    Cost: 0
+    DisplayOffset: {x: 0, y: 0, z: 0}
     IsFullBlock: 0
+    IsStairBlock: 0
     IsFluidBlock: 0
     IsAirBlock: 0
     AllowedExitDirections: 0

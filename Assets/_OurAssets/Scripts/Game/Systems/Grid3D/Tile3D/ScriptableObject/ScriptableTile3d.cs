@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 namespace CursedOnion.Game.Systems.Grid.Scriptable
 {
     [CreateAssetMenu(fileName = "Scriptable Tile3d", menuName = "Game/Tile/Scriptable Tile")]
-    public class ScriptableTile3d : ScriptableObject
+    public class  ScriptableTile3d : ScriptableObject
     {
         public Tile3dDescriptor TileDescriptor;
         public Tile3d ProduceTile(Transform tileComponentTransform, TileAttributes tileAttributes)

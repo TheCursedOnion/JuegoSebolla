@@ -31,6 +31,7 @@ namespace CursedOnion.Game.Systems.Grid
         public Vector3 DisplayOffset;
         
         public bool IsFullBlock = true;
+        public bool IsStairBlock = false;
         public bool IsFluidBlock = false;
         public bool IsAirBlock = false;
         
