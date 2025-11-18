@@ -58,7 +58,7 @@ namespace CursedOnion.Game.Inputs
         
         void HandleTouchDrag()
         {
-            if (Input.touchCount == 0) return;
+            if (Input.touchCount != 1) return;
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)

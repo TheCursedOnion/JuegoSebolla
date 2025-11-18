@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5688396321082638336}
   - component: {fileID: 2260417231693671898}
   - component: {fileID: 6192284481998751071}
+  - component: {fileID: 3901026129520258791}
   m_Layer: 0
   m_Name: GameCamera
   m_TagString: Untagged
@@ -91,6 +92,7 @@ MonoBehaviour:
   moveSpeed: 3
   cameraFreeGuide: {fileID: 4306796041228235783}
   dragController: {fileID: 6192284481998751071}
+  zoomController: {fileID: 0}
 --- !u!114 &3337645738524908298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e832ca109c4dd5af2cd670913628fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zoomLimits: {x: 0, y: 0}
   CinemachineCamera: {fileID: 5489487318748723867}
   PanTilt: {fileID: 8023546002002281699}
   Follow: {fileID: 2953126380328841513}
@@ -164,6 +167,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragSpeed: 0.01
   damping: 10
+--- !u!114 &3901026129520258791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375360451385869988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c87e9a64c244238d852ca0d4a945b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollSensitivity: 1
+  pinchSensitivity: 0.07
+  smoothZoomSpeed: 5
 --- !u!1 &443472272150469883
 GameObject:
   m_ObjectHideFlags: 0

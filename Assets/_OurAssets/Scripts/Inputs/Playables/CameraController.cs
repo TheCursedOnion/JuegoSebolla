@@ -22,7 +22,7 @@ namespace CursedOnion.Game.Inputs
 
         [SerializeField] private CameraFocus cameraFreeGuide;
         [SerializeField] private DragController dragController;
-        //TODO: ZoomController
+        [SerializeField] private ZoomController zoomController;
  
         private CameraInputReader reader;
         private CinemachineContainer cinemachineContainer;
@@ -40,6 +40,9 @@ namespace CursedOnion.Game.Inputs
             
             dragController ??= GetComponent<DragController>();
             dragController.Initialize(cameraFreeGuide.transform);
+            
+            zoomController ??= GetComponent<ZoomController>();
+            zoomController.Initialize(cinemachineContainer);
         }
         public void Enable()
         {
@@ -139,11 +142,14 @@ namespace CursedOnion.Game.Inputs
 
         void Update()
         {
-            if (hasFreeMode && !isPaused)
+            if(isPaused) return;
+            
+            if (hasFreeMode)
             {
                 cameraFreeGuide.transform.position += moveDir * (moveSpeed * Time.deltaTime);
                 dragController.HandleDrag();
             }
+            zoomController.HandleZoom();
         }
     }
 }

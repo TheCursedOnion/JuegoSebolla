@@ -742,6 +742,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8470264880036326994, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
   m_PrefabInstance: {fileID: 1284358564}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &100697318 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3901026129520258791, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+  m_PrefabInstance: {fileID: 768513522}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c87e9a64c244238d852ca0d4a945b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &129508820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3813,9 +3824,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 730611507529193680, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 100697318}
     - target: {fileID: 4306796041228235783, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: focusOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688396321082638336, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: zoomLimits.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5688396321082638336, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: zoomLimits.y
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 8550637802860149597, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_LocalPosition.x

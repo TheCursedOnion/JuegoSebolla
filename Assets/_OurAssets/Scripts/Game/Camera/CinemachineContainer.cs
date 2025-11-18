@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace CursedOnion.Game.Cameras
     [System.Serializable]
     public class CinemachineContainer : MonoBehaviour
     {
+        [MinMaxSlider(-20f, -3f), SerializeField] private Vector2 zoomLimits;
+        
         public CinemachineCamera CinemachineCamera;
         public CinemachinePanTilt PanTilt;
         public CinemachineFollow Follow;
@@ -29,7 +32,20 @@ namespace CursedOnion.Game.Cameras
         
         public void SetOffset(Vector3 offset, float adjustTime)
         {
+            //Follow.FollowOffset = offset;
             StartCoroutine(IEOffset(offset, adjustTime));
+        }
+
+        public void AddFollowOffsetZ(float zOffset, float smoothTime)
+        {
+            SetFollowOffsetZ(Offset.Offset.z + zOffset, smoothTime);
+        }
+        public void SetFollowOffsetZ(float zOffset, float smoothTime)
+        {
+            zOffset = Mathf.Clamp(zOffset, zoomLimits.x, zoomLimits.y);
+            var offset = Offset.Offset;
+            offset.z = zOffset;
+            StartCoroutine(IEOffset(offset, smoothTime));
         }
 
         public void SetPanCenterAndValue(float panValue)
