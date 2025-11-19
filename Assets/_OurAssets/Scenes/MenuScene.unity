@@ -477,10 +477,9 @@ GameObject:
   - component: {fileID: 166257669}
   - component: {fileID: 166257672}
   - component: {fileID: 166257670}
-  - component: {fileID: 166257671}
   - component: {fileID: 166257673}
   m_Layer: 0
-  m_Name: Bootstrapper
+  m_Name: MenuSceneInstaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,18 +530,6 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &166257671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 166257667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36075b2f4137d6d468790ace427bdbcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &166257672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12532,8 +12519,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3927014701367432837, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 68.82917
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927014701367432837, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -115
+      value: -93.29825
       objectReference: {fileID: 0}
     - target: {fileID: 6587477183772208224, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_CullingMask.m_Bits
