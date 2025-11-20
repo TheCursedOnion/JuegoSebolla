@@ -1,31 +1,28 @@
-using System.Collections.Generic;
-using UnityEngine;
+using BehaviourAPI.Core;
+using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
+using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
-using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
-using BehaviourAPI.Core;
-using CursedOnion.Game.Commands;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditorInternal;
+using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
     public class AIHealerController : AIUnitController
     {
-        public bool isWoundedClose;
-        public bool isAllyCriticalClose;
-        public bool dangerNearby;
-
         public SimpleEntity allyTarget;
-        public SimpleEntity enemyTarget;
 
-        public List<Vector3> healerReachableTiles = new();
-        public List<Vector3> healerReachableAttackPositions = new();
-        public List<Vector3> healerReachableHealPositions = new();
-        public float tileSafetyScore;
+        List<Vector3> healerReachableTiles = new();
+        List<Vector3> healerReachableAttackPositions = new();
+        List<Vector3> healerReachableHealPositions = new();
+        public List<Vector3> criticalAlliesPos = new();
+        public List<Vector3> woundedAlliesPos = new();
 
         Unit unit;  
-        LevelManager level;
         TurnSystem turn;
         AIUnitController baseAI;
 
@@ -34,62 +31,122 @@ namespace CursedOnion.Game.Entity
             base.Initialize(entity, components);
 
             unit = entity as Unit;
-            level = entity.LevelManager;
             turn = entity.LevelManager.GetTurnSystem();
             baseAI = entity.GetComponent<AIUnitController>();
         }
 
-        //PERCEPCIONES PRINCIPALES
+        #region Percepciones Principales
 
-        /// Detecta si hay aliados críticos (<25% HP) en rango de cura
-        public bool DetectCriticalAlliesInRange()
+        //Detecta si hay aliados críticos (<25% HP) en rango de cura
+        public bool DetectCriticalAlliesInHealRange()
         {
+            criticalAlliesPos.Clear();
+            healerReachableHealPositions.Clear();
+
             var grid = unit.Grid;
             var position = unit.transform.position;
             grid.TryWorldToGridPosition(position, out Vector3 gridPos);
 
-            isAllyCriticalClose = false;
-            allyTarget = null;
+            AStarPathFinder.InsertMeleeAttackGridPositions(healerReachableHealPositions, grid, gridPos);
+
+            foreach (var ally in turn.GetEnemyUnits())
+            {
+                if (ally == unit) continue;
+
+                float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
+
+                if (hpPercent < 0.25f)
+                {
+                    grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos);
+
+                    if (healerReachableHealPositions.Contains(allyGridPos))
+                    {
+                        criticalAlliesPos.Add(allyGridPos);
+                    }
+                }
+            }
+            return criticalAlliesPos.Count > 0;
+        }
+
+        // Detecta aliados críticos fuera de rango (para moverse hacia ellos)
+        public bool DetectCriticalAlliesFar()
+        {
+            criticalAlliesPos.Clear();
+            healerReachableTiles.Clear();
+
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                healerReachableTiles,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
+
+            foreach (var ally in turn.GetEnemyUnits())
+            {
+                if (ally == unit) continue;
+
+                float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
+
+                if (hpPercent < 0.25f)
+                {
+                    // Obtener los tiles adyacentes al aliado
+                    var adjacentTiles = GetAdjacentTilesPos(ally);
+
+                    // Ver si alguna de esas casillas es alcanzable
+                    foreach (var tilePos in adjacentTiles)
+                    {
+                        if (healerReachableTiles.Contains(tilePos))
+                        {
+                            criticalAlliesPos.Add(tilePos);
+                        }
+                    }
+                }
+            }
+            return criticalAlliesPos.Count > 0;
+        }
+
+        // Detecta si hay aliados heridos (<70% HP) cerca
+        public bool DetectWoundedAlliesInHealRange()
+        {
+            woundedAlliesPos.Clear();
             healerReachableHealPositions.Clear();
+
+            var grid = unit.Grid;
+            var position = unit.transform.position;
+            grid.TryWorldToGridPosition(position, out Vector3 gridPos);
 
             AStarPathFinder.InsertMeleeAttackGridPositions(healerReachableHealPositions, grid, gridPos);
 
-            // TEngo que cambiarlo para que use healerReachableHealPositions
             foreach (var ally in turn.GetEnemyUnits())
             {
                 if (ally == unit) continue;
 
                 float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
 
-                if (hpPercent < 0.25f && IsInHealingRange(ally))
+                if (hpPercent < 0.70f)
                 {
-                    isAllyCriticalClose = true;
-                    return isAllyCriticalClose;
+                    grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos);
+
+                    if (healerReachableHealPositions.Contains(allyGridPos))
+                    {
+                        woundedAlliesPos.Add(allyGridPos);
+                    }
                 }
             }
-            return isAllyCriticalClose;
+            return woundedAlliesPos.Count > 0;
         }
 
-        /// Detecta aliados críticos fuera de rango (para moverse hacia ellos)
-        public bool DetectCriticalAlliesFar()
+        public bool DetectWoundedAlliesFar()
         {
-            foreach (var ally in turn.GetEnemyUnits())
-            {
-                if (ally == unit) continue;
+            woundedAlliesPos.Clear();
+            healerReachableTiles.Clear();
 
-                float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
-
-                if (hpPercent < 0.25f && !IsInHealingRange(ally))
-                    return true;
-            }
-            return false;
-        }
-
-        /// Detecta si hay aliados heridos (<70% HP) cerca
-        public bool DetectWoundedAlliesInRange()
-        {
-            isWoundedClose = false;
-            allyTarget = null;
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                healerReachableTiles,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
 
             foreach (var ally in turn.GetEnemyUnits())
             {
@@ -97,68 +154,207 @@ namespace CursedOnion.Game.Entity
 
                 float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
 
-                if (hpPercent <= 0.70f && IsInHealingRange(ally))
+                if (hpPercent < 0.70f)
                 {
-                    isWoundedClose = true;
-                    return true;
+                    // Obtener los tiles adyacentes al aliado
+                    var adjacentTiles = GetAdjacentTilesPos(ally);
+
+                    // Ver si alguna de esas casillas es alcanzable
+                    foreach (var tilePos in adjacentTiles)
+                    {
+                        if (healerReachableTiles.Contains(tilePos))
+                        {
+                            woundedAlliesPos.Add(tilePos);
+                        }
+                    }
                 }
             }
-            return false;
+            return woundedAlliesPos.Count > 0;
         }
 
-        /// Detecta enemigos matables
+        // Detecta enemigos matables
         public bool DetectKillableEnemies()
         {
-            enemyTarget = null;
+            healerReachableAttackPositions.Clear();
 
+            var grid = unit.Grid;
+            var position = unit.transform.position;
+            grid.TryWorldToGridPosition(position, out Vector3 gridPos);
 
+            AStarPathFinder.InsertMeleeAttackGridPositions(
+                healerReachableAttackPositions,
+                grid,
+                gridPos
+            );
 
-            foreach (var enemy in turn.GetAllyUnits()) 
+            foreach (var pos in healerReachableAttackPositions)
             {
-                if (enemy.GetSide() == unit.GetSide()) continue;
+                Tile3d tile = grid.GetTileAtGridPosition(pos);
+                if (tile == null) continue;
 
-                if (!IsEnemyInAttackRange(enemy)) continue;
+                SimpleEntity entity = tile.GetContainedEntity();
+                if (entity == null) continue;
 
-                int damage = Mathf.Max(0, unit.Stats.AttackStat - enemy.Stats.DefenseStat);
+                if (entity.GetSide() == unit.GetSide())
+                    continue;
 
-                if (enemy.Stats.CurrentHealthStat <= damage)
+                Unit enemy = entity as Unit;
+                if (enemy == null) continue;
+
+                int myDamage = unit.Stats.AttackStat;
+                int enemyDefense = enemy.Stats.DefenseStat;
+                int enemyHP = enemy.Stats.CurrentHealthStat;
+
+                int finalDamage = Mathf.Max(0, myDamage - enemyDefense);
+
+                if (finalDamage >= enemyHP)
                 {
-                    enemyTarget = enemy;
+                    // MUERTE ASEGURADA
+                    baseAI.TargetedEnemy = enemy;
                     return true;
                 }
             }
             return false;
         }
 
-        // ACCIONES
+        private List<Vector3> GetAdjacentTilesPos(Unit ally)
+        {
+            var tiles = new List<Vector3>();
+            var grid = unit.Grid;
 
-        /// Acción: Curar aliado ya seleccionado
+            grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos);
+
+            Vector3[] directions =
+            {
+                new Vector3( 1, 0, 0),
+                new Vector3(-1, 0, 0),
+                new Vector3( 0, 0, 1),
+                new Vector3( 0, 0,-1)
+            };
+
+            foreach (var dir in directions)
+            {
+                Vector3 pos = allyGridPos + dir;
+
+                if (grid.IsGridPositionInBounds(pos) && grid.GetTileAtGridPosition(pos).IsEmptyTile() == true && grid.GetTileAtGridPosition(pos).GetContainedEntity() == null) // o tu propia comprobación
+                    tiles.Add(pos);
+            }
+
+            return tiles;
+        }
+
+        #endregion
+
+        #region Acciones Principales Healer
+
+        // End Action
+        public Status EndAction()
+        {
+            return Status.Success;
+        }
+
+
+        // Acción: Curar aliado ya seleccionado
         public void Heal()
         {
             GetEntityComponent<SpecialAbilityComponent>().DoAbility(allyTarget, false);
         }
+        #endregion
 
-        public Status AttackKillableEnemy()
+        #region UtiltitySystems
+
+        public void SelectBestCriticalAlly()
         {
-            // ya vere
-            return Status.Failure;
+            SelectBestAlly(criticalAlliesPos);
         }
 
-        public Status MoveToUtilityTile()
+        public void SelectBestWoundedAlly()
         {
-            return Status.Failure;
+            SelectBestAlly(woundedAlliesPos);
         }
 
 
-        bool IsInHealingRange(Unit ally)
+        public void SelectBestAlly(List<Vector3> allyPositions)
         {
-            return false;
+            Unit bestAlly = null;
+            float bestScore = float.MinValue;
+
+            foreach (var pos in allyPositions)
+            {
+                Tile3d tile = unit.Grid.GetTileAtGridPosition(pos);
+                if (tile == null || tile.GetContainedEntity() == null) continue;
+
+                var ally = tile.GetContainedEntity() as Unit;
+                if (ally == null) continue;
+
+                float hpScore = 1f - (ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat);
+
+                float typeScore = ally.Stats.SpecialAbilityType switch
+                {
+                    TankAbility _ => 1.0f,
+                    SoldierAbility _ => 0.9f,
+                    ArcherAbility _ => 0.8f,
+                    HealerAbility _ => 0.7f,
+                    ThiefAbility _ => 0.6f,
+                    BarbarianAbility _ => 0.5f,
+                    ExplorerAbility _ => 0.4f,
+                    _ => 0.5f
+                };
+
+                float score = hpScore + typeScore;
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestAlly = ally;
+                }
+            }
+
+            if (bestAlly != null)
+            {
+                allyTarget = bestAlly;
+            }
+            
+            return;
         }
 
-        bool IsEnemyInAttackRange(SimpleEntity enemy)
+        public void SelectBestTileNearTargetAlly()
         {
-            return false; 
+            if (allyTarget == null)
+                return;
+
+            healerReachableTiles.Clear();
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                healerReachableTiles,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
+
+            List<Vector3> adjacentTiles = GetAdjacentTilesPos(allyTarget as Unit);
+
+            Vector3 bestTile = Vector3.zero;
+            float bestDistance = float.MaxValue;
+
+            foreach (var tilePos in adjacentTiles)
+            {
+                if (!healerReachableTiles.Contains(tilePos)) continue;
+
+                float distance = Vector3.Distance(unit.transform.position, tilePos);
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    bestTile = tilePos;
+                }
+            }
+
+            if (bestDistance == float.MaxValue)
+                return; 
+
+            baseAI.TargetedGridPosToMove = bestTile;
+            unit.Grid.TryGridToWorldPosition(bestTile, out baseAI.TargetedPosToMove);
         }
 
+        #endregion
     }
 }

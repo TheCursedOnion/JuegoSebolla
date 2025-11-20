@@ -89,7 +89,7 @@ MonoBehaviour:
         - 74cebb98-8363-46d4-8dae-92a134a3a409
         childIds:
         - 018b79ce-176f-418b-b5f5-844b2a55bac0
-    - name: BasicBehaviour
+    - name: HealerBehaviour
       id: 623e7d88-3324-4ba5-990d-1d85208fb3f1
       graph:
         rid: 6291014419662504024
@@ -326,7 +326,7 @@ MonoBehaviour:
         - dab7d72e-0ab9-4abb-9bcf-42fb7d3c9783
       - name: UTILITYSeleccionarAliadoCritic
         id: 9b8c4fff-2d06-42d8-b85e-cebdae71c402
-        position: {x: 0, y: 800}
+        position: {x: 1, y: 816}
         node:
           rid: 6291014547320602726
         references:
@@ -514,7 +514,7 @@ MonoBehaviour:
         childIds:
         - e6acaa44-051f-4e4c-a818-ca6e12c093b3
         - 524bd4ff-cc34-4160-aa94-4bbca1fe6aca
-      - name: UTILITYBestTile
+      - name: UTILITYBestDefensiveTile
         id: e6acaa44-051f-4e4c-a818-ca6e12c093b3
         position: {x: 2250, y: 600}
         node:

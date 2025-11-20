@@ -4669,7 +4669,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 882082664728815107, guid: 6794d9d1884b4c94294e4159c3050abb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1534829738}
   m_SourcePrefab: {fileID: 100100000, guid: 6794d9d1884b4c94294e4159c3050abb, type: 3}
 --- !u!1001 &1165988320
 PrefabInstance:
@@ -5298,6 +5301,46 @@ Transform:
   - {fileID: 779253244}
   m_Father: {fileID: 67139748}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1534829730 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 882082664728815107, guid: 6794d9d1884b4c94294e4159c3050abb, type: 3}
+  m_PrefabInstance: {fileID: 1160391291}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1534829738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534829730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f47bc5580449229dea3259bd37f05498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AssignedEntity: {fileID: 0}
+  PlaceEntityComponent:
+    UsedFlags: 0
+    blockEntryDirectionsOnPlacement: 0
+  MoveEntityComponent:
+    UsedFlags: 0
+    movementColor: {r: 0, g: 0, b: 1, a: 1}
+  AttackEntityComponent:
+    UsedFlags: 0
+    attackColor: {r: 1, g: 0, b: 0, a: 1}
+  AbilityEntityComponent:
+    UsedFlags: 0
+    abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  isWoundedClose: 0
+  isAllyCriticalClose: 0
+  dangerNearby: 0
+  allyTarget: {fileID: 0}
+  enemyTarget: {fileID: 0}
+  healerReachableTiles: []
+  healerReachableAttackPositions: []
+  healerReachableHealPositions: []
+  criticalAlliesPos: []
+  tileSafetyScore: 0
 --- !u!1001 &1548157221
 PrefabInstance:
   m_ObjectHideFlags: 0
