@@ -15,12 +15,13 @@ namespace CursedOnion.Game.Entity
 
         List<Vector3> healerReachableTiles = new();
         List<Vector3> healerReachableHealPositions = new();
+        List<Vector3> healerReachableAttackPositions = new();
         public List<Vector3> criticalAlliesPos = new();
         public List<Vector3> woundedAlliesPos = new();
 
         AIUnitController baseAI;
 
-        //garantiza que el baseAI esté listo SIEMPRE
+        //garantiza que el baseAI esté listo
         private void LazyInit()
         {
             if (baseAI != null) return;
@@ -147,6 +148,53 @@ namespace CursedOnion.Game.Entity
             return woundedAlliesPos.Count > 0;
         }
 
+        public bool DetectKillableEnemiesInAttackRange()
+        {
+            healerReachableAttackPositions.Clear();
+
+            var unit = baseAI.GetUnit();
+            var turn = baseAI.GetTurnSystem();
+
+            var grid = unit.Grid;
+            var position = unit.transform.position;
+            grid.TryWorldToGridPosition(position, out Vector3 gridPos);
+
+            AStarPathFinder.InsertMeleeAttackGridPositions(
+                healerReachableAttackPositions,
+                grid,
+                gridPos
+            );
+
+            foreach (var pos in healerReachableAttackPositions)
+            {
+                Tile3d tile = grid.GetTileAtGridPosition(pos);
+                if (tile == null) continue;
+
+                SimpleEntity entity = tile.GetContainedEntity();
+                if (entity == null) continue;
+
+                if (entity.GetSide() == unit.GetSide())
+                    continue;
+
+                Unit enemy = entity as Unit;
+                if (enemy == null) continue;
+
+                int myDamage = unit.Stats.AttackStat;
+                int enemyDefense = enemy.Stats.DefenseStat;
+                int enemyHP = enemy.Stats.CurrentHealthStat;
+
+                int finalDamage = Mathf.Max(0, myDamage - enemyDefense);
+
+                if (finalDamage >= enemyHP)
+                {
+                    // MUERTE ASEGURADA
+                    baseAI.TargetedEnemy = enemy;
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         //  TILE ADYACENTES
 
@@ -269,14 +317,11 @@ namespace CursedOnion.Game.Entity
             {
                 if (!healerReachableTiles.Contains(t)) continue;
 
-                //float distToHealer = Vector3.Distance(unit.transform.position, t);
-
                 float avgDistToEnemies = enemies
                     .Select(e => Vector3.Distance(t, e.transform.position))
                     .DefaultIfEmpty(0f)
                     .Average();
 
-                //float score = (10f - distToHealer) + avgDistToEnemies;
                 float score = avgDistToEnemies;
 
 
