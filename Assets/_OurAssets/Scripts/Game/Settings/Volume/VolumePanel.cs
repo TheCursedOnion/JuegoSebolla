@@ -6,35 +6,35 @@ namespace CursedOnion.Game.Settings
 {
     public class VolumePanel : MonoBehaviour
     {
-        [SerializeField] VolumeSetting.SoundType soundType;
+        [SerializeField] SoundSetting.SoundType soundType;
         [SerializeField] private Slider volumeSlider;
         
-        VolumeSetting volumeSetting;
+        SoundSetting soundSetting;
         private void OnEnable()
         {
-            volumeSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().VolumeSettings;
+            soundSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().SoundSettings;
             UpdateSlider();
         }
 
         public void SetVolume()
         {
-            if (volumeSetting == null) return;
+            if (soundSetting == null) return;
             
             float value = volumeSlider.value;
             switch (soundType)
             {
-                case VolumeSetting.SoundType.SFX: volumeSetting.SetSfxVolume(value); break;
-                case VolumeSetting.SoundType.Music: volumeSetting.SetMusicVolume(value); break;
+                case SoundSetting.SoundType.SFX: soundSetting.SetSfxVolume(value); break;
+                case SoundSetting.SoundType.Music: soundSetting.SetMusicVolume(value); break;
             }
         }
         void UpdateSlider()
         {
-            if (volumeSetting != null)
+            if (soundSetting != null)
             {
                 float value = soundType switch
                 {
-                    VolumeSetting.SoundType.SFX => volumeSetting.GetSFXVolume(),
-                    VolumeSetting.SoundType.Music => volumeSetting.GetMusicVolume(),
+                    SoundSetting.SoundType.SFX => soundSetting.GetSFXVolume(),
+                    SoundSetting.SoundType.Music => soundSetting.GetMusicVolume(),
                 };
                 volumeSlider.value = value;
             }

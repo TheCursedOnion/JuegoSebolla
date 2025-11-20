@@ -31,32 +31,6 @@ namespace CursedOnion.Game.CloudSave
             }
         }
 
-        public async void RegisterUser(string username, string password)
-        {
-            try
-            {
-                await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, password);
-                Debug.Log("Usuario registrado: " + AuthenticationService.Instance.PlayerId);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error en registro: " + ex.Message);
-            }
-        }
-
-        public async void LoginUser(string username, string password)
-        {
-            try
-            {
-                await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
-                Debug.Log("Login correcto: " + AuthenticationService.Instance.PlayerId);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error en login: " + ex.Message);
-            }
-        }
-
         public async void AnonymousLogin()
         {
             try

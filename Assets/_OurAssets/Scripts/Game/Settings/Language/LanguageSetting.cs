@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using CursedOnion.Game.CloudSave;
 using CursedOnion.Tools;
 using UnityEngine;
 
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class LanguageSetting : ISetting<LanguageSetting.Language>
+    public class LanguageSetting : ISetting<LanguageSetting.Language>, ICloudStorable
     {
         public enum Language
         {
@@ -25,8 +26,17 @@ namespace CursedOnion.Game.Settings
         public void Initialize()
         {
             localizedData = CSVReader.LoadCsvResourceToDictionary(csvResourcePath, true);
+            SetApplicationLanguage();
         }
-        
+        void SetApplicationLanguage()
+        {
+            var languageName = Application.systemLanguage;
+            switch (languageName)
+            {
+                case SystemLanguage.Spanish: SetUsedLanguage(Language.Spanish); break;
+                default: SetUsedLanguage(Language.English); break;
+            }
+        }
         public void SetUsedLanguage(Language language)
         {
             currentLanguage = language;
@@ -57,5 +67,32 @@ namespace CursedOnion.Game.Settings
             
             return localizedData[key];
         }
+        
+        #region Cloud Storing
+        public CloudSaveClient SaveClient { get; set; }
+        public async void Save()
+        {
+            try
+            {
+                await SaveClient.Save("language", (int)currentLanguage);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Error al guardar: " + e);
+            }
+        }
+        public async void Load()
+        {
+            try
+            {
+                var language = await SaveClient.Load<int>("language");
+                SetUsedLanguage((Language)language);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Error al cargar: " + e);
+            }
+        }
+        #endregion
     }
 }

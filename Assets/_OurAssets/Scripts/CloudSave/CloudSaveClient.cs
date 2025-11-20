@@ -17,10 +17,13 @@ namespace CursedOnion.Game.CloudSave
             var data = new Dictionary<string, object> { { key, value } };
             await Call(client.Player.SaveAsync(data));
         }
-
         public async Task Save(params (string key, object value)[] values)
         {
             var data = values.ToDictionary(item => item.key, item => item.value);
+            await Call(client.Player.SaveAsync(data));
+        }
+        public async Task Save(Dictionary<string, object> data)
+        {
             await Call(client.Player.SaveAsync(data));
         }
 
@@ -119,6 +122,8 @@ namespace CursedOnion.Game.CloudSave
         Task Save(string key, object value);
 
         Task Save(params (string key, object value)[] values);
+        
+        Task Save(Dictionary<string, object> values);
 
         Task<T> Load<T>(string key);
 
