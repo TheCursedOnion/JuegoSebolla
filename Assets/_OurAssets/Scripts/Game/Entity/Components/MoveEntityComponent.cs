@@ -89,7 +89,7 @@ namespace CursedOnion.Game.Entity.Components
         private IEnumerator MoveAlongPath(List<Vector3> path)
         {
             var transform = EntityTransform;
-            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
+            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<RuntimeVariableLocator>().GlobalCamera;
             var placeComponent = AssignedController.GetEntityComponent<PlaceEntityComponent>();
             placeComponent.RemoveEntity();
 

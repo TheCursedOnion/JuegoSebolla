@@ -11,13 +11,13 @@ namespace CursedOnion.Game.General.UI.Canvases
     {
         [SerializeField] private float planeDistance = 0.2f;
         
-        [Inject] CameraLocator cameraLocator;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         [SerializeField] RenderMode renderMode;
         GlobalCamera globalCamera;
         Canvas canvas;
         void Awake()
         {
-            globalCamera = cameraLocator.GlobalCamera;
+            globalCamera = runtimeVariableLocator.GlobalCamera;
             canvas = GetComponent<Canvas>();
             
             canvas.worldCamera = globalCamera.Camera;

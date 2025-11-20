@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CursedOnion.Game.CloudSave;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -6,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class ColorblindSetting : IGlobalVolumeSetting<ColorblindSetting.ColorblindMode>, IGlobalVolumeSetting, ICloudStorable
+    public class ColorblindSetting : IGlobalVolumeSetting, ICloudStorable
     {
         public enum ColorblindMode
         {
@@ -62,7 +63,7 @@ namespace CursedOnion.Game.Settings
         
         #region Cloud Storing
         public CloudSaveClient SaveClient { get; set; }
-        public async void Save()
+        public async Task Save()
         {
             try
             {
@@ -73,7 +74,7 @@ namespace CursedOnion.Game.Settings
                 Debug.LogWarning("Error al guardar Colorblind Setting: " + e);
             }
         }
-        public async void Load()
+        public async Task Load()
         {
             try
             {

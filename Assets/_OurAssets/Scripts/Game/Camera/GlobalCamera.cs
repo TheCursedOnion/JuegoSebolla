@@ -10,7 +10,9 @@ using CursedOnion.Extensions;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Events;
+using CursedOnion.Game.Settings;
 using CursedOnion.Locators;
+using Reflex.Extensions;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -19,7 +21,7 @@ namespace CursedOnion.Game.Cameras
     [RequireComponent(typeof(CameraController))]
     public class GlobalCamera : MonoBehaviour
     {
-        [Inject] CameraLocator cameraLocator;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         
         [BoxGroup("UI Interactions"), SerializeField] private EventSystem eventSystem;
         
@@ -42,7 +44,7 @@ namespace CursedOnion.Game.Cameras
         #region Initialization & Destruction
         void Awake()
         {
-            var instancedCamera = cameraLocator.GlobalCamera;
+            var instancedCamera = runtimeVariableLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera != this)
             {
                 instancedCamera.MatchWith(this);
@@ -56,7 +58,7 @@ namespace CursedOnion.Game.Cameras
         void Initialize()
         {
             DontDestroyOnLoad(gameObject);
-            cameraLocator.GlobalCamera = this;
+            runtimeVariableLocator.GlobalCamera = this;
             
             eventSystem.enabled = true;
             audioListener.enabled = true;
@@ -78,12 +80,14 @@ namespace CursedOnion.Game.Cameras
             cinemachineContainer.MatchWith(other.cinemachineContainer);
             cameraController.Unpause();
         }
+
+        
         void OnDisable()
         {
-            var instancedCamera = cameraLocator.GlobalCamera;
+            var instancedCamera = runtimeVariableLocator.GlobalCamera;
             if (instancedCamera != null && instancedCamera == this)
             {
-                cameraLocator.GlobalCamera = null;
+                runtimeVariableLocator.GlobalCamera = null;
                 cameraController.Disable();
             }
         }

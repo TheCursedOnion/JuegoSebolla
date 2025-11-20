@@ -68,7 +68,7 @@ namespace CursedOnion.Game.Entity.Components
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
             var unit = AssignedEntity as Unit;
-            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
+            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<RuntimeVariableLocator>().GlobalCamera;
 
             RotateEntityTowards(camera, AssignedEntity.transform, target.transform);
             RotateEntityTowards(camera, target.transform, AssignedEntity.transform);

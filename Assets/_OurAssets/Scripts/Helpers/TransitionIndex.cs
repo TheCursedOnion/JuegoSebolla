@@ -13,10 +13,7 @@ namespace CursedOnion.Helpers
             bool result = transitionIndex == value;
             if (result)
             {
-                Debug.Log("PRE"+transitionIndex);
-                Debug.Log("YES");
                 ResetTransitionIndex();
-                Debug.Log(transitionIndex);
             }
             return result;
         }

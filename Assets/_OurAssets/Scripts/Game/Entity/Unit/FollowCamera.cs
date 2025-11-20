@@ -11,7 +11,7 @@ namespace CursedOnion.Game.Entity
         
         void Start()
         {
-            globalCamera = gameObject.scene.GetSceneContainer().Resolve<CameraLocator>().GlobalCamera;
+            globalCamera = gameObject.scene.GetSceneContainer().Resolve<RuntimeVariableLocator>().GlobalCamera;
         }
 
         void Update()

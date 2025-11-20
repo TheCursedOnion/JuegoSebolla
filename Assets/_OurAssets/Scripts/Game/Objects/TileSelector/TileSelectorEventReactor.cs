@@ -10,14 +10,14 @@ namespace CursedOnion.Game.Objects
 {
     public class TileSelectorEventReactor : MonoBehaviour
     {
-        [Inject] CameraLocator cameraLocator;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         CameraEvents cameraEvents;
 
         TileSelectorController tileSelectorController;
         void Awake()
         {
             tileSelectorController = GetComponent<TileSelectorController>();
-            cameraEvents = cameraLocator.GlobalCamera.CameraEvents;
+            cameraEvents = runtimeVariableLocator.GlobalCamera.CameraEvents;
         }
         
         void OnEnable()

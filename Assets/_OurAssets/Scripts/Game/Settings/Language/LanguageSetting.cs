@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CursedOnion.Game.CloudSave;
 using CursedOnion.Tools;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class LanguageSetting : ISetting<LanguageSetting.Language>, ICloudStorable
+    public class LanguageSetting : ICloudStorable
     {
         public enum Language
         {
@@ -70,7 +71,7 @@ namespace CursedOnion.Game.Settings
         
         #region Cloud Storing
         public CloudSaveClient SaveClient { get; set; }
-        public async void Save()
+        public async Task Save()
         {
             try
             {
@@ -81,7 +82,7 @@ namespace CursedOnion.Game.Settings
                 Debug.LogWarning("Error al guardar: " + e);
             }
         }
-        public async void Load()
+        public async Task Load()
         {
             try
             {

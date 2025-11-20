@@ -9,16 +9,16 @@ namespace CursedOnion.Game.General.UI.Buttons.Functions
     public class CameraButtonFunctions : MonoBehaviour
 
     {
-        [Inject] CameraLocator cameraLocator;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
 
         public void RotateCamera(DirectionFlag direction)
         {
-            cameraLocator.GlobalCamera.CameraController.RotateCamera(direction);
+            runtimeVariableLocator.GlobalCamera.CameraController.RotateCamera(direction);
         }
 
         public void SwitchCameraModes()
         {
-            cameraLocator.GlobalCamera.SwitchCameraModes();
+            runtimeVariableLocator.GlobalCamera.SwitchCameraModes();
         }
     }
 }

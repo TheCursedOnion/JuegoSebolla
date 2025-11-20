@@ -48,7 +48,7 @@ namespace CursedOnion.Game.Objects
         [Inject] LevelManager levelManager;
         [Inject] Grid3d grid;
         [Inject] LevelEvents levelEvents;
-        [Inject] CameraLocator cameraLocator;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         
         private GlobalCamera globalCamera;
 
@@ -72,7 +72,7 @@ namespace CursedOnion.Game.Objects
             
             entityCommandHandler = new(container);
             
-            globalCamera = cameraLocator.GlobalCamera;
+            globalCamera = runtimeVariableLocator.GlobalCamera;
 
             foreach (var behaviour in behaviours)
             {

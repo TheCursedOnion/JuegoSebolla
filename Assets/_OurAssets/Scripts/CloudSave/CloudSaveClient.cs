@@ -14,7 +14,7 @@ namespace CursedOnion.Game.CloudSave
 
         public async Task Save(string key, object value)
         {
-            var data = new Dictionary<string, object> { { key, value } };
+            var data = new Dictionary<string, object> { { key, JsonConvert.SerializeObject(value) } };
             await Call(client.Player.SaveAsync(data));
         }
         public async Task Save(params (string key, object value)[] values)
@@ -35,13 +35,13 @@ namespace CursedOnion.Game.CloudSave
 
         public async Task<IEnumerable<T>> Load<T>(params string[] keys)
         {
-            var query = await Call(client.LoadAsync(keys.ToHashSet()));
+            var query = await Call(client.Player.LoadAsync(keys.ToHashSet()));
 
             return keys.Select(k =>
             {
                 if (query.TryGetValue(k, out var value))
                 {
-                    return value != null ? Deserialize<T>(value) : default;
+                    return value != null ? Deserialize<T>(value.Value.GetAsString()) : default;
                 }
 
                 return default;
@@ -90,7 +90,12 @@ namespace CursedOnion.Game.CloudSave
             }
             catch (CloudSaveException e)
             {
-                Debug.LogError(e);
+                Debug.LogError($"CloudSave error: {e.Message}");
+                if (e.Message.Contains("409"))
+                {
+                    Debug.LogWarning("Conflicto detectado, reintentando con sobrescritura...");
+                    //await CloudSaveService.Instance.Data.ForceSaveAsync(data);
+                }
             }
         }
 

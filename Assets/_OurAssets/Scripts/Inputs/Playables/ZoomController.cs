@@ -23,10 +23,12 @@ namespace CursedOnion.Game.Inputs
         
         public void HandleZoom()
         {
-            if(!variableLocator.IsGamePlayedOnMobile)
+            if(!gameObject.activeSelf) return;
+            
+            /*if(!variableLocator.IsGamePlayedOnMobile)
                 HandleMouseZoom();
             else
-                HandleTouchZoom();
+                HandleTouchZoom();*/
         }
 
         void HandleMouseZoom()

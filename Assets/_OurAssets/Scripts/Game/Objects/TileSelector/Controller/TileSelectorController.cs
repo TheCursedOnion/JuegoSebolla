@@ -11,7 +11,7 @@ namespace CursedOnion.Game.Objects
     public class TileSelectorController : MonoBehaviour, IController, IPausable
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
-        [Inject] private CameraLocator cameraLocator;
+        [Inject] private RuntimeVariableLocator runtimeVariableLocator;
 
         TileSelector tileSelector;
         TileSelectorBehaviour currentBehaviour;
@@ -66,7 +66,7 @@ namespace CursedOnion.Game.Objects
             Vector3 direction3D = direction.normalized;
             direction3D = direction3D.SwizzleXZY();
 
-            float rotateAngle = cameraLocator.GlobalCamera.GetCameraPanAngles();
+            float rotateAngle = runtimeVariableLocator.GlobalCamera.GetCameraPanAngles();
             rotateAngle = Mathf.Round(rotateAngle % 90) == 0 ? rotateAngle : rotateAngle + 45;
             Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
             direction3D = rotation * direction3D;

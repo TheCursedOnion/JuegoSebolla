@@ -1,7 +1,7 @@
 ﻿using System;
 using Unity.Services.Core;
 
-namespace CursedOnion.Game.Authentification
+namespace CursedOnion.Game.Authentication
 {
     public enum AuthError
     {
@@ -28,10 +28,9 @@ namespace CursedOnion.Game.Authentification
             return AuthError.Unknown;
         }
     }
-    public struct AuthResult<T>
+    public struct AuthResult
     {
         public bool Success => Error == AuthError.None;
         public AuthError Error;
-        public T Value;
     }
 }

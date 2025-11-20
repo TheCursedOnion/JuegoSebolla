@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 namespace CursedOnion.Game.Settings
 {
     [Serializable]
-    public class DeviceSetting : ISetting<InputDevice>
+    public class DeviceSetting
     {
         public InputDevice CurrentDevice;
         //TODO: Device Config classes

@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Cameras
 {
     public class CameraFocus : MonoBehaviour
     {
-        [Inject] CameraLocator cameraLocator;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         
         [SerializeField] private bool focusOnAwake;
 
@@ -26,7 +26,7 @@ namespace CursedOnion.Game.Cameras
         [Button]
         public void RequestFocus()
         {
-            cameraLocator.GlobalCamera.FocusCameraOn(this.transform, positionDamping, distanceOffset, tiltOnFocus, focusTime);
+            runtimeVariableLocator.GlobalCamera.FocusCameraOn(this.transform, positionDamping, distanceOffset, tiltOnFocus, focusTime);
         }
     }
 }

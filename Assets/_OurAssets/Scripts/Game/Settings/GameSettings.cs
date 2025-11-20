@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CursedOnion.Game.CloudSave;
 using UnityEngine;
 
@@ -24,42 +25,48 @@ namespace CursedOnion.Game.Settings
         public void InitializeSettings()
         {
             LanguageSettings.Initialize();
+            SoundSettings.Initialize();
+            
         }
-        public async void Save()
+        public void SetSaveClients(CloudSaveClient saveClient)
         {
+            this.SaveClient = saveClient;
+            SoundSettings.SaveClient = SaveClient;
+            LanguageSettings.SaveClient = SaveClient;
+            ColorblindSettings.SaveClient = SaveClient;
+            
+            _ = Load();
+        }
+        public async Task Save()
+        {
+            if(!CloudUtils.CanUseCloud() || SaveClient == null) return;
+            
             try
             {
-                ColorblindSettings.Save();
-                SoundSettings.Save();
-                LanguageSettings.Save();
+                Debug.Log("[GameSettings]: Guardando...");
+                
+                await ColorblindSettings.Save();
+                await SoundSettings.Save();
+                await LanguageSettings.Save();
             }
             catch (Exception e)
             {
-                Debug.LogError("Error al guardar: " + e);
+                Debug.LogWarning("Error al guardar: " + e);
             }
         }
-        public async void Load()
+        public async Task Load()
         {
+            if(!CloudUtils.CanUseCloud()) return;
+            
             try
             {
-                ColorblindSettings.Load();
-                SoundSettings.Load();
-                LanguageSettings.Load();
+                await ColorblindSettings.Load();
+                await SoundSettings.Load();
+                await LanguageSettings.Load();
             }
             catch (Exception e)
             {
                 Debug.LogWarning("Error al cargar: " + e);
-            }
-        }
-
-        public async void LoadLastSavedData()
-        {
-            void SetSaveClients()
-            {
-                this.SaveClient ??= new CloudSaveClient();
-                SoundSettings.SaveClient = SaveClient;
-                LanguageSettings.SaveClient = SaveClient;
-                ColorblindSettings.SaveClient = SaveClient;
             }
         }
     }
