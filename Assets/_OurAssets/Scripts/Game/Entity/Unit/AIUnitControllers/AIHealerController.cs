@@ -355,6 +355,76 @@ namespace CursedOnion.Game.Entity
             unit.Grid.TryGridToWorldPosition(bestTile, out baseAI.TargetedPosToMove);
         }
 
+        public void SelectSafestTile()
+        {
+            healerReachableTiles.Clear();
+
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                healerReachableTiles,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
+
+            if (healerReachableTiles.Count == 0)
+                return;
+
+            var allies = turn.GetEnemyUnits().Where(a => a != unit).ToList();
+            var enemies = turn.GetAllyUnits().Where(e => e != unit).ToList();
+
+            Vector3 bestTile = Vector3.zero;
+            float bestScore = float.MinValue;
+
+            foreach (var tile in healerReachableTiles)
+            {
+                float score = 0f;
+
+                // --- 1) Proximidad a aliados (cuanto más cerca mejor)
+                float allyScore = 0f;
+                foreach (var ally in allies)
+                {
+                    unit.Grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyPos);
+                    float dist = Vector3.Distance(tile, allyPos);
+                    allyScore += Mathf.Clamp(10f / (dist + 1f), 0f, 10f); 
+                }
+
+                // --- 2) Lejanía a enemigos (cuanto más lejos mejor)
+                float enemyScore = 0f;
+                foreach (var enemy in enemies)
+                {
+                    unit.Grid.TryWorldToGridPosition(enemy.transform.position, out Vector3 enemyPos);
+                    float dist = Vector3.Distance(tile, enemyPos);
+                    enemyScore += Mathf.Clamp(dist, 0f, 10f); 
+                }
+
+                //
+                int enemiesClose = enemies.Count(enemy =>
+                {
+                    unit.Grid.TryWorldToGridPosition(enemy.transform.position, out Vector3 pos);
+                    return Vector3.Distance(tile, pos) < 3f; // rango de peligro
+                });
+
+                float dangerPenalty = enemiesClose * 5f;
+
+                //calcular puntuacion de tile
+                score = allyScore + enemyScore - dangerPenalty;
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestTile = tile;
+                }
+            }
+
+            if (bestScore == float.MinValue)
+                return;
+
+            baseAI.TargetedGridPosToMove = bestTile;
+            unit.Grid.TryGridToWorldPosition(bestTile, out baseAI.TargetedPosToMove);
+
+            return;
+        }
+
         #endregion
     }
 }
