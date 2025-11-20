@@ -1,0 +1,1084 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db249917b7c50574eaa600c74aff1437, type: 3}
+  m_Name: HealerBehaviour
+  m_EditorClassIdentifier: 
+  data:
+    graphs:
+    - name: TurnFSM
+      id: 6c7b982d-e15d-42fb-8db6-7e19f0664e21
+      graph:
+        rid: 6291014435267674227
+      nodes:
+      - name: NoTurn
+        id: 018b79ce-176f-418b-b5f5-844b2a55bac0
+        position: {x: 594, y: 238}
+        node:
+          rid: 6291014435267674228
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014435267674249
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - a68b8f86-8ba9-47bb-a299-0ba88ac71746
+        childIds:
+        - ed55297b-821c-4310-a57c-505fee83249a
+      - name: Turn
+        id: 74cebb98-8363-46d4-8dae-92a134a3a409
+        position: {x: 1259, y: 237}
+        node:
+          rid: 6291014435267674229
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014435267674230
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - ed55297b-821c-4310-a57c-505fee83249a
+        childIds:
+        - a68b8f86-8ba9-47bb-a299-0ba88ac71746
+      - name: StartTurn
+        id: ed55297b-821c-4310-a57c-505fee83249a
+        position: {x: 918, y: 106}
+        node:
+          rid: 6291014435267674231
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014435267674246
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 018b79ce-176f-418b-b5f5-844b2a55bac0
+        childIds:
+        - 74cebb98-8363-46d4-8dae-92a134a3a409
+      - name: EndTurn
+        id: a68b8f86-8ba9-47bb-a299-0ba88ac71746
+        position: {x: 926, y: 391}
+        node:
+          rid: 6291014435267674248
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 74cebb98-8363-46d4-8dae-92a134a3a409
+        childIds:
+        - 018b79ce-176f-418b-b5f5-844b2a55bac0
+    - name: HealerBehaviour
+      id: 623e7d88-3324-4ba5-990d-1d85208fb3f1
+      graph:
+        rid: 6291014419662504024
+      nodes:
+      - name: EnemyHealerFlow
+        id: a955d6b7-755e-46f6-b21e-4a23a0f5a811
+        position: {x: 637.5, y: 0}
+        node:
+          rid: 6291014457700384853
+        references: []
+        parentIds: []
+        childIds:
+        - 458c672d-50c8-49a3-acf3-8122f14deaf6
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        - ee17a05b-dc74-4da5-aac1-55b2dfe79066
+      - name: EnemyHealerTurn
+        id: d7c39f00-891d-454c-adc4-67125560d5b0
+        position: {x: 1275, y: 200}
+        node:
+          rid: 6291014439572340818
+        references: []
+        parentIds:
+        - a955d6b7-755e-46f6-b21e-4a23a0f5a811
+        childIds:
+        - 6cb197c3-cd44-4a34-bdf0-c113f99657e8
+        - f989be91-fd90-4f6e-bd5c-0d946dd9d931
+        - 832038a2-d9c2-4551-a084-3910f254df54
+        - 741e733e-0281-4e07-b66d-1fec330ea7ae
+        - 413ae845-756c-4654-ae4f-493069868547
+        - 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
+      - name: EnemyMove
+        id: 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+        position: {x: 750, y: 1000}
+        node:
+          rid: 6291014419662504029
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014435267674225
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 21b8c5a7-89b5-4d8d-927c-c6b6740423b8
+        childIds: []
+      - name: EnemyAttack
+        id: d135adb0-d1be-4cfd-82f6-707c8b441de1
+        position: {x: 1050, y: 600}
+        node:
+          rid: 6291014419662504031
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014439572340825
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 832038a2-d9c2-4551-a084-3910f254df54
+        childIds: []
+      - name: InitialWait
+        id: 458c672d-50c8-49a3-acf3-8122f14deaf6
+        position: {x: -300, y: 200}
+        node:
+          rid: 6291014457700384854
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014457700384855
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - a955d6b7-755e-46f6-b21e-4a23a0f5a811
+        childIds: []
+      - name: EndWait
+        id: ee17a05b-dc74-4da5-aac1-55b2dfe79066
+        position: {x: 1575, y: 200}
+        node:
+          rid: 6291014457700384856
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014457700384857
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - a955d6b7-755e-46f6-b21e-4a23a0f5a811
+        childIds: []
+      - name: DelayAfterMove
+        id: c49a4346-1fef-48dd-bb5b-20e2dfccf4ab
+        position: {x: 1050, y: 1000}
+        node:
+          rid: 6291014457700384858
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014457700384859
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 21b8c5a7-89b5-4d8d-927c-c6b6740423b8
+        childIds: []
+      - name: CriticWoundedAllyinMovementRan
+        id: f989be91-fd90-4f6e-bd5c-0d946dd9d931
+        position: {x: 750, y: 400}
+        node:
+          rid: 6291014547320602713
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1186077743807463502
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - 83bd1c85-7ead-442d-84db-09b49b8b048f
+      - name: UTILITYSeleccionarAliadoCritic
+        id: 8aeae33a-3007-44e0-8094-644eb9dd3eaa
+        position: {x: 600, y: 800}
+        node:
+          rid: 6291014547320602715
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463508
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 83bd1c85-7ead-442d-84db-09b49b8b048f
+        childIds: []
+      - name: SelectMoveAndHeal
+        id: 83bd1c85-7ead-442d-84db-09b49b8b048f
+        position: {x: 750, y: 600}
+        node:
+          rid: 6291014547320602716
+        references: []
+        parentIds:
+        - f989be91-fd90-4f6e-bd5c-0d946dd9d931
+        childIds:
+        - 8aeae33a-3007-44e0-8094-644eb9dd3eaa
+        - 21b8c5a7-89b5-4d8d-927c-c6b6740423b8
+      - name: MoveAndHealCriticAlly
+        id: 21b8c5a7-89b5-4d8d-927c-c6b6740423b8
+        position: {x: 900, y: 800}
+        node:
+          rid: 6291014547320602717
+        references: []
+        parentIds:
+        - 83bd1c85-7ead-442d-84db-09b49b8b048f
+        childIds:
+        - d2e1336a-d4e6-4e5b-902e-c03acccb59d0
+        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
+        - c49a4346-1fef-48dd-bb5b-20e2dfccf4ab
+        - a382485b-175e-4c0b-912d-c695dcdcd690
+      - name: HealerAbility
+        id: a382485b-175e-4c0b-912d-c695dcdcd690
+        position: {x: 1350, y: 1000}
+        node:
+          rid: 6291014547320602718
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463510
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 21b8c5a7-89b5-4d8d-927c-c6b6740423b8
+        childIds: []
+      - name: EnemyInKillRange?
+        id: 832038a2-d9c2-4551-a084-3910f254df54
+        position: {x: 1050, y: 400}
+        node:
+          rid: 6291014547320602719
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1186077743807463503
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - d135adb0-d1be-4cfd-82f6-707c8b441de1
+      - name: WoundedAllyClose?
+        id: 741e733e-0281-4e07-b66d-1fec330ea7ae
+        position: {x: 1350, y: 400}
+        node:
+          rid: 6291014547320602720
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1186077743807463504
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - 186598d4-efd8-4654-b127-cd9acecf3058
+      - name: SelectAndHeal
+        id: 186598d4-efd8-4654-b127-cd9acecf3058
+        position: {x: 1350, y: 600}
+        node:
+          rid: 6291014547320602721
+        references: []
+        parentIds:
+        - 741e733e-0281-4e07-b66d-1fec330ea7ae
+        childIds:
+        - 9b2310a4-a378-4b8e-86f6-cd67f161ef3f
+        - eaf5f569-3a51-4513-b2c1-fcf07bc62a6f
+      - name: CriticWoundedAllyClose?
+        id: 6cb197c3-cd44-4a34-bdf0-c113f99657e8
+        position: {x: 150, y: 400}
+        node:
+          rid: 6291014547320602723
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1186077743807463501
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - d6cc7e38-7ab2-467d-99f7-7d2fc3e1bd52
+      - name: SelectAndHeal
+        id: d6cc7e38-7ab2-467d-99f7-7d2fc3e1bd52
+        position: {x: 150, y: 600}
+        node:
+          rid: 6291014547320602725
+        references: []
+        parentIds:
+        - 6cb197c3-cd44-4a34-bdf0-c113f99657e8
+        childIds:
+        - 9b8c4fff-2d06-42d8-b85e-cebdae71c402
+        - dab7d72e-0ab9-4abb-9bcf-42fb7d3c9783
+      - name: UTILITYSeleccionarAliadoCritic
+        id: 9b8c4fff-2d06-42d8-b85e-cebdae71c402
+        position: {x: 0, y: 800}
+        node:
+          rid: 6291014547320602726
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463507
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d6cc7e38-7ab2-467d-99f7-7d2fc3e1bd52
+        childIds: []
+      - name: HealerAbility
+        id: dab7d72e-0ab9-4abb-9bcf-42fb7d3c9783
+        position: {x: 300, y: 800}
+        node:
+          rid: 6291014547320602727
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463506
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d6cc7e38-7ab2-467d-99f7-7d2fc3e1bd52
+        childIds: []
+      - name: UTILITYSelectWoundedAlly
+        id: 9b2310a4-a378-4b8e-86f6-cd67f161ef3f
+        position: {x: 1200, y: 800}
+        node:
+          rid: 6291014547320602728
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463511
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 186598d4-efd8-4654-b127-cd9acecf3058
+        childIds: []
+      - name: HealerAbility
+        id: eaf5f569-3a51-4513-b2c1-fcf07bc62a6f
+        position: {x: 1500, y: 800}
+        node:
+          rid: 6291014547320602729
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463512
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 186598d4-efd8-4654-b127-cd9acecf3058
+        childIds: []
+      - name: WoundedAllyInMovementRange?
+        id: 413ae845-756c-4654-ae4f-493069868547
+        position: {x: 1950, y: 400}
+        node:
+          rid: 6291014547320602730
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1186077743807463505
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - ebcc4a26-6acf-4c33-a9f1-4e4c652ddd95
+      - name: SelectMoveAndHeal
+        id: ebcc4a26-6acf-4c33-a9f1-4e4c652ddd95
+        position: {x: 1950, y: 600}
+        node:
+          rid: 6291014547320602731
+        references: []
+        parentIds:
+        - 413ae845-756c-4654-ae4f-493069868547
+        childIds:
+        - f049f8be-7117-4d73-9c79-b6b14849ddd9
+        - 4adae945-69a5-461a-96f6-b054e6943e44
+      - name: UTILITYSelectWoundedAlly
+        id: f049f8be-7117-4d73-9c79-b6b14849ddd9
+        position: {x: 1800, y: 800}
+        node:
+          rid: 6291014547320602732
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463513
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - ebcc4a26-6acf-4c33-a9f1-4e4c652ddd95
+        childIds: []
+      - name: MoveAndHealAlly
+        id: 4adae945-69a5-461a-96f6-b054e6943e44
+        position: {x: 2100, y: 800}
+        node:
+          rid: 6291014547320602735
+        references: []
+        parentIds:
+        - ebcc4a26-6acf-4c33-a9f1-4e4c652ddd95
+        childIds:
+        - f8caf800-b708-41a2-9b0f-0ddb2a8d41ae
+        - 53718b0f-d264-4868-b721-73c4368f5ca3
+        - a1df9ae6-f91d-4e2a-bdd3-10300621d05d
+        - 1e34a309-cd3b-4d93-9004-903b6312c731
+      - name: EnemyMove
+        id: 53718b0f-d264-4868-b721-73c4368f5ca3
+        position: {x: 1950, y: 1000}
+        node:
+          rid: 6291014547320602736
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077744327032905
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 4adae945-69a5-461a-96f6-b054e6943e44
+        childIds: []
+      - name: DelatAfterMove
+        id: a1df9ae6-f91d-4e2a-bdd3-10300621d05d
+        position: {x: 2250, y: 1000}
+        node:
+          rid: 6291014547320602737
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014547320602739
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 4adae945-69a5-461a-96f6-b054e6943e44
+        childIds: []
+      - name: HealerAbility
+        id: 1e34a309-cd3b-4d93-9004-903b6312c731
+        position: {x: 2550, y: 1000}
+        node:
+          rid: 6291014547320602740
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077744327032907
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 4adae945-69a5-461a-96f6-b054e6943e44
+        childIds: []
+      - name: UTILITYBestTileNearAlly
+        id: d2e1336a-d4e6-4e5b-902e-c03acccb59d0
+        position: {x: 450, y: 1000}
+        node:
+          rid: 6291014547320602741
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463509
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 21b8c5a7-89b5-4d8d-927c-c6b6740423b8
+        childIds: []
+      - name: UTILITYBestTileNearAlly
+        id: f8caf800-b708-41a2-9b0f-0ddb2a8d41ae
+        position: {x: 1650, y: 1000}
+        node:
+          rid: 6291014547320602742
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463514
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 4adae945-69a5-461a-96f6-b054e6943e44
+        childIds: []
+      - name: SelectSafeTileAndMove
+        id: 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
+        position: {x: 2400, y: 400}
+        node:
+          rid: 6291014547320602743
+        references: []
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - e6acaa44-051f-4e4c-a818-ca6e12c093b3
+        - 524bd4ff-cc34-4160-aa94-4bbca1fe6aca
+      - name: UTILITYBestDefensiveTile
+        id: e6acaa44-051f-4e4c-a818-ca6e12c093b3
+        position: {x: 2250, y: 600}
+        node:
+          rid: 6291014547320602744
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077743807463515
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
+        childIds: []
+      - name: EnemyMove
+        id: 524bd4ff-cc34-4160-aa94-4bbca1fe6aca
+        position: {x: 2550, y: 600}
+        node:
+          rid: 6291014547320602745
+        references:
+        - fieldName: Action
+          value:
+            rid: 1186077744327032906
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
+        childIds: []
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1186077743807463501
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIHealerController
+          methodName: DetectCriticalAlliesInHealRange
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463502
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIHealerController
+          methodName: DetectCriticalAlliesFar
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463503
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIHealerController
+          methodName: DetectKillableEnemiesInAttackRange
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463504
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIHealerController
+          methodName: DetectWoundedAlliesInHealRange
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463505
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIHealerController
+          methodName: DetectWoundedAlliesFar
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463506
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: Heal
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463507
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectBestCriticalAlly
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463508
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectBestCriticalAlly
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463509
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectBestTileNearTargetAlly
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463510
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: Heal
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463511
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectBestWoundedAlly
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463512
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: Heal
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463513
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectBestWoundedAlly
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463514
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectBestTileNearTargetAlly
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077743807463515
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: SelectSafestTile
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077744327032905
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: EnemyMove
+        update:
+          componentName: AIUnitController
+          methodName: EndMove
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077744327032906
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: EnemyMove
+        update:
+          componentName: AIUnitController
+          methodName: EndMove
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1186077744327032907
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIHealerController
+          methodName: Heal
+        update:
+          componentName: AIHealerController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014419662504024
+      type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014419662504029
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014419662504031
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014435267674225
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: EnemyMove
+        update:
+          componentName: AIUnitController
+          methodName: EndMove
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014435267674227
+      type: {class: FSM, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6291014435267674228
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6291014435267674229
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6291014435267674230
+      type: {class: SubgraphAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        ExecuteOnLoop: 0
+        InterruptOptions: 2
+        subgraphId: 623e7d88-3324-4ba5-990d-1d85208fb3f1
+    - rid: 6291014435267674231
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: -1
+    - rid: 6291014435267674246
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIUnitController
+          methodName: StartTurn
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014435267674248
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 6
+    - rid: 6291014435267674249
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: AIUnitController
+          methodName: EndAITurn
+    - rid: 6291014439572340818
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014439572340825
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIUnitController
+          methodName: EnemyAttack
+        update:
+          componentName: AIUnitController
+          methodName: EndAttack
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014457700384853
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014457700384854
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014457700384855
+      type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        delayTime: 1
+    - rid: 6291014457700384856
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014457700384857
+      type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        delayTime: 1
+    - rid: 6291014457700384858
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014457700384859
+      type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        delayTime: 0.5
+    - rid: 6291014547320602713
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602715
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602716
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602717
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602718
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602719
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602720
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602721
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602723
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602725
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602726
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602727
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602728
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602729
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602730
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602731
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602732
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602735
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602736
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602737
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602739
+      type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        delayTime: 0.5
+    - rid: 6291014547320602740
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602741
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602742
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602743
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014547320602744
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014547320602745
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 

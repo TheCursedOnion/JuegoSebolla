@@ -21,16 +21,18 @@ namespace CursedOnion.Game.Entity
         public AssetBehaviourRunner GetBehaviourRunner() => runner;
 
         TurnSystem turnSystem;
+        public TurnSystem GetTurnSystem() => turnSystem;
 
         List<Unit> allyUnit;
 
         Unit unit;
+        public Unit GetUnit() => unit;
 
         List<Vector3> reachableAttackPositions = new();
         List<Vector3> reachableMovePositions = new();
-        Vector3 targetedGridPosToMove;
-        Vector3 targetedPosToMove;
-        SimpleEntity targetedEnemy;
+        public Vector3 TargetedGridPosToMove;
+        public Vector3 TargetedPosToMove;
+        public SimpleEntity TargetedEnemy;
 
         public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
@@ -73,7 +75,7 @@ namespace CursedOnion.Game.Entity
                 Tile3d tile = grid.GetTileAtGridPosition(pos);
                 if (tile != null && tile.GetContainedEntity() != null && tile.GetContainedEntity().GetSide() != unit.GetSide())
                 {
-                    targetedEnemy = tile.GetContainedEntity();
+                    TargetedEnemy = tile.GetContainedEntity();
                     return true;
                 }
             }
@@ -82,15 +84,15 @@ namespace CursedOnion.Game.Entity
 
         public void EnemyAttack()
         {
-            Debug.Log("EL ENEMIGO VA A ATACAR A" + targetedEnemy);
-            GetEntityComponent<AttackEntityComponent>().DoAttack(targetedEnemy, false);
+            Debug.Log("EL ENEMIGO VA A ATACAR A" + TargetedEnemy);
+            GetEntityComponent<AttackEntityComponent>().DoAttack(TargetedEnemy, false);
 
 
         }
         public Status EndAttack()
         {
             Debug.Log("ENEMY HA ATACADO: SUCCESS");
-            targetedEnemy = null;
+            TargetedEnemy = null;
             return Status.Success;
         }
         #endregion
@@ -101,8 +103,8 @@ namespace CursedOnion.Game.Entity
             allyUnit = turnSystem.GetAllyUnits();
             reachableMovePositions.Clear();
 
-            targetedGridPosToMove = Vector3.zero;
-            targetedEnemy = null;
+            TargetedGridPosToMove = Vector3.zero;
+            TargetedEnemy = null;
 
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 reachableMovePositions,
@@ -169,11 +171,11 @@ namespace CursedOnion.Game.Entity
             if (bestDistance == float.MaxValue)
                 return false;
 
-            targetedGridPosToMove = bestTile;
-            targetedEnemy = bestTargetedEnemy;
+            TargetedGridPosToMove = bestTile;
+            TargetedEnemy = bestTargetedEnemy;
 
             unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld);
-            targetedPosToMove = targetWorld.CenterOnTile();
+            TargetedPosToMove = targetWorld.CenterOnTile();
 
             return true;
         }
@@ -181,14 +183,15 @@ namespace CursedOnion.Game.Entity
 
         public void EnemyMove()
         {
-            GetEntityComponent<MoveEntityComponent>().DoMove(targetedGridPosToMove, false);
+            Debug.Log("EL ENEMIGO VA A MOVERSE A " + TargetedPosToMove);
+            GetEntityComponent<MoveEntityComponent>().DoMove(TargetedGridPosToMove, false);
         }
 
         public bool SearchAndFindPath()
         {
             Debug.Log("EL ENEMIGO VA A BUSCAR UNA UNIDAD Y MOVERSE HACIA ELLA");
 
-            targetedGridPosToMove = Vector3.zero;
+            TargetedGridPosToMove = Vector3.zero;
 
             Unit closestAlly = null;
             float bestAllyDistance = float.MaxValue;
@@ -240,12 +243,12 @@ namespace CursedOnion.Game.Entity
                 }
             }
 
-            targetedGridPosToMove = bestTile;
+            TargetedGridPosToMove = bestTile;
 
             if (!unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
                 return false;
 
-            targetedPosToMove = targetWorld.CenterOnTile();
+            TargetedPosToMove = targetWorld.CenterOnTile();
 
             return true;
         }
@@ -253,7 +256,7 @@ namespace CursedOnion.Game.Entity
         public Status EndMove()
         {
             Vector3 pos = unit.transform.position;
-            Vector3 target = targetedPosToMove;
+            Vector3 target = TargetedPosToMove;
 
             bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.05f && Mathf.Abs(pos.z - target.z) < 0.05f;
             bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
@@ -261,8 +264,8 @@ namespace CursedOnion.Game.Entity
             if (!xzAligned || !yCloseEnough)
                 return Status.Running;
 
-            targetedGridPosToMove = Vector3.zero;
-            targetedPosToMove = Vector3.zero;
+            TargetedGridPosToMove = Vector3.zero;
+            TargetedPosToMove = Vector3.zero;
             return Status.Success;
         }
         #endregion
