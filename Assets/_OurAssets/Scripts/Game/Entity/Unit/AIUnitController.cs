@@ -21,10 +21,12 @@ namespace CursedOnion.Game.Entity
         public AssetBehaviourRunner GetBehaviourRunner() => runner;
 
         TurnSystem turnSystem;
+        public TurnSystem GetTurnSystem() => turnSystem;
 
         List<Unit> allyUnit;
 
         Unit unit;
+        public Unit GetUnit() => unit;
 
         List<Vector3> reachableAttackPositions = new();
         List<Vector3> reachableMovePositions = new();
@@ -181,6 +183,7 @@ namespace CursedOnion.Game.Entity
 
         public void EnemyMove()
         {
+            Debug.Log("EL ENEMIGO VA A MOVERSE A " + TargetedPosToMove);
             GetEntityComponent<MoveEntityComponent>().DoMove(TargetedGridPosToMove, false);
         }
 

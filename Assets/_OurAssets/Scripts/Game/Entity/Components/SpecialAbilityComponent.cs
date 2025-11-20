@@ -18,7 +18,7 @@ namespace CursedOnion.Game.Entity.Components
         }
         public virtual void DoAbility(SimpleEntity target, bool undo)
         {
-            if(AssignedEntity is not Unit unit || unit.Stats.SpecialAbilityType == null) return;
+            if (AssignedEntity is not Unit unit || unit.Stats.SpecialAbilityType == null) return;
 
             if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("buff");
 
