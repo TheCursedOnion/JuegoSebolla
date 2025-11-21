@@ -28,14 +28,15 @@ namespace CursedOnion.Game.Settings
             SoundSettings.Initialize();
             
         }
-        public void SetSaveClients(CloudSaveClient saveClient)
+        public async void SetSaveClients()
         {
-            this.SaveClient = saveClient;
+            this.SaveClient ??= new CloudSaveClient();
             SoundSettings.SaveClient = SaveClient;
             LanguageSettings.SaveClient = SaveClient;
             ColorblindSettings.SaveClient = SaveClient;
             
-            _ = Load();
+            await Load();
+            await Save();
         }
         public async Task Save()
         {

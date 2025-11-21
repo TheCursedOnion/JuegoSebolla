@@ -1,36 +1,28 @@
 ﻿using System;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
 
 namespace CursedOnion.Game.Authentication
 {
-    public enum AuthError
-    {
-        None,
-        AlreadySignedIn,
-        NetworkError,
-        InvalidCredentials,
-        AlreadyExists,
-        Unknown
-    }
+    
     public static class AuthExceptionHandler
     {
-        public static AuthError MapExceptionToAuthError(Exception ex)
+        public static int MapExceptionToAuthError(Exception ex)
         {
-            if (ex.Message.Contains("401") || ex.Message.Contains("Invalid"))
-                return AuthError.InvalidCredentials;
+            if (ex.Message.Contains("not in the correct format")
+                || ex.Message.Contains("does not match requirements")
+                || ex.Message.Contains("Invalid"))
+                return 1;
 
-            if (ex.Message.Contains("AlreadyExists"))
-                return AuthError.AlreadyExists;
+            if (ex.Message.Contains("username already exists"))
+                return 3;
 
-            if (ex is RequestFailedException rfe && rfe.Reason == 0) // Sin red
-                return AuthError.NetworkError;
-
-            return AuthError.Unknown;
+            return -1;
         }
     }
     public struct AuthResult
     {
-        public bool Success => Error == AuthError.None;
-        public AuthError Error;
+        public bool Success => Error == 0;
+        public int Error;
     }
 }

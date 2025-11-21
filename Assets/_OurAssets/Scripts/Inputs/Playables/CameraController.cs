@@ -125,7 +125,8 @@ namespace CursedOnion.Game.Inputs
 
         public void RotateCamera(DirectionFlag direction)
         {
-            Rotate(direction);
+            Debug.Log("HE QUITADO DE MOMENTO LA ROTACION");
+            //Rotate(direction);
         }
         private void Rotate(DirectionFlag direction)
         {
