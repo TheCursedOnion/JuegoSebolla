@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Cameras
     [System.Serializable]
     public class CinemachineContainer : MonoBehaviour
     {
-        [MinMaxSlider(-20f, -3f), SerializeField] private Vector2 zoomLimits;
+        [MinMaxSlider(-30f, -3f), SerializeField] private Vector2 zoomLimits;
         
         public CinemachineCamera CinemachineCamera;
         public CinemachinePanTilt PanTilt;

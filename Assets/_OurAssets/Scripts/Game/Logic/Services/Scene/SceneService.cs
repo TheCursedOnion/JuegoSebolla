@@ -36,16 +36,23 @@ namespace CursedOnion.Game.Logic.Services
         }
         async Task<bool> LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            
-            OnSceneLoadCall?.Invoke(sceneName);
-            AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(sceneName, mode);
-            if (loadSceneAsync != null)
+            try
             {
-                loadSceneAsync.completed += (operation) => OnSceneLoadComplete?.Invoke(sceneName);
-                await loadSceneAsync;
-                return true;
+                OnSceneLoadCall?.Invoke(sceneName);
+                AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(sceneName, mode);
+                if (loadSceneAsync != null)
+                {
+                    loadSceneAsync.completed += (operation) => OnSceneLoadComplete?.Invoke(sceneName);
+                    await loadSceneAsync;
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                return false;
+            }
         }
     }
 }

@@ -82,6 +82,18 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
 
         /// <summary>
+        /// Escala el objeto RectTransform a un tamaño específico
+        /// </summary>
+        public void RectScaleTo(Vector2 targetScale, LeanTweenType easing, float duration)
+        {
+            if(targetTransform is not RectTransform rectTransform) return;
+            SafeTween("scale",
+                LeanTween.size(rectTransform, targetScale, duration)
+                    .setEase(easing)
+                );
+        }
+
+        /// <summary>
         /// Restaura la escala original
         /// </summary>
         public void ScaleToOriginal(float duration, LeanTweenType easing = LeanTweenType.notUsed)

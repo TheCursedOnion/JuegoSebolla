@@ -8,8 +8,6 @@ namespace CursedOnion.Game.Modes.General.UI.Events
     {
         public event Action<UIButton> OnButtonSelected;
         public event Action<UIButton> OnButtonUnselected;
-        public event Action<int> OnButtonGroupSelected;
-        public event Action<int> OnButtonGroupUnselected;
         
         public void SelectButton(UIButton interactiveButton)
         {
@@ -20,6 +18,8 @@ namespace CursedOnion.Game.Modes.General.UI.Events
             OnButtonUnselected?.Invoke(interactiveButton);
         }
         
+        public event Action<int> OnButtonGroupSelected;
+        public event Action<int> OnButtonGroupUnselected;
         public void SelectButtonGroup(int group)
         {
             OnButtonGroupSelected?.Invoke(group);

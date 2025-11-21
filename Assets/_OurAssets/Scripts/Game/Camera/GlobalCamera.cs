@@ -26,6 +26,7 @@ namespace CursedOnion.Game.Cameras
         [BoxGroup("UI Interactions"), SerializeField] private EventSystem eventSystem;
         
         [BoxGroup("Default Camera Variables")] public Camera Camera;
+        [BoxGroup("Default Camera Variables")] public Camera UiCamera;
         [BoxGroup("Default Camera Variables"), SerializeField] private AudioListener audioListener; 
         
         [BoxGroup("Camera Controls"),SerializeField] CameraController cameraController;

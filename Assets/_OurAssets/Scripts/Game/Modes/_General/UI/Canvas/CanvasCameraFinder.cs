@@ -9,18 +9,18 @@ namespace CursedOnion.Game.General.UI.Canvases
 {
     public class CanvasCameraFinder : MonoBehaviour
     {
-        [SerializeField] private float planeDistance = 0.2f;
-        
         [Inject] RuntimeVariableLocator runtimeVariableLocator;
+        
+        [SerializeField] bool isUI = false;
+        [SerializeField] private float planeDistance = 0.2f;
         [SerializeField] RenderMode renderMode;
-        GlobalCamera globalCamera;
-        Canvas canvas;
+        
         void Awake()
         {
-            globalCamera = runtimeVariableLocator.GlobalCamera;
-            canvas = GetComponent<Canvas>();
+            GlobalCamera globalCamera = runtimeVariableLocator.GlobalCamera;
+            Canvas canvas = GetComponent<Canvas>();
             
-            canvas.worldCamera = globalCamera.Camera;
+            canvas.worldCamera = !isUI ? globalCamera.Camera : globalCamera.UiCamera;
             canvas.planeDistance = planeDistance;
             canvas.renderMode = renderMode;
         }

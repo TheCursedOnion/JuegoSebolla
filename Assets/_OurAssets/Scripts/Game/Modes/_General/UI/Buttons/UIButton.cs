@@ -63,6 +63,7 @@ namespace CursedOnion.Game.General.UI.Buttons
             else OnDeselect.Invoke();
         }
         
+        
         public void ToggleSelfSelect()
         {
             if(!IsSelected)
@@ -73,10 +74,6 @@ namespace CursedOnion.Game.General.UI.Buttons
         public void SelfSelect()
         {
             UiEvents.SelectButton(this);
-        }
-        public void SelfGroupSelect()
-        {
-            UiEvents.SelectButtonGroup(ButtonGroupId);
         }
         
         public void SetInteractive(bool isInteractive)
