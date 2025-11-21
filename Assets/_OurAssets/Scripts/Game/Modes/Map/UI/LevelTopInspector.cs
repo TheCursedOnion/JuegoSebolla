@@ -3,15 +3,14 @@ using CursedOnion.Game.Events;
 using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Localization;
 using CursedOnion.Game.Objects;
-using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
 using Reflex.Attributes;
 using UltEvents;
 using UnityEngine;
 
-namespace CursedOnion.Game.General.UI.Canvases
+namespace CursedOnion.Game.Modes.Map.UI
 {
-    public class LevelInspector : MonoBehaviour
+    public class LevelTopInspector : MonoBehaviour
     {
         [Inject] MapEvents mapEvents;
         [Inject] MapManager mapManager;

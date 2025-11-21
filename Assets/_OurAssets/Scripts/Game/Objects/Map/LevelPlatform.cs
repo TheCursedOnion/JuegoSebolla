@@ -17,6 +17,7 @@ namespace CursedOnion.Game.Objects
         public LevelType LevelEnumType;
         
         public string NameKey;
+        public string DescriptionKey;
         
         [Scene] public string levelScene;
 
