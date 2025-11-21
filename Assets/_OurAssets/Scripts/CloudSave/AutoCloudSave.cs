@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using CursedOnion.Game.Authentication;
 using CursedOnion.Game.Settings;
 using CursedOnion.Locators;
 using NaughtyAttributes;
@@ -13,13 +15,12 @@ namespace CursedOnion.Game.CloudSave
 {
     public class AutoCloudSave : MonoBehaviour
     {
-        [SerializeField] bool autoSave;
-        
+        [SerializeField] private bool debug;
+        [SerializeField] private bool autoSave;
         [Inject] GameSettings gameSettings;
         [Inject] RuntimeVariableLocator variableLocator;
-        private CloudSaveClient client;
-
-        void Awake()
+        
+        async void Awake()
         {
             var instance = variableLocator.AutoCloudSave;
             if (instance != null && instance != this)
@@ -30,30 +31,48 @@ namespace CursedOnion.Game.CloudSave
             {
                 DontDestroyOnLoad(gameObject);
                 variableLocator.AutoCloudSave = this;
+                
+                await GameAuthenticator.InitializeServices();
+                AuthenticationService.Instance.SignedIn += PrepareClients;
+                AuthenticationService.Instance.Expired += OnAuthExpired;
 
-                variableLocator.OnSignIn += InsertAuthentications;
+                if (debug)
+                {
+                    await GameAuthenticator.AnonymousLogin();
+                }
             }
         }
-
-        void InsertAuthentications()
-        {
-            client = new CloudSaveClient();
-            //variableLocator.SetSaveClients(client);
-            gameSettings.SetSaveClients(client);
-        }
-        
         void OnDisable()
         {
-            if (!autoSave) return;
-            
             var instance = variableLocator.AutoCloudSave;
             if (instance != null && instance == this)
             {
-                variableLocator.OnSignIn -= InsertAuthentications;
-                
                 variableLocator.AutoCloudSave = null;
-                _ = gameSettings.Save();
-                _ = variableLocator.Save();
+
+                if (autoSave)
+                {
+                    _ = gameSettings.Save();
+                    _ = variableLocator.Save();
+                }
+
+                AuthenticationService.Instance.SignedIn -= PrepareClients;
+                AuthenticationService.Instance.Expired -= OnAuthExpired;
+            }
+        }
+        void PrepareClients()
+        {
+            gameSettings.SetSaveClients();
+            variableLocator.SetSaveClients();
+        }
+        private async void OnAuthExpired()
+        {
+            try
+            {
+                await GameAuthenticator.TrySilentReAuth();
+            }
+            catch (Exception e)
+            {
+                throw; // TODO handle exception
             }
         }
     }

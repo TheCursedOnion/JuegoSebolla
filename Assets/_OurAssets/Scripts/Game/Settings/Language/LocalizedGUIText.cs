@@ -34,6 +34,11 @@ namespace CursedOnion.Game.Localization
             this.key = key;
             UpdateText();
         }
+        public void SetNullKey()
+        {
+            this.key = "";
+            UpdateText();
+        }
         public void SetUsedKeyIndex(int index)
         {
             useKeyIndex = index;
@@ -46,6 +51,11 @@ namespace CursedOnion.Game.Localization
 
         void UpdateText()
         {
+            if (string.IsNullOrEmpty(key) && !useMultipleKeys)
+            {
+                textMesh.text = "";
+                return;
+            }
             languageSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().LanguageSettings;
             textMesh.text = languageSetting.GetLocalizedString(!useMultipleKeys ? key : keys[useKeyIndex]);
         }

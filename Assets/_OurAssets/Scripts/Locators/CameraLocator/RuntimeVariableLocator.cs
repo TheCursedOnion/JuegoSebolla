@@ -16,13 +16,12 @@ namespace CursedOnion.Locators
         
         public int LastLevelPlayed;
         public bool IsGamePlayedOnMobile;
-        public event Action OnSignIn;
-        public void InvokeSignIn() => OnSignIn?.Invoke();
         
-        public void SetSaveClients(CloudSaveClient saveClient)
+        public async void SetSaveClients()
         {
-            this.SaveClient = saveClient;
-            _ = Load();
+            this.SaveClient ??= new CloudSaveClient();
+            await Load();
+            await Save();
         }
         public async Task Save()
         {
