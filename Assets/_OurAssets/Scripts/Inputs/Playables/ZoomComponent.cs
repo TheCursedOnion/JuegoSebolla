@@ -4,31 +4,47 @@ using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
 
-namespace CursedOnion.Game.Inputs
+namespace CursedOnion.Game.Inputs.Camera
 {
-    public class ZoomController : MonoBehaviour
+    [System.Serializable]
+    public class ZoomComponent
     {
-        [Inject] RuntimeVariableLocator variableLocator;
+        [MinMaxSlider(-30f, -3f), SerializeField] private Vector2 zoomLimits;
         
         [Header("Sensitivity")]
         [SerializeField] float scrollSensitivity = 4f;
         [SerializeField] float pinchSensitivity = 0.08f;
         [SerializeField] float smoothZoomSpeed = 10f;
         CinemachineContainer cinemachineContainer;
-        
-        public void Initialize(CinemachineContainer cinemachineContainer)
+        bool enabled = true;
+        public void Initialize(GlobalCamera camera)
         {
-            this.cinemachineContainer = cinemachineContainer;
+            this.cinemachineContainer = camera.CinemachineContainer;
+            Enable();
         }
         
-        public void HandleZoom()
+        public void SetActive(bool active)
         {
-            if(!gameObject.activeSelf) return;
+            if (active) Enable();
+            else Disable();
+        }
+        void Enable()
+        {
+            enabled = true;
+        }
+        void Disable()
+        {
+            enabled = false;
+        }
+        
+        public void HandleZoom(bool useMobileControls)
+        {
+            if(!enabled) return;
             
-            /*if(!variableLocator.IsGamePlayedOnMobile)
+            if(!useMobileControls)
                 HandleMouseZoom();
             else
-                HandleTouchZoom();*/
+                HandleTouchZoom();
         }
 
         void HandleMouseZoom()
@@ -38,7 +54,7 @@ namespace CursedOnion.Game.Inputs
             if (Mathf.Abs(scroll) > 0.001f)
             {
                 float zoomZ = scroll * scrollSensitivity * 10f;
-                cinemachineContainer.AddFollowOffsetZ(zoomZ, smoothZoomSpeed * Time.deltaTime);
+                ZoomCamera(zoomZ);
             }
         }
 
@@ -58,8 +74,15 @@ namespace CursedOnion.Game.Inputs
                 float delta = currentDistance - prevDistance;
 
                 float zoomZ = delta * -pinchSensitivity;
-                cinemachineContainer.AddFollowOffsetZ(zoomZ, smoothZoomSpeed * Time.deltaTime);
-            
+                ZoomCamera(zoomZ);
+        }
+
+        void ZoomCamera(float zoomZ)
+        {
+            float currentZoom = cinemachineContainer.GetCameraFollowOffsetZ();
+            zoomZ += currentZoom;
+            zoomZ = Mathf.Clamp(zoomZ, zoomLimits.x, zoomLimits.y);
+            cinemachineContainer.SetFollowOffsetZ(zoomZ, smoothZoomSpeed * Time.deltaTime);
         }
     }
 }

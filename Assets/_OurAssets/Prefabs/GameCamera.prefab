@@ -12,12 +12,8 @@ GameObject:
   - component: {fileID: 6323520256468520131}
   - component: {fileID: 1695685476080731386}
   - component: {fileID: 730611507529193680}
-  - component: {fileID: 3337645738524908298}
-  - component: {fileID: 9155578524250271822}
   - component: {fileID: 5688396321082638336}
   - component: {fileID: 2260417231693671898}
-  - component: {fileID: 6192284481998751071}
-  - component: {fileID: 3901026129520258791}
   m_Layer: 0
   m_Name: GameCamera
   m_TagString: Untagged
@@ -58,13 +54,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c88ac4dcb7fe04586645669d14fa12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraInputReader: {fileID: 0}
   eventSystem: {fileID: 8098994174530374433}
   Camera: {fileID: 6587477183772208224}
   UiCamera: {fileID: 2192679844808687615}
   audioListener: {fileID: 753997144440080797}
-  cameraController: {fileID: 730611507529193680}
-  cameraBehaviours: {fileID: 3337645738524908298}
-  cinemachineContainer: {fileID: 5688396321082638336}
+  CameraGuide: {fileID: 4306796041228235783}
+  CameraController: {fileID: 730611507529193680}
+  CinemachineContainer: {fileID: 5688396321082638336}
   CameraEvents: {fileID: 1695685476080731386}
 --- !u!114 &1695685476080731386
 MonoBehaviour:
@@ -90,40 +87,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f776d0eab384302b5f22cb73f857b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  cameraFreeGuide: {fileID: 4306796041228235783}
-  dragController: {fileID: 6192284481998751071}
-  zoomController: {fileID: 3901026129520258791}
---- !u!114 &3337645738524908298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375360451385869988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d4464e4a8df22740bc4ecce528dc64a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9155578524250271822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375360451385869988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f21e425e8c89a4439e29b8e41098414, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeOnLoop: 0
-  interruptOptions: 0
-  _eventHandler:
-    debugStatusChanges: 0
-    identifier: 
-  System: {fileID: 11400000, guid: 29050a586c319734faa19273876edb1a, type: 2}
+  cameraControlFlag: 0
+  moveComponent:
+    moveSpeed: 5
+  dragComponent:
+    dragSpeed: 0.1
+    damping: 10
+  zoomComponent:
+    zoomLimits: {x: -30, y: -3}
+    scrollSensitivity: 2.5
+    pinchSensitivity: 0.08
+    smoothZoomSpeed: 10
 --- !u!114 &5688396321082638336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +110,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e832ca109c4dd5af2cd670913628fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomLimits: {x: -20, y: -3}
   CinemachineCamera: {fileID: 5489487318748723867}
   PanTilt: {fileID: 8023546002002281699}
   Follow: {fileID: 2953126380328841513}
@@ -154,35 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseWithLevel: 1
---- !u!114 &6192284481998751071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375360451385869988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98b2b4431a194aea87ddd00c4a9dc509, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragSpeed: 0.01
-  damping: 10
---- !u!114 &3901026129520258791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 375360451385869988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08c87e9a64c244238d852ca0d4a945b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scrollSensitivity: 1
-  pinchSensitivity: 0.07
-  smoothZoomSpeed: 5
 --- !u!1 &443472272150469883
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,11 +376,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusOnAwake: 1
+  resultingMode: 0
+  focusOnAwake: 0
+  target: {fileID: 0}
   positionDamping: {x: 1, y: 1, z: 1}
+  forceOffset: 0
   distanceOffset: {x: 0, y: 0, z: -6}
+  offsetTime: 1
+  forceTilt: 1
   tiltOnFocus: 35
-  focusTime: 1
+  forcePan: 0
+  panOnFocus: 0
 --- !u!1 &2847704812668258224
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,156 +1,129 @@
 ﻿using System;
-using CursedOnion.Behaviours;
-using CursedOnion.Extensions;
-using CursedOnion.Game;
 using CursedOnion.Game.Cameras;
-using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Helpers;
-using NaughtyAttributes;
+using CursedOnion.Locators;
 using Reflex.Attributes;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace CursedOnion.Game.Inputs
+namespace CursedOnion.Game.Inputs.Camera
 {
+    [Flags]
+    public enum CameraControlFlag
+    {
+        None = 0,
+        Move = 1 << 0,
+        Rotate = 1 << 1,
+        Drag = 1 << 2,
+        Zoom = 1 << 3,
+        
+        FreeMode = Move | Rotate | Drag | Zoom,
+        FixedMode = Rotate | Zoom,
+        Disabled = None
+    }
     [RequireComponent(typeof(GlobalCamera))]
-    public class CameraController : MonoBehaviour, IController, IPausable
+    public class CameraController : MonoBehaviour, IPausable, IDisposable
     {
         [Inject] public InputReaderCollection InputReaderCollection { get; set; }
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         
-        [SerializeField] private float moveSpeed;
+        [SerializeField] private CameraControlFlag cameraControlFlag = CameraControlFlag.Disabled;
+        
+        [SerializeField] private MoveComponent moveComponent = new();
+        [SerializeField] private RotateComponent rotateComponent = new();
+        [SerializeField] private DragComponent dragComponent = new();
+        [SerializeField] private ZoomComponent zoomComponent = new();
 
-        [SerializeField] private CameraFocus cameraFreeGuide;
-        [SerializeField] private DragController dragController;
-        [SerializeField] private ZoomController zoomController;
- 
-        private CameraInputReader reader;
-        private CinemachineContainer cinemachineContainer;
+        private GlobalCamera assignedCamera;
         bool isPaused = false;
         
         
-        bool hasFreeMode = false;
         Transform lastFollowedTarget;
-        float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
         
         public void Initialize(GlobalCamera globalCamera)
         {
-            this.cinemachineContainer = globalCamera.CinemachineContainer;
-            reader = InputReaderCollection.GetReader<CameraInputReader>();
+            assignedCamera = globalCamera;
             
-            dragController ??= GetComponent<DragController>();
-            dragController.Initialize(cameraFreeGuide.transform);
-            
-            zoomController ??= GetComponent<ZoomController>();
-            zoomController.Initialize(cinemachineContainer);
+            moveComponent.Initialize(assignedCamera);
+            rotateComponent.Initialize(assignedCamera);
+            dragComponent.Initialize(assignedCamera);
+            zoomComponent.Initialize(assignedCamera);
         }
-        public void Enable()
+        public void Dispose()
         {
-            reader.Move += Move;
-            reader.RotateCamera += RotateCamera;
+            moveComponent.SetActive(false);
+            rotateComponent.SetActive(false);
+            dragComponent.SetActive(false);
+            zoomComponent.SetActive(false);
         }
-        public void Disable()
-        {
-            reader.Move -= Move;
-            reader.RotateCamera -= RotateCamera;
-        }
-        public void DisableAll()
-        {
-            hasFreeMode = false;
-            EnableRotate(false);
-        }
-
+        
         public void Pause()
         {
             isPaused = true;
-            reader.Disable();
         }
         public void Unpause()
         {
             isPaused = false;
-            reader.Enable();
-        }
-        public void EnableRotate(bool enable)
-        {
-            if(enable)
-                reader.RotateCamera += RotateCamera;
-            else
-                reader.RotateCamera -= RotateCamera;
         }
         
-        public void EnableFreeMode()
-        {
-            Debug.Log("Free mode enabled");
-            var cineCam = cinemachineContainer.CinemachineCamera;
-            
-            hasFreeMode = true;
-            if(lastFollowedTarget != null) cameraFreeGuide.transform.position = lastFollowedTarget.position;
-            
-            lastFollowedTarget = cineCam.Follow;
-            cineCam.Follow = cameraFreeGuide.transform;
-        }
-        public void EnableFixedMode()
-        {
-            hasFreeMode = false;
-            var cineCam = cinemachineContainer.CinemachineCamera;
-            
-            if (lastFollowedTarget != null)
-            {
-                var focus = lastFollowedTarget.GetComponent<CameraFocus>();
-                if (focus != null)
-                {
-                    focus.RequestFocus();
-                    cameraFreeGuide.transform.position = focus.transform.position;
-                }
-                cineCam.Follow = lastFollowedTarget;
-            }
-            else
-            {
-                lastFollowedTarget = cineCam.Follow;
-            }
-        }
-
-        private Vector3 moveDir;
-        void Move(Vector2 direction)
-        {
-            Vector3 direction3D = direction;
-            direction3D = direction3D.SwizzleXZY();
-
-            float rotateAngle = GetCameraPanAngles();
-            Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
-            direction3D = rotation * direction3D;
-            
-            moveDir = transform.forward * direction3D.z + transform.right * direction3D.x;
-        }
-
         public void RotateCamera(DirectionFlag direction)
         {
-            Debug.Log("HE QUITADO DE MOMENTO LA ROTACION");
-            //Rotate(direction);
+            rotateComponent.Rotate(direction);
         }
-        private void Rotate(DirectionFlag direction)
+
+        public void SwitchCameraModes()
         {
-            float rotateAmount = direction == DirectionFlag.Left ? -45 : 45;
-
-            var cinemachinePanTilt = cinemachineContainer.PanTilt;
-            
-            cinemachinePanTilt.PanAxis.Center += rotateAmount;
-            
-            cinemachinePanTilt.PanAxis.Center %= 360f;
-            if (cinemachinePanTilt.PanAxis.Center < 0)
-                cinemachinePanTilt.PanAxis.Center += 360f;
+            if(IsInMode(CameraControlFlag.FreeMode))
+            {
+                SetFixedMode();
+            }
+            else if(IsInMode(CameraControlFlag.FixedMode))
+            {
+                SetFreeMode();
+            }
         }
-
+        
+        void SetFreeMode()
+        {
+            var cinemachineContainer = assignedCamera.CinemachineContainer;
+            if(cinemachineContainer.TryGetCurrentTarget(out lastFollowedTarget))
+                assignedCamera.CameraGuide.transform.position = lastFollowedTarget.position;
+            
+            assignedCamera.CameraGuide.RequestFocus();
+            
+            SetFlag(CameraControlFlag.FreeMode);
+        }
+        void SetFixedMode()
+        {
+            var cameraFocus = lastFollowedTarget?.GetComponent<CameraFocus>();
+            cameraFocus?.RequestFocus();
+            
+            SetFlag(CameraControlFlag.FixedMode);
+        }
+        public void SetFlag(CameraControlFlag flag)
+        {
+            cameraControlFlag = flag;
+            UpdateComponents();
+            assignedCamera.CameraEvents.OnCameraModeModified(flag);
+        }
+        void UpdateComponents()
+        {
+            moveComponent.SetActive(HasFlag(CameraControlFlag.Move));
+            rotateComponent.SetActive(HasFlag(CameraControlFlag.Rotate));
+            dragComponent.SetActive(HasFlag(CameraControlFlag.Drag));
+            zoomComponent.SetActive(HasFlag(CameraControlFlag.Zoom));
+        }
+        bool HasFlag(CameraControlFlag flag) => (cameraControlFlag & flag) == flag;
+        bool IsInMode(CameraControlFlag flag) => cameraControlFlag == flag;
         void Update()
         {
             if(isPaused) return;
+
+            bool isGameOnMobile = runtimeVariableLocator.IsGamePlayedOnMobile;
             
-            if (hasFreeMode)
-            {
-                cameraFreeGuide.transform.position += moveDir * (moveSpeed * Time.deltaTime);
-                dragController.HandleDrag();
-            }
-            zoomController.HandleZoom();
+            moveComponent.HandleMove();
+            dragComponent.HandleDrag(isGameOnMobile);
+            zoomComponent.HandleZoom(isGameOnMobile);
         }
     }
 }

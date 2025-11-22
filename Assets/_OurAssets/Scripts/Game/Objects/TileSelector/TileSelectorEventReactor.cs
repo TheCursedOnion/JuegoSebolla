@@ -1,8 +1,6 @@
-using CursedOnion.Behaviours;
 using CursedOnion.Game.Events;
-using CursedOnion.Game.Systems.Level;
+using CursedOnion.Game.Inputs.Camera;
 using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using Reflex.Attributes;
 using UnityEngine;
 
@@ -31,13 +29,13 @@ namespace CursedOnion.Game.Objects
             cameraEvents.OnModifyCameraMode -= OnCameraModification;
         }
 
-        void OnCameraModification(CameraMode cameraMode)
+        void OnCameraModification(CameraControlFlag cameraMode)
         {
             Debug.Log($"Camera mode changed to {cameraMode}");
             switch (cameraMode)
             {
-                case CameraMode.FreeMode: tileSelectorController.Disable(); break;
-                case CameraMode.FixedMode: tileSelectorController.Enable(); break;
+                case CameraControlFlag.FreeMode: tileSelectorController.Disable(); break;
+                case CameraControlFlag.FixedMode: tileSelectorController.Enable(); break;
             }
         }
     }

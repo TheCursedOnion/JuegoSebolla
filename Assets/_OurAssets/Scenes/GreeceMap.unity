@@ -31731,7 +31731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039d067d0a134dc2b33d00c2f1d341e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFocus: {fileID: 0}
+  cameraFocus: {fileID: 149001558}
   LevelInformation:
     LevelIndex: 1
     LevelEnumType: 1
@@ -31766,11 +31766,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultingMode: 10
   focusOnAwake: 0
   positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 0
   distanceOffset: {x: 0, y: 0, z: -20}
+  offsetTime: 1
+  forceTilt: 1
   tiltOnFocus: 45
-  focusTime: 1
+  forcePan: 0
+  panOnFocus: 0
 --- !u!1001 &149191424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144224,6 +144229,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 730611507529193680, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: dragController
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 730611507529193680, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: zoomController
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1336717291746260458, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -144256,6 +144269,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6323520256468520131, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: cameraBehaviours
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6587477183772208224, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: field of view
       value: 60.000004
@@ -144271,10 +144288,6 @@ PrefabInstance:
     - target: {fileID: 6828425227937931305, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7205497095955831635, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8023546002002281699, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: PanAxis.Value
@@ -144332,7 +144345,10 @@ PrefabInstance:
       propertyPath: Offset.z
       value: -6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -198587,7 +198603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039d067d0a134dc2b33d00c2f1d341e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFocus: {fileID: 0}
+  cameraFocus: {fileID: 871275730}
   LevelInformation:
     LevelIndex: 3
     LevelEnumType: 2
@@ -198622,11 +198638,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultingMode: 10
   focusOnAwake: 0
   positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 0
   distanceOffset: {x: 0, y: 0, z: -20}
+  offsetTime: 1
+  forceTilt: 1
   tiltOnFocus: 45
-  focusTime: 1
+  forcePan: 0
+  panOnFocus: 0
 --- !u!1001 &872093436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387755,7 +387776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1699722740
 Transform:
   m_ObjectHideFlags: 0
@@ -423674,7 +423695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039d067d0a134dc2b33d00c2f1d341e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFocus: {fileID: 0}
+  cameraFocus: {fileID: 1850516392}
   LevelInformation:
     LevelIndex: 2
     LevelEnumType: 1
@@ -423693,11 +423714,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultingMode: 10
   focusOnAwake: 0
   positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 0
   distanceOffset: {x: 0, y: 0, z: -20}
+  offsetTime: 1
+  forceTilt: 1
   tiltOnFocus: 45
-  focusTime: 1
+  forcePan: 0
+  panOnFocus: 0
 --- !u!1001 &1851444433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -445969,7 +445995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1952443134
 Transform:
   m_ObjectHideFlags: 0
@@ -445979,7 +446005,7 @@ Transform:
   m_GameObject: {fileID: 1952443133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 1.15, z: -7}
+  m_LocalPosition: {x: -3, y: 1.15, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -445995,16 +446021,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1952443133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 039d067d0a134dc2b33d00c2f1d341e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFocus: {fileID: 0}
-  LevelInformation:
-    LevelIndex: 0
-    LevelEnumType: 0
-    NameKey: 
-    DescriptionKey: 
-    levelScene: 
+  resultingMode: 10
+  focusOnAwake: 1
+  positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 1
+  distanceOffset: {x: 0, y: 0, z: -20}
+  offsetTime: 1
+  forceTilt: 1
+  tiltOnFocus: 45
+  forcePan: 1
+  panOnFocus: 0
 --- !u!1001 &1952711179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -465604,11 +465633,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultingMode: 10
   focusOnAwake: 0
   positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 0
   distanceOffset: {x: 0, y: 0, z: -20}
+  offsetTime: 1
+  forceTilt: 1
   tiltOnFocus: 45
-  focusTime: 1
+  forcePan: 0
+  panOnFocus: 0
 --- !u!114 &2038426338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465621,7 +465655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039d067d0a134dc2b33d00c2f1d341e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFocus: {fileID: 0}
+  cameraFocus: {fileID: 2038426337}
   LevelInformation:
     LevelIndex: 0
     LevelEnumType: 0

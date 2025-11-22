@@ -362,11 +362,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusOnAwake: 1
-  positionDamping: {x: 1, y: 1, z: 1}
+  resultingMode: 10
+  focusOnAwake: 0
+  target: {fileID: 0}
+  positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 0
   distanceOffset: {x: 0, y: 0, z: -6}
+  offsetTime: 1
+  forceTilt: 1
   tiltOnFocus: 35
-  focusTime: 1
+  forcePan: 0
+  panOnFocus: 0
 --- !u!114 &1388741486472617589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,6 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 607545660078206699}
+  - component: {fileID: 2155243600606436494}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -427,6 +434,29 @@ Transform:
   - {fileID: 4938866026579014800}
   m_Father: {fileID: 4706067090142355285}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2155243600606436494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6126757579829251379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultingMode: 10
+  focusOnAwake: 1
+  target: {fileID: 4706067090142355285}
+  positionDamping: {x: 1.35, y: 1.35, z: 1.35}
+  forceOffset: 1
+  distanceOffset: {x: 0, y: 0, z: -6}
+  offsetTime: 1
+  forceTilt: 1
+  tiltOnFocus: 35
+  forcePan: 1
+  panOnFocus: 0
 --- !u!1 &8377165011417661087
 GameObject:
   m_ObjectHideFlags: 0

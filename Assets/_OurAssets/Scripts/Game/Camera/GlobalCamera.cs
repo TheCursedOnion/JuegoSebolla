@@ -1,18 +1,14 @@
-using System;
+
 using NaughtyAttributes;
 using Reflex.Attributes;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-using CursedOnion.Behaviours;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Events;
-using CursedOnion.Game.Settings;
+using CursedOnion.Game.Inputs.Camera;
 using CursedOnion.Locators;
-using Reflex.Extensions;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -22,6 +18,8 @@ namespace CursedOnion.Game.Cameras
     public class GlobalCamera : MonoBehaviour
     {
         [Inject] RuntimeVariableLocator runtimeVariableLocator;
+        [Inject] InputReaderCollection inputReaderCollection;
+        [HideInInspector] public CameraInputReader CameraInputReader;
         
         [BoxGroup("UI Interactions"), SerializeField] private EventSystem eventSystem;
         
@@ -29,16 +27,10 @@ namespace CursedOnion.Game.Cameras
         [BoxGroup("Default Camera Variables")] public Camera UiCamera;
         [BoxGroup("Default Camera Variables"), SerializeField] private AudioListener audioListener; 
         
-        [BoxGroup("Camera Controls"),SerializeField] CameraController cameraController;
-        public CameraController CameraController => cameraController;
+        [BoxGroup("Camera Controls"),SerializeField] public CameraFocus CameraGuide;
+        [BoxGroup("Camera Controls"),SerializeField] public CameraController CameraController;
         
-        [BoxGroup("Camera Controls"),SerializeField] CameraBehaviours cameraBehaviours;
-        public CameraBehaviours CameraBehaviours => cameraBehaviours;
-        
-        
-        [BoxGroup("Cinemachine"),SerializeField] CinemachineContainer cinemachineContainer;
-        public CinemachineContainer CinemachineContainer => cinemachineContainer;
-        public float GetCameraPanAngles() => cinemachineContainer.PanTilt.PanAxis.Center;
+        [BoxGroup("Cinemachine"),SerializeField] public CinemachineContainer CinemachineContainer;
         
         public CameraEvents CameraEvents;
 
@@ -64,9 +56,9 @@ namespace CursedOnion.Game.Cameras
             eventSystem.enabled = true;
             audioListener.enabled = true;
             
-            cameraBehaviours.Initialize(this);
-            cameraController.Initialize(this);
-            cameraController.Enable();
+            CameraInputReader = inputReaderCollection.GetReader<CameraInputReader>();
+                
+            CameraController.Initialize(this);
             
             GetComponent<MusicPlayer>()?.StartMusic();
             
@@ -78,10 +70,9 @@ namespace CursedOnion.Game.Cameras
             transform.position = other.transform.position;
             transform.rotation = other.transform.rotation;
             
-            cinemachineContainer.MatchWith(other.cinemachineContainer);
-            cameraController.Unpause();
+            CinemachineContainer.MatchWith(other.CinemachineContainer);
+            CameraController.Unpause();
         }
-
         
         void OnDisable()
         {
@@ -89,20 +80,21 @@ namespace CursedOnion.Game.Cameras
             if (instancedCamera != null && instancedCamera == this)
             {
                 runtimeVariableLocator.GlobalCamera = null;
-                cameraController.Disable();
+                CameraController.Dispose();
             }
         }
         #endregion
         
         public void SwitchCameraModes()
         {
-            cameraBehaviours.SwitchCameraModes();
+            CameraController.SwitchCameraModes();
+        }
+        public void SetCameraMode(CameraControlFlag flag)
+        {
+            CameraController.SetFlag(flag);
         }
 
-        public void FocusCameraOn(Transform target, Vector3 positionDamping, Vector3 offset, float tiltOnFocus, float focusTime = 1f)
-        {
-            cinemachineContainer.FocusOn(target, positionDamping, offset, tiltOnFocus, focusTime);
-            cameraBehaviours.ChangeToFixedMode();
-        }
+        public float GetCameraPanAngles() => CinemachineContainer.GetCameraPanAngles();
+        
     }
 }

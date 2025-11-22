@@ -9,40 +9,41 @@ namespace CursedOnion.Game.Cameras
     [System.Serializable]
     public class CinemachineContainer : MonoBehaviour
     {
-        [MinMaxSlider(-30f, -3f), SerializeField] private Vector2 zoomLimits;
-        
         public CinemachineCamera CinemachineCamera;
         public CinemachinePanTilt PanTilt;
         public CinemachineFollow Follow;
         public CinemachineCameraOffset Offset;
-        
-        public void FocusOn(Transform target, Vector3 positionDamping, Vector3 offset, float tiltOnFocus, float time = 0f)
+
+        #region Getters
+
+        public float GetCameraPanAngles() => PanTilt.PanAxis.Center;
+        public float GetCameraTiltAngles() => PanTilt.TiltAxis.Center;
+        public float GetCameraFollowOffsetZ() => Offset.Offset.z;
+
+        public bool TryGetCurrentTarget(out Transform target)
         {
-            SetTarget(target, positionDamping, offset, time);
-            SetPanCenter(target.transform.eulerAngles.y);
-            SetTiltCenter(tiltOnFocus);
+            target = CinemachineCamera.Follow;
+            return target != null;
         }
-        public void SetTarget(Transform target, Vector3 positionDamping, Vector3 offset, float adjustTime)
+
+        #endregion
+        
+        public void FocusOn(Transform target, Vector3 positionDamping, float tiltOnFocus)
+        {
+            SetTarget(target, positionDamping);
+        }
+        public void SetTarget(Transform target, Vector3 positionDamping)
         {
             Follow.TrackerSettings.PositionDamping = positionDamping;
             CinemachineCamera.Follow = target;
-            StopAllCoroutines();
-            SetOffset(offset, adjustTime);
         }
-        
         public void SetOffset(Vector3 offset, float adjustTime)
         {
-            //Follow.FollowOffset = offset;
+            StopAllCoroutines();
             StartCoroutine(IEOffset(offset, adjustTime));
-        }
-
-        public void AddFollowOffsetZ(float zOffset, float smoothTime)
-        {
-            SetFollowOffsetZ(Offset.Offset.z + zOffset, smoothTime);
         }
         public void SetFollowOffsetZ(float zOffset, float smoothTime)
         {
-            zOffset = Mathf.Clamp(zOffset, zoomLimits.x, zoomLimits.y);
             var offset = Offset.Offset;
             offset.z = zOffset;
             StartCoroutine(IEOffset(offset, smoothTime));
@@ -73,7 +74,8 @@ namespace CursedOnion.Game.Cameras
         {
             this.SetTiltCenterAndValue(other.PanTilt.TiltAxis.Center);
             this.SetPanCenterAndValue(other.PanTilt.PanAxis.Center);
-            this.SetTarget(other.CinemachineCamera.Follow, other.Follow.TrackerSettings.PositionDamping, other.Offset.Offset, 0f);
+            this.SetTarget(other.CinemachineCamera.Follow, other.Follow.TrackerSettings.PositionDamping);
+            this.SetOffset(other.Offset.Offset, 0f);
         }
         
         IEnumerator IEOffset(Vector3 offset, float time)

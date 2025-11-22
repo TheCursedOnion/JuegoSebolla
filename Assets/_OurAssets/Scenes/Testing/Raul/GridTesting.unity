@@ -3611,10 +3611,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameCamera
       objectReference: {fileID: 0}
-    - target: {fileID: 4306796041228235783, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
-      propertyPath: focusOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8550637802860149597, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5
@@ -5194,18 +5190,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1778151861528627983, guid: 0138ce526668a104086314b831e751c8, type: 3}
-      propertyPath: positionDamping.x
-      value: 1.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778151861528627983, guid: 0138ce526668a104086314b831e751c8, type: 3}
-      propertyPath: positionDamping.y
-      value: 1.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778151861528627983, guid: 0138ce526668a104086314b831e751c8, type: 3}
-      propertyPath: positionDamping.z
-      value: 1.35
-      objectReference: {fileID: 0}
     - target: {fileID: 3723169174483445520, guid: 0138ce526668a104086314b831e751c8, type: 3}
       propertyPath: m_Name
       value: TileSelector
@@ -9492,7 +9476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1978226441245366445, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 69.87106
+      value: 187.37103
       objectReference: {fileID: 0}
     - target: {fileID: 2041683745877245914, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Layer
@@ -9627,10 +9611,6 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4320700340568441594, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4357524284990458691, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
@@ -9941,6 +9921,19 @@ PrefabInstance:
     - target: {fileID: 6741284545571342937, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745919244129907876, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Int
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745919244129907876, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745919244129907876, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._String
+      value: CursedOnion.Helpers.DirectionFlag, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       objectReference: {fileID: 0}
     - target: {fileID: 6817437020337205105, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_AnchorMax.y

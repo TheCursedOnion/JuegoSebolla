@@ -1,40 +1,58 @@
 ﻿using System;
+using CursedOnion.Game.Cameras;
 using CursedOnion.Locators;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace CursedOnion.Game.Inputs
+namespace CursedOnion.Game.Inputs.Camera
 {
-    public class DragController : MonoBehaviour
-    { 
-        [Inject] RuntimeVariableLocator variableLocator;
-        public float dragSpeed = 0.1f;
-        public float damping = 10f;
+    [System.Serializable]
+    public class DragComponent
+    {
+        [SerializeField] private float dragSpeed = 0.1f;
+        [SerializeField] private float damping = 10f;
 
         private Vector3 dragOrigin;
-        private Vector3 targetPosition;
         
         private bool dragStartedOnUI = true;
         private bool isDragging = false;
-
+        
         private Transform targetGuide;
-
-        public void Initialize(Transform guide)
+        private Vector3 targetPosition;
+        
+        bool enabled = true;
+        public void Initialize(GlobalCamera camera)
         {
-            targetGuide = guide;
-            targetPosition = guide.position;
+            targetGuide = camera.CameraGuide.transform;
+            targetPosition = targetGuide.position;
+            Enable();
         }
 
-        public void HandleDrag()
+        public void SetActive(bool active)
         {
-            if(!variableLocator.IsGamePlayedOnMobile)
+            if (active) Enable();
+            else Disable();
+        }
+        void Enable()
+        {
+            enabled = true;
+        }
+        void Disable()
+        {
+            enabled = false;
+        }
+        public void HandleDrag(bool useMobileControls)
+        {
+            if(!enabled) return;
+            
+            if(!useMobileControls)
                 HandleMouseDrag();
             else
                 HandleTouchDrag();
 
             if (isDragging)
-                transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * damping);
+                targetGuide.position = Vector3.Lerp(targetGuide.position, targetPosition, Time.deltaTime * damping);
             
         }
         void HandleMouseDrag()
@@ -43,7 +61,7 @@ namespace CursedOnion.Game.Inputs
             {
                 dragStartedOnUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
                 dragOrigin = Input.mousePosition;
-                targetPosition = transform.position;
+                targetPosition = targetGuide.position;
             }
 
             isDragging = Input.GetMouseButton(0);
@@ -65,7 +83,7 @@ namespace CursedOnion.Game.Inputs
             {
                 dragStartedOnUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touch.fingerId);
                 dragOrigin = touch.position;
-                targetPosition = transform.position;
+                targetPosition = targetGuide.position;
             }
             
             isDragging = touch.phase == TouchPhase.Moved;

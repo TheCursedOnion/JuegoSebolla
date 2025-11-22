@@ -216,7 +216,7 @@ namespace CursedOnion.Game.Objects
 
             if (isFluid) return MoveResult.TryUp;
             
-            return MoveResult.Impossible;
+            return MoveResult.TryDown;
         }
         
         void SetPosition(Vector3 gridPosition, Vector3 worldPosition, Tile3d onTile)

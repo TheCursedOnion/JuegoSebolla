@@ -15805,9 +15805,42 @@ PrefabInstance:
     m_TransformParent: {fileID: 8426786461286807194}
     m_Modifications:
     - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
       propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[0]._Target
       value: 
       objectReference: {fileID: 7378139390888086713}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[1]._Target
+      value: 
+      objectReference: {fileID: 6557969357817638574}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[0]._MemberName
+      value: RotateCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[1]._MemberName
+      value: PlayGlobally
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[0]._PersistentArguments.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[0]._PersistentArguments.Array.data[0]._Int
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[0]._PersistentArguments.Array.data[0]._Type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598800222219383005, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+      propertyPath: OnPointerClickInsideEvent._PersistentCalls.Array.data[0]._PersistentArguments.Array.data[0]._String
+      value: CursedOnion.Helpers.DirectionFlag, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
     - target: {fileID: 4746238977069885249, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -15906,3 +15939,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4746238977069885249, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
   m_PrefabInstance: {fileID: 5453372732792505465}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6557969357817638574 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1201568270515956439, guid: 0ebaa5aca2a97614c98d70a71129995a, type: 3}
+  m_PrefabInstance: {fileID: 5453372732792505465}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385ffc06106304cc3824d5bcf25a7037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

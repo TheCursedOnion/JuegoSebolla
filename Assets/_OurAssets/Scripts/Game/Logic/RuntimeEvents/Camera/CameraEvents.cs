@@ -1,13 +1,13 @@
 ﻿using System;
-using CursedOnion.Behaviours;
+using CursedOnion.Game.Inputs.Camera;
 
 namespace CursedOnion.Game.Events
 {
     public class CameraEvents : RuntimeEvents
     {
-        public event Action<CameraMode> OnModifyCameraMode;
+        public event Action<CameraControlFlag> OnModifyCameraMode;
 
-        public void OnCameraModeModified(CameraMode newMode)
+        public void OnCameraModeModified(CameraControlFlag newMode)
         {
             if (!Enabled) return;
             OnModifyCameraMode?.Invoke(newMode);
