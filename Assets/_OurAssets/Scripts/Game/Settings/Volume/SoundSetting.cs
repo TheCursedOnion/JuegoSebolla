@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ami.BroAudio;
 using CursedOnion.Game.CloudSave;
+using Unity.Services.CloudSave.Models;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -17,21 +18,10 @@ namespace CursedOnion.Game.Settings
             Music,
         }
         
-        const string SFX = "sfx";
-        const string MUSIC = "music";
-        const float FADE_VOLUME_TIME = 2.5f;
-        
         [SerializeField] AudioMixer fungusMixer;
         [SerializeField] private float sfxVolume = 0.8f;
         [SerializeField] private float musicVolume = 0.8f;
         public Action OnChange { get; set; }
-        
-        public void Initialize()
-        {
-            SetSfxVolume(0f);
-            SetMusicVolume(0f);
-        }
-        
         public void SetSfxVolume(float volume, float fadeTime = BroAdvice.FadeTime_Immediate)
         {
             sfxVolume = volume;
@@ -58,37 +48,20 @@ namespace CursedOnion.Game.Settings
         }
 
         #region Cloud Storing
-        public CloudSaveClient SaveClient { get; set; }
-        public async Task Save()
+        const string SFX = "sfx";
+        const string MUSIC = "music";
+        const float FADE_VOLUME_TIME = 2.5f;
+        public void SaveInto(Dictionary<string, object> serializableData)
         {
-            try
-            {
-                var data = new Dictionary<string, object>
-                {
-                    { SFX, GetSFXVolume() },
-                    { MUSIC, GetMusicVolume() }
-                };
-                await SaveClient.Save(data);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al guardar: " + e);
-            }
+            serializableData[SFX] = GetSFXVolume();
+            serializableData[MUSIC] = GetMusicVolume();
         }
-        public async Task Load()
+        public void LoadFrom(Dictionary<string, Item> loadedData)
         {
-            try
-            {
-                var sfx = await SaveClient.Load<float>(SFX);
-                var music = await SaveClient.Load<float>(MUSIC);
-                
-                SetSfxVolume(sfx, FADE_VOLUME_TIME);
-                SetMusicVolume(music, FADE_VOLUME_TIME);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al cargar: " + e);
-            }
+            float sfx = loadedData?.GetValueFromQuery<float>(SFX) ?? 0.1f;
+            float music = loadedData?.GetValueFromQuery<float>(MUSIC) ?? 0.1f;
+            SetSfxVolume(sfx, FADE_VOLUME_TIME);
+            SetMusicVolume(music, FADE_VOLUME_TIME);
         }
         #endregion
         

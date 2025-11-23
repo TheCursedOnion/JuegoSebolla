@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Unity.Services.CloudSave;
 using Unity.Services.CloudSave.Internal;
+using Unity.Services.CloudSave.Models;
 using UnityEngine;
 
 namespace CursedOnion.Game.CloudSave
@@ -24,28 +25,26 @@ namespace CursedOnion.Game.CloudSave
         }
         public async Task Save(Dictionary<string, object> data)
         {
+            if(data.Count == 0) return;
             await Call(client.Player.SaveAsync(data));
         }
 
         public async Task<T> Load<T>(string key)
         {
             var query = await Call(client.Player.LoadAsync(new HashSet<string> { key }));
-            return query.TryGetValue(key, out var value) ? Deserialize<T>(value.Value.GetAsString()) : default;
+            return query.GetValueFromQuery<T>(key);
         }
 
         public async Task<IEnumerable<T>> Load<T>(params string[] keys)
         {
             var query = await Call(client.Player.LoadAsync(keys.ToHashSet()));
 
-            return keys.Select(k =>
-            {
-                if (query.TryGetValue(k, out var value))
-                {
-                    return value != null ? Deserialize<T>(value.Value.GetAsString()) : default;
-                }
-
-                return default;
-            });
+            return keys.Select(k => query.GetValueFromQuery<T>(k));
+        }
+        
+        public async Task<Dictionary<string, Item>> LoadAll()
+        {
+            return await Call(client.Player.LoadAllAsync());
         }
 
         public async Task Delete(string key)
@@ -66,12 +65,6 @@ namespace CursedOnion.Game.CloudSave
                 tasks.Add(client.Player.DeleteAsync(key, options));
             }
             await Call(Task.WhenAll(tasks));
-        }
-
-        private static T Deserialize<T>(string input)
-        {
-            if (typeof(T) == typeof(string)) return (T)(object)input;
-            return JsonConvert.DeserializeObject<T>(input);
         }
 
         private static async Task Call(Task action)
