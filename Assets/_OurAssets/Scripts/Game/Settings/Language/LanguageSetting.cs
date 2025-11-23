@@ -74,7 +74,9 @@ namespace CursedOnion.Game.Settings
         {
             localizedData ??= CSVReader.LoadCsvResourceToDictionary(csvResourcePath, true);
             
-            var usedLanguage = loadedData?.GetValueFromQuery<int>(LANGUAGE) ?? (int)GetApplicationLanguage();
+            int defaultLanguage = (int)GetApplicationLanguage();
+            int usedLanguage = CloudUtils.GetValueFromQuery<int>(loadedData, LANGUAGE, defaultLanguage);
+            
             SetUsedLanguage((Language)usedLanguage);
         }
         #endregion

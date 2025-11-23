@@ -28,6 +28,11 @@ namespace CursedOnion.Game.CloudSave
         {
             return query.TryGetValue(key, out var value) ? Deserialize<T>(value.Value.GetAsString()) : default;
         }
+        public static T GetValueFromQueryOrDefault<T>(Dictionary<string, Item> query, string key)
+        {
+            return query.TryGetValue(key, out var value) ? Deserialize<T>(value.Value.GetAsString()) : default;
+        }
+        
         public static bool TryGetValueFromQuery<T>(this Dictionary<string, Item> query, string key, out T value)
         {
             if (query.TryGetValue(key, out var item))
@@ -37,6 +42,11 @@ namespace CursedOnion.Game.CloudSave
             }
             value = default;
             return false;
+        }
+        public static T GetValueFromQuery<T>(Dictionary<string, Item> query, string key, T defaultValue)
+        {
+           T value = query?.TryGetValueFromQuery<T>(key, out T v) == true ? v : defaultValue;
+           return value;
         }
         
         private static T Deserialize<T>(string input)

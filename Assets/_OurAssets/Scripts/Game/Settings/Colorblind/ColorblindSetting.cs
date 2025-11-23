@@ -71,7 +71,7 @@ namespace CursedOnion.Game.Settings
         }
         public void LoadFrom(Dictionary<string, Item> loadedData)
         {
-            var usedLut = loadedData?.GetValueFromQuery<int>(COLORBLIND) ?? (int)ColorblindMode.Normal;
+            var usedLut = CloudUtils.GetValueFromQuery(loadedData, COLORBLIND, 0);
             SetColorblindMode(usedLut);
         }
         #endregion

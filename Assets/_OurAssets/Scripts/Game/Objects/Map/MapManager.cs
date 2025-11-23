@@ -26,8 +26,17 @@ namespace CursedOnion.Game.Objects
         }
         void Start()
         {
-            selectedLevel = variableLocator.LastLevelPlayed;
-            levels[selectedLevel].Select();
+            int lastPlayedLevel = variableLocator.LastPlayedLevel;
+
+            foreach (var level in levels)
+            {
+                if (level.LevelInformation.LevelIndex == lastPlayedLevel)
+                {
+                    level.Select();
+                    return;
+                }
+            }
+            levels[0].Select();
         }
 
         public bool TryGetSelectedLevelScene(out string levelSceneName)

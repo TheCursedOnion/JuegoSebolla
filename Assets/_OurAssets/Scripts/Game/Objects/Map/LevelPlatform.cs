@@ -1,6 +1,7 @@
 ﻿using System;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Events;
+using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -29,7 +30,11 @@ namespace CursedOnion.Game.Objects
     public class LevelPlatform : MonoBehaviour
     {
         [Inject] MapManager mapManager;
+        [Inject] RuntimeVariableLocator variableLocator;
         MapEvents mapEvents;
+        
+        [SerializeField] MeshRenderer platformCenterMesh;
+        [SerializeField] MeshRenderer platformRingMesh;
         [SerializeField] CameraFocus cameraFocus;
         
         public LevelInformation LevelInformation;
@@ -39,6 +44,25 @@ namespace CursedOnion.Game.Objects
             cameraFocus ??= GetComponent<CameraFocus>();
             mapManager.AddLevel(this);
             mapEvents = mapManager.MapEvents;
+            
+            int levelIndex = LevelInformation.LevelIndex;
+            int lastCompletedLevel = variableLocator.LastCompletedLevel;
+
+
+            Color centerColor = levelIndex switch
+            {
+                _ when levelIndex > lastCompletedLevel + 1 => Color.gray,
+                _ when levelIndex == lastCompletedLevel + 1 => Color.blue,
+                _ => Color.red
+            };
+            Color ringColor = levelIndex switch
+            {
+                _ when levelIndex > lastCompletedLevel + 1 => Color.gray,
+                _ => platformRingMesh.material.color
+            };
+
+            platformCenterMesh.material.color = centerColor;
+            platformRingMesh.material.color = ringColor;
         }
 
         public void Select()

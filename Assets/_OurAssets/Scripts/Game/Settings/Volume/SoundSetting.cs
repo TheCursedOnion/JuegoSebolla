@@ -58,8 +58,11 @@ namespace CursedOnion.Game.Settings
         }
         public void LoadFrom(Dictionary<string, Item> loadedData)
         {
-            float sfx = loadedData?.GetValueFromQuery<float>(SFX) ?? 0.1f;
-            float music = loadedData?.GetValueFromQuery<float>(MUSIC) ?? 0.1f;
+            float defaultVolume = 0.5f;
+            
+            float sfx = CloudUtils.GetValueFromQuery(loadedData, SFX, defaultVolume);
+            float music = CloudUtils.GetValueFromQuery(loadedData, MUSIC, defaultVolume);
+            
             SetSfxVolume(sfx, FADE_VOLUME_TIME);
             SetMusicVolume(music, FADE_VOLUME_TIME);
         }

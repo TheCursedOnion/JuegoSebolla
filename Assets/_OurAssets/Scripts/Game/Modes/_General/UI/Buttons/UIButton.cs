@@ -23,6 +23,7 @@ namespace CursedOnion.Game.General.UI.Buttons
         {
             UiEvents ??= gameObject.scene.GetSceneContainer().Resolve<UIEvents>();
             UnityButton = GetComponent<Button>();
+            SetInteractive(Interactable);
         }
         protected virtual void OnEnable()
         {
@@ -76,13 +77,13 @@ namespace CursedOnion.Game.General.UI.Buttons
             UiEvents.SelectButton(this);
         }
         
-        public void SetInteractive(bool isInteractive)
+        public override void SetInteractive(bool isInteractive)
         {
-            UnityButton ??= GetComponent<Button>();
+            base.SetInteractive(isInteractive);
             
             if(!isInteractive) SelectButton(false);
             
-            Interactable = isInteractive;
+            UnityButton ??= GetComponent<Button>();
             UnityButton.interactable = Interactable;
         }
         

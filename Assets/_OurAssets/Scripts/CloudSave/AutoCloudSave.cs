@@ -51,7 +51,7 @@ namespace CursedOnion.Game.CloudSave
         
         public async Task SaveGame()
         {
-            if (CloudUtils.CanUseCloud())
+            if (CloudUtils.CanUseCloud() && saveClient != null)
             {
                 var dataToSave = new Dictionary<string, object>();
                 gameSettings.SaveInto(dataToSave);

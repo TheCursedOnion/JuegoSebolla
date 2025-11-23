@@ -29,10 +29,18 @@ namespace CursedOnion.Game.Settings
         public void SaveInto(Dictionary<string, object> serializableData)
         {
             Debug.Log("[GameSettings]: Guardando...");
-                
-            ColorblindSettings.SaveInto(serializableData);
-            SoundSettings.SaveInto(serializableData);
-            LanguageSettings.SaveInto(serializableData);
+            try
+            {
+                ColorblindSettings.SaveInto(serializableData);
+                SoundSettings.SaveInto(serializableData);
+                LanguageSettings.SaveInto(serializableData);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                throw;
+            }
+            
         }
 
         public void LoadDefaultSettings()

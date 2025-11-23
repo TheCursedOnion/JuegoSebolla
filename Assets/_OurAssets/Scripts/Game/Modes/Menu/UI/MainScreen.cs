@@ -25,7 +25,10 @@ namespace CursedOnion.Game.Modes.Menu.UI
         void OnServicesInitialized()
         {
             OnDisable();
-            variableLocator.AutoCloudSave.OnClientPrepared += EnterMainScreen;
+
+            var cloudSave = variableLocator.AutoCloudSave;
+            if(cloudSave != null) cloudSave.OnClientPrepared += EnterMainScreen;
+            
             AuthenticationService.Instance.SignedOut += EnterLogInScreen;
             AuthenticationService.Instance.Expired += EnterSignUpScreen;
             
@@ -33,7 +36,9 @@ namespace CursedOnion.Game.Modes.Menu.UI
         }
         void OnDisable()
         {
-            variableLocator.AutoCloudSave.OnClientPrepared -= EnterMainScreen;
+            var cloudSave = variableLocator.AutoCloudSave;
+            if(cloudSave != null) cloudSave.OnClientPrepared -= EnterMainScreen;
+            
             AuthenticationService.Instance.SignedOut -= EnterLogInScreen;
             AuthenticationService.Instance.Expired -= EnterSignUpScreen;
         }
