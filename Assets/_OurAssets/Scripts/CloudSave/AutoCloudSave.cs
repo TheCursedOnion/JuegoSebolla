@@ -4,22 +4,24 @@ using System.Threading.Tasks;
 using CursedOnion.Game.Authentication;
 using CursedOnion.Game.Settings;
 using CursedOnion.Locators;
-using NaughtyAttributes;
 using Reflex.Attributes;
 using Unity.Services.Authentication;
-using Unity.Services.CloudSave;
-using Unity.Services.Core;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CursedOnion.Game.CloudSave
 {
     public class AutoCloudSave : MonoBehaviour
     {
-        [SerializeField] private bool debug;
-        [SerializeField] private bool autoSave;
         [Inject] GameSettings gameSettings;
         [Inject] RuntimeVariableLocator variableLocator;
         
+        [FormerlySerializedAs("debug")] [SerializeField] private bool autoLogIn;
+        [SerializeField] private bool autoSave;
+        
+        CloudSaveClient saveClient;
+        
+        public event Action OnClientPrepared;
         async void Awake()
         {
             var instance = variableLocator.AutoCloudSave;
@@ -32,39 +34,78 @@ namespace CursedOnion.Game.CloudSave
                 DontDestroyOnLoad(gameObject);
                 variableLocator.AutoCloudSave = this;
                 
-                await GameAuthenticator.InitializeServices();
-                AuthenticationService.Instance.SignedIn += PrepareClients;
-                AuthenticationService.Instance.Expired += OnAuthExpired;
+                bool success = await GameAuthenticator.InitializeServices();
 
-                if (debug)
+                if (success)
                 {
-                    await GameAuthenticator.AnonymousLogin();
+                    AuthenticationService.Instance.SignedIn += PrepareClients;
+                    AuthenticationService.Instance.Expired += TrySilentAuth;
+                }
+
+                if (autoLogIn)
+                {
+                    TrySilentAuth();
                 }
             }
         }
-        void OnDisable()
+        
+        public async Task SaveGame()
         {
-            var instance = variableLocator.AutoCloudSave;
-            if (instance != null && instance == this)
+            if (CloudUtils.CanUseCloud() && saveClient != null)
             {
-                variableLocator.AutoCloudSave = null;
-
-                if (autoSave)
-                {
-                    _ = gameSettings.Save();
-                    _ = variableLocator.Save();
-                }
-
-                AuthenticationService.Instance.SignedIn -= PrepareClients;
-                AuthenticationService.Instance.Expired -= OnAuthExpired;
+                var dataToSave = new Dictionary<string, object>();
+                gameSettings.SaveInto(dataToSave);
+                variableLocator.SaveInto(dataToSave);
+                    
+                await saveClient.Save(dataToSave);
             }
         }
-        void PrepareClients()
+        async void OnDisable()
         {
-            gameSettings.SetSaveClients();
-            variableLocator.SetSaveClients();
+            try
+            {
+                var instance = variableLocator.AutoCloudSave;
+                if (instance != null && instance == this)
+                {
+                    variableLocator.AutoCloudSave = null;
+
+                    AuthenticationService.Instance.SignedIn -= PrepareClients;
+                    AuthenticationService.Instance.Expired -= TrySilentAuth;
+                
+                    if (autoSave) await SaveGame();
+                }
+            }
+            catch (Exception e)
+            {
+                throw; // TODO handle exception
+            }
         }
-        private async void OnAuthExpired()
+        async void PrepareClients()
+        {
+            try
+            {
+                saveClient ??= new CloudSaveClient();
+
+                if (CloudUtils.CanUseCloud())
+                {
+                    Debug.Log("Loading last saved data on cloud...");
+
+                    var loadedData = await saveClient.LoadAll();
+                    gameSettings.LoadFrom(loadedData);
+                    variableLocator.LoadFrom(loadedData);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+            }
+            finally
+            {
+                OnClientPrepared?.Invoke();
+            }
+        }
+        
+        private async void TrySilentAuth()
         {
             try
             {
@@ -72,7 +113,7 @@ namespace CursedOnion.Game.CloudSave
             }
             catch (Exception e)
             {
-                throw; // TODO handle exception
+                throw;
             }
         }
     }

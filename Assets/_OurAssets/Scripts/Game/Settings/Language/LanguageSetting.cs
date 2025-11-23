@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CursedOnion.Game.CloudSave;
 using CursedOnion.Tools;
+using Unity.Services.CloudSave.Models;
 using UnityEngine;
 
 namespace CursedOnion.Game.Settings
@@ -23,19 +24,13 @@ namespace CursedOnion.Game.Settings
         
         Dictionary<string, string[]> localizedData;
         public Action<LanguageSetting.Language> OnChange { get; set; }
-        
-        public void Initialize()
-        {
-            localizedData = CSVReader.LoadCsvResourceToDictionary(csvResourcePath, true);
-            SetApplicationLanguage();
-        }
-        void SetApplicationLanguage()
+        Language GetApplicationLanguage()
         {
             var languageName = Application.systemLanguage;
             switch (languageName)
             {
-                case SystemLanguage.Spanish: SetUsedLanguage(Language.Spanish); break;
-                default: SetUsedLanguage(Language.English); break;
+                case SystemLanguage.Spanish: return Language.Spanish;
+                default: return Language.English;
             }
         }
         public void SetUsedLanguage(Language language)
@@ -70,29 +65,19 @@ namespace CursedOnion.Game.Settings
         }
         
         #region Cloud Storing
-        public CloudSaveClient SaveClient { get; set; }
-        public async Task Save()
+        const string LANGUAGE = "language";
+        public void SaveInto(Dictionary<string, object> serializableData)
         {
-            try
-            {
-                await SaveClient.Save("language", (int)currentLanguage);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al guardar: " + e);
-            }
+            serializableData[LANGUAGE] = (int)currentLanguage;
         }
-        public async Task Load()
+        public void LoadFrom(Dictionary<string, Item> loadedData)
         {
-            try
-            {
-                var language = await SaveClient.Load<int>("language");
-                SetUsedLanguage((Language)language);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al cargar: " + e);
-            }
+            localizedData ??= CSVReader.LoadCsvResourceToDictionary(csvResourcePath, true);
+            
+            int defaultLanguage = (int)GetApplicationLanguage();
+            int usedLanguage = CloudUtils.GetValueFromQuery<int>(loadedData, LANGUAGE, defaultLanguage);
+            
+            SetUsedLanguage((Language)usedLanguage);
         }
         #endregion
     }

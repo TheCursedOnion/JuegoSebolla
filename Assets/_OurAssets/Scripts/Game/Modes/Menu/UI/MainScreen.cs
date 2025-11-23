@@ -5,43 +5,41 @@ using CursedOnion.Game.Settings;
 using CursedOnion.Locators;
 using Reflex.Attributes;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using UnityEngine;
 
 namespace CursedOnion.Game.Modes.Menu.UI
 {
     public class MainScreen : MonoBehaviour
     {
+        [Inject] RuntimeVariableLocator variableLocator;
         [SerializeField] private GameObject logInScreen;
         [SerializeField] private GameObject signUpScreen;
         [SerializeField] private GameObject mainScreen;
-        
-        [Inject] RuntimeVariableLocator variableLocator;
-        async void Awake()
+        void Awake()
         {
-            try
-            {
-                await GameAuthenticator.InitializeServices();
-                
-                if (!GameAuthenticator.HasSignedIn)
-                {
-                    EnterLogInScreen();
-                }
-                else
-                {
-                    EnterMainScreen();
-                }
-                
-                AuthenticationService.Instance.SignedIn += EnterMainScreen;
-                AuthenticationService.Instance.Expired += EnterSignUpScreen;
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning(e);
-            }
+            UnityServices.Initialized += OnServicesInitialized;
+            UpdateScreen();
+        }
+        
+        void OnServicesInitialized()
+        {
+            OnDisable();
+
+            var cloudSave = variableLocator.AutoCloudSave;
+            if(cloudSave != null) cloudSave.OnClientPrepared += EnterMainScreen;
+            
+            AuthenticationService.Instance.SignedOut += EnterLogInScreen;
+            AuthenticationService.Instance.Expired += EnterSignUpScreen;
+            
+            UpdateScreen();
         }
         void OnDisable()
         {
-            AuthenticationService.Instance.SignedIn -= EnterMainScreen;
+            var cloudSave = variableLocator.AutoCloudSave;
+            if(cloudSave != null) cloudSave.OnClientPrepared -= EnterMainScreen;
+            
+            AuthenticationService.Instance.SignedOut -= EnterLogInScreen;
             AuthenticationService.Instance.Expired -= EnterSignUpScreen;
         }
         public void EnterLogInScreen()
@@ -58,6 +56,13 @@ namespace CursedOnion.Game.Modes.Menu.UI
         {
             DisableAllScreens();
             mainScreen.SetActive(true);
+        }
+        void UpdateScreen()
+        {
+            if (GameAuthenticator.HasSignedIn)
+                EnterMainScreen();
+            else
+                EnterLogInScreen();
         }
         void DisableAllScreens()
         {

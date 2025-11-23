@@ -36,9 +36,17 @@ namespace CursedOnion.Game.Modes.Map.UI
             if(currentLevelInformation == levelInformation) return;
             
             currentLevelInformation = levelInformation;
-            var levelType = levelInformation.LevelEnumType;
-            previousButton.gameObject.SetActive(levelType != LevelInformation.LevelType.Start);
-            nextButton.gameObject.SetActive(levelType != LevelInformation.LevelType.End);
+            
+            LevelInformation.LevelType levelType = levelInformation.LevelEnumType;
+            
+            int currentLevelIndex = currentLevelInformation.LevelIndex;
+            int completedLevels = variableLocator.LastCompletedLevel;
+
+            bool isPreviousButtonEnabled = levelType != LevelInformation.LevelType.Start;
+            previousButton.gameObject.SetActive(isPreviousButtonEnabled);
+            
+            bool isNextButtonEnabled = levelType != LevelInformation.LevelType.End && completedLevels >= currentLevelIndex;
+            nextButton.gameObject.SetActive(isNextButtonEnabled);
             
             levelName.SetKey(levelInformation.NameKey);
         }
@@ -57,7 +65,7 @@ namespace CursedOnion.Game.Modes.Map.UI
             if(currentLevelInformation == null) return;
             
             Debug.Log($"Playing level {currentLevelInformation.levelScene}");
-            variableLocator.LastLevelPlayed = currentLevelInformation.LevelIndex;
+            variableLocator.LastPlayedLevel = currentLevelInformation.LevelIndex;
             OnLevelSelected?.Invoke(currentLevelInformation.levelScene);
         }
     }

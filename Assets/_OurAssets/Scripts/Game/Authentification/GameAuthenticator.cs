@@ -14,7 +14,9 @@ namespace CursedOnion.Game.Authentication
         private const string KEY_AUTH_MODE = "auth_mode";
         
         public static AuthMode CurrentMode = AuthMode.None;
-        public static bool HasSignedIn => AuthenticationService.Instance.IsSignedIn;
+
+        public static bool HasSignedIn => UnityServices.Instance.State == ServicesInitializationState.Initialized
+                                            && AuthenticationService.Instance.IsSignedIn;
         private static void SaveAuthCredentials(string username, string password)
         {
             PlayerPrefs.SetString(KEY_USERNAME, username);
@@ -35,6 +37,12 @@ namespace CursedOnion.Game.Authentication
         {
             Debug.LogWarning("Auth expired — attempting auto re-auth…");
 
+            int authMode = PlayerPrefs.GetInt(KEY_AUTH_MODE, -1);
+            
+            Debug.Log($"Auth mode: {authMode}");
+            if (authMode == -1) return new AuthResult { Error = -1 };
+            
+            CurrentMode = (AuthMode)authMode;
             switch (CurrentMode)
             {
                 case AuthMode.UserPass:
@@ -52,19 +60,22 @@ namespace CursedOnion.Game.Authentication
             return new AuthResult { Error = -1 };
         }
         
-        public static async Task InitializeServices()
+        public static async Task<bool> InitializeServices()
         {
             if (UnityServices.State == ServicesInitializationState.Uninitialized)
             {
                 try
                 {
                     await UnityServices.InitializeAsync();
+                    return true;
                 }
                 catch (Exception e)
                 {
                     Debug.LogError($"Failed to initialize Unity Services: {e}");
+                    return false;
                 }
             }
+            return false;
         }
         public static async Task<AuthResult> AnonymousLogin()
         {
@@ -72,8 +83,11 @@ namespace CursedOnion.Game.Authentication
             try
             {
                 if (!AuthenticationService.Instance.IsSignedIn)
+                {
                     await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                
+                    SaveAuthAnonymous();
+                }
+
                 Debug.Log("UGS inicializado correctamente. UserID: " + AuthenticationService.Instance.PlayerId);
                 return new AuthResult();
             }
@@ -121,10 +135,15 @@ namespace CursedOnion.Game.Authentication
         }
         public static async Task<AuthResult> LoginUser(string username, string password)
         {
-            if(AuthenticationService.Instance.IsSignedIn) return new AuthResult { Error = AuthenticationErrorCodes.ClientNoActiveSession };
+
             try
             {
-                await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
+                if (!AuthenticationService.Instance.IsSignedIn)
+                {
+                    await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
+                    SaveAuthCredentials(username, password);
+                }
+
                 Debug.Log("Login correcto: " + AuthenticationService.Instance.PlayerId);
                 return new AuthResult();
             }

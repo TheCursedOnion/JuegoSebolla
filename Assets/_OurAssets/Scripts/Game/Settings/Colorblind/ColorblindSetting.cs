@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CursedOnion.Game.CloudSave;
+using Unity.Services.CloudSave.Models;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -62,29 +64,15 @@ namespace CursedOnion.Game.Settings
         }
         
         #region Cloud Storing
-        public CloudSaveClient SaveClient { get; set; }
-        public async Task Save()
+        const string COLORBLIND = "colorblind";
+        public void SaveInto(Dictionary<string, object> serializableData)
         {
-            try
-            {
-                await SaveClient.Save("colorblind", currentLUT);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al guardar Colorblind Setting: " + e);
-            }
+            serializableData[COLORBLIND] = currentLUT;
         }
-        public async Task Load()
+        public void LoadFrom(Dictionary<string, Item> loadedData)
         {
-            try
-            {
-                var usedLut = await SaveClient.Load<int>("colorblind");
-                SetColorblindMode(usedLut);
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al guardar Colorblind Setting: " + e);
-            }
+            var usedLut = CloudUtils.GetValueFromQuery(loadedData, COLORBLIND, 0);
+            SetColorblindMode(usedLut);
         }
         #endregion
     }

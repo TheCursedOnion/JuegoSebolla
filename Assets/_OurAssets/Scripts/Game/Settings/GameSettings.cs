@@ -1,6 +1,7 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using CursedOnion.Game.CloudSave;
+using Unity.Services.CloudSave.Models;
 using UnityEngine;
 
 namespace CursedOnion.Game.Settings
@@ -8,7 +9,6 @@ namespace CursedOnion.Game.Settings
     [CreateAssetMenu(fileName = "GameSettings", menuName = "Game/Settings/Scriptable Settings")]
     public class GameSettings : ScriptableObject, ICloudStorable
     {
-        public CloudSaveClient SaveClient { get; set; }
         
         [System.NonSerialized] GlobalVolume globalVolume;
         public DeviceSetting DeviceSettings;
@@ -22,53 +22,38 @@ namespace CursedOnion.Game.Settings
             this.globalVolume = globalVolume;
             ColorblindSettings.SetGlobalVolume(globalVolume);
         }
-        public void InitializeSettings()
+        public void Initialize()
         {
-            LanguageSettings.Initialize();
-            SoundSettings.Initialize();
-            
+            LoadDefaultSettings();
         }
-        public async void SetSaveClients()
+        public void SaveInto(Dictionary<string, object> serializableData)
         {
-            this.SaveClient ??= new CloudSaveClient();
-            SoundSettings.SaveClient = SaveClient;
-            LanguageSettings.SaveClient = SaveClient;
-            ColorblindSettings.SaveClient = SaveClient;
-            
-            await Load();
-            await Save();
-        }
-        public async Task Save()
-        {
-            if(!CloudUtils.CanUseCloud() || SaveClient == null) return;
-            
+            Debug.Log("[GameSettings]: Guardando...");
             try
             {
-                Debug.Log("[GameSettings]: Guardando...");
-                
-                await ColorblindSettings.Save();
-                await SoundSettings.Save();
-                await LanguageSettings.Save();
+                ColorblindSettings.SaveInto(serializableData);
+                SoundSettings.SaveInto(serializableData);
+                LanguageSettings.SaveInto(serializableData);
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Error al guardar: " + e);
+                Debug.LogException(e);
+                throw;
             }
-        }
-        public async Task Load()
-        {
-            if(!CloudUtils.CanUseCloud()) return;
             
-            try
-            {
-                await ColorblindSettings.Load();
-                await SoundSettings.Load();
-                await LanguageSettings.Load();
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al cargar: " + e);
-            }
+        }
+
+        public void LoadDefaultSettings()
+        {
+            LoadFrom(null);
+        }
+        public void LoadFrom(Dictionary<string, Item> loadedData)
+        {
+            Debug.Log("[GameSettings]: Cargando...");
+            
+            ColorblindSettings.LoadFrom(loadedData);
+            SoundSettings.LoadFrom(loadedData);
+            LanguageSettings.LoadFrom(loadedData);
         }
     }
 }

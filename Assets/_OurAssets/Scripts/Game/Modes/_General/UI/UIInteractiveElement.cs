@@ -1,3 +1,4 @@
+using System;
 using UltEvents;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -27,15 +28,21 @@ namespace CursedOnion.Game.General.UI
             
         protected bool IsPointerInside = false;
         protected bool IsPressed = false;
-        protected bool Interactable = true;
-        
+        public bool Interactable = true;
+
+        public virtual void SetInteractive(bool isInteractive)
+        {
+            Interactable = isInteractive;
+        }
+
         /// <summary>
         /// Cuando el puntero entra en el área del objeto
         /// </summary>
         public void OnPointerEnter(PointerEventData eventData)
         {
             IsPointerInside = true;
-            OnPointerEnterEvent?.Invoke();
+            
+            if(Interactable) OnPointerEnterEvent?.Invoke();
             
             //Debug.Log($"[PointerEventDetector] Puntero entró en: {gameObject.name}");
         }
@@ -46,7 +53,7 @@ namespace CursedOnion.Game.General.UI
         public void OnPointerExit(PointerEventData eventData)
         {
             IsPointerInside = false;
-            OnPointerExitEvent?.Invoke();
+            if(Interactable) OnPointerExitEvent?.Invoke();
             
             //Debug.Log($"[PointerEventDetector] Puntero salió de: {gameObject.name}");
         }
@@ -57,7 +64,7 @@ namespace CursedOnion.Game.General.UI
         public void OnPointerDown(PointerEventData eventData)
         {
             IsPressed = true;
-            OnPointerDownEvent?.Invoke();
+            if(Interactable) OnPointerDownEvent?.Invoke();
             
             //Debug.Log($"[PointerEventDetector] Botón presionado en: {gameObject.name}");
         }
@@ -76,11 +83,11 @@ namespace CursedOnion.Game.General.UI
             }
             else
             {
-                OnPointerUpOutsideEvent?.Invoke();
+                if(Interactable) OnPointerUpOutsideEvent?.Invoke();
                 //Debug.Log($"[PointerEventDetector] Botón soltado FUERA de: {gameObject.name}");
             }
             
-            OnPointerUpEvent?.Invoke();
+            if(Interactable) OnPointerUpEvent?.Invoke();
         }
 
         /// <summary>

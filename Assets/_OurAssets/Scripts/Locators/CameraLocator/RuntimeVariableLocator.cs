@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.CloudSave;
+using Unity.Services.CloudSave.Models;
 using UnityEngine;
 
 namespace CursedOnion.Locators
@@ -9,43 +10,28 @@ namespace CursedOnion.Locators
     [CreateAssetMenu(fileName = "Runtime Variable Locator", menuName = "Game/Locators/Variable Locator")]
     public class RuntimeVariableLocator : ScriptableObject, ICloudStorable
     {
-        public CloudSaveClient SaveClient { get; set; }
-        
+        const string LAST_LEVEL_KEY = "LastLevelPlayed";
+        const string COMPLETED_LEVELS = "CompletedLevels";
+
         [System.NonSerialized] public AutoCloudSave AutoCloudSave;
         [System.NonSerialized] public GlobalCamera GlobalCamera;
         
-        public int LastLevelPlayed;
+        public int LastPlayedLevel;
+        public int LastCompletedLevel;
         public bool IsGamePlayedOnMobile;
         
-        public async void SetSaveClients()
+        public void SaveInto(Dictionary<string, object> serializableData)
         {
-            this.SaveClient ??= new CloudSaveClient();
-            await Load();
-            await Save();
+            serializableData[LAST_LEVEL_KEY] = LastPlayedLevel;
+            serializableData[COMPLETED_LEVELS] = LastCompletedLevel;
         }
-        public async Task Save()
+        public void LoadFrom(Dictionary<string, Item> loadedData)
         {
-            if(!CloudUtils.CanUseCloud() || SaveClient == null) return;
+            int lastLevel = CloudUtils.GetValueFromQuery(loadedData, LAST_LEVEL_KEY, 0);
+            LastPlayedLevel = lastLevel;
             
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al guardar: " + e);
-            }
-        }
-        public async Task Load()
-        {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error al cargar: " + e);
-            }
+            lastLevel = CloudUtils.GetValueFromQuery(loadedData, LAST_LEVEL_KEY, -1);
+            LastCompletedLevel = lastLevel;
         }
     }
 }
