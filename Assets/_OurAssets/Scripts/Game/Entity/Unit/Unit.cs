@@ -2,6 +2,7 @@ using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -160,19 +161,27 @@ namespace CursedOnion.Game.Entity
 
             if (TryGetLayeredEntity(out var layeredEntity))
             {
-                layeredEntity.PlayAnimation("hurt", onDamageAnimationFinished);
-            }
-            else
-            {
-                onDamageAnimationFinished?.Invoke();
+                layeredEntity.PlayAnimation("hurt");
             }
 
             if (Stats.CurrentHealthStat <= 0)
             {
                 LevelManager.GetTurnSystem().RemoveUnit(this);
+                if(EntityController is not PlayerUnitController)
+                {
+                    //EntityController.EndAITurn();
+                }
                 Die();
             }
 
+            StartCoroutine(InvokeAfterDelay(0.5f, onDamageAnimationFinished));
+
+        }
+
+        private IEnumerator InvokeAfterDelay(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback?.Invoke();
         }
 
         public override void Heal(int healedHP)

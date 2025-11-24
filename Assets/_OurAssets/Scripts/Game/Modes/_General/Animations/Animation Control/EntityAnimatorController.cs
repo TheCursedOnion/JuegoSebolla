@@ -29,7 +29,6 @@ namespace CursedOnion.Game.Modes.General.Animations
 
         public void OnAnimationEventFinished()
         {
-            Debug.Log("Animacion finalizada.///////////////////////////////////////////////////////");
             onAnimationFinished?.Invoke();
             onAnimationFinished = null;
         }
