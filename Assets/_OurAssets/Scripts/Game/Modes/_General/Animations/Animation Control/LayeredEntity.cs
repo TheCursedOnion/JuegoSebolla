@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -75,14 +76,18 @@ namespace CursedOnion.Game.Modes.General.Animations
                 animator.runtimeAnimatorController = layer.animatorController;
             }
         }
-        public void PlayAnimation(string animationName)
+        public void PlayAnimation(string animationName, Action onFinished = null)
         {
             for (int i = 0; i < spritesContainer.transform.childCount; i++)
             {
                 var layerAnimator = spritesContainer.transform.GetChild(i).GetComponent<EntityAnimatorController>();
-                layerAnimator.PlayAnimation(animationName);
+                if (i == 0)
+                    layerAnimator.PlayAnimation(animationName, onFinished); 
+                else
+                    layerAnimator.PlayAnimation(animationName); 
             }
         }
+
 
         public void TestPlayAnimation()
         {

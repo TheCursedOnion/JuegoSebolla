@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CursedOnion.Game.Modes.General.Animations
@@ -7,19 +8,29 @@ namespace CursedOnion.Game.Modes.General.Animations
         public Animator animator;
         [SerializeField] private string testAnimationName;
 
-        public void PlayAnimation(string animationName)
+        private Action onAnimationFinished;
+
+        public void PlayAnimation(string animationName, Action onFinished = null)
         {
             if (animator == null) return;
+
+            onAnimationFinished = onFinished;
 
             if (animationName.ToLower().Contains("heal")) //Para curar hay que reproducir la otra animaci�n antes
             {
                 animator.SetBool("isHealing", true);
-                animator.Play("buff");
+                animator.Play("buff", 0, 0f);
                 return;
             }
 
             animator.SetBool("isHealing", false);
-            animator.Play(animationName);
+            animator.Play(animationName, 0);
+        }
+
+        public void OnAnimationEventFinished()
+        {
+            onAnimationFinished?.Invoke();
+            onAnimationFinished = null;
         }
 
         public void TestPlayAnimation()

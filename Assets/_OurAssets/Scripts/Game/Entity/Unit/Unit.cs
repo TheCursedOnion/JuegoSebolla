@@ -2,6 +2,7 @@ using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -137,7 +138,7 @@ namespace CursedOnion.Game.Entity
             Debug.Log($"{name} recibe {additionalHP} de HP adicional.");
         }
 
-        public override void Damage(int damage)
+        public override void Damage(int damage, Action onDamageAnimationFinished = null)
         {
             Debug.Log($"{name} recibe {damage} de daño.");
 
@@ -146,6 +147,7 @@ namespace CursedOnion.Game.Entity
                 if (damage <= additionalHP)
                 {
                     additionalHP -= damage;
+                    onDamageAnimationFinished?.Invoke();
                     return;
                 }
                 else
@@ -157,14 +159,29 @@ namespace CursedOnion.Game.Entity
 
             Stats.CurrentHealthStat -= damage;
 
-            if (TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("hurt");
-
-            if (Stats.CurrentHealthStat <= 0)
-            { 
-                LevelManager.GetTurnSystem().RemoveUnit(this);
-                Die(); 
+            if (TryGetLayeredEntity(out var layeredEntity))
+            {
+                layeredEntity.PlayAnimation("hurt");
             }
 
+            if (Stats.CurrentHealthStat <= 0)
+            {
+                LevelManager.GetTurnSystem().RemoveUnit(this);
+                if(EntityController is not PlayerUnitController)
+                {
+                    //EntityController.EndAITurn();
+                }
+                Die();
+            }
+
+            StartCoroutine(InvokeAfterDelay(0.5f, onDamageAnimationFinished));
+
+        }
+
+        private IEnumerator InvokeAfterDelay(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback?.Invoke();
         }
 
         public override void Heal(int healedHP)

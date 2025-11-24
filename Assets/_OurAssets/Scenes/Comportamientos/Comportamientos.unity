@@ -509,17 +509,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8515207618780517192, guid: 4181f97d0069f46bc9baff928e19966e, type: 3}
   m_PrefabInstance: {fileID: 74448775}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &100697318 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3901026129520258791, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
-  m_PrefabInstance: {fileID: 768513522}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08c87e9a64c244238d852ca0d4a945b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &103016308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3387,7 +3376,7 @@ PrefabInstance:
     - target: {fileID: 730611507529193680, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: zoomController
       value: 
-      objectReference: {fileID: 100697318}
+      objectReference: {fileID: 0}
     - target: {fileID: 4306796041228235783, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: focusOnAwake
       value: 0
@@ -4819,7 +4808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6849040567394088048, guid: 6794d9d1884b4c94294e4159c3050abb, type: 3}
       propertyPath: _eventHandler.debugStatusChanges
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6991290252047809679, guid: 6794d9d1884b4c94294e4159c3050abb, type: 3}
       propertyPath: m_LocalPosition.x

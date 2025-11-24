@@ -67,7 +67,7 @@ namespace CursedOnion.Game.Entity
             Grid = LevelManager.Grid;
         }
         
-        public virtual void Damage(int damage)
+        public virtual void Damage(int damage, Action onDamageAnimationFinished = null)
         {
             Stats.CurrentHealthStat -= damage;
             if (Stats.CurrentHealthStat <= 0) Die();
