@@ -137,7 +137,7 @@ namespace CursedOnion.Game.Entity
             Debug.Log($"{name} recibe {additionalHP} de HP adicional.");
         }
 
-        public override void Damage(int damage)
+        public override void Damage(int damage, Action onDamageAnimationFinished = null)
         {
             Debug.Log($"{name} recibe {damage} de daño.");
 
@@ -146,6 +146,7 @@ namespace CursedOnion.Game.Entity
                 if (damage <= additionalHP)
                 {
                     additionalHP -= damage;
+                    onDamageAnimationFinished?.Invoke();
                     return;
                 }
                 else
@@ -157,12 +158,19 @@ namespace CursedOnion.Game.Entity
 
             Stats.CurrentHealthStat -= damage;
 
-            if (TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("hurt");
+            if (TryGetLayeredEntity(out var layeredEntity))
+            {
+                layeredEntity.PlayAnimation("hurt", onDamageAnimationFinished);
+            }
+            else
+            {
+                onDamageAnimationFinished?.Invoke();
+            }
 
             if (Stats.CurrentHealthStat <= 0)
-            { 
+            {
                 LevelManager.GetTurnSystem().RemoveUnit(this);
-                Die(); 
+                Die();
             }
 
         }

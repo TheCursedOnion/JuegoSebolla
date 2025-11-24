@@ -43,6 +43,7 @@ namespace CursedOnion.Game.Entity.Components
             
             grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
         }
+
         public virtual bool ValidateAttack(SimpleEntity target)
         {
             AssignedEntity.Grid.ResetPaint();
@@ -65,6 +66,7 @@ namespace CursedOnion.Game.Entity.Components
             if (!AssignedEntity.Grid.TryWorldToGridPosition(target.transform.position, out Vector3 targetGridPos)) return false;
             return reachableTiles.Contains(targetGridPos);
         }
+
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
             var unit = AssignedEntity as Unit;
@@ -73,38 +75,60 @@ namespace CursedOnion.Game.Entity.Components
             RotateEntityTowards(camera, AssignedEntity.transform, target.transform);
             RotateEntityTowards(camera, target.transform, AssignedEntity.transform);
 
-            if (AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
+            string anim = AssignedEntity.Stats.SpecialAbilityType is ArcherAbility ? "shoot" : "punch";
+
+            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
             {
-                if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("punch");
-            }else if (AssignedEntity.Stats.SpecialAbilityType is ArcherAbility)
-            {
-                if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("shoot");
+                layeredEntity.PlayAnimation(anim, () =>
+                {
+                    ApplyDamage(
+                        attacker: AssignedEntity,
+                        target: target,
+                        attackMultiplierSource: unit,
+                        onDamageAnimationFinished: () =>
+                        {
+                            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
+
+                            if (!target.GetFlags().HasDied() && AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
+                                target.EntityController.GetEntityComponent<AttackEntityComponent>().DoCounterAttack(AssignedEntity);
+                        }
+                    );
+                });
             }
-            
-            int rawDamage = Mathf.CeilToInt(AssignedEntity.Stats.AttackStat * unit.AttackMultiplier);
+        }
 
-            Debug.Log($"{AssignedEntity.name} ataque base: {AssignedEntity.Stats.AttackStat} y multiplicador: {unit.AttackMultiplier}");
+        private void DoCounterAttack(SimpleEntity target)
+        {
+            var unit = AssignedEntity as Unit;
 
+            string anim = AssignedEntity.Stats.SpecialAbilityType is ArcherAbility ? "shoot" : "punch";
+
+            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
+            {
+                layeredEntity.PlayAnimation(anim, () =>
+                {
+                    // aplicamos daño cuando termine animación
+                    ApplyDamage(
+                        attacker: AssignedEntity,
+                        target: target,
+                        attackMultiplierSource: unit
+                    );
+                });
+            }
+
+        }
+
+        private void ApplyDamage(SimpleEntity attacker, SimpleEntity target, Unit attackMultiplierSource, Action onDamageAnimationFinished = null)
+        {
+            int rawDamage = Mathf.CeilToInt(attacker.Stats.AttackStat * attackMultiplierSource.AttackMultiplier);
             int targetDefense = target.Stats.DefenseStat;
             int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
 
-            Debug.Log($"{AssignedEntity.name} ataca a {target.name} causando {finalDamage} de daño.");
+            Debug.Log($"{attacker.name} ataca a {target.name} causando {finalDamage} de daño.");
 
-            target.Damage(finalDamage);
+            target.Damage(finalDamage, onDamageAnimationFinished);
 
-            unit.AttackMultiplier = 1;
-            
-            /*if (!target.GetFlags().HasDied() && AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
-            {
-                int counterDamage = target.Stats.AttackStat;
-
-                Debug.Log($"{target.name} contraataca a {AssignedEntity.name} causando {counterDamage} de daño.");
-
-                var targetCounter = target as Unit;
-                target.EntityController.GetComponent<AttackEntityComponent>().DoAttack(AssignedEntity, false);
-            }*/
-            
-            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
+            attackMultiplierSource.AttackMultiplier = 1;
         }
 
         private void RotateEntityTowards(GlobalCamera camera, Transform entityTransform, Transform targetTransform)
