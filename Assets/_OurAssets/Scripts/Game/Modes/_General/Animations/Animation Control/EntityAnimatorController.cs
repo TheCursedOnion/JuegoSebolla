@@ -29,6 +29,8 @@ namespace CursedOnion.Game.Modes.General.Animations
 
         public void OnAnimationEventFinished()
         {
+            Debug.Log("EVENTO LLAMADO ///////////////////////////////////");
+            Debug.Log(onAnimationFinished == null ? "NO HAY CALLBACK" : "HAY CALLBACK");
             onAnimationFinished?.Invoke();
             onAnimationFinished = null;
         }

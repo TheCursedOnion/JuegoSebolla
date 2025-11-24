@@ -161,28 +161,37 @@ namespace CursedOnion.Game.Entity
 
             if (TryGetLayeredEntity(out var layeredEntity))
             {
-                layeredEntity.PlayAnimation("hurt");
-            }
-
-            if (Stats.CurrentHealthStat <= 0)
-            {
-                LevelManager.GetTurnSystem().RemoveUnit(this);
-                if(EntityController is not PlayerUnitController)
+                layeredEntity.PlayAnimation("hurt", () =>
                 {
-                    //EntityController.EndAITurn();
-                }
-                Die();
+                    if (Stats.CurrentHealthStat <= 0)
+                    {
+                        LevelManager.GetTurnSystem().RemoveUnit(this);
+                        if (EntityController is AIUnitController aiController)
+                        {
+                            aiController.EndAITurn();
+                        }
+                        Die();
+                    }
+
+                    onDamageAnimationFinished?.Invoke();
+                });
             }
+            else
+            {
+                if (Stats.CurrentHealthStat <= 0)
+                {
+                    LevelManager.GetTurnSystem().RemoveUnit(this);
+                    if (EntityController is AIUnitController aiController)
+                    {
+                        aiController.EndAITurn();
+                    }
+                    Die();
+                }
 
-            StartCoroutine(InvokeAfterDelay(0.5f, onDamageAnimationFinished));
-
+                onDamageAnimationFinished?.Invoke();
+            }
         }
 
-        private IEnumerator InvokeAfterDelay(float delay, Action callback)
-        {
-            yield return new WaitForSeconds(delay);
-            callback?.Invoke();
-        }
 
         public override void Heal(int healedHP)
         {

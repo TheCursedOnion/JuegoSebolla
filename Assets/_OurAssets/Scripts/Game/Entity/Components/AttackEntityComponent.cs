@@ -90,7 +90,9 @@ namespace CursedOnion.Game.Entity.Components
                             AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
 
                             if (!target.GetFlags().HasDied() && AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
+                            {
                                 target.EntityController.GetEntityComponent<AttackEntityComponent>().DoCounterAttack(AssignedEntity);
+                            }
                         }
                     );
                 });
@@ -99,6 +101,8 @@ namespace CursedOnion.Game.Entity.Components
 
         private void DoCounterAttack(SimpleEntity target)
         {
+            Debug.Log("EL ENEMIGO" + AssignedEntity.name + " VA A CONTRAATACAR A" + target.name);
+
             var unit = AssignedEntity as Unit;
 
             string anim = AssignedEntity.Stats.SpecialAbilityType is ArcherAbility ? "shoot" : "punch";
@@ -107,16 +111,21 @@ namespace CursedOnion.Game.Entity.Components
             {
                 layeredEntity.PlayAnimation(anim, () =>
                 {
-                    // aplicamos daño cuando termine animación
+                    Debug.Log("ME PEGO UN TIRO NO ES BROMA 2: EL RETORNO");
+
                     ApplyDamage(
                         attacker: AssignedEntity,
                         target: target,
-                        attackMultiplierSource: unit
+                        attackMultiplierSource: unit,
+                        onDamageAnimationFinished: () =>
+                        {
+                            Debug.Log("ME PEGO UN TIRO NO ES BROMA 3: EL FINAL");
+                        }
                     );
                 });
             }
-
         }
+
 
         private void ApplyDamage(SimpleEntity attacker, SimpleEntity target, Unit attackMultiplierSource, Action onDamageAnimationFinished = null)
         {
