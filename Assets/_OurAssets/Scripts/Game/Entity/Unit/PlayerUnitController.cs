@@ -18,7 +18,7 @@ namespace CursedOnion.Game.Entity
         {
             if(entity is not Unit unit) return;
 
-            bool enableTurnIndicator = !unit.GetFlags().HasSpentAllActions();
+            bool enableTurnIndicator = !unit.ActionHandler.HasSpentAllActions();
             turnIndicator.enabled = enableTurnIndicator;
         }
         protected void CheckSelectedEntity(SimpleEntity entity)

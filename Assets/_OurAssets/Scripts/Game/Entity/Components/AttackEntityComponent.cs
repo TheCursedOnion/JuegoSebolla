@@ -14,15 +14,7 @@ namespace CursedOnion.Game.Entity.Components
         
         List<Vector3> reachableTiles = new();
         
-        public void SetNextAttackMultiplier(float multiplier)
-        {
-            var unit = AssignedEntity as Unit;
-            if (unit != null)
-            {
-                unit.AttackMultiplier = multiplier;
-            }
-        }
-
+        private SimpleEntity target;
         public virtual void VisualizeAttack()
         {
             var grid = AssignedEntity.Grid;
@@ -69,75 +61,44 @@ namespace CursedOnion.Game.Entity.Components
 
         public virtual void DoAttack(SimpleEntity target, bool undo)
         {
-            var unit = AssignedEntity as Unit;
+            this.target = target;
             var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<RuntimeVariableLocator>().GlobalCamera;
 
-            RotateEntityTowards(camera, AssignedEntity.transform, target.transform);
-            RotateEntityTowards(camera, target.transform, AssignedEntity.transform);
+            Transform targetTransform = target.transform;
+            Transform attackerTransform = AssignedEntity.transform;
+            
+            Vector3 direction = (targetTransform.position - attackerTransform.position);
+            RotateEntity(camera, AssignedEntity.transform, direction);
+            RotateEntity(camera, targetTransform.transform, -direction);
 
             string anim = AssignedEntity.Stats.SpecialAbilityType is ArcherAbility ? "shoot" : "punch";
-
-            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
-            {
-                layeredEntity.PlayAnimation(anim, () =>
-                {
-                    ApplyDamage(
-                        attacker: AssignedEntity,
-                        target: target,
-                        attackMultiplierSource: unit,
-                        onDamageAnimationFinished: () =>
-                        {
-                            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
-
-                            if (!target.GetFlags().HasDied() && AssignedEntity.Stats.SpecialAbilityType is not ArcherAbility)
-                            {
-                                target.EntityController.GetEntityComponent<AttackEntityComponent>().DoCounterAttack(AssignedEntity);
-                            }
-                        }
-                    );
-                });
-            }
+            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation(anim);
         }
 
-        private void DoCounterAttack(SimpleEntity target)
+        public void ApplyAttack()
         {
-            Debug.Log("EL ENEMIGO" + AssignedEntity.name + " VA A CONTRAATACAR A" + target.name);
+            int finalDamage = CalculateDamage(AssignedEntity, target);
+            Debug.Log($"{AssignedEntity.name} ataca a {target.name} causando {finalDamage} de daño.");
+            
+            target.DamageFrom(finalDamage, AssignedEntity);
 
-            var unit = AssignedEntity as Unit;
-
-            string anim = AssignedEntity.Stats.SpecialAbilityType is ArcherAbility ? "shoot" : "punch";
-
-            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
+            if (AssignedEntity.StatusHandler.HasCounterAttackTarget())
             {
-                layeredEntity.PlayAnimation(anim, () =>
-                {
-                    Debug.Log("ME PEGO UN TIRO NO ES BROMA 2: EL RETORNO");
-
-                    ApplyDamage(
-                        attacker: AssignedEntity,
-                        target: target,
-                        attackMultiplierSource: unit,
-                        onDamageAnimationFinished: () =>
-                        {
-                            Debug.Log("ME PEGO UN TIRO NO ES BROMA 3: EL FINAL");
-                        }
-                    );
-                });
+                AssignedEntity.StatusHandler.ResetCounterAttack();
+            }
+            else
+            {
+                AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
             }
         }
-
-
-        private void ApplyDamage(SimpleEntity attacker, SimpleEntity target, Unit attackMultiplierSource, Action onDamageAnimationFinished = null)
+        private int CalculateDamage(SimpleEntity attacker, SimpleEntity target)
         {
-            int rawDamage = Mathf.CeilToInt(attacker.Stats.AttackStat * attackMultiplierSource.AttackMultiplier);
+            int rawDamage = Mathf.CeilToInt(attacker.Stats.AttackStat * attacker.StatusHandler.AttackMultiplier);
             int targetDefense = target.Stats.DefenseStat;
             int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
-
-            Debug.Log($"{attacker.name} ataca a {target.name} causando {finalDamage} de daño.");
-
-            target.Damage(finalDamage, onDamageAnimationFinished);
-
-            attackMultiplierSource.AttackMultiplier = 1;
+            
+            attacker.StatusHandler.AttackMultiplier = 1;
+            return finalDamage;
         }
 
         private void RotateEntityTowards(GlobalCamera camera, Transform entityTransform, Transform targetTransform)
@@ -148,24 +109,7 @@ namespace CursedOnion.Game.Entity.Components
             RotateEntity(camera, entityTransform, direction);
         }
 
-        private void RotateEntity(GlobalCamera camera, Transform transform, Vector3 movementDirection)
-        {
-            float degrees = camera.GetCameraPanAngles();
-            movementDirection = Quaternion.AngleAxis(-degrees, Vector3.up) * movementDirection;
-
-            if (movementDirection.x > 0.01f)
-            {
-                Vector3 scale = transform.localScale;
-                scale.x = Mathf.Abs(scale.x) * -1f;
-                transform.localScale = scale;
-            }
-            else if (movementDirection.x < -0.01f)
-            {
-                Vector3 scale = transform.localScale;
-                scale.x = Mathf.Abs(scale.x);
-                transform.localScale = scale;
-            }
-        }
+        
 
     }
 }

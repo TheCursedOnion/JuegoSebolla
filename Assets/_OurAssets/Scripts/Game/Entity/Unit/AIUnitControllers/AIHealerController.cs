@@ -233,7 +233,7 @@ namespace CursedOnion.Game.Entity
 
 
         #region ActionLogic
-        public Status EndAction() => Status.Success;
+        public BehaviourAPI.Core.Status EndAction() => BehaviourAPI.Core.Status.Success;
 
         public void Heal()
         {

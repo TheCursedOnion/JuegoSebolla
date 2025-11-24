@@ -220,5 +220,15 @@ namespace CursedOnion.Game.Systems.Level
             
         }
 
+        void Update()
+        {
+            /*if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Ha ganado el bando Enemigo");
+                transitionData.Color = Color.red;
+                sceneServiceUser.ChangeScene(resetScene, transitionData);
+            }*/
+        }
+
     }
 }

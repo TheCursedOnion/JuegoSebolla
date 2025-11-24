@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using CursedOnion.Extensions;
+using CursedOnion.Game.Entity;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 namespace CursedOnion.Game.Modes.General.Animations
 {
@@ -9,7 +11,7 @@ namespace CursedOnion.Game.Modes.General.Animations
     public class AnimationLayer
     {
         public string layerName = "NewLayer";
-        public RuntimeAnimatorController animatorController;
+        [FormerlySerializedAs("animatorController")] public RuntimeAnimatorController runtimeAnimatorController;
         public Material baseMaterial;
         public Texture2D lookupTexture;
     }
@@ -20,17 +22,23 @@ namespace CursedOnion.Game.Modes.General.Animations
         [SerializeField] GameObject spritesContainer;
         [SerializeField] GameObject animationLayerPrefab;
         [SerializeField] string testAnimation;
+        [SerializeField] SimpleEntity entity;
         
         private static int LookupTextureId = Shader.PropertyToID("_LookupTexture");
+        
+        private AnimatorController animatorController;
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(transform.position, 0.5f);
         }
-
-        private AnimationLayerGroup layerGroup;
-
-        public void Initialize(List<AnimationLayerGroup> animationLayerGroups, int useIndex)
+        
+        void Awake()
+        {
+            entity = GetComponent<SimpleEntity>();
+        }
+        
+        public void Initialize(List<AnimationLayerGroup> animationLayerGroups, int useGroupIndex)
         {
             if (animationLayerGroups == null || animationLayerGroups.Count == 0)
             {
@@ -38,57 +46,61 @@ namespace CursedOnion.Game.Modes.General.Animations
                 return;
             }
             
-            AnimationLayerGroup layer = animationLayerGroups[useIndex];
-            if (layer.layers == null || layer.layers.Count == 0)
+            AnimationLayerGroup group = animationLayerGroups[useGroupIndex];
+            if (group.layers == null || group.layers.Count == 0)
             {
-                Debug.LogWarning($"{name}: El grupo '{layer.groupName}' no tiene capas asignadas.");
+                Debug.LogWarning($"{name}: El grupo '{group.groupName}' no tiene capas asignadas.");
                 return;
             }
             
-            Debug.Log(useIndex);
-            ProcessLayer(layer);
+            ProcessLayerGroup(group);
         }
-        void ProcessLayer(AnimationLayerGroup layerGroup)
+        
+        void ProcessLayerGroup(AnimationLayerGroup group)
         {
-            this.layerGroup = layerGroup;
-            for (int i = 0; i < layerGroup.layers.Count; i++)
+            animatorController = spritesContainer.GetOrAddComponent<AnimatorController>();
+            animatorController.SetupController(entity);
+            
+            for (int i = 0; i < group.layers.Count; i++)
             {
-                var layer = layerGroup.layers[i];
+                AnimationLayer layer = group.layers[i];
                 
-                GameObject animationLayer = Instantiate(animationLayerPrefab, spritesContainer.transform);
+                var animationLayer = CreateAnimationLayer();
                 
-                SpriteRenderer layerSpriteRenderer = animationLayer.GetComponent<SpriteRenderer>();
+                SetupRenderer(animationLayer, layer, i);
                 
-                if (layer.baseMaterial != null)
-                {
-                    layerSpriteRenderer.material = Instantiate(layer.baseMaterial);
-                    if(layer.lookupTexture != null)
-                        layerSpriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
-                    else
-                    {
-                        animationLayer.transform.position += Vector3.back * (0.001f * i);
-                    }
-                }
-
-                layerSpriteRenderer.sortingOrder = 0;
-                
-                Animator animator = animationLayer.GetComponent<Animator>();
-                animator.runtimeAnimatorController = layer.animatorController;
+                var animator = SetupAnimator(animationLayer, layer);
+                animatorController.AddAnimator(animator);
             }
         }
-        public void PlayAnimation(string animationName, Action onFinished = null)
+        private GameObject CreateAnimationLayer()
         {
-            for (int i = 0; i < spritesContainer.transform.childCount; i++)
-            {
-                var layerAnimator = spritesContainer.transform.GetChild(i).GetComponent<EntityAnimatorController>();
-                if (i == 0)
-                    layerAnimator.PlayAnimation(animationName, onFinished); 
-                else
-                    layerAnimator.PlayAnimation(animationName); 
-            }
+            return Instantiate(animationLayerPrefab, spritesContainer.transform);
         }
+        private Animator SetupAnimator(GameObject layerObject, AnimationLayer layer)
+        {
+            layerObject.GetOrAddComponent<AnimationListener>().SetController(animatorController);
+            
+            Animator animator = layerObject.GetComponent<Animator>();
+            animator.runtimeAnimatorController = layer.runtimeAnimatorController;
+            return animator;
+        }
+        private void SetupRenderer(GameObject layerObject, AnimationLayer layer, int indexOrder)
+        {
+            SpriteRenderer spriteRenderer = layerObject.GetComponent<SpriteRenderer>();
+            spriteRenderer.sortingOrder = 0;
+            spriteRenderer.material = Instantiate(layer.baseMaterial);
 
-
+            if (layer.lookupTexture != null)
+                spriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
+            
+            layerObject.transform.position += Vector3.back * (0.001f * indexOrder);
+        }
+        
+        public void PlayAnimation(string animationName)
+        {
+            animatorController.PlayAnimation(animationName);
+        }
         public void TestPlayAnimation()
         {
             PlayAnimation(testAnimation);

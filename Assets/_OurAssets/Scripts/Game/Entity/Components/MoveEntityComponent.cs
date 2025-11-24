@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CursedOnion.Extensions;
-using CursedOnion.Game.Cameras;
-using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Grid;
-using CursedOnion.Game.Systems.Level;
-using CursedOnion.Helpers;
 using CursedOnion.Locators;
 using Reflex.Extensions;
 using UnityEngine;
@@ -37,7 +33,7 @@ namespace CursedOnion.Game.Entity.Components
         
         public virtual async Task VisualizeMovement()
         {
-            int moveRange = AssignedEntity.Stats.MovementStat;
+            int moveRange = AssignedEntity.Stats.MovementStat + AssignedEntity.StatusHandler.AdditionalMovement;
             
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             
@@ -51,7 +47,7 @@ namespace CursedOnion.Game.Entity.Components
             if (undo)
             {
                 transform.position = newPosition;
-                AssignedEntity.GetFlags().ResetFlag(UsedFlags);
+                AssignedEntity.ActionHandler.ResetFlag(UsedFlags);
             }
             else
             {
@@ -73,14 +69,14 @@ namespace CursedOnion.Game.Entity.Components
                 AssignedEntity.StartCoroutine(MoveAlongPath(path));
             }
             
-            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
+            AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
         }
 
         public virtual async Task<bool> ValidateMove(Vector3 newPosition)
         {
             AssignedEntity.Grid.ResetPaint();
             
-            int moveRange = AssignedEntity.Stats.MovementStat;
+            int moveRange = AssignedEntity.Stats.MovementStat + AssignedEntity.StatusHandler.AdditionalMovement;
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             Vector3Int target = newPosition.CastToVectorInt();
             
@@ -112,32 +108,10 @@ namespace CursedOnion.Game.Entity.Components
                 yield return null;
             }
 
-            Unit unit = AssignedEntity as Unit;
-            unit.UpdateStatusEffects();
-
             if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
                 layeredEntity.PlayAnimation("idle");
             
             placeComponent.PlaceEntity();
-        }
-
-        private void RotateEntity(GlobalCamera camera, Transform transform, Vector3 movementDirection)
-        {
-            float degrees = camera.GetCameraPanAngles();
-            movementDirection = Quaternion.AngleAxis(-degrees, Vector3.up) * movementDirection;
-            
-            if (movementDirection.x > 0.01f)
-            {
-                Vector3 scale = transform.localScale;
-                scale.x = Mathf.Abs(scale.x) * -1f;
-                transform.localScale = scale;
-            }
-            else if (movementDirection.x < -0.01f)
-            {
-                Vector3 scale = transform.localScale;
-                scale.x = Mathf.Abs(scale.x);
-                transform.localScale = scale;
-            }
         }
     }
 }

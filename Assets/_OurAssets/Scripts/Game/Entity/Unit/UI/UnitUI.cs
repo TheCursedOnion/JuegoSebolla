@@ -45,10 +45,11 @@ namespace CursedOnion.Game.Entity.UI
         }
         void UpdateUI()
         {
-            var flags = associatedUnit.GetFlags();
-            moveButton.SetInteractive(!flags.HasMoved());
-            attackButton.SetInteractive(!flags.HasAttacked());
-            specialButton.SetInteractive(!flags.HasUsedAbility());
+            var actions = associatedUnit.ActionHandler;
+            bool isNotIdle = actions.IsNotIdle();
+            moveButton.SetInteractive(!actions.HasMoved() && !isNotIdle);
+            attackButton.SetInteractive(!actions.HasAttacked() && !isNotIdle);
+            specialButton.SetInteractive(!actions.HasUsedAbility() && !isNotIdle);
             abilityImage.sprite = associatedUnit.StatData.SpecialAbility?.AbilityIcon;
         }
 

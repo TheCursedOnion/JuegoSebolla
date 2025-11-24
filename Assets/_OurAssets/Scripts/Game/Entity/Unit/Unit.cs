@@ -24,18 +24,11 @@ namespace CursedOnion.Game.Entity
 
         public SpecialAbility SpecialAbility;
         
-        // Ability Status
-        private int additionalHP = 0;
-        private bool isConfused = false;
-        private int confusedTurnsRemaining = 0;
-        public int baseMovement;
-        public float AttackMultiplier = 1f;
-        
         public void Start()
         {
             if (!PlacedManually)
             {
-                DefineStats(StatData);
+                DefineEntityStats(StatData);
                 SetLevelVariables(LevelManager);
                 SetSide(EntitySide);
                 SetComponents();
@@ -56,19 +49,12 @@ namespace CursedOnion.Game.Entity
         void ManualInitialization(LevelManager levelManager, StatData data, BattleSide side)
         {
             PlacedManually = true;
-            DefineStats(data);
+            DefineEntityStats(data);
             SetLevelVariables(levelManager);
             SetSide(side);
             SetComponents();
             AfterSpawn();
         }
-
-        protected override void DefineStats(StatData data)
-        {
-            base.DefineStats(data);
-            AttackMultiplier = 1f;
-        }
-        
 
         void SetSide(BattleSide side)
         {
@@ -89,8 +75,6 @@ namespace CursedOnion.Game.Entity
         }
         void AfterSpawn()
         {
-            baseMovement = Stats.MovementStat;
-
             if (unitUI != null) unitUI.SetActive(false);
             
             InitializeAnimations();
@@ -117,86 +101,20 @@ namespace CursedOnion.Game.Entity
             int indexOffset = (int)EntitySide;
             
             Debug.Log($"Period: {periodId}, Index: {indexOffset} y {EntitySide}");
+            
             LayeredEntity.Initialize(Stats.AnimationLayers, periodId + indexOffset);
         }
 
-        public void ApplyConfusion(int turns)
+        #region Damage
+        public override void DamageFrom(int damage, SimpleEntity attacker)
         {
-            isConfused = true;
-            confusedTurnsRemaining = turns;
-        }
+            LayeredEntity?.PlayAnimation("hurt");
+            base.DamageFrom(damage, attacker);
 
-        public void UpdateStatusEffects()
-        {
-            this.Stats.MovementStat = baseMovement;
-        }
-
-        #region Health
-        public void SetAdditionalHP(int factor)
-        {
-            additionalHP = Stats.MaxHealthStat * factor / 100;
-            Debug.Log($"{name} recibe {additionalHP} de HP adicional.");
-        }
-
-        public override void Damage(int damage, Action onDamageAnimationFinished = null)
-        {
-            Debug.Log($"{name} recibe {damage} de daño.");
-
-            if (additionalHP > 0)
+            if (Stats.CurrentHealthStat > 0)
             {
-                if (damage <= additionalHP)
-                {
-                    additionalHP -= damage;
-                    onDamageAnimationFinished?.Invoke();
-                    return;
-                }
-                else
-                {
-                    damage -= Mathf.FloorToInt(additionalHP);
-                    additionalHP = 0;
-                }
+                if(!ActionHandler.HasAttacked() && attacker is Unit { SpecialAbility: not ArcherAbility }) StatusHandler.SetCounterAttackTarget(attacker);
             }
-
-            Stats.CurrentHealthStat -= damage;
-
-            if (TryGetLayeredEntity(out var layeredEntity))
-            {
-                layeredEntity.PlayAnimation("hurt", () =>
-                {
-                    if (Stats.CurrentHealthStat <= 0)
-                    {
-                        LevelManager.GetTurnSystem().RemoveUnit(this);
-                        if (EntityController is AIUnitController aiController)
-                        {
-                            aiController.EndAITurn();
-                        }
-                        Die();
-                    }
-
-                    onDamageAnimationFinished?.Invoke();
-                });
-            }
-            else
-            {
-                if (Stats.CurrentHealthStat <= 0)
-                {
-                    LevelManager.GetTurnSystem().RemoveUnit(this);
-                    if (EntityController is AIUnitController aiController)
-                    {
-                        aiController.EndAITurn();
-                    }
-                    Die();
-                }
-
-                onDamageAnimationFinished?.Invoke();
-            }
-        }
-
-
-        public override void Heal(int healedHP)
-        {
-            Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
-            Debug.Log($"{name} se cura {healedHP} de HP.");
         }
         #endregion
     }
