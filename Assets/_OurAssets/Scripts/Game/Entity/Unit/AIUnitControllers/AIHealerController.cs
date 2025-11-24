@@ -51,7 +51,7 @@ namespace CursedOnion.Game.Entity
             {
                 float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
 
-                if (hpPercent < 0.25f)
+                if (hpPercent < 0.30f)
                 {
                     grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos);
                     if (healerReachableHealPositions.Contains(allyGridPos))
@@ -80,7 +80,7 @@ namespace CursedOnion.Game.Entity
             foreach (var ally in turn.GetEnemyUnits().Where(a => a != unit))
             {
                 float hpPercent = ally.Stats.CurrentHealthStat / (float)ally.Stats.MaxHealthStat;
-                if (hpPercent >= 0.25f) continue;
+                if (hpPercent >= 0.30f) continue;
 
                 // verificamos si tenemos al menos una tile adyacente alcanzable
                 if (GetAdjacentTilesPos(ally).Any(adj => healerReachableTiles.Contains(adj)))
