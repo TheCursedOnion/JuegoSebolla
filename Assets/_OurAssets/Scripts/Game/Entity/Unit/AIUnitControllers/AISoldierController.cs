@@ -15,10 +15,13 @@ namespace CursedOnion.Game.Entity
         public SimpleEntity allyHealer;
 
         List<Vector3> soldierReachableTiles = new();
-
+        List<Vector3> soldierReachableAttackTiles = new();
+        List<Vector3> enemyPositions = new();
         public List<Vector3> posCloseToHealers = new();
 
         AIUnitController baseAI;
+
+        SimpleEntity enemyTarget;
 
         //garantiza que el baseAI esté listo
         private void LazyInit()
@@ -30,7 +33,7 @@ namespace CursedOnion.Game.Entity
                 Debug.LogError("AIHealerController NO encontró AIUnitController en el mismo GameObject.");
         }
 
-        
+
         #region Perceptions
 
         public bool WeakAndHealerClose()
@@ -39,9 +42,9 @@ namespace CursedOnion.Game.Entity
 
             float healthPercent = AssignedEntity.Stats.CurrentHealthStat / AssignedEntity.Stats.MaxHealthStat;
 
-            if(healthPercent>=0.5f)
+            if (healthPercent >= 0.3f)
                 return false;
-            
+
             posCloseToHealers.Clear();
 
             var unit = baseAI.GetUnit();
@@ -79,16 +82,86 @@ namespace CursedOnion.Game.Entity
         public bool EnemyInRange()
         {
             LazyInit();
+            enemyPositions.Clear();
+            soldierReachableAttackTiles.Clear();
 
-            
+            var unit = baseAI.GetUnit();
+            var turn = baseAI.GetTurnSystem();
+            var grid = unit.Grid;
 
-            return false;
+            grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
+            AStarPathFinder.InsertMeleeAttackGridPositions(soldierReachableAttackTiles, grid, gridPos);
+
+            foreach (var enemy in turn.GetAllyUnits())
+            {
+                grid.TryWorldToGridPosition(enemy.transform.position, out Vector3 enemyGridPos);
+                if (soldierReachableAttackTiles.Contains(enemyGridPos))
+                    enemyPositions.Add(enemy.transform.position);
+
+            }
+            return enemyPositions.Count > 0;
+        }
+
+        public bool EnemyInMovementRange()
+        {
+            LazyInit();
+            enemyPositions.Clear();
+            soldierReachableTiles.Clear();
+
+            var unit = baseAI.GetUnit();
+            var turn = baseAI.GetTurnSystem();
+
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                soldierReachableTiles,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
+
+            foreach (var enemy in turn.GetAllyUnits())
+            {
+                if (GetAdjacentTilesPos(enemy).Any(adj => soldierReachableTiles.Contains(adj)))
+                {
+                    enemyPositions.Add(enemy.transform.position);
+                }
+            }
+            return enemyPositions.Count > 0;
+        }
+
+        public bool CanRage()
+        {
+            LazyInit();
+
+            var unit = baseAI.GetUnit();
+            var allies = baseAI.GetTurnSystem().GetAllyUnits();
+
+            int totalNearby = 0;
+            int alliesWhoUsedAbility = 0;
+
+            foreach (var ally in allies)
+            {
+                if (ally == unit) continue; 
+
+                float dist = Vector3.Distance(unit.transform.position, ally.transform.position);
+                if (dist <= 5f)
+                {
+                    totalNearby++;
+
+                    if (ally.GetFlags().HasUsedAbility())
+                        alliesWhoUsedAbility++;
+                }
+            }
+
+            if (totalNearby == 0)
+                return true;
+
+            return alliesWhoUsedAbility <= (totalNearby / 2f);
         }
 
 
         //  TILE ADYACENTES
 
-        private List<Vector3> GetAdjacentTilesPos(SimpleEntity ally)
+        private List<Vector3> GetAdjacentTilesPos(SimpleEntity entity)
         {
             LazyInit();
 
@@ -96,7 +169,7 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
 
             var positions = new List<Vector3>();
-            grid.TryWorldToGridPosition(ally.transform.position, out Vector3 gridPos);
+            grid.TryWorldToGridPosition(entity.transform.position, out Vector3 gridPos);
 
             Vector3[] dirs =
             {
@@ -127,21 +200,111 @@ namespace CursedOnion.Game.Entity
 
         public void Rage()
         {
-            Debug.Log("Soldier raging!");
+            Debug.Log("Soldier is Raging");
+            baseAI.GetEntityComponent<SpecialAbilityComponent>().DoAbility(AssignedEntity, false);
         }
         #endregion
 
 
         #region UtilitySystems
 
+        public void SelectBestEnemyToAttack()
+        {
+            Debug.Log("hay estas posiciones de enemigos: " + enemyPositions.Count);
+            LazyInit();
+
+            var unit = baseAI.GetUnit();
+            Unit best = null;
+            float bestScore = float.MinValue;
+
+            foreach (var pos in enemyPositions)
+            {
+                Tile3d tile = unit.Grid.GetTileAtWorldPosition(pos);
+                if (tile?.GetContainedEntity() is not Unit enemy)
+                    continue;
+
+                float hpScore = 1f - (enemy.Stats.CurrentHealthStat / (float)enemy.Stats.MaxHealthStat);
+
+                float typeScore = enemy.Stats.SpecialAbilityType switch
+                {
+                    HealerAbility _ => 1f,
+                    ArcherAbility _ => 0.9f,
+                    SoldierAbility _ => 0.7f,
+                    ThiefAbility _ => 0.7f,
+                    BarbarianAbility _ => 0.6f,
+                    TankAbility _ => 0.4f,
+                    ExplorerAbility _ => 0.5f,
+                    _ => 0.5f
+                };
+
+                float score = hpScore + typeScore;
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    best = enemy;
+                }
+            }
+
+            enemyTarget = best;
+            Debug.Log("Soldier selected best enemy to attack: " + enemyTarget?.name);
+        }
+
         public void SelectBestTileNearEnemy()
         {
-            //
+            LazyInit();
+
+            if (enemyTarget == null) return;
+
+            var unit = baseAI.GetUnit();
+            soldierReachableTiles.Clear();
+
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                soldierReachableTiles,
+                unit.Grid,
+                unit.transform.position,
+                unit.Stats.MovementStat
+            );
+
+            var adjacentTiles = GetAdjacentTilesPos(enemyTarget);
+            var allEnemies = baseAI.GetTurnSystem().GetAllyUnits();
+
+            Vector3 bestTile = Vector3.zero;
+            float bestScore = float.MinValue;
+
+            foreach (var t in adjacentTiles)
+            {
+                if (!soldierReachableTiles.Contains(t)) continue;
+
+                float avgDistToEnemies = allEnemies
+                    .Select(e => Vector3.Distance(t, e.transform.position))
+                    .DefaultIfEmpty(0f)
+                    .Average();
+
+                float score = avgDistToEnemies;
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestTile = t;
+                }
+            }
+
+            if (bestScore == float.MinValue)
+                return;
+
+            baseAI.TargetedGridPosToMove = bestTile;
+
+            if (unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
+            {
+                baseAI.TargetedPosToMove = targetWorld.CenterOnTile();
+                Debug.Log("Soldier selected best tile near enemy: " + bestTile);
+            }
         }
 
         public void SelectBestTileNearHealer()
         {
-           LazyInit();
+            LazyInit();
 
             var unit = baseAI.GetUnit();
             var grid = unit.Grid;
@@ -153,7 +316,7 @@ namespace CursedOnion.Game.Entity
             {
                 float score = 0f;
 
-                foreach (var enemy in baseAI.GetTurnSystem().GetEnemyUnits())
+                foreach (var enemy in baseAI.GetTurnSystem().GetAllyUnits())
                 {
                     float dist = Vector3.Distance(tile, enemy.transform.position);
 
