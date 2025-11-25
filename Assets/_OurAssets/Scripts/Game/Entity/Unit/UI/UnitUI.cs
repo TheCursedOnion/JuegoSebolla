@@ -1,5 +1,4 @@
 using CursedOnion.Game.Commands;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Systems.Level;

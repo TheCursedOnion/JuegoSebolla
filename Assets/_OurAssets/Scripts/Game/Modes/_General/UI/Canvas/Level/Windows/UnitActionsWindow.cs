@@ -8,14 +8,13 @@ using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CursedOnion
+namespace CursedOnion.Game.Modes.Level.Battle.UI
 {
     public class UnitActionsWindow : MonoBehaviour
     {
         [SerializeField] private Image actionsImageBackground;
         [SerializeField] private UIButton turnButton;
         
-        LevelManager levelManager;
         LevelEvents levelEvents;
         TurnSystem turnSystem;
         
@@ -24,7 +23,6 @@ namespace CursedOnion
         
         public void Initialize(LevelManager levelManager)
         {
-            this.levelManager = levelManager;
             levelEvents = levelManager.LevelEvents;
             turnSystem = levelManager.GetTurnSystem();
             OnEnable();
@@ -33,9 +31,11 @@ namespace CursedOnion
         {
             if (levelEvents == null) return;
             OnDisable();
+            
             levelEvents.OnEntitySelected += SetEntity;
             levelEvents.OnNoEntitySelected += SetNullEntity;
             levelEvents.OnTurnBegin += OnTurnChanged;
+            levelEvents.RequestTileSelection();
         }
 
         private void OnDisable()
@@ -60,6 +60,7 @@ namespace CursedOnion
         }
         void SetEntity(SimpleEntity entity)
         {
+            Debug.Log($"Selected entity 2: {entity?.name}");
             DisableChildren();
             
             unit = entity as Unit;

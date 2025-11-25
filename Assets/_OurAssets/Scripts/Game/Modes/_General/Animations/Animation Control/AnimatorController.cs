@@ -36,7 +36,7 @@ namespace CursedOnion.Game.Modes.General.Animations
             if(string.IsNullOrEmpty(animationName) || string.Equals(animationName, previousAnimationName)) return;
             
             previousAnimationName = animationName;
-            Debug.Log($"{assignedEntity.name}: Animation {animationName} started.");
+            //Debug.Log($"{assignedEntity.name}: Animation {animationName} started.");
             bool isIdle = string.Equals("idle", animationName);
 
             if (!isIdle)
@@ -51,7 +51,7 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
         public void ProcessAnimationEvent(string eventName)
         {
-            Debug.Log($"{assignedEntity.name}: Animation event {eventName} raised.");
+            //Debug.Log($"{assignedEntity.name}: Animation event {eventName} raised.");
 
             switch (eventName)
             {
@@ -60,7 +60,7 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
         public void ProcessFinishedAnimation(string animationName)
         {
-            Debug.Log($"{assignedEntity.name}: Animation {animationName} finished.");
+            //Debug.Log($"{assignedEntity.name}: Animation {animationName} finished.");
             switch (animationName)
             {
                 case "hurt":

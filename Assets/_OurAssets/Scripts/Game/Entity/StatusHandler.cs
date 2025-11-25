@@ -42,7 +42,7 @@ namespace CursedOnion.Game.Entity
 
         private void ResetAttackMultiplier()
         {
-            AttackMultiplier = 0;
+            AttackMultiplier = 1;
         }
         #endregion
         

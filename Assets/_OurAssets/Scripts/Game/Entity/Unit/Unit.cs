@@ -3,6 +3,8 @@ using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using System;
 using System.Collections;
+using CursedOnion.Extensions;
+using CursedOnion.Game.Cameras;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -21,8 +23,8 @@ namespace CursedOnion.Game.Entity
         public GameObject GetUI() => unitUI;
 
         [ReadOnly] public bool PlacedManually = false;
-
-        public SpecialAbility SpecialAbility;
+        [SerializeField, ReadOnly] CameraFocus cameraFocus;
+        
         
         public void Start()
         {
@@ -31,9 +33,10 @@ namespace CursedOnion.Game.Entity
                 DefineEntityStats(StatData);
                 SetLevelVariables(LevelManager);
                 SetSide(EntitySide);
-                SetComponents();
-                AfterSpawn();
             }
+            
+            SetComponents();
+            AfterSpawn();
         }
         
         public bool TrySpawningUnit(LevelManager levelManager, GameObject unitPrefab, StatData data, Vector3 atPosition, BattleSide side)
@@ -52,8 +55,6 @@ namespace CursedOnion.Game.Entity
             DefineEntityStats(data);
             SetLevelVariables(levelManager);
             SetSide(side);
-            SetComponents();
-            AfterSpawn();
         }
 
         void SetSide(BattleSide side)
@@ -72,6 +73,8 @@ namespace CursedOnion.Game.Entity
                     break;
             }
             EntityController.Initialize(this, StatData.EntityComponents);
+
+            cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
         }
         void AfterSpawn()
         {
@@ -113,9 +116,27 @@ namespace CursedOnion.Game.Entity
 
             if (Stats.CurrentHealthStat > 0)
             {
-                if(!ActionHandler.HasAttacked() && attacker is Unit { SpecialAbility: not ArcherAbility }) StatusHandler.SetCounterAttackTarget(attacker);
+                if (!ActionHandler.HasAttacked() && attacker is Unit unit && unit.Stats.SpecialAbilityType is not ArcherAbility)
+                {
+                    StatusHandler.SetCounterAttackTarget(attacker);
+                }
             }
         }
         #endregion
+
+        public void FocusOnUnit()
+        {
+            switch (EntitySide)
+            {
+                case BattleSide.Enemy:
+                    cameraFocus.RequestFocus();
+                    break;
+                
+                case BattleSide.Ally:
+                default: 
+                    LevelEvents.InvokeTurnFocus(this);
+                    break;
+            }
+        }
     }
 }
