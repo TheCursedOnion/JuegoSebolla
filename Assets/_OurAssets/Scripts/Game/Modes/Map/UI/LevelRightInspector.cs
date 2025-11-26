@@ -13,11 +13,11 @@ namespace CursedOnion.Game.Modes.Map.UI
         
         [SerializeField] LocalizedGUIText levelName;
         [SerializeField] LocalizedGUIText levelDescription;
-        private void OnEnable()
+        private void Awake()
         {
             mapEvents.OnLevelSelected += ProcessLevelSelected;
         }
-        private void OnDisable()
+        private void OnDestroy()
         {
             mapEvents.OnLevelSelected -= ProcessLevelSelected;
         }

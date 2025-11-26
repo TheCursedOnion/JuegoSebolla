@@ -190,16 +190,20 @@ namespace Fungus
         {
             if (character.State.holder == null)
             {
-                character.State.holder = new GameObject(character.name + " holder",
-                                                   typeof(RectTransform)
-                                                   //typeof(CanvasRenderer),
-                                                   //typeof(Image)
-                                                   ).GetComponent<RectTransform>();
+                var newHolder = new GameObject(character.name + " holder",
+                    typeof(RectTransform)
+                    //typeof(CanvasRenderer),
+                    //typeof(Image)
+                );
+                
+                character.State.holder = newHolder.GetComponent<RectTransform>();
 
                 // Set it to be a child of the stage
-                character.State.holder.transform.SetParent(stage.PortraitCanvas.transform, false);
-
+                character.State.holder.transform.SetParent(stage.CharacterContainer.transform, false);
+                
+                
                 SetRectTransform(character.State.holder, stage.DefaultPosition.GetComponent<RectTransform>());
+                newHolder.layer = stage.gameObject.layer;
             }
 
             if (character.State.allPortraits.Count == 0)
@@ -303,7 +307,7 @@ namespace Fungus
             float duration = (options.moveDuration > 0f) ? options.moveDuration : float.Epsilon;
 
             // LeanTween.move uses the anchoredPosition, so all position images must have the same anchor position
-            LeanTween.move(options.character.State.holder.gameObject, options.toPosition.position, duration)
+            LeanTween.moveLocal(options.character.State.holder.gameObject, options.toPosition.localPosition, duration)
                 .setEase(stage.FadeEaseType);
 
             if (options.waitUntilFinished)
@@ -320,6 +324,22 @@ namespace Fungus
             target.eulerAngles = from.eulerAngles;
             target.position = from.position;
             target.rotation = from.rotation;
+            target.anchoredPosition = from.anchoredPosition;
+            target.sizeDelta = from.sizeDelta;
+            target.anchorMax = from.anchorMax;
+            target.anchorMin = from.anchorMin;
+            target.pivot = from.pivot;
+            target.localScale = from.localScale;
+        }
+        
+        /// <summary>
+        /// Performs a deep copy of all local values from one RectTransform to another.
+        /// </summary>
+        public static void SetRectTransformLocal(RectTransform target, RectTransform from)
+        {
+            target.localEulerAngles = from.localEulerAngles;
+            target.localPosition = from.localPosition;
+            target.localRotation = from.localRotation;
             target.anchoredPosition = from.anchoredPosition;
             target.sizeDelta = from.sizeDelta;
             target.anchorMax = from.anchorMax;

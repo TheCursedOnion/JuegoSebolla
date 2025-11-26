@@ -37,7 +37,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         }
 
         #region Settings Region
-        public void Pause()
+        public void Pause(PauseLevel pauseLevel)
         {
             settingsContainer.SetActive(true);
             cameraButtonsContainer.SetActive(false);

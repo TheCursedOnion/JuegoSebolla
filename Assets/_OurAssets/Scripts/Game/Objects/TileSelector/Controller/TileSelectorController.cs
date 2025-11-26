@@ -57,7 +57,7 @@ namespace CursedOnion.Game.Objects
             reader.Select -= HardSelect;
         }
         
-        public void Pause() => reader.Disable();
+        public void Pause(PauseLevel pauseLevel) => reader.Disable();
         public void Unpause() => reader.Enable();
         #endregion
         

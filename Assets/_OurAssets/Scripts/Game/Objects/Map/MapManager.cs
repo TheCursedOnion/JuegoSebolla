@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic;
 using CursedOnion.Locators;
+using Fungus;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;

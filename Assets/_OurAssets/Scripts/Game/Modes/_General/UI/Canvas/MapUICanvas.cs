@@ -18,17 +18,28 @@ namespace CursedOnion.Game.General.UI.Canvases
         [SerializeField, BoxGroup(SettingsContainer)] private GameObject settingsContainer;
         [SerializeField, BoxGroup(GameplayContainer)] private GameObject gameplayContainer;
 
-        #region Settings Region
-        public void Pause()
-        {
-            settingsContainer.SetActive(true);
-            gameplayContainer.SetActive(false);
-        }
-
-        public void Unpause()
+        void DisableAll()
         {
             settingsContainer.SetActive(false);
-            gameplayContainer.SetActive(true);
+            gameplayContainer.SetActive(false);
+        }
+        void EnableOnly(GameObject screen)
+        {
+            DisableAll();
+            screen.SetActive(true);
+        }
+        #region Settings Region
+        public void Pause(PauseLevel pauseLevel)
+        {
+            switch (pauseLevel)
+            {
+                case PauseLevel.Dialog: DisableAll(); break;
+                case PauseLevel.UI: EnableOnly(settingsContainer); break;
+            }
+        }
+        public void Unpause()
+        {
+            EnableOnly(gameplayContainer);
         }
         #endregion
     }

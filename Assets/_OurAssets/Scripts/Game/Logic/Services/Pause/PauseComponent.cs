@@ -12,6 +12,7 @@ namespace CursedOnion.Game.Logic.Services
         
         [SerializeField] PauseLevel pauseWithLevel;
         [SerializeField] IPausable pausableObject;
+        PauseLevel previousPauseLevel;
         private bool isPaused = false;
 
         private void Awake()
@@ -35,13 +36,18 @@ namespace CursedOnion.Game.Logic.Services
             if (!isPaused && pauseLevelToCheck >= (int)pauseWithLevel)
             {
                 isPaused = true;
-                pausableObject.Pause();
+                pausableObject.Pause(updatedPauseLevel);
             }
             else if(isPaused && pauseLevelToCheck < (int)pauseWithLevel)
             {
                 isPaused = false;
                 pausableObject.Unpause();
             }
+            else if(isPaused && updatedPauseLevel != previousPauseLevel)
+            {
+                pausableObject.Pause(updatedPauseLevel);
+            }
+            previousPauseLevel = updatedPauseLevel;
             
         }
         

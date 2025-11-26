@@ -57,7 +57,7 @@ namespace CursedOnion.Game.Inputs.Camera
             zoomComponent.SetActive(false);
         }
         
-        public void Pause()
+        public void Pause(PauseLevel pauseLevel)
         {
             isPaused = true;
         }
