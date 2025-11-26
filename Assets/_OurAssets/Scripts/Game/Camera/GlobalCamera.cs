@@ -93,7 +93,17 @@ namespace CursedOnion.Game.Cameras
         {
             CameraController.SetFlag(flag);
         }
+        
+        public void FocusOn(Transform target, Vector3 positionDamping, float tiltOnFocus)
+        {
+            CameraController.SetLastFollowedTarget(target);
 
+            if (!CameraController.IsInMode(CameraControlFlag.FreeMode))
+            {
+                CinemachineContainer.FocusOn(target, positionDamping, tiltOnFocus);
+                CameraEvents.OnCameraFollowChanged(target);
+            }
+        }
         public float GetCameraPanAngles() => CinemachineContainer.GetCameraPanAngles();
         
     }

@@ -19,15 +19,17 @@ namespace CursedOnion.Game.Modes.Menu.UI
         void Awake()
         {
             UnityServices.Initialized += OnServicesInitialized;
+            
+            var cloudSave = variableLocator.AutoCloudSave;
+            if(cloudSave != null) cloudSave.OnClientPrepared += EnterMainScreen;
+            Debug.Log(cloudSave == null);
+            
             UpdateScreen();
         }
         
         void OnServicesInitialized()
         {
             OnDisable();
-
-            var cloudSave = variableLocator.AutoCloudSave;
-            if(cloudSave != null) cloudSave.OnClientPrepared += EnterMainScreen;
             
             AuthenticationService.Instance.SignedOut += EnterLogInScreen;
             AuthenticationService.Instance.Expired += EnterSignUpScreen;
@@ -36,11 +38,13 @@ namespace CursedOnion.Game.Modes.Menu.UI
         }
         void OnDisable()
         {
-            var cloudSave = variableLocator.AutoCloudSave;
-            if(cloudSave != null) cloudSave.OnClientPrepared -= EnterMainScreen;
-            
             AuthenticationService.Instance.SignedOut -= EnterLogInScreen;
             AuthenticationService.Instance.Expired -= EnterSignUpScreen;
+        }
+        void OnDestroy()
+        {
+            var cloudSave = variableLocator.AutoCloudSave;
+            if(cloudSave != null) cloudSave.OnClientPrepared -= EnterMainScreen;
         }
         public void EnterLogInScreen()
         {
@@ -54,6 +58,7 @@ namespace CursedOnion.Game.Modes.Menu.UI
         }
         public void EnterMainScreen()
         {
+            Debug.Log("Entering main screen");
             DisableAllScreens();
             mainScreen.SetActive(true);
         }

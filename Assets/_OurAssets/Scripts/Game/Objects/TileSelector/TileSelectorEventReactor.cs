@@ -20,23 +20,22 @@ namespace CursedOnion.Game.Objects
         
         void OnEnable()
         {
-            cameraEvents.OnModifyCameraMode += OnCameraModification;
+            cameraEvents.OnCameraFollow += OnCameraModification;
             //levelAsset.LevelEvents.OnCommandCalled += ;
         }
 
         void OnDisable()
         {
-            cameraEvents.OnModifyCameraMode -= OnCameraModification;
+            cameraEvents.OnCameraFollow -= OnCameraModification;
         }
 
-        void OnCameraModification(CameraControlFlag cameraMode)
+        void OnCameraModification(Transform currentFollow)
         {
-            Debug.Log($"Camera mode changed to {cameraMode}");
-            switch (cameraMode)
-            {
-                case CameraControlFlag.FreeMode: tileSelectorController.Disable(); break;
-                case CameraControlFlag.FixedMode: tileSelectorController.Enable(); break;
-            }
+            bool enable = currentFollow == this.transform;
+            if(enable)
+                tileSelectorController.Enable();
+            else
+                tileSelectorController.Disable();
         }
     }
 }

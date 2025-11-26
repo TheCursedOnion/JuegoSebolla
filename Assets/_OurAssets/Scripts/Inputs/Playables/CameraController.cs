@@ -82,23 +82,38 @@ namespace CursedOnion.Game.Inputs.Camera
                 SetFreeMode();
             }
         }
-        
+
+        public Transform GetLastFollowedTarget() => lastFollowedTarget;
+        public void SetLastFollowedTarget(Transform target)
+        {
+            if(target != assignedCamera.CameraGuide.transform) lastFollowedTarget = target;
+        }
         void SetFreeMode()
         {
             var cinemachineContainer = assignedCamera.CinemachineContainer;
-            if(cinemachineContainer.TryGetCurrentTarget(out lastFollowedTarget))
+
+            if (cinemachineContainer.TryGetCurrentTarget(out var target) &&
+                target != assignedCamera.CameraGuide.transform)
+            {
+                lastFollowedTarget = target;
                 assignedCamera.CameraGuide.transform.position = lastFollowedTarget.position;
+            }
             
             assignedCamera.CameraGuide.RequestFocus();
-            
             SetFlag(CameraControlFlag.FreeMode);
         }
         void SetFixedMode()
         {
+           
             var cameraFocus = lastFollowedTarget?.GetComponent<CameraFocus>();
-            cameraFocus?.RequestFocus();
-            
-            SetFlag(CameraControlFlag.FixedMode);
+            Debug.Log("ESTABA SIGUIENDO A: " + lastFollowedTarget?.name);
+            if (cameraFocus != null)
+            {
+                SetFlag(CameraControlFlag.FixedMode);
+                cameraFocus?.RequestFocus();
+                
+                assignedCamera.CameraEvents.OnCameraFollowChanged(lastFollowedTarget);
+            }
         }
         public void SetFlag(CameraControlFlag flag)
         {
@@ -114,7 +129,7 @@ namespace CursedOnion.Game.Inputs.Camera
             zoomComponent.SetActive(HasFlag(CameraControlFlag.Zoom));
         }
         bool HasFlag(CameraControlFlag flag) => (cameraControlFlag & flag) == flag;
-        bool IsInMode(CameraControlFlag flag) => cameraControlFlag == flag;
+        public bool IsInMode(CameraControlFlag flag) => cameraControlFlag == flag;
         void Update()
         {
             if(isPaused) return;

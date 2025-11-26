@@ -17,5 +17,20 @@ namespace CursedOnion.Extensions
         {
             return GetOrAddComponent<T>(c.gameObject);
         }
+
+        public static void SetGroupActive(this CanvasGroup canvasGroup, bool enable, float time)
+        {
+            canvasGroup.interactable = enable;
+            if(enable) canvasGroup.gameObject.SetActive(true);
+            
+            LeanTween.cancel(canvasGroup.gameObject);
+            
+            float final = enable ? 1 : 0;
+            LeanTween.alphaCanvas(canvasGroup, final, time).setEase(LeanTweenType.easeInOutQuad)
+                .setOnComplete(() =>
+                {
+                    if (!enable) canvasGroup.gameObject.SetActive(false);
+                });
+        }
     }
 }

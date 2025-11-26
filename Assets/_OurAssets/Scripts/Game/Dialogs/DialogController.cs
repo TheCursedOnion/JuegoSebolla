@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using CursedOnion.Game.Logic.Services;
+using CursedOnion.Game.Systems.Level;
 using Fungus;
 using NaughtyAttributes;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,6 +16,7 @@ namespace CursedOnion.Game.Dialog
     {
         [Inject] PauseService pauseService;
         public Flowchart Flowchart;
+        public CanvasGroup Background;
         
         public string StartingDialogBlockName;
         public void Start()
@@ -27,6 +30,17 @@ namespace CursedOnion.Game.Dialog
         public void OnDialogEnd()
         {
             pauseService.UnpauseCurrentLevel();
+
+            var levelManager = gameObject.scene.GetSceneContainer().Resolve<LevelManager>();
+            levelManager?.SetNewLevelState(LevelState.InBattleEditor);
+        }
+        
+        public void SetBackgroundAlpha(float alpha) => Background.alpha = alpha;
+
+        public void SetBackgroundAlpha(float alpha, float time)
+        {
+            LeanTween.cancel(Background.gameObject);
+            LeanTween.alphaCanvas(Background, alpha, time);
         }
     }
 
@@ -56,6 +70,7 @@ namespace CursedOnion.Game.Dialog
                     script.StartingDialogBlockName = blockName;
                 }
 
+                script.Background = (CanvasGroup)EditorGUILayout.ObjectField("Background", script.Background, typeof(CanvasGroup), true);
                 EditorUtility.SetDirty(script);
             }
         }
