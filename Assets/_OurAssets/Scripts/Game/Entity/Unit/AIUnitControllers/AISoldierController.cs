@@ -147,7 +147,7 @@ namespace CursedOnion.Game.Entity
                 {
                     totalNearby++;
 
-                    if (ally.GetFlags().HasUsedAbility())
+                    if (ally.ActionHandler.HasUsedAbility())
                         alliesWhoUsedAbility++;
                 }
             }
