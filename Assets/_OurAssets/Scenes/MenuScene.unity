@@ -1630,6 +1630,8 @@ MonoBehaviour:
   isUI: 0
   planeDistance: 0.2
   renderMode: 2
+  sortingLayerName: Default
+  sortingOrder: 0
 --- !u!114 &294206838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4403,6 +4405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 1
   resultingMode: 0
   focusOnAwake: 0
   target: {fileID: 0}
@@ -4444,6 +4447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 1
   resultingMode: 0
   focusOnAwake: 0
   target: {fileID: 0}
@@ -6755,6 +6759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 1
   resultingMode: 0
   focusOnAwake: 0
   target: {fileID: 0}
@@ -8806,6 +8811,8 @@ MonoBehaviour:
   isUI: 0
   planeDistance: 0.2
   renderMode: 2
+  sortingLayerName: Default
+  sortingOrder: 0
 --- !u!114 &1236017610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10148,6 +10155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 1
   resultingMode: 0
   focusOnAwake: 1
   target: {fileID: 0}
@@ -14229,6 +14237,8 @@ MonoBehaviour:
   isUI: 0
   planeDistance: 0.2
   renderMode: 2
+  sortingLayerName: Default
+  sortingOrder: 0
 --- !u!114 &1805385513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15212,6 +15222,8 @@ MonoBehaviour:
   isUI: 0
   planeDistance: 0.2
   renderMode: 2
+  sortingLayerName: Default
+  sortingOrder: 0
 --- !u!114 &1999256570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15307,6 +15319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 0
   focusOnAwake: 0
   target: {fileID: 0}
@@ -16968,7 +16981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd58e4a156ce944c9d633f7615681a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoLogIn: 0
+  autoLogIn: 1
   autoSave: 0
 --- !u!4 &2107031032
 Transform:

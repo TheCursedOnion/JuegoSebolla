@@ -1,5 +1,6 @@
 ﻿using System;
 using CursedOnion.Game.Inputs.Camera;
+using UnityEngine;
 
 namespace CursedOnion.Game.Events
 {
@@ -11,6 +12,12 @@ namespace CursedOnion.Game.Events
         {
             if (!Enabled) return;
             OnModifyCameraMode?.Invoke(newMode);
+        }
+        
+        public event Action<Transform> OnCameraFollow;
+        public void OnCameraFollowChanged(Transform newTarget)
+        {
+            OnCameraFollow?.Invoke(newTarget);
         }
     }
 }

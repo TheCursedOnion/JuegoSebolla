@@ -13,7 +13,8 @@ namespace CursedOnion.Game.Cameras
     {
         const string FOCUS_VARIABLES = "CameraFocusVariables";
         [Inject] RuntimeVariableLocator runtimeVariableLocator;
-        
+
+        [SerializeField] private bool imposeResultingMode;
         [SerializeField] private CameraControlFlag resultingMode;
         
         [SerializeField] private bool focusOnAwake;
@@ -44,9 +45,11 @@ namespace CursedOnion.Game.Cameras
             if(camera == null || target == null) return;
             
             var cinemachineContainer = camera.CinemachineContainer;
-            camera.SetCameraMode(resultingMode);
             
-            cinemachineContainer.FocusOn(target, positionDamping, tiltOnFocus);
+            if(imposeResultingMode) camera.SetCameraMode(resultingMode);
+            camera.FocusOn(target, positionDamping, tiltOnFocus);
+            
+            
             if(forceOffset) cinemachineContainer.SetOffset(distanceOffset, offsetTime);
             if (forceTilt) cinemachineContainer.SetTiltCenter(tiltOnFocus);
             if(forcePan) cinemachineContainer.SetPanCenter(panOnFocus);

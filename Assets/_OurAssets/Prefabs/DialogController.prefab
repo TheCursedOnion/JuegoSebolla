@@ -430,6 +430,7 @@ GameObject:
   - component: {fileID: 5363714243753761300}
   - component: {fileID: 6027389064091904376}
   - component: {fileID: 8030170037489792794}
+  - component: {fileID: 5887186326623863885}
   m_Layer: 3
   m_Name: StageBackground
   m_TagString: Untagged
@@ -494,6 +495,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.13
+--- !u!225 &5887186326623863885
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5104081669436605993}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5253071023716241202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,6 +1246,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2325458270432444222}
+  - component: {fileID: 1170052280088953601}
   - component: {fileID: 8732515158316300885}
   - component: {fileID: 8962891221805588588}
   - component: {fileID: 4455126008299777366}
@@ -1246,7 +1260,6 @@ GameObject:
   - component: {fileID: 3488937042188859161}
   - component: {fileID: 4714454960514154087}
   - component: {fileID: 435441238245418520}
-  - component: {fileID: 1170052280088953601}
   - component: {fileID: 4157040963964160271}
   m_Layer: 0
   m_Name: DialogController
@@ -1271,6 +1284,21 @@ Transform:
   - {fileID: 1421077623923632492}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1170052280088953601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051141804734565333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091bb83ef88460a478dce7f283d06ff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Flowchart: {fileID: 8732515158316300885}
+  Background: {fileID: 5887186326623863885}
+  StartingDialogBlockName: TutorialMenuMapa
 --- !u!114 &8732515158316300885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1656,20 +1684,6 @@ MonoBehaviour:
   stopVoiceover: 1
   waitForVO: 0
   setSayDialog: {fileID: 0}
---- !u!114 &1170052280088953601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051141804734565333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 091bb83ef88460a478dce7f283d06ff5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Flowchart: {fileID: 8732515158316300885}
-  StartingDialogBlockName: TutorialMenuMapa
 --- !u!114 &4157040963964160271
 MonoBehaviour:
   m_ObjectHideFlags: 0

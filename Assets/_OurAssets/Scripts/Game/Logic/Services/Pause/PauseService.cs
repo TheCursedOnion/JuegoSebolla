@@ -58,7 +58,6 @@ namespace CursedOnion.Game.Logic.Services
 
         private void InvokeUpdate(PauseLevel pauseLevel)
         {
-            Debug.LogWarning($"Current Pause Level {pauseLevel}");
             OnPauseUpdate?.Invoke(pauseLevel);
         }
         
