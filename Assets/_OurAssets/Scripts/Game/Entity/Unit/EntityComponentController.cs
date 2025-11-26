@@ -77,7 +77,7 @@ namespace CursedOnion.Game.Entity
         protected virtual void EndTurn()
         {
             AssignedEntity.Grid.ResetPaint();
-            AssignedEntity.ActionHandler.ResetAllActions();
+            //AssignedEntity.ActionHandler.ResetAllActions();
         }
         #endregion
         protected virtual void ProcessEntityUpdate(SimpleEntity entity)

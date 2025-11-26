@@ -30,27 +30,54 @@ namespace CursedOnion.Game.Entity
 
             baseAI = GetComponent<AIUnitController>();
             if (baseAI == null)
-                Debug.LogError("AIHealerController NO encontró AIUnitController en el mismo GameObject.");
+                Debug.LogError("AISoldierController NO encontró AIUnitController en el mismo GameObject.");
         }
 
 
         #region Perceptions
 
-        public bool WeakAndHealerClose()
+        public bool LowHealth()
         {
             LazyInit();
+            float healthPercent = baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
+            return healthPercent < 0.3f;
+        }
 
-            float healthPercent = AssignedEntity.Stats.CurrentHealthStat / AssignedEntity.Stats.MaxHealthStat;
+        public bool HealerInRange()
+        {
+            LazyInit();
+            enemyPositions.Clear();
+            soldierReachableAttackTiles.Clear();
 
-            if (healthPercent >= 0.3f)
-                return false;
+            var unit = baseAI.GetUnit();
+            var turn = baseAI.GetTurnSystem();
+            var grid = unit.Grid;
+
+            grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
+            AStarPathFinder.InsertMeleeAttackGridPositions(soldierReachableAttackTiles, grid, gridPos);
+
+            foreach (var ally in turn.GetEnemyUnits())
+            {
+                grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos);
+                if (soldierReachableAttackTiles.Contains(allyGridPos))
+                    return true;
+
+            }
+            return false;
+        }
+
+        public bool HealerInMovementRange()
+        {
+            LazyInit();
 
             posCloseToHealers.Clear();
 
             var unit = baseAI.GetUnit();
             var grid = unit.Grid;
 
-            var healers = baseAI.GetTurnSystem().GetAllyUnits().Where(u => u != unit && u.Stats.SpecialAbilityType is HealerAbility).ToList();
+            var healers = baseAI.GetTurnSystem().GetEnemyUnits().Where(u => u != unit && u.Stats.SpecialAbilityType is HealerAbility).ToList();
+
+            Debug.Log("Healers found: " + healers.Count);
 
             if (healers.Count == 0)
                 return false;
@@ -148,7 +175,9 @@ namespace CursedOnion.Game.Entity
                     totalNearby++;
 
                     if (ally.ActionHandler.HasUsedAbility())
+                    {
                         alliesWhoUsedAbility++;
+                    }
                 }
             }
 
@@ -201,7 +230,8 @@ namespace CursedOnion.Game.Entity
         public void Rage()
         {
             Debug.Log("Soldier is Raging");
-            baseAI.GetEntityComponent<SpecialAbilityComponent>().DoAbility(AssignedEntity, false);
+            var entity = baseAI.GetUnit() as SimpleEntity;
+            baseAI.GetEntityComponent<SpecialAbilityComponent>().DoAbility(entity, false);
         }
         #endregion
 
@@ -247,6 +277,7 @@ namespace CursedOnion.Game.Entity
             }
 
             enemyTarget = best;
+            baseAI.TargetedEnemy = enemyTarget;
             Debug.Log("Soldier selected best enemy to attack: " + enemyTarget?.name);
         }
 

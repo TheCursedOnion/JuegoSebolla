@@ -1,10 +1,11 @@
 using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 using CursedOnion.Extensions;
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using System.Collections.Generic;
-using CursedOnion.Game.Entity.Components;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace CursedOnion.Game.Entity
 {
@@ -47,7 +48,7 @@ namespace CursedOnion.Game.Entity
         {
             return startTurn;
         }
-        
+
         #region AttackLogic
         public bool IsEnemyInAttackRange()
         {
@@ -67,7 +68,7 @@ namespace CursedOnion.Game.Entity
                 AStarPathFinder.InsertMeleeAttackGridPositions(reachableAttackPositions, grid, gridPos);
             }
 
-            foreach(var pos in reachableAttackPositions)
+            foreach (var pos in reachableAttackPositions)
             {
                 Tile3d tile = grid.GetTileAtGridPosition(pos);
                 if (tile != null && tile.GetContainedEntity() != null && tile.GetContainedEntity().GetSide() != unit.GetSide())
@@ -213,7 +214,36 @@ namespace CursedOnion.Game.Entity
                 return false;
             }
 
-            if (!unit.Grid.TryWorldToGridPosition(closestAlly.transform.position, out Vector3 allyGridPos))
+            var adjacentTiles = GetValidAdjacentTiles(closestAlly, unit.Grid);
+            if (adjacentTiles.Count == 0)
+                return false;
+
+            List<Vector3> bestPath = null;
+            Vector3Int bestTargetTile = default;
+            float bestPathLen = float.MaxValue;
+
+            if (!unit.Grid.TryWorldToGridPosition(unit.transform.position, out Vector3 startGridPos))
+                return false;
+
+            foreach (var tile in adjacentTiles)
+            {
+                var path = AStarPathFinder.FindPath(startGridPos, tile, unit.Grid);
+                if (path == null || path.Count == 0)
+                {
+                    Debug.Log("No se encontró camino hacia el tile " + tile);
+                    continue;
+                }
+                    
+
+                if (path.Count < bestPathLen)
+                {
+                    bestPathLen = path.Count;
+                    bestPath = path;
+                    bestTargetTile = tile;
+                }
+            }
+
+            if (bestPath == null)
                 return false;
 
             reachableMovePositions.Clear();
@@ -224,31 +254,75 @@ namespace CursedOnion.Game.Entity
                 unit.Stats.MovementStat
             );
 
+            Debug.Log("TILES REACHEABLES: " + reachableMovePositions.Count);
+
             if (reachableMovePositions.Count == 0)
-                return false; 
+                return false;
 
-            float bestTileDist = float.MaxValue;
-            Vector3 bestTile = default;
+            Vector3 chosenTile = Vector3.zero;
 
-            foreach (var reachable in reachableMovePositions)
+            for (int i = bestPath.Count - 1; i >= 0; i--)
             {
-                float dist = Vector3.Distance(reachable, allyGridPos);
-                if (dist < bestTileDist)
+                if (!unit.Grid.TryWorldToGridPosition(bestPath[i], out Vector3 candidate))
+                    return false;
+
+                if (reachableMovePositions.Contains(candidate))
                 {
-                    bestTileDist = dist;
-                    bestTile = reachable;
+                    chosenTile = candidate;
+                    break;
                 }
             }
 
-            TargetedGridPosToMove = bestTile;
+            Debug.Log("Chosen tile to move: " + chosenTile);
 
-            if (!unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
+            TargetedGridPosToMove = chosenTile;
+
+            if (!unit.Grid.TryGridToWorldPosition(chosenTile, out Vector3 targetWorld))
                 return false;
 
             TargetedPosToMove = targetWorld.CenterOnTile();
 
             return true;
         }
+
+        private List<Vector3Int> GetValidAdjacentTiles(Unit ally, Grid3d grid)
+        {
+            List<Vector3Int> result = new List<Vector3Int>();
+
+            Vector3Int[] dirs =
+            {
+                new Vector3Int(1,0,0),
+                new Vector3Int(-1,0,0),
+                new Vector3Int(0,0,1),
+                new Vector3Int(0,0,-1)
+            };
+
+            // Obtener gridpos aliado
+            if (!grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGrid))
+                return result;
+
+            Vector3Int allyPos = Vector3Int.FloorToInt(allyGrid);
+
+            foreach (var d in dirs)
+            {
+                Vector3Int neigh = allyPos + d;
+
+                if (!grid.IsGridPositionInBounds(neigh))
+                    continue;
+
+                Tile3d tile = grid.GetTileAtGridPosition(neigh);
+                if (tile == null || tile.IsBlocked())
+                    continue;
+
+                if (tile.GetContainedEntity() != null)
+                    continue;
+
+                result.Add(neigh);
+            }
+
+            return result;
+        }
+
 
         public BehaviourAPI.Core.Status EndMove()
         {
