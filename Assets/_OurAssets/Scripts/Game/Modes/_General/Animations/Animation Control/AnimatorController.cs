@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using CursedOnion.Game.Entity;
+using UnityEngine;
+
+namespace CursedOnion.Game.Modes.General.Animations
+{
+    public class AnimatorController : MonoBehaviour
+    {
+        [SerializeField] private List<Animator> entityAnimators = new List<Animator>();
+        
+        [SerializeField] private string testAnimationName;
+        private SimpleEntity assignedEntity;
+        private string previousAnimationName;
+        public void SetupController(SimpleEntity assignedEntity)
+        {
+            entityAnimators?.Clear();
+            this.assignedEntity = assignedEntity;
+        }
+
+        public void AddAnimator(Animator animator)
+        {
+            entityAnimators.Add(animator);
+        }
+        public void PlayAnimation(string animationName)
+        {
+            foreach (Animator animator in entityAnimators) animator.Play(animationName);
+        }
+        public void TestPlayAnimation()
+        {
+            PlayAnimation(testAnimationName);
+        }
+        
+        public void ProcessStartedAnimation(string animationName)
+        {
+            if(string.IsNullOrEmpty(animationName) || string.Equals(animationName, previousAnimationName)) return;
+            
+            previousAnimationName = animationName;
+            //Debug.Log($"{assignedEntity.name}: Animation {animationName} started.");
+            bool isIdle = string.Equals("idle", animationName);
+
+            if (!isIdle)
+            {
+                assignedEntity.ActionHandler.RaiseFlag(ActionFlag.IsNotIdle);
+            }
+            else
+            {
+                assignedEntity.ActionHandler.ResetFlag(ActionFlag.IsNotIdle);
+            }
+                
+        }
+        public void ProcessAnimationEvent(string eventName)
+        {
+            //Debug.Log($"{assignedEntity.name}: Animation event {eventName} raised.");
+
+            switch (eventName)
+            {
+                case "damage": assignedEntity.EntityController.AttackComponent.ApplyAttack(); break;
+            }
+        }
+        public void ProcessFinishedAnimation(string animationName)
+        {
+            //Debug.Log($"{assignedEntity.name}: Animation {animationName} finished.");
+            switch (animationName)
+            {
+                case "hurt":
+                    if (assignedEntity.StatusHandler.HasCounterAttackTarget(out var target))
+                    {
+                        assignedEntity.EntityController.AttackComponent.DoAttack(target, false);
+                    }
+                    break;
+            }
+            //TODO: Process finished animation
+        }
+        
+        
+    }
+}

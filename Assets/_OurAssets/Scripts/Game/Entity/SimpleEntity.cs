@@ -33,14 +33,12 @@ namespace CursedOnion.Game.Entity
         public ExtendedEntityStats Stats;
         
         //Flags
-        protected EntityFlags Flags;
-        public EntityFlags GetFlags() => Flags;
+        public ActionHandler ActionHandler;
+        public StatusHandler StatusHandler;
         public event Action<SimpleEntity> OnEntityUpdate;
-        public void NotifyUpdate() => OnEntityUpdate?.Invoke(this);
-        
+        public void NotifyActionUpdate() => OnEntityUpdate?.Invoke(this);
         protected void Awake()
         {
-            Flags = new EntityFlags(this);
             Stats = new ExtendedEntityStats();
             EntityController = GetComponent<EntityComponentController>();
         }
@@ -49,10 +47,13 @@ namespace CursedOnion.Game.Entity
             EntityController.Dispose();
             Destroy(gameObject);
         }
-        protected virtual void DefineStats(StatData data)
+        protected virtual void DefineEntityStats(StatData data)
         {
             StatData = data;
             Stats.SetWithData(data);
+            
+            ActionHandler = new ActionHandler(this);
+            StatusHandler = new StatusHandler(this, Stats);
         }
         public BattleSide GetSide() => EntitySide;
         public bool TryGetLayeredEntity(out LayeredEntity layeredEntity)
@@ -67,19 +68,23 @@ namespace CursedOnion.Game.Entity
             Grid = LevelManager.Grid;
         }
         
-        public virtual void Damage(int damage, Action onDamageAnimationFinished = null)
+        public virtual void DamageFrom(int damage, SimpleEntity attacker)
         {
-            Stats.CurrentHealthStat -= damage;
-            if (Stats.CurrentHealthStat <= 0) Die();
+            int remainingDamage = StatusHandler.GetRemainingDamage(damage);
+            Stats.CurrentHealthStat -= remainingDamage;
+            
+            if (Stats.CurrentHealthStat <= 0)
+            {
+                Die();
+            }
         }
         public virtual void Heal(int healedHP)
         {
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
         }
-
         protected void Die()
         {
-            GetFlags().RaiseFlag(EntityFlag.HasDied);
+            ActionHandler.RaiseFlag(ActionFlag.HasDied);
             OnEntityUpdate?.Invoke(this);
             Dispose();
         }
@@ -88,9 +93,14 @@ namespace CursedOnion.Game.Entity
         public virtual void Revive(int newHealth)
         {
             Stats.CurrentHealthStat = newHealth;
-            GetFlags().ResetFlag(EntityFlag.HasDied);
+            ActionHandler.ResetFlag(ActionFlag.HasDied);
             
             OnEntityUpdate?.Invoke(this);
+        }
+
+        public void UpdateStatusEffects()
+        {
+            StatusHandler.UpdateStatusEffects();
         }
     }
 }

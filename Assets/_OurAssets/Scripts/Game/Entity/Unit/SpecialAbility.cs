@@ -47,7 +47,7 @@ namespace CursedOnion.Game.Entity
         {
             Debug.Log("Activando habilidad de Soldier: Aumentando daño del próximo ataque");
             
-            unit.EntityController.GetEntityComponent<AttackEntityComponent>().SetNextAttackMultiplier(DamageMultiplier);
+            unit.StatusHandler.SetAttackMultiplier(DamageMultiplier);
         }
     }
 
@@ -70,7 +70,7 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Tank: Aumentando HP adicional");
-            unit.SetAdditionalHP(AdditionalHPFactor);
+            unit.StatusHandler.SetAdditionalHP(AdditionalHPFactor);
         }
     }
 
@@ -91,7 +91,7 @@ namespace CursedOnion.Game.Entity
             if (target is Unit targetUnit)
             {
                 Debug.Log("Activando habilidad de Thief: Aplicando confusión al objetivo");
-                targetUnit.ApplyConfusion(1);
+                targetUnit.StatusHandler.ApplyConfusion(1);
             }
         }
 
@@ -220,14 +220,13 @@ namespace CursedOnion.Game.Entity
                 if (tile == null)
                     continue; 
 
-                SimpleEntity entity = tile.GetContainedEntity();
+                SimpleEntity nextTarget = tile.GetContainedEntity();
 
-                if (entity == null)
-                    continue; 
+                if (nextTarget == null) continue; 
 
-                if (entity is Unit enemyUnit && enemyUnit.GetSide() != unit.GetSide())
+                if (nextTarget is Unit enemyUnit && enemyUnit.GetSide() != unit.GetSide())
                 {
-                    enemyUnit.Damage(damage);
+                    enemyUnit.DamageFrom(damage, unit);
                     Debug.Log($"{enemyUnit.name} recibió {damage} puntos de daño por la habilidad de Arquero");
                 }
                 

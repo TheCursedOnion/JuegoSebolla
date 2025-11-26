@@ -29,7 +29,7 @@ namespace CursedOnion.Testing
             }
         }
 
-        public void Pause()
+        public void Pause(PauseLevel pauseLevel)
         {
             Debug.Log($"{gameObject.name} pausing");
         }

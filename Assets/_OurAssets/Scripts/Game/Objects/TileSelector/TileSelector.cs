@@ -43,8 +43,6 @@ namespace CursedOnion.Game.Objects
         const string Model = "TileSelector Model";
         const string Controller = "TileSelector Controller";
         
-        [SerializeField, ReadOnly] Vector3 gridPosition;
-        
         [Inject] LevelManager levelManager;
         [Inject] Grid3d grid;
         [Inject] LevelEvents levelEvents;
@@ -55,9 +53,10 @@ namespace CursedOnion.Game.Objects
         [SerializeField, BoxGroup(Model)] float yModelOffset = 0.05f;
         [SerializeField, BoxGroup(Model)] private GameObject tileModel;
         [SerializeField, BoxGroup(Controller)] TileSelectorController controller;
-
+        [SerializeField] CameraFocus cameraFocus;
+        
+        private Vector3 gridPosition;
         private EntityCommandHandler entityCommandHandler;
-        EntityCommandHandler EntityCommandHandler => entityCommandHandler;
 
         [SerializeReference, SubclassSelector, SerializeField] TileSelectorBehaviour[] behaviours;
         private T GetBehaviour<T>() where T : TileSelectorBehaviour
@@ -73,7 +72,8 @@ namespace CursedOnion.Game.Objects
             entityCommandHandler = new(container);
             
             globalCamera = runtimeVariableLocator.GlobalCamera;
-
+            cameraFocus = gameObject.GetOrAddComponent<CameraFocus>();
+            
             foreach (var behaviour in behaviours)
             {
                 behaviour.Initialize(this, entityCommandHandler);
@@ -119,11 +119,14 @@ namespace CursedOnion.Game.Objects
         }
         public void InvokeEntitySelection(SimpleEntity entity)
         {
+            Debug.Log($"Invoking entity selection for {entity?.name}");
             levelEvents.SelectEntity(entity);
         }
         void FocusOnEntity(SimpleEntity entity)
         {
+            cameraFocus.RequestFocus();
             TrySetAtPosition(entity.transform.position);
+            InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
         }
         public bool MovePosition(Vector3 moveDirection)
         {

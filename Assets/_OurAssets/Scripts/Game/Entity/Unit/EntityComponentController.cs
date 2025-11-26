@@ -71,13 +71,13 @@ namespace CursedOnion.Game.Entity
         }
         public virtual void ProcessTurn()
         {
-            AssignedEntity.GetFlags().ResetFlag(EntityFlag.HasMoved);
-            AssignedEntity.GetFlags().ResetFlag(EntityFlag.HasAttacked);
-            AssignedEntity.GetFlags().ResetFlag(EntityFlag.HasUsedAbility);
+            AssignedEntity.UpdateStatusEffects();
+            AssignedEntity.ActionHandler.ResetAllActions();
         }
         protected virtual void EndTurn()
         {
             AssignedEntity.Grid.ResetPaint();
+            AssignedEntity.ActionHandler.ResetAllActions();
         }
         #endregion
         protected virtual void ProcessEntityUpdate(SimpleEntity entity)

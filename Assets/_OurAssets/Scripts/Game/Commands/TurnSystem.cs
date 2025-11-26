@@ -26,6 +26,7 @@ namespace CursedOnion.Game.Systems.Level
         
         int currentInitiative;
         private bool alliesProcessedForCurrentInitiative = false;
+        private bool battleStarted = false;
 
         [SerializeField] private List<Unit> allies = new List<Unit>();
         [SerializeField] private List<Unit> enemies = new List<Unit>();
@@ -49,6 +50,7 @@ namespace CursedOnion.Game.Systems.Level
         }
         public void BeginBattle()
         {
+            battleStarted = true;
             OrganizeLists();
         }
         private void OnDisable()
@@ -155,13 +157,12 @@ namespace CursedOnion.Game.Systems.Level
         }
         void ChooseStartingUnit()
         {
-            //int randomIndex = Random.Range(0, activeUnits.Count);
-            levelEvents.InvokeTurnFocus(activeUnits[0]);
+            activeUnits[0].FocusOnUnit();
         }
 
         void ChooseStartingEnemyUnit()
         {
-            levelEvents.InvokeTurnFocus(activeUnits[0]);
+            activeUnits[0].FocusOnUnit();
             activeUnits[0].EntityController.ProcessTurn();
         }
 
@@ -204,6 +205,8 @@ namespace CursedOnion.Game.Systems.Level
 
         private void CheckForBattleEnd()
         {
+            if (!battleStarted) return;
+            
             Debug.Log($"Comprobando fin de batalla: Aliados restantes {allies.Count}, Enemigos restantes {enemies.Count}");
             if (allies.Count == 0)
             {
@@ -218,6 +221,16 @@ namespace CursedOnion.Game.Systems.Level
                 sceneServiceUser.ChangeScene(resetScene, transitionData);
             }
             
+        }
+
+        void Update()
+        {
+            /*if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log("Ha ganado el bando Enemigo");
+                transitionData.Color = Color.red;
+                sceneServiceUser.ChangeScene(resetScene, transitionData);
+            }*/
         }
 
     }

@@ -77,7 +77,7 @@ namespace CursedOnion.Game.CloudSave
             }
             catch (Exception e)
             {
-                throw; // TODO handle exception
+                Debug.LogException(e);
             }
         }
         async void PrepareClients()
@@ -113,7 +113,7 @@ namespace CursedOnion.Game.CloudSave
             }
             catch (Exception e)
             {
-                throw;
+                Debug.LogException(e);
             }
         }
     }

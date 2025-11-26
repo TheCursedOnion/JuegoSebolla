@@ -1,5 +1,4 @@
 using CursedOnion.Game.Commands;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Systems.Level;
@@ -45,10 +44,11 @@ namespace CursedOnion.Game.Entity.UI
         }
         void UpdateUI()
         {
-            var flags = associatedUnit.GetFlags();
-            moveButton.SetInteractive(!flags.HasMoved());
-            attackButton.SetInteractive(!flags.HasAttacked());
-            specialButton.SetInteractive(!flags.HasUsedAbility());
+            var actions = associatedUnit.ActionHandler;
+            bool isNotIdle = actions.IsNotIdle();
+            moveButton.SetInteractive(!actions.HasMoved() && !isNotIdle);
+            attackButton.SetInteractive(!actions.HasAttacked() && !isNotIdle);
+            specialButton.SetInteractive(!actions.HasUsedAbility() && !isNotIdle);
             abilityImage.sprite = associatedUnit.StatData.SpecialAbility?.AbilityIcon;
         }
 

@@ -34,11 +34,16 @@ namespace Fungus
         [Tooltip("Constant offset to apply to portrait position.")]
         [SerializeField] protected Vector2 shiftOffset;
 
+        [Tooltip("The container where characters appear")]
+        [SerializeField] protected GameObject characterContainer;
+        
         [Tooltip("The position object where characters appear by default.")]
         [SerializeField] protected Image defaultPosition;
 
         [Tooltip("List of stage position rect transforms in the stage.")]
         [SerializeField] protected List<RectTransform> positions;
+        
+        
 
         protected List<Character> charactersOnStage = new List<Character>();
 
@@ -87,12 +92,12 @@ namespace Fungus
 
             return Stage.activeStages[0];
         }
-
+        
         /// <summary>
         /// Canvas object containing the stage positions.
         /// </summary>
         public virtual Canvas PortraitCanvas { get { return portraitCanvas; } }
-
+        
         /// <summary>
         /// Dim portraits when a character is not speaking.
         /// </summary>
@@ -123,6 +128,11 @@ namespace Fungus
         /// </summary>
         public virtual Vector2 ShiftOffset { get { return shiftOffset; } }
 
+        /// <summary>
+        /// Container where characters appear.
+        /// </summary>
+        public virtual GameObject CharacterContainer { get { return characterContainer; } }
+        
         /// <summary>
         /// The position object where characters appear by default.
         /// </summary>

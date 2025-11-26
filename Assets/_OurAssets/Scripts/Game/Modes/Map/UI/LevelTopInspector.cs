@@ -23,11 +23,11 @@ namespace CursedOnion.Game.Modes.Map.UI
         LevelInformation currentLevelInformation;
         [SerializeField] UltEvent<string> OnLevelSelected;
         
-        private void OnEnable()
+        private void Awake()
         {
             mapEvents.OnLevelSelected += ProcessLevelSelected;
         }
-        private void OnDisable()
+        private void OnDestroy()
         {
             mapEvents.OnLevelSelected -= ProcessLevelSelected;
         }

@@ -13,7 +13,10 @@ namespace CursedOnion.Game.General.UI.Canvases
         
         [SerializeField] bool isUI = false;
         [SerializeField] private float planeDistance = 0.2f;
+        
         [SerializeField] RenderMode renderMode;
+        [SerializeField] string sortingLayerName = "Default";
+        [SerializeField] int sortingOrder = 0;
         
         void Awake()
         {
@@ -23,6 +26,8 @@ namespace CursedOnion.Game.General.UI.Canvases
             canvas.worldCamera = !isUI ? globalCamera.Camera : globalCamera.UiCamera;
             canvas.planeDistance = planeDistance;
             canvas.renderMode = renderMode;
+            canvas.sortingLayerName = sortingLayerName;
+            canvas.sortingOrder = sortingOrder;
         }
     }
 }

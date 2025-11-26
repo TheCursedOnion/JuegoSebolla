@@ -24,7 +24,7 @@ namespace CursedOnion.Game.Entity.Components
 
             unit.Grid.ResetPaint();
             unit.Stats.SpecialAbilityType.ActivateAbility(unit, target);
-            AssignedEntity.GetFlags().RaiseFlag(UsedFlags);
+            AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
                 
             reachableTiles.Clear();
         }

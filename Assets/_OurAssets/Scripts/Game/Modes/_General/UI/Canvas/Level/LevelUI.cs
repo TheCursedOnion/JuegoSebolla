@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-using CursedOnion.Game.Entity;
-using CursedOnion.Game.Events;
-using CursedOnion.Game.Logic.Services;
+﻿
 using CursedOnion.Game.Logic.Services.Pause;
+using CursedOnion.Game.Modes.Level.Battle.UI;
 using CursedOnion.Game.Systems.Level;
-using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -41,7 +37,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         }
 
         #region Settings Region
-        public void Pause()
+        public void Pause(PauseLevel pauseLevel)
         {
             settingsContainer.SetActive(true);
             cameraButtonsContainer.SetActive(false);

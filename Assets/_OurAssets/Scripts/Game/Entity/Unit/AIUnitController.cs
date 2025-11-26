@@ -1,11 +1,7 @@
-using BehaviourAPI.Core;
 using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 using CursedOnion.Extensions;
-using CursedOnion.Game.Entity.UI;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
-using JetBrains.Annotations;
-using Reflex.Attributes;
 using System.Collections.Generic;
 using CursedOnion.Game.Entity.Components;
 using UnityEngine;
@@ -43,6 +39,7 @@ namespace CursedOnion.Game.Entity
         }
         public override void ProcessTurn()
         {
+            base.ProcessTurn();
             startTurn = true;
         }
 
@@ -89,11 +86,11 @@ namespace CursedOnion.Game.Entity
 
 
         }
-        public Status EndAttack()
+        public BehaviourAPI.Core.Status EndAttack()
         {
             Debug.Log("ENEMY HA ATACADO: SUCCESS");
             TargetedEnemy = null;
-            return Status.Success;
+            return BehaviourAPI.Core.Status.Success;
         }
         #endregion
 
@@ -253,7 +250,7 @@ namespace CursedOnion.Game.Entity
             return true;
         }
 
-        public Status EndMove()
+        public BehaviourAPI.Core.Status EndMove()
         {
             Vector3 pos = unit.transform.position;
             Vector3 target = TargetedPosToMove;
@@ -262,11 +259,11 @@ namespace CursedOnion.Game.Entity
             bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
 
             if (!xzAligned || !yCloseEnough)
-                return Status.Running;
+                return BehaviourAPI.Core.Status.Running;
 
             TargetedGridPosToMove = Vector3.zero;
             TargetedPosToMove = Vector3.zero;
-            return Status.Success;
+            return BehaviourAPI.Core.Status.Success;
         }
         #endregion
 
