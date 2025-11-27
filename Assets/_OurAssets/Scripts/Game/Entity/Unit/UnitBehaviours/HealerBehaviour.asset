@@ -368,7 +368,7 @@ MonoBehaviour:
         childIds: []
       - name: HealerAbility
         id: eaf5f569-3a51-4513-b2c1-fcf07bc62a6f
-        position: {x: 1500, y: 800}
+        position: {x: 1517, y: 816}
         node:
           rid: 6291014547320602729
         references:
@@ -449,7 +449,7 @@ MonoBehaviour:
         childIds: []
       - name: DelatAfterMove
         id: a1df9ae6-f91d-4e2a-bdd3-10300621d05d
-        position: {x: 2250, y: 1000}
+        position: {x: 2266, y: 1016}
         node:
           rid: 6291014547320602737
         references:
@@ -477,7 +477,7 @@ MonoBehaviour:
         childIds: []
       - name: UTILITYBestTileNearAlly
         id: d2e1336a-d4e6-4e5b-902e-c03acccb59d0
-        position: {x: 450, y: 1000}
+        position: {x: 467, y: 1016}
         node:
           rid: 6291014547320602741
         references:
@@ -645,7 +645,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: Heal
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -663,7 +663,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectBestCriticalAlly
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -681,7 +681,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectBestCriticalAlly
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -699,7 +699,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectBestTileNearTargetAlly
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -717,7 +717,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: Heal
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -735,7 +735,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectBestWoundedAlly
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -753,7 +753,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: Heal
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -771,7 +771,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectBestWoundedAlly
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -789,7 +789,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectBestTileNearTargetAlly
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -807,7 +807,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: SelectSafestTile
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -861,7 +861,7 @@ MonoBehaviour:
           componentName: AIHealerController
           methodName: Heal
         update:
-          componentName: AIHealerController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -958,7 +958,7 @@ MonoBehaviour:
           methodName: EnemyAttack
         update:
           componentName: AIUnitController
-          methodName: EndAttack
+          methodName: EndAction
         stop:
           componentName: 
           methodName: 

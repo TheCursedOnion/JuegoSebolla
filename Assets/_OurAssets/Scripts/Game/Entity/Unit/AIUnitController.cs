@@ -3,7 +3,9 @@ using CursedOnion.Extensions;
 using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
+using System.Buffers.Text;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -15,21 +17,19 @@ namespace CursedOnion.Game.Entity
         AssetBehaviourRunner runner;
         bool startTurn;
 
-        public AssetBehaviourRunner GetBehaviourRunner() => runner;
+        Unit unit;
+        public Unit GetUnit() => unit;
 
         TurnSystem turnSystem;
         public TurnSystem GetTurnSystem() => turnSystem;
 
-        List<Unit> allyUnit;
-
-        Unit unit;
-        public Unit GetUnit() => unit;
-
-        List<Vector3> reachableAttackPositions = new();
-        List<Vector3> reachableMovePositions = new();
         public Vector3 TargetedGridPosToMove;
         public Vector3 TargetedPosToMove;
         public SimpleEntity TargetedEnemy;
+
+        public List<Vector3> reachableAttackPositions = new();
+        public List<Vector3> reachableMovePositions = new();
+        public List<Vector3> enemyPositions = new();
 
         public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
@@ -44,65 +44,35 @@ namespace CursedOnion.Game.Entity
             startTurn = true;
         }
 
-        public bool StartTurn()
-        {
-            return startTurn;
-        }
+        public bool StartTurn() => startTurn;
 
-        #region AttackLogic
-        public bool IsEnemyInAttackRange()
-        {
-            var grid = unit.Grid;
-            var position = unit.transform.position;
+        #region Percepciones Generales
 
+        public bool EnemyInMeleeRange()
+        {
+            enemyPositions.Clear();
             reachableAttackPositions.Clear();
-            bool isMeleeUnit = unit.Stats.SpecialAbilityType is not ArcherAbility;
 
-            grid.TryWorldToGridPosition(position, out Vector3 gridPos);
-            if (!isMeleeUnit)
-            {
-                AStarPathFinder.InsertManhattanAttackGridPositions(reachableAttackPositions, grid, gridPos, 2, true);
-            }
-            else
-            {
-                AStarPathFinder.InsertMeleeAttackGridPositions(reachableAttackPositions, grid, gridPos);
-            }
+            var grid = unit.Grid;
 
-            foreach (var pos in reachableAttackPositions)
+            reachableAttackPositions = GetAdjacentTiles(unit);
+
+            foreach (var enemy in turnSystem.GetAllyUnits())
             {
-                Tile3d tile = grid.GetTileAtGridPosition(pos);
-                if (tile != null && tile.GetContainedEntity() != null && tile.GetContainedEntity().GetSide() != unit.GetSide())
+                grid.TryWorldToGridPosition(enemy.transform.position, out Vector3 enemyGridPos);
+
+                if (reachableAttackPositions.Any(p => Vector3.Distance(p, enemyGridPos) < 0.01f))
                 {
-                    TargetedEnemy = tile.GetContainedEntity();
-                    return true;
+                    enemyPositions.Add(enemy.transform.position);
                 }
             }
-            return false;
+            return enemyPositions.Count > 0;
         }
 
-        public void EnemyAttack()
+        public bool EnemyInMovementRange()
         {
-            Debug.Log("EL ENEMIGO VA A ATACAR A" + TargetedEnemy);
-            GetEntityComponent<AttackEntityComponent>().DoAttack(TargetedEnemy, false);
-
-
-        }
-        public BehaviourAPI.Core.Status EndAttack()
-        {
-            Debug.Log("ENEMY HA ATACADO: SUCCESS");
-            TargetedEnemy = null;
-            return BehaviourAPI.Core.Status.Success;
-        }
-        #endregion
-
-        #region MovementLogic
-        public bool IsEnemyInMovementRange()
-        {
-            allyUnit = turnSystem.GetAllyUnits();
+            enemyPositions.Clear();
             reachableMovePositions.Clear();
-
-            TargetedGridPosToMove = Vector3.zero;
-            TargetedEnemy = null;
 
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 reachableMovePositions,
@@ -111,79 +81,53 @@ namespace CursedOnion.Game.Entity
                 unit.Stats.MovementStat
             );
 
-            float bestDistance = float.MaxValue;
-            Vector3 bestTile = default;
-            SimpleEntity bestTargetedEnemy = null;
-
-            bool isMeleeUnit = unit.Stats.SpecialAbilityType is not ArcherAbility;
-
-            foreach (var ally in allyUnit)
+            foreach (var enemy in turnSystem.GetAllyUnits())
             {
-                if (!unit.Grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGridPos))
-                    continue;
-
-                List<Vector3> candidatePositions = new List<Vector3>();
-
-                if (isMeleeUnit)
+                if (GetAdjacentTilesToMove(enemy).Any(adj => reachableMovePositions.Contains(adj)))
                 {
-                    // Posiciones adyacentes al aliado
-                    Vector3[] dirs =
-                    {
-                        new Vector3(1, 0, 0),
-                        new Vector3(-1, 0, 0),
-                        new Vector3(0, 0, 1),
-                        new Vector3(0, 0, -1),
-                    };
-
-                    foreach (var dir in dirs)
-                    {
-                        Vector3 adjacent = allyGridPos + dir;
-                        if (unit.Grid.IsGridPositionInBounds(adjacent))
-                            candidatePositions.Add(adjacent);
-                    }
-                }
-                else
-                {
-                    // Para arqueros: posiciones desde las que puede atacar al aliado
-                    AStarPathFinder.InsertManhattanAttackGridPositions(candidatePositions, unit.Grid, allyGridPos, 2, true);
-                }
-
-                foreach (var pos in candidatePositions)
-                {
-                    if (!reachableMovePositions.Contains(pos))
-                        continue;
-
-                    unit.Grid.TryGridToWorldPosition(pos, out Vector3 worldPos);
-
-                    float dist = Vector3.Distance(unit.transform.position, worldPos);
-
-                    if (dist < bestDistance)
-                    {
-                        bestDistance = dist;
-                        bestTile = pos;
-                        bestTargetedEnemy = ally;
-                    }
+                    enemyPositions.Add(enemy.transform.position);
                 }
             }
-
-            if (bestDistance == float.MaxValue)
-                return false;
-
-            TargetedGridPosToMove = bestTile;
-            TargetedEnemy = bestTargetedEnemy;
-
-            unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld);
-            TargetedPosToMove = targetWorld.CenterOnTile();
-
-            return true;
+            return enemyPositions.Count > 0;
         }
 
+        #endregion
+
+        #region Acciones Generales
 
         public void EnemyMove()
         {
             Debug.Log("EL ENEMIGO VA A MOVERSE A " + TargetedPosToMove);
             GetEntityComponent<MoveEntityComponent>().DoMove(TargetedGridPosToMove, false);
         }
+
+        public BehaviourAPI.Core.Status EndMove()
+        {
+            Vector3 pos = unit.transform.position;
+            Vector3 target = TargetedPosToMove;
+
+            bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.05f && Mathf.Abs(pos.z - target.z) < 0.05f;
+            bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
+
+            if (!xzAligned || !yCloseEnough)
+                return BehaviourAPI.Core.Status.Running;
+
+            TargetedGridPosToMove = Vector3.zero;
+            TargetedPosToMove = Vector3.zero;
+            return BehaviourAPI.Core.Status.Success;
+        }
+
+        public void EnemyAttack()
+        {
+            Debug.Log("EL ENEMIGO VA A ATACAR A" + TargetedEnemy);
+            GetEntityComponent<AttackEntityComponent>().DoAttack(TargetedEnemy, false);
+        }
+
+        public BehaviourAPI.Core.Status EndAction() => BehaviourAPI.Core.Status.Success;
+
+        #endregion
+
+        #region Helpers
 
         public bool SearchAndFindPath()
         {
@@ -214,12 +158,12 @@ namespace CursedOnion.Game.Entity
                 return false;
             }
 
-            var adjacentTiles = GetValidAdjacentTiles(closestAlly, unit.Grid);
+            var adjacentTiles = GetAdjacentTilesToMove(closestAlly);
             if (adjacentTiles.Count == 0)
                 return false;
 
             List<Vector3> bestPath = null;
-            Vector3Int bestTargetTile = default;
+            Vector3 bestTargetTile = default;
             float bestPathLen = float.MaxValue;
 
             if (!unit.Grid.TryWorldToGridPosition(unit.transform.position, out Vector3 startGridPos))
@@ -233,7 +177,7 @@ namespace CursedOnion.Game.Entity
                     Debug.Log("No se encontró camino hacia el tile " + tile);
                     continue;
                 }
-                    
+
 
                 if (path.Count < bestPathLen)
                 {
@@ -254,8 +198,6 @@ namespace CursedOnion.Game.Entity
                 unit.Stats.MovementStat
             );
 
-            Debug.Log("TILES REACHEABLES: " + reachableMovePositions.Count);
-
             if (reachableMovePositions.Count == 0)
                 return false;
 
@@ -273,8 +215,6 @@ namespace CursedOnion.Game.Entity
                 }
             }
 
-            Debug.Log("Chosen tile to move: " + chosenTile);
-
             TargetedGridPosToMove = chosenTile;
 
             if (!unit.Grid.TryGridToWorldPosition(chosenTile, out Vector3 targetWorld))
@@ -285,59 +225,174 @@ namespace CursedOnion.Game.Entity
             return true;
         }
 
-        private List<Vector3Int> GetValidAdjacentTiles(Unit ally, Grid3d grid)
+        //  TILE ADYACENTES
+        public List<Vector3> GetAdjacentTilesToMove(SimpleEntity entity)
         {
-            List<Vector3Int> result = new List<Vector3Int>();
+            var grid = unit.Grid;
 
-            Vector3Int[] dirs =
+            var positions = new List<Vector3>();
+            grid.TryWorldToGridPosition(entity.transform.position, out Vector3 gridPos);
+
+            Tile3d currentTile = grid.GetTileAtGridPosition(gridPos);
+
+            // entity en escalera
+
+            if (currentTile.IsStairTile())
             {
-                new Vector3Int(1,0,0),
-                new Vector3Int(-1,0,0),
-                new Vector3Int(0,0,1),
-                new Vector3Int(0,0,-1)
+                List<Vector3> exits = currentTile.GetExitDirectionVector();
+
+                foreach (var exit in exits)
+                {
+                    Vector3 pos = gridPos + exit;
+
+                    if (!grid.IsGridPositionInBounds(pos))
+                        continue;
+
+                    Tile3d t = grid.GetTileAtGridPosition(pos);
+
+                    if (t.IsEmptyTile() && t.GetContainedEntity() == null)
+                        positions.Add(pos);
+                }
+
+                return positions;
+            }
+
+            // no esta en escalera
+
+            Vector3[] dirs =
+            {
+                new Vector3( 1,0,0),
+                new Vector3(-1,0,0),
+                new Vector3(0,0, 1),
+                new Vector3(0,0,-1),
             };
-
-            // Obtener gridpos aliado
-            if (!grid.TryWorldToGridPosition(ally.transform.position, out Vector3 allyGrid))
-                return result;
-
-            Vector3Int allyPos = Vector3Int.FloorToInt(allyGrid);
 
             foreach (var d in dirs)
             {
-                Vector3Int neigh = allyPos + d;
+                Vector3 pos = gridPos + d;
 
-                if (!grid.IsGridPositionInBounds(neigh))
+                if (!grid.IsGridPositionInBounds(pos))
                     continue;
 
-                Tile3d tile = grid.GetTileAtGridPosition(neigh);
-                if (tile == null || tile.IsBlocked())
-                    continue;
+                Tile3d tile = grid.GetTileAtGridPosition(pos);
 
-                if (tile.GetContainedEntity() != null)
-                    continue;
+                // comprobar si abajo hay escalera
 
-                result.Add(neigh);
+                if (tile.IsEmptyTile())
+                {
+                    Vector3 belowPos = pos + new Vector3(0, -1, 0);
+
+                    if (grid.IsGridPositionInBounds(belowPos))
+                    {
+                        Tile3d belowTile = grid.GetTileAtGridPosition(belowPos);
+
+                        if (belowTile.IsStairTile())
+                        {
+                            if (belowTile.GetContainedEntity() == null)
+                                positions.Add(belowPos);
+
+                            continue;
+                        }
+                    }
+
+                    // si NO hay escalera debajo
+                    if (tile.GetContainedEntity() == null)
+                    {
+                        positions.Add(pos);
+                    }
+
+                    continue;
+                }
+
+                //tile normal y corriente
+
+                if (!(tile.IsStairTile()) &&
+                    tile.IsEmptyTile() &&
+                    tile.GetContainedEntity() == null)
+                {
+                    positions.Add(pos);
+                }
             }
 
-            return result;
+            return positions;
         }
 
-
-        public BehaviourAPI.Core.Status EndMove()
+        public List<Vector3> GetAdjacentTiles(SimpleEntity entity)
         {
-            Vector3 pos = unit.transform.position;
-            Vector3 target = TargetedPosToMove;
+            var grid = unit.Grid;
 
-            bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.05f && Mathf.Abs(pos.z - target.z) < 0.05f;
-            bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
+            var positions = new List<Vector3>();
+            grid.TryWorldToGridPosition(entity.transform.position, out Vector3 gridPos);
 
-            if (!xzAligned || !yCloseEnough)
-                return BehaviourAPI.Core.Status.Running;
+            Tile3d currentTile = grid.GetTileAtGridPosition(gridPos);
 
-            TargetedGridPosToMove = Vector3.zero;
-            TargetedPosToMove = Vector3.zero;
-            return BehaviourAPI.Core.Status.Success;
+            // entity en escalera
+
+            if (currentTile.IsStairTile())
+            {
+                List<Vector3> exits = currentTile.GetExitDirectionVector();
+
+                foreach (var exit in exits)
+                {
+                    Vector3 pos = gridPos + exit;
+
+                    if (!grid.IsGridPositionInBounds(pos))
+                        continue;
+
+                    positions.Add(pos);
+                }
+
+                return positions;
+            }
+
+            // no esta en escalera
+
+            Vector3[] dirs =
+            {
+                new Vector3( 1,0,0),
+                new Vector3(-1,0,0),
+                new Vector3(0,0, 1),
+                new Vector3(0,0,-1),
+            };
+
+            foreach (var d in dirs)
+            {
+                Vector3 pos = gridPos + d;
+
+                if (!grid.IsGridPositionInBounds(pos))
+                    continue;
+
+                Tile3d tile = grid.GetTileAtGridPosition(pos);
+
+                // comprobar si abajo hay escalera
+
+                if (tile.IsEmptyTile())
+                {
+                    Vector3 belowPos = pos + new Vector3(0, -1, 0);
+
+                    if (grid.IsGridPositionInBounds(belowPos))
+                    {
+                        Tile3d belowTile = grid.GetTileAtGridPosition(belowPos);
+
+                        if (belowTile.IsStairTile())
+                        {
+                            positions.Add(belowPos);
+                            continue;
+                        }
+                    }
+                    positions.Add(pos);
+                    continue;
+                }
+
+                //tile normal y corriente
+
+                if (!(tile.IsStairTile()) && tile.IsEmptyTile())
+                {
+                    positions.Add(pos);
+                }
+            }
+
+            return positions;
         }
         #endregion
 

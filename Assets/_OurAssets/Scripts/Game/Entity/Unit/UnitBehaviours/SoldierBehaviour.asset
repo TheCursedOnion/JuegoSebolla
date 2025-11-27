@@ -190,7 +190,7 @@ MonoBehaviour:
         - 408731e1-9fcc-4530-a8da-f822f688e278
       - name: EnemyClose?
         id: 408731e1-9fcc-4530-a8da-f822f688e278
-        position: {x: 150, y: 1000}
+        position: {x: 166, y: 1016}
         node:
           rid: 6291014683966046292
         references:
@@ -296,7 +296,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyAttack
         id: 405006e3-5584-42b2-ab49-ec756ed13faa
-        position: {x: 1383, y: 1232}
+        position: {x: 1365, y: 1216}
         node:
           rid: 6291014683966046302
         references:
@@ -336,7 +336,7 @@ MonoBehaviour:
         - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
       - name: UTILITYBestTile
         id: bd0a3579-5bca-4a6d-ab81-bab22c2089ad
-        position: {x: 467, y: 1216}
+        position: {x: 485, y: 1227}
         node:
           rid: 6291014683966046305
         references:
@@ -403,7 +403,7 @@ MonoBehaviour:
         - f5859290-22dc-41c1-824a-4db6ccaedb30
       - name: RageAbility
         id: f5859290-22dc-41c1-824a-4db6ccaedb30
-        position: {x: 1650, y: 1200}
+        position: {x: 1666, y: 1216}
         node:
           rid: 6291014683966046310
         references:
@@ -676,7 +676,7 @@ MonoBehaviour:
           methodName: EnemyAttack
         update:
           componentName: AIUnitController
-          methodName: EndAttack
+          methodName: EndAction
         stop:
           componentName: 
           methodName: 
@@ -694,7 +694,7 @@ MonoBehaviour:
           methodName: EnemyAttack
         update:
           componentName: AIUnitController
-          methodName: EndAttack
+          methodName: EndAction
         stop:
           componentName: 
           methodName: 
@@ -728,7 +728,7 @@ MonoBehaviour:
           methodName: EnemyAttack
         update:
           componentName: AIUnitController
-          methodName: EndAttack
+          methodName: EndAction
         stop:
           componentName: 
           methodName: 
@@ -764,7 +764,7 @@ MonoBehaviour:
           methodName: EnemyAttack
         update:
           componentName: AIUnitController
-          methodName: EndAttack
+          methodName: EndAction
         stop:
           componentName: 
           methodName: 
@@ -1001,8 +1001,8 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: AISoldierController
-          methodName: EnemyInRange
+          componentName: AIUnitController
+          methodName: EnemyInMeleeRange
         reset:
           componentName: 
           methodName: 
@@ -1019,7 +1019,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: SelectBestEnemyToAttack
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1037,7 +1037,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: SelectBestEnemyToAttack
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1055,7 +1055,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: SelectBestTileNearHealer
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1091,8 +1091,8 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: AISoldierController
-          methodName: EnemyInRange
+          componentName: AIUnitController
+          methodName: EnemyInMeleeRange
         reset:
           componentName: 
           methodName: 
@@ -1109,8 +1109,8 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: AISoldierController
-          methodName: EnemyInRange
+          componentName: AIUnitController
+          methodName: EnemyInMeleeRange
         reset:
           componentName: 
           methodName: 
@@ -1127,7 +1127,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: SelectBestEnemyToAttack
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1163,7 +1163,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: Rage
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1181,7 +1181,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: SelectBestEnemyToAttack
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1217,7 +1217,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: Rage
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
@@ -1235,7 +1235,7 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EnemyInMovementRange
         reset:
           componentName: 
@@ -1253,7 +1253,7 @@ MonoBehaviour:
           componentName: AISoldierController
           methodName: SelectBestTileNearEnemy
         update:
-          componentName: AISoldierController
+          componentName: AIUnitController
           methodName: EndAction
         stop:
           componentName: 
