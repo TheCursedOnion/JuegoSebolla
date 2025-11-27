@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    public class AIHealerController : AIUnitController
+    public class AIHealerController : MonoBehaviour
     {
         public SimpleEntity allyTarget;
 
@@ -45,7 +45,8 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
 
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
-            AStarPathFinder.InsertMeleeAttackGridPositions(healerReachableHealPositions, grid, gridPos);
+
+            healerReachableHealPositions = baseAI.GetAdjacentTiles(unit);
 
             foreach (var ally in turn.GetEnemyUnits().Where(a => a != unit))
             {
@@ -83,7 +84,7 @@ namespace CursedOnion.Game.Entity
                 if (hpPercent >= 0.30f) continue;
 
                 // verificamos si tenemos al menos una tile adyacente alcanzable
-                if (GetAdjacentTilesPos(ally).Any(adj => healerReachableTiles.Contains(adj)))
+                if (baseAI.GetAdjacentTilesToMove(ally).Any(adj => healerReachableTiles.Contains(adj)))
                 {
                     criticalAlliesPos.Add(ally.transform.position);
                 }
@@ -102,7 +103,8 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
 
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
-            AStarPathFinder.InsertMeleeAttackGridPositions(healerReachableHealPositions, grid, gridPos);
+
+            healerReachableHealPositions = baseAI.GetAdjacentTiles(unit);
 
             foreach (var ally in turn.GetEnemyUnits().Where(a => a != unit))
             {
@@ -140,7 +142,7 @@ namespace CursedOnion.Game.Entity
                 if (hpPercent >= 0.90f) continue;
 
                 // verificamos si tenemos al menos una tile adyacente alcanzable
-                if (GetAdjacentTilesPos(ally).Any(adj => healerReachableTiles.Contains(adj)))
+                if (baseAI.GetAdjacentTilesToMove(ally).Any(adj => healerReachableTiles.Contains(adj)))
                 {
                     woundedAlliesPos.Add(ally.transform.position);
                 }
@@ -157,13 +159,8 @@ namespace CursedOnion.Game.Entity
 
             var grid = unit.Grid;
             var position = unit.transform.position;
-            grid.TryWorldToGridPosition(position, out Vector3 gridPos);
 
-            AStarPathFinder.InsertMeleeAttackGridPositions(
-                healerReachableAttackPositions,
-                grid,
-                gridPos
-            );
+            healerReachableAttackPositions = baseAI.GetAdjacentTiles(unit);
 
             foreach (var pos in healerReachableAttackPositions)
             {
@@ -195,45 +192,10 @@ namespace CursedOnion.Game.Entity
             return false;
         }
 
-
-        //  TILE ADYACENTES
-
-        private List<Vector3> GetAdjacentTilesPos(SimpleEntity ally)
-        {
-            LazyInit();
-
-            var unit = baseAI.GetUnit();
-            var grid = unit.Grid;
-
-            var positions = new List<Vector3>();
-            grid.TryWorldToGridPosition(ally.transform.position, out Vector3 gridPos);
-
-            Vector3[] dirs =
-            {
-                new Vector3( 1, 0,0),
-                new Vector3(-1, 0,0),
-                new Vector3(0,0, 1),
-                new Vector3(0,0,-1),
-            };
-
-            foreach (var d in dirs)
-            {
-                Vector3 pos = gridPos + d;
-                if (grid.IsGridPositionInBounds(pos) &&
-                    grid.GetTileAtGridPosition(pos).IsEmptyTile() &&
-                    grid.GetTileAtGridPosition(pos).GetContainedEntity() == null)
-                {
-                    positions.Add(pos);
-                }
-            }
-
-            return positions;
-        }
         #endregion
 
 
         #region ActionLogic
-        public BehaviourAPI.Core.Status EndAction() => BehaviourAPI.Core.Status.Success;
 
         public void Heal()
         {
@@ -307,7 +269,7 @@ namespace CursedOnion.Game.Entity
                 unit.Stats.MovementStat
             );
 
-            var adjacentTiles = GetAdjacentTilesPos(allyTarget);
+            var adjacentTiles = baseAI.GetAdjacentTilesToMove(allyTarget);
             var enemies = baseAI.GetTurnSystem().GetAllyUnits();
 
             Vector3 bestTile = Vector3.zero;
