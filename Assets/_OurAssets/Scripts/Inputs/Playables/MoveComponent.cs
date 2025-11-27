@@ -45,18 +45,22 @@ namespace CursedOnion.Game.Inputs.Camera
         {
             Vector3 direction3D = direction;
             direction3D = direction3D.SwizzleXZY();
-
+            
+            moveDir = direction3D;
+        }
+        
+        Vector3 AdjustDirectionToRotation(Vector3 direction)
+        {
             float rotateAngle = cinemachineContainer.GetCameraPanAngles();
             Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
-            direction3D = rotation * direction3D;
-            
-            moveDir = cameraFreeGuide.forward * direction3D.z + cameraFreeGuide.right * direction3D.x;
+            Vector3 fixedRotation = rotation * direction;
+            return cameraFreeGuide.forward * fixedRotation.z + cameraFreeGuide.right * fixedRotation.x;
         }
         public void HandleMove()
         {
             
             if(!enabled) return;
-            cameraFreeGuide.position += moveDir * (moveSpeed * Time.deltaTime);
+            cameraFreeGuide.position += AdjustDirectionToRotation(moveDir) * (moveSpeed * Time.deltaTime);
         }
     }
 }

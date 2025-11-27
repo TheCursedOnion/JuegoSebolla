@@ -14,6 +14,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         const string GameplayContainer = "Gameplay Container Variables";
         const string CameraContainer = "Camera Container Variables";
         const string ResultsContainer = "Results Container Variables";
+        
         [Inject] LevelManager levelManager;
         
         [SerializeField] private UnitActionsWindow actionsWindow;
@@ -28,50 +29,62 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         [SerializeField, BoxGroup(SettingsContainer)] private CanvasGroup settingsGroup;
         
         [SerializeField, BoxGroup(ResultsContainer)] private CanvasGroup resultsGroup;
-
+        
+        bool hasDoneIntro = false;
+        
         private void OnEnable()
         {
             levelManager.LevelEvents.OnLevelStateChange += OnChangeLevelState;
+            levelManager.LevelEvents.OnIntroFinished += OnIntroDone;
             actionsWindow.Initialize(levelManager);
+            DisableAllGroups();
             OnChangeLevelState(LevelState.InBattle, levelManager.CurrentLevelState);
         }
 
         void OnDisable()
         {
+            levelManager.LevelEvents.OnIntroFinished -= OnIntroDone;
             levelManager.LevelEvents.OnLevelStateChange -= OnChangeLevelState;
         }
         
-        void DisableAllContainer()
+        void DisableAllGroups()
         {
             settingsGroup.SetGroupActive(false, 0f);
             cameraButtonsGroup.SetGroupActive(false, 0f);
             gameplayGroup.SetGroupActive(false, 0f);
             resultsGroup.SetGroupActive(false, 0f);
         }
-        void EnableOnlyContainer(CanvasGroup container)
+        void EnableOnlyGroup(CanvasGroup container)
         {
-            DisableAllContainer();
+            DisableAllGroups();
             container.SetGroupActive(true, fadeTime);
         }
-        void EnableOnlyContainers(params CanvasGroup[] container)
+        void EnableOnlyGroups(params CanvasGroup[] container)
         {
-            DisableAllContainer();
+            DisableAllGroups();
             foreach (var c in container) c.SetGroupActive(true, fadeTime);
         }
 
-        #region Settings Region
+        void OnIntroDone()
+        {
+            hasDoneIntro = true;
+            EnableOnlyGroups(cameraButtonsGroup, gameplayGroup);
+        }
+
+        #region Pause Region
         public void Pause(PauseLevel pauseLevel)
         {
             switch (pauseLevel)
             {
-                case PauseLevel.Dialog: DisableAllContainer(); break;
-                case PauseLevel.UI: EnableOnlyContainer(settingsGroup); break;
+                case PauseLevel.Dialog: DisableAllGroups(); break;
+                case PauseLevel.UI: EnableOnlyGroup(settingsGroup); break;
             }
         }
 
         public void Unpause()
         {
-            EnableOnlyContainers(cameraButtonsGroup, gameplayGroup);
+            if(hasDoneIntro)
+                EnableOnlyGroups(cameraButtonsGroup, gameplayGroup);
         }
         #endregion
         

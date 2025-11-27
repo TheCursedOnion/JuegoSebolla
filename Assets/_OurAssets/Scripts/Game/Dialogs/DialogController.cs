@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using CursedOnion.Game.General.UI.Canvases.Level;
 using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Systems.Level;
 using Fungus;
@@ -15,10 +16,13 @@ namespace CursedOnion.Game.Dialog
     public class DialogController : MonoBehaviour
     {
         [Inject] PauseService pauseService;
-        public Flowchart Flowchart;
-        public CanvasGroup Background;
+        [Inject] LevelEvents levelEvents;
         
+        public Flowchart Flowchart;
         public string StartingDialogBlockName;
+        
+        [Header("Extras")]
+        [SerializeField] CanvasGroup background;
         public void Start()
         {
             Debug.LogWarning("FALTA LOGICA DE SI YA HAS VISTO EL DIALOGO");
@@ -29,22 +33,17 @@ namespace CursedOnion.Game.Dialog
         
         public void OnDialogEnd()
         {
-            pauseService.UnpauseCurrentLevel();
-
-            var levelManager = gameObject.scene.GetSceneContainer().Resolve<LevelManager>();
-            levelManager?.SetNewLevelState(LevelState.InBattleEditor);
+            levelEvents.CallIntro();
+        }
+        public void SetDialogBackgroundAlpha(float alpha, float time)
+        {
+            LeanTween.cancel(background.gameObject);
+            LeanTween.alphaCanvas(background, alpha, time);
         }
         
-        public void SetBackgroundAlpha(float alpha) => Background.alpha = alpha;
-
-        public void SetBackgroundAlpha(float alpha, float time)
-        {
-            LeanTween.cancel(Background.gameObject);
-            LeanTween.alphaCanvas(Background, alpha, time);
-        }
     }
 
-    #if UNITY_EDITOR
+    /*#if UNITY_EDITOR
         [CustomEditor(typeof(DialogController))]
         public class DialogControllerEditor : Editor
         {
@@ -74,5 +73,5 @@ namespace CursedOnion.Game.Dialog
                 EditorUtility.SetDirty(script);
             }
         }
-    #endif
+    #endif*/
 }

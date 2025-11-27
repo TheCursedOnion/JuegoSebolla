@@ -83,6 +83,17 @@ namespace CursedOnion.Game.Systems.Level
 
         #region Level Flow Events
 
+        public event Action OnIntroCalled;
+        public void CallIntro()
+        {
+            OnIntroCalled?.Invoke();
+        }
+        
+        public event Action OnIntroFinished;
+        public void InvokeIntroFinished()
+        {
+            OnIntroFinished?.Invoke();
+        }
         public event Action<LevelState, LevelState> OnLevelStateChange;
         public void InvokeLevelState(LevelState previousState, LevelState newState)
         {
