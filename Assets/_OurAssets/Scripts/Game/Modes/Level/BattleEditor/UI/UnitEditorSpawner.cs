@@ -101,7 +101,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 
         public void StartBattle()
         {
-            levelManager.SetNewLevelState(LevelState.InBattle);
+            levelManager.TrySetNewState(LevelState.InBattle);
         }
     }
 }

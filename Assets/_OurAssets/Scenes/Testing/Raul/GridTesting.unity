@@ -3641,6 +3641,7 @@ GameObject:
   - component: {fileID: 750684607}
   - component: {fileID: 750684608}
   - component: {fileID: 750684609}
+  - component: {fileID: 750684610}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: LevelManager
@@ -3682,13 +3683,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc833233a3ed46948a47bfaf8f5c35d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resetScene: MenuScene
-  transitionData:
-    Duration: 1
-    InBetweenTime: 2.25
-    Type: 2
-    Color: {r: 0, g: 0, b: 0, a: 0}
-  sceneServiceUser: {fileID: 750684609}
   allies: []
   enemies: []
   activeUnits: []
@@ -3825,13 +3819,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 750684599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9547f774b2c4fe0adbb31d91b0e98f5, type: 3}
+  m_Script: {fileID: 11500000, guid: cc3a57b6b28d4bb58373d9c296b36a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSceneLoadCalled:
-    _PersistentCalls: []
-  onSceneLoadCompleted:
-    _PersistentCalls: []
+--- !u!114 &750684610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750684599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a2945db345466da7f0da359f2ffe15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roundsCount: 0
 --- !u!1001 &755941025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9802,11 +9805,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 932447581240962011, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Size
-      value: 1
+      value: 0.5479649
       objectReference: {fileID: 0}
     - target: {fileID: 932447581240962011, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1.0000001
       objectReference: {fileID: 0}
     - target: {fileID: 1859562738403595839, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_AnchorMax.y
@@ -9826,7 +9829,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1978226441245366445, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 187.37094
+      value: -187.37094
       objectReference: {fileID: 0}
     - target: {fileID: 2867436931513537833, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: _sound.<DebugObject>k__BackingField
@@ -10024,6 +10027,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5547673821952358128, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1580
+      objectReference: {fileID: 0}
     - target: {fileID: 6817437020337205105, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -10115,6 +10122,10 @@ PrefabInstance:
     - target: {fileID: 8359973422211403993, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Color.a
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9149402072027574887, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: m_Name
+      value: Panel
       objectReference: {fileID: 0}
     - target: {fileID: 9170263132371280500, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_IsActive

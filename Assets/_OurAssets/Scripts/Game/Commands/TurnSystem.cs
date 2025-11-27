@@ -20,10 +20,6 @@ namespace CursedOnion.Game.Systems.Level
     {
         private LevelEvents levelEvents;
         
-        [BoxGroup("End Game"), Scene, SerializeField] private string resetScene;
-        [BoxGroup("End Game"), SerializeField] UITransitionData transitionData;
-        [BoxGroup("End Game"), SerializeField] SceneServiceUser sceneServiceUser;
-        
         int currentInitiative;
         private bool alliesProcessedForCurrentInitiative = false;
         private bool battleStarted = false;
@@ -84,7 +80,10 @@ namespace CursedOnion.Game.Systems.Level
                 allies.Remove(unit);
 
             if (enemies.Contains(unit))
+            {
                 enemies.Remove(unit);
+                if(unit.IsBoss) levelEvents.InvokeBossEnemyDeath();
+            }
 
             CheckForBattleEnd();
         }
@@ -93,6 +92,7 @@ namespace CursedOnion.Game.Systems.Level
             Debug.Log("======== NUEVA RONDA EMPIEZA ========");
             if (allies.Count == 0 || enemies.Count == 0) return;
             
+            levelEvents.PassRound();
             allies = allies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
             enemies = enemies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
 
@@ -210,15 +210,11 @@ namespace CursedOnion.Game.Systems.Level
             Debug.Log($"Comprobando fin de batalla: Aliados restantes {allies.Count}, Enemigos restantes {enemies.Count}");
             if (allies.Count == 0)
             {
-                Debug.Log("Ha ganado el bando Enemigo");
-                transitionData.Color = Color.red;
-                sceneServiceUser.ChangeScene(resetScene, transitionData);
+                levelEvents.InvokeAllAlliesDeath();
             }
-            if (enemies.Count == 0)
+            else if (enemies.Count == 0)
             {
-                Debug.Log("Ha ganado el bando Aliado");
-                transitionData.Color = Color.blue;
-                sceneServiceUser.ChangeScene(resetScene, transitionData);
+                levelEvents.InvokeAllEnemiesDeath();
             }
             
         }

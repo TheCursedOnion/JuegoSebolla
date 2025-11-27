@@ -78,7 +78,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         void StartGame()
         {
             levelManager.LevelEvents.InvokeIntroFinished();
-            levelManager?.SetNewLevelState(LevelState.InBattleEditor);
+            levelManager?.TrySetNewState(LevelState.InBattleEditor);
             
             pauseService.UnpauseCurrentLevel();
             this.gameObject.SetActive(false);

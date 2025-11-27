@@ -3,6 +3,7 @@ using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General;
 using CursedOnion.Game.Systems.Grid;
+using CursedOnion.Locators;
 using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -14,6 +15,7 @@ namespace CursedOnion.Game.Systems.Level
     public class LevelManager : MonoBehaviour
     {
         [ReadOnly] public LevelState CurrentLevelState;
+        [Inject] RuntimeVariableLocator runtimeVariableLocator;
         
         public LevelEvents LevelEvents;
         public LevelScoreData LevelScoreVariables;
@@ -47,7 +49,7 @@ namespace CursedOnion.Game.Systems.Level
             LevelEvents ??= GetComponent<LevelEvents>();
             LevelScoreVariables = new LevelScoreData(LevelEvents, LevelAsset.LevelData);
             
-            SetNewLevelState(LevelAsset.LevelData.StartingState);
+            TrySetNewState(LevelAsset.LevelData.StartingState);
             
             turnSystem = GetComponent<TurnSystem>();
             turnSystem.Initialize(LevelEvents);
@@ -72,11 +74,13 @@ namespace CursedOnion.Game.Systems.Level
             LevelScoreVariables.UpdateUnitCount(-1);
         }
         
-        public void SetNewLevelState(LevelState newState)
+        public bool TrySetNewState(LevelState newState)
         {
-            if (CurrentLevelState == newState) return;
+            if (CurrentLevelState == newState) return false;
+            
             LevelEvents.InvokeLevelState(CurrentLevelState, newState);
             CurrentLevelState = newState;
+            return true;
         }
     }
 

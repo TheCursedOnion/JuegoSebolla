@@ -32,7 +32,6 @@ namespace CursedOnion.Game.Systems.Level
 
         #endregion
 
-
         #region Selection Events
 
         public event Action<SimpleEntity> OnEntitySelected;
@@ -79,7 +78,6 @@ namespace CursedOnion.Game.Systems.Level
         }
 
         #endregion
-
 
         #region Level Flow Events
 
@@ -133,6 +131,33 @@ namespace CursedOnion.Game.Systems.Level
 
         #endregion
 
+        #region Level Goal Events
+
+        public event Action OnBossEnemyKilled;
+        public void InvokeBossEnemyDeath()
+        {
+            OnBossEnemyKilled?.Invoke();
+        }
+        
+        public event Action OnRoundPassed;
+        public void PassRound()
+        {
+            OnRoundPassed?.Invoke();
+        }
+        
+        public event Action OnAllEnemiesKilled;
+        public void InvokeAllEnemiesDeath()
+        {
+            OnAllEnemiesKilled?.Invoke();
+        }
+        
+        public event Action OnAllAlliesKilled;
+        public void InvokeAllAlliesDeath()
+        {
+            OnAllAlliesKilled?.Invoke();
+        }
+        #endregion
+        
         #region Graphic Events
 
         public event Action<bool> OnEnableBlackAndWhite;

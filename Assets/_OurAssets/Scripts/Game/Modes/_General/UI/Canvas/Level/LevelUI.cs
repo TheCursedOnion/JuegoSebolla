@@ -96,7 +96,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
                 case LevelState.InDialog:
                 case LevelState.InBattleEditor: EnableScreen(battleEditorScreen); break;
                 case LevelState.InBattle: EnableScreen(battleScreen); break;
-                case LevelState.Finished: break;
+                case LevelState.Finished: EnableOnlyGroup(resultsGroup); break;
             }
         }
         void DisableAllScreens()
