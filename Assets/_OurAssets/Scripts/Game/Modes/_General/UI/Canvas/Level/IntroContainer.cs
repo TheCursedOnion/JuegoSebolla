@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using CursedOnion.Game.Localization;
 using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
@@ -16,6 +17,10 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         [SerializeField] private float introOnAwakeDelay = 1f;
         [SerializeField] private float fadeTimes = 1f;
         
+        [Header("\nText")]
+        [SerializeField] private LocalizedGUIText levelName;
+        [SerializeField] private LocalizedGUIText levelGoal;
+        
         bool isIntroActive = false;
 
         bool doingExit = false;
@@ -26,9 +31,20 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         {
             if (levelManager.CurrentLevelState != LevelState.InDialog)
             {
+                levelManager.LevelEvents.CallIntro();
                 StartCoroutine(IEStartIntroAfterDelay(introOnAwakeDelay));
             }
-            levelManager.LevelEvents.OnIntroCalled += StartIntroAnimation;
+            else
+            {
+                levelManager.LevelEvents.OnIntroCalled += StartIntroAnimation;
+            }
+            
+            var data = levelManager.LevelAsset.LevelData;
+            string nameKey = data.LevelBaseKey;
+            string goalKey = data.LevelBaseKey + "_goal";
+            
+            levelName.SetKey(nameKey);
+            levelGoal.SetKey(goalKey);
         }
         void OnDisable()
         {

@@ -3376,7 +3376,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: b43653ae1b0964e53a00691f8f46b486, type: 3}
+  - {fileID: 2100000, guid: 3fbee2dc905fed641925bb0d4fa8bc43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -31556,8 +31556,7 @@ MonoBehaviour:
   LevelInformation:
     LevelIndex: 1
     LevelEnumType: 1
-    NameKey: map_ui_level2
-    DescriptionKey: map_ui_level2_desc
+    BaseKey: level2
     levelScene: 01_02_GreekUnitTypes
 --- !u!4 &149001557
 Transform:
@@ -31587,6 +31586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 10
   focusOnAwake: 0
   target: {fileID: 0}
@@ -63713,7 +63713,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 891d3cb3539c24e7e838fc1ef2a82fd4, type: 3}
+  - {fileID: 2100000, guid: e7b3508da8a3bf64db511a9a7322e595, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65148,7 +65148,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: b43653ae1b0964e53a00691f8f46b486, type: 3}
+  - {fileID: 2100000, guid: 3fbee2dc905fed641925bb0d4fa8bc43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -195005,8 +195005,7 @@ MonoBehaviour:
   LevelInformation:
     LevelIndex: 3
     LevelEnumType: 2
-    NameKey: map_ui_level4
-    DescriptionKey: map_ui_level4_desc
+    BaseKey: level4
     levelScene: 01_04_GreekBoss
 --- !u!4 &871275729
 Transform:
@@ -195036,6 +195035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 10
   focusOnAwake: 0
   target: {fileID: 0}
@@ -198241,7 +198241,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8732515158316300885, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
   m_PrefabInstance: {fileID: 4230228848619070021}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1043831451}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a334fe2ffb574b3583ff3b18b4792d3, type: 3}
@@ -206199,7 +206199,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 891d3cb3539c24e7e838fc1ef2a82fd4, type: 3}
+  - {fileID: 2100000, guid: e7b3508da8a3bf64db511a9a7322e595, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -219869,7 +219869,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: b43653ae1b0964e53a00691f8f46b486, type: 3}
+  - {fileID: 2100000, guid: 3fbee2dc905fed641925bb0d4fa8bc43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -232854,6 +232854,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2285139579347162438, guid: 2569dcf5cf0f44192869f0fcf5f4dc8d, type: 3}
   m_PrefabInstance: {fileID: 1258344211}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1043831451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+  m_PrefabInstance: {fileID: 4230228848619070021}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1044397370 stripped
 Transform:
@@ -347542,7 +347547,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 891d3cb3539c24e7e838fc1ef2a82fd4, type: 3}
+  - {fileID: 2100000, guid: e7b3508da8a3bf64db511a9a7322e595, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -390856,7 +390861,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: b43653ae1b0964e53a00691f8f46b486, type: 3}
+  - {fileID: 2100000, guid: 3fbee2dc905fed641925bb0d4fa8bc43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -416786,8 +416791,7 @@ MonoBehaviour:
   LevelInformation:
     LevelIndex: 2
     LevelEnumType: 1
-    NameKey: map_ui_level3
-    DescriptionKey: map_ui_level3_desc
+    BaseKey: level3
     levelScene: 01_03_GreekAbilityTutorial
 --- !u!114 &1850516392
 MonoBehaviour:
@@ -416801,6 +416805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 10
   focusOnAwake: 0
   target: {fileID: 0}
@@ -438780,6 +438785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 10
   focusOnAwake: 1
   target: {fileID: 0}
@@ -457623,6 +457629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 10
   focusOnAwake: 0
   target: {fileID: 0}
@@ -457652,8 +457659,7 @@ MonoBehaviour:
   LevelInformation:
     LevelIndex: 0
     LevelEnumType: 0
-    NameKey: map_ui_level1
-    DescriptionKey: map_ui_level1_desc
+    BaseKey: level1
     levelScene: 01_01_GreekUnitPlacing
 --- !u!4 &2038426339
 Transform:
@@ -465613,7 +465619,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 891d3cb3539c24e7e838fc1ef2a82fd4, type: 3}
+  - {fileID: 2100000, guid: e7b3508da8a3bf64db511a9a7322e595, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -482309,10 +482315,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 3289509317292402320, guid: 040e122e30db583438146aed8997d89a, type: 3}
-      propertyPath: pauseWithLevel
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -482450,6 +482452,26 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 306099974}
+    - target: {fileID: 4157040963964160271, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: staticEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157040963964160271, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: staticEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157040963964160271, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: staticEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1043831451}
+    - target: {fileID: 4157040963964160271, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: staticEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4157040963964160271, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: staticEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: CursedOnion.Game.Dialog.DialogController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4204412717613881596, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: character
       value: 

@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Level
@@ -21,5 +22,7 @@ namespace CursedOnion.Game.Systems.Level
         
         [Header("\nLevel Meta Data")]
         public int LevelIndex;
+        [Scene] public string CorrespondingMapSceneName;
+        public string LevelBaseKey;
     }
 }

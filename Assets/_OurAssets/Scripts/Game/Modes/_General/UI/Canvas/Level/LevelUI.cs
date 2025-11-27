@@ -36,7 +36,10 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         {
             levelManager.LevelEvents.OnLevelStateChange += OnChangeLevelState;
             levelManager.LevelEvents.OnIntroFinished += OnIntroDone;
+            
             actionsWindow.Initialize(levelManager);
+            resultsGroup.GetOrAddComponent<LevelOutcomeController>().Initialize();
+            
             DisableAllGroups();
             OnChangeLevelState(LevelState.InBattle, levelManager.CurrentLevelState);
         }

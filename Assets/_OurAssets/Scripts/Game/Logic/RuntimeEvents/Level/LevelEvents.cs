@@ -129,6 +129,11 @@ namespace CursedOnion.Game.Systems.Level
             OnTurnFocus?.Invoke(entity);
         }
 
+        public event Action<bool> OnLevelCompleted;
+        public void InvokeLevelCompleted(bool levelWon)
+        {
+            OnLevelCompleted?.Invoke(levelWon);
+        }
         #endregion
 
         #region Level Goal Events

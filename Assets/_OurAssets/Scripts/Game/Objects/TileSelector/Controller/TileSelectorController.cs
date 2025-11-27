@@ -31,10 +31,21 @@ namespace CursedOnion.Game.Objects
         }
 
         #region Activar o Desactivar detección de Inputs
+
+        public void EnableReader(bool enable)
+        {
+            if (enable)
+            {
+                reader.Enable();
+            }
+            else
+            {
+                reader.Disable();
+            }
+        }
         private void OnEnable()
         {
             reader ??= InputReaderCollection.GetReader<TileSelectorInputReader>();
-            reader.PlaceSelector += PlaceSelector;
             Enable();
         }
         public void Enable()

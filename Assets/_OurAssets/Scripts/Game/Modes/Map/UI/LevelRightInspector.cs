@@ -23,8 +23,12 @@ namespace CursedOnion.Game.Modes.Map.UI
         }
         void ProcessLevelSelected(LevelInformation levelInformation)
         {
-            levelName.SetKey(levelInformation.NameKey);
-            levelDescription.SetKey(levelInformation.DescriptionKey);
+            string nameKey = levelInformation.BaseKey;
+            string goalKey = levelInformation.BaseKey + "_goal";
+            string descKey = levelInformation.BaseKey + "_desc";
+            
+            levelName.SetKey(nameKey);
+            levelDescription.SetKey(descKey);
         }
         
     }

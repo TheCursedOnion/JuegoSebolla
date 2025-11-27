@@ -2,6 +2,7 @@ using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Settings;
 using CursedOnion.Locators;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,6 @@ namespace CursedOnion.Game.General.UI.Canvases
 {
     public class CanvasCameraFinder : MonoBehaviour
     {
-        [Inject] RuntimeVariableLocator runtimeVariableLocator;
-        
         [SerializeField] bool isUI = false;
         [SerializeField] private float planeDistance = 0.2f;
         
@@ -20,6 +19,7 @@ namespace CursedOnion.Game.General.UI.Canvases
         
         void Awake()
         {
+            RuntimeVariableLocator runtimeVariableLocator = gameObject.scene.GetSceneContainer().Resolve<RuntimeVariableLocator>();
             GlobalCamera globalCamera = runtimeVariableLocator.GlobalCamera;
             Canvas canvas = GetComponent<Canvas>();
             

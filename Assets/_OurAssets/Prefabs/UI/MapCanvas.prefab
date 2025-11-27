@@ -1806,7 +1806,7 @@ MonoBehaviour:
       _PersistentArguments:
       - _Type: 2
         _Int: 0
-        _String: BootScene
+        _String: MenuScene
         _X: 0
         _Y: 0
         _Z: 0
@@ -2888,8 +2888,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79871036bb494b219dd5d04653eea0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsContainer: {fileID: 2944135615922904038}
-  gameplayContainer: {fileID: 5168491967268738100}
+  fadeTime: 0.5
+  settingsGroup: {fileID: 75886815271135587}
+  mapGroup: {fileID: 6328957938521514162}
 --- !u!114 &707097762747262163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2922,6 +2923,8 @@ MonoBehaviour:
   isUI: 1
   planeDistance: 0.2
   renderMode: 1
+  sortingLayerName: Default
+  sortingOrder: 0
 --- !u!114 &3289509317292402320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2934,7 +2937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a1def576bc97945aaff2f7cf173da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseWithLevel: 2
+  pauseWithLevel: 1
 --- !u!1 &2850998486962468469
 GameObject:
   m_ObjectHideFlags: 0
@@ -3092,6 +3095,7 @@ GameObject:
   - component: {fileID: 4648810475224832455}
   - component: {fileID: 6816129174342502209}
   - component: {fileID: 4333350532736498491}
+  - component: {fileID: 75886815271135587}
   m_Layer: 3
   m_Name: Settings UI Container
   m_TagString: Untagged
@@ -3157,6 +3161,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.27
+--- !u!225 &75886815271135587
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2944135615922904038}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3270570909752682140
 GameObject:
   m_ObjectHideFlags: 0
@@ -5112,6 +5128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7910415756413727670}
+  - component: {fileID: 6328957938521514162}
   m_Layer: 3
   m_Name: MapUI
   m_TagString: Untagged
@@ -5144,6 +5161,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &6328957938521514162
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5168491967268738100}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5240046536833496801
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,12 +17,14 @@ namespace CursedOnion.Game.Systems.Level.Goal
         protected virtual void OnVictory()
         {
             if (!LevelManager.TrySetNewState(LevelState.Finished)) return;
+            LevelEvents.InvokeLevelCompleted(true);
             Debug.Log("Victoria");
         }
 
         protected virtual void OnDefeat()
         {
             if (!LevelManager.TrySetNewState(LevelState.Finished)) return;
+            LevelEvents.InvokeLevelCompleted(false);
             Debug.Log("Derrota");
         }
 

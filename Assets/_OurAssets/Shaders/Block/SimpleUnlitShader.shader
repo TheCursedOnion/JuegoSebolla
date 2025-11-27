@@ -1,4 +1,4 @@
-Shader "Unlit/TileSelectorMat"
+Shader "Unlit/SimpleUnlit"
 {
     Properties
     {

@@ -16,7 +16,6 @@ namespace CursedOnion.Game.Dialog
     public class DialogController : MonoBehaviour
     {
         [Inject] PauseService pauseService;
-        [Inject] LevelEvents levelEvents;
         
         public Flowchart Flowchart;
         public string StartingDialogBlockName;
@@ -33,7 +32,16 @@ namespace CursedOnion.Game.Dialog
         
         public void OnDialogEnd()
         {
-            levelEvents.CallIntro();
+            var container = gameObject.scene.GetSceneContainer();
+            if (container.HasBinding<LevelEvents>())
+            {
+                var levelEvents = container.Resolve<LevelEvents>();
+                levelEvents?.CallIntro();
+            }
+            else
+            {
+                pauseService.UnpauseCurrentLevel();
+            }
         }
         public void SetDialogBackgroundAlpha(float alpha, float time)
         {

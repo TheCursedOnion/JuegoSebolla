@@ -29,14 +29,17 @@ namespace CursedOnion.Game.Objects
         {
             int lastPlayedLevel = variableLocator.LastPlayedLevel;
 
-            foreach (var level in levels)
+            for(int i=0; i < levels.Count; i++)
             {
-                if (level.LevelInformation.LevelIndex == lastPlayedLevel)
+                if (levels[i].LevelInformation.LevelIndex == lastPlayedLevel)
                 {
-                    level.Select();
+                    selectedLevel = i;
+                    levels[i].Select();
                     return;
                 }
             }
+            
+            selectedLevel = 0;
             levels[0].Select();
         }
 
@@ -57,6 +60,7 @@ namespace CursedOnion.Game.Objects
 
         void MoveLevelIndex(int moveIndex)
         {
+            Debug.Log(selectedLevel);
             if (moveIndex == 1 && selectedLevel == levels.Count - 1 || moveIndex == -1 && selectedLevel == 0) return;
             selectedLevel += moveIndex;
             levels[selectedLevel].Select();

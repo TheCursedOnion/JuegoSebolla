@@ -48,7 +48,7 @@ namespace CursedOnion.Game.Modes.Map.UI
             bool isNextButtonEnabled = levelType != LevelInformation.LevelType.End && completedLevels >= currentLevelIndex;
             nextButton.gameObject.SetActive(isNextButtonEnabled);
             
-            levelName.SetKey(levelInformation.NameKey);
+            levelName.SetKey(levelInformation.BaseKey);
         }
 
         public void CallNextLevel()

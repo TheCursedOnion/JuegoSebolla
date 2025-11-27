@@ -40,6 +40,7 @@ namespace CursedOnion.Game.Entity
         {
             base.EndTurn();
             turnIndicator.enabled = false;
+            AssignedEntity.ActionHandler.ResetAllActions();
             UnselectEntity();
         }
 

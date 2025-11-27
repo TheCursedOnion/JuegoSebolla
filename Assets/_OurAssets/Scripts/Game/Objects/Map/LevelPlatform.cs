@@ -17,8 +17,7 @@ namespace CursedOnion.Game.Objects
         public int LevelIndex;
         public LevelType LevelEnumType;
         
-        public string NameKey;
-        public string DescriptionKey;
+        public string BaseKey;
         
         [Scene] public string levelScene;
 
@@ -29,6 +28,7 @@ namespace CursedOnion.Game.Objects
     }
     public class LevelPlatform : MonoBehaviour
     {
+        private static readonly int TintColor = Shader.PropertyToID("_Color");
         [Inject] MapManager mapManager;
         [Inject] RuntimeVariableLocator variableLocator;
         MapEvents mapEvents;
@@ -47,17 +47,16 @@ namespace CursedOnion.Game.Objects
             
             int levelIndex = LevelInformation.LevelIndex;
             int lastCompletedLevel = variableLocator.LastCompletedLevel;
-
-
+            
             Color centerColor = levelIndex switch
             {
                 _ when levelIndex > lastCompletedLevel + 1 => Color.gray,
-                _ when levelIndex == lastCompletedLevel + 1 => Color.blue,
-                _ => Color.red
+                _ when levelIndex == lastCompletedLevel + 1 => Color.red,
+                _ => Color.blue
             };
             Color ringColor = levelIndex switch
             {
-                _ when levelIndex > lastCompletedLevel + 1 => Color.gray,
+                _ when levelIndex > lastCompletedLevel + 1 => new Color(0.3f, 0.3f, 0.3f),
                 _ => platformRingMesh.material.color
             };
 
