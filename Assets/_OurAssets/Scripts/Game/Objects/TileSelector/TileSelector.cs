@@ -107,6 +107,8 @@ namespace CursedOnion.Game.Objects
                 
                 case LevelState.InBattle: controller.SetBehaviour(GetBehaviour<TileSelectorBattleBehaviour>());
                     break;
+                
+                case LevelState.Finished: controller.Disable(); break;
             }
             
             entityCommandHandler.ClearCommandStack();

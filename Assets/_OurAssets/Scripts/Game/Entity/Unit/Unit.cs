@@ -24,7 +24,7 @@ namespace CursedOnion.Game.Entity
 
         [ReadOnly] public bool PlacedManually = false;
         [SerializeField, ReadOnly] CameraFocus cameraFocus;
-        
+        public bool IsBoss;
         
         public void Start()
         {

@@ -2,12 +2,6 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Level
 {
-    public enum LevelGoal
-    {
-        DefeatAll,
-        DefeatBoss,
-        EndureRounds,
-    }
     public enum LevelState { InDialog, InBattleEditor, InBattle, Finished }
     public enum LevelTimePeriod { Greece = 0, Egypt = 1, Italy = 2}
     
@@ -25,8 +19,7 @@ namespace CursedOnion.Game.Systems.Level
         [SerializeField] private LevelState startingState;
         public LevelState StartingState => startingState;
         
-        [Header("\nLevel Goal")]
-        [SerializeField] private LevelGoal goal;
-        public LevelGoal Goal => goal;
+        [Header("\nLevel Meta Data")]
+        public int LevelIndex;
     }
 }
