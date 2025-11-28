@@ -140,7 +140,7 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
             Debug.Log("Activando habilidad de Explorer: Aumentando movimiento en 2");
-            unit.Stats.MovementStat += 2;
+            unit.StatusHandler.SetAdditionalMovement(2);
         }
 
     }

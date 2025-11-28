@@ -26,7 +26,7 @@ namespace CursedOnion.Game.Entity
         #region Movement
         public void SetAdditionalMovement(int factor)
         {
-            AdditionalMovement = stats.MovementStat * factor / 100;
+            AdditionalMovement = factor;
         }
         private void ResetAdditionalMovement()
         {

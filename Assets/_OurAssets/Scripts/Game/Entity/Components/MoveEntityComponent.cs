@@ -34,7 +34,7 @@ namespace CursedOnion.Game.Entity.Components
         public virtual async Task VisualizeMovement()
         {
             int moveRange = AssignedEntity.Stats.MovementStat + AssignedEntity.StatusHandler.AdditionalMovement;
-            
+
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             
             AssignedEntity.LevelManager.Grid.PaintTilesAtGridPositions(previousReachablePositions, movementColor);

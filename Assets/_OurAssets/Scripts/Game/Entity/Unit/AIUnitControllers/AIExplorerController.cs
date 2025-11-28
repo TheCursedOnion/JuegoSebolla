@@ -10,12 +10,12 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
-    public class AISoldierController : MonoBehaviour
+    public class AIExplorerController : MonoBehaviour
     {
         public SimpleEntity allyHealer;
 
-        List<Vector3> soldierReachableTiles = new();
-        List<Vector3> soldierReachableAttackTiles = new();
+        List<Vector3> explorerReachableTiles = new();
+        List<Vector3> explorerReachableAttackTiles = new();
         List<Vector3> posCloseToHealers = new();
 
         AIUnitController baseAI;
@@ -29,7 +29,7 @@ namespace CursedOnion.Game.Entity
 
             baseAI = GetComponent<AIUnitController>();
             if (baseAI == null)
-                Debug.LogError("AISoldierController NO encontró AIUnitController en el mismo GameObject.");
+                Debug.LogError("AIExplorerController NO encontró AIUnitController en el mismo GameObject.");
         }
 
 
@@ -42,23 +42,63 @@ namespace CursedOnion.Game.Entity
             return healthPercent < 0.3f;
         }
 
+        public bool EnemyInSprintRange()
+        {
+            LazyInit();
+
+            var unit = baseAI.GetUnit();
+            if (unit == null || unit.Grid == null) return false;
+
+            var grid = unit.Grid;
+
+            List<Vector3> tmpEnemyPositions = new();
+
+            List<Vector3> sprintReachableTiles = new();
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                sprintReachableTiles,
+                grid,
+                unit.transform.position,
+                unit.Stats.MovementStat + 2 // Sprint range
+            );
+
+            foreach (var enemy in baseAI.GetTurnSystem().GetAllyUnits())
+            {
+                var adjTiles = baseAI.GetAdjacentTilesToMove(enemy);
+
+                if (adjTiles.Any(t => sprintReachableTiles.Contains(t)))
+                {
+                    tmpEnemyPositions.Add(enemy.transform.position);
+                }
+            }
+
+            if (tmpEnemyPositions.Count > 0)
+            {
+                baseAI.enemyPositions.Clear();
+                baseAI.enemyPositions.AddRange(tmpEnemyPositions);
+                return true;
+            }
+
+            return false;
+        }
+
+
         public bool HealerInRange()
         {
             LazyInit();
             baseAI.enemyPositions.Clear();
-            soldierReachableAttackTiles.Clear();
+            explorerReachableAttackTiles.Clear();
 
             var unit = baseAI.GetUnit();
             var turn = baseAI.GetTurnSystem();
             var grid = unit.Grid;
 
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
-            AStarPathFinder.InsertMeleeAttackGridPositions(soldierReachableAttackTiles, grid, gridPos);
+            AStarPathFinder.InsertMeleeAttackGridPositions(explorerReachableAttackTiles, grid, gridPos);
 
             foreach (var healer in baseAI.GetTurnSystem().GetEnemyUnits().Where(u => u.Stats.SpecialAbilityType is HealerAbility))
             {
                 grid.TryWorldToGridPosition(healer.transform.position, out Vector3 allyGridPos);
-                if (soldierReachableAttackTiles.Contains(allyGridPos))
+                if (explorerReachableAttackTiles.Contains(allyGridPos))
                     return true;
 
             }
@@ -81,9 +121,9 @@ namespace CursedOnion.Game.Entity
             if (healers.Count == 0)
                 return false;
 
-            soldierReachableTiles.Clear();
+            explorerReachableTiles.Clear();
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
-                soldierReachableTiles,
+                explorerReachableTiles,
                 grid,
                 unit.transform.position,
                 unit.Stats.MovementStat
@@ -95,7 +135,7 @@ namespace CursedOnion.Game.Entity
 
                 foreach (var tile in adjTiles)
                 {
-                    if (soldierReachableTiles.Contains(tile))
+                    if (explorerReachableTiles.Contains(tile))
                     {
                         posCloseToHealers.Add(tile);
                     }
@@ -105,45 +145,54 @@ namespace CursedOnion.Game.Entity
             return posCloseToHealers.Count > 0;
         }
 
-        public bool CanRage()
+        public bool HealerInSprintRange()
         {
             LazyInit();
 
+            posCloseToHealers.Clear();
+
             var unit = baseAI.GetUnit();
-            var allies = baseAI.GetTurnSystem().GetEnemyUnits();
+            var grid = unit.Grid;
 
-            int totalNearby = 0;
-            int alliesWhoUsedAbility = 0;
+            var healers = baseAI.GetTurnSystem().GetEnemyUnits()
+                            .Where(u => u.Stats.SpecialAbilityType is HealerAbility)
+                            .ToList();
 
-            foreach (var ally in allies)
+            if (healers.Count == 0)
+                return false;
+
+            List<Vector3> sprintReachableTiles = new();
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                sprintReachableTiles,
+                grid,
+                unit.transform.position,
+                unit.Stats.MovementStat + 2 // Sprint range
+            );
+
+            foreach (var healer in healers)
             {
-                if (ally.Stats.SpecialAbilityType is not SoldierAbility) continue;
-                if (ally == unit) continue; 
+                var adjTiles = baseAI.GetAdjacentTilesToMove(healer);
 
-                float dist = Vector3.Distance(unit.transform.position, ally.transform.position);
-                if (dist <= 5f)
+                if (adjTiles.Any(t => sprintReachableTiles.Contains(t)))
                 {
-                    totalNearby++;
+                    // Guardamos las tiles válidas para usar luego
+                    foreach (var tile in adjTiles.Where(t => sprintReachableTiles.Contains(t)))
+                        posCloseToHealers.Add(tile);
 
-                    if (ally.ActionHandler.HasUsedAbility())
-                    {
-                        alliesWhoUsedAbility++;
-                    }
+                    return true;
                 }
             }
 
-            if (totalNearby == 0)
-                return true;
-
-            return alliesWhoUsedAbility <= (totalNearby / 2f);
+            return false;
         }
+
         #endregion
 
         #region ActionLogic
 
-        public void Rage()
+        public void Sprint()
         {
-            Debug.Log("Soldier is Raging");
+            Debug.Log("Explorer is Sprinting");
             var entity = baseAI.GetUnit() as SimpleEntity;
             baseAI.GetEntityComponent<SpecialAbilityComponent>().DoAbility(entity, false);
         }
@@ -192,7 +241,7 @@ namespace CursedOnion.Game.Entity
 
             enemyTarget = best;
             baseAI.TargetedEnemy = enemyTarget;
-            Debug.Log("Soldier selected best enemy to attack: " + enemyTarget?.name);
+            Debug.Log("Explorer selected best enemy to attack: " + enemyTarget?.name);
         }
 
         public void SelectBestTileNearEnemy()
@@ -202,14 +251,28 @@ namespace CursedOnion.Game.Entity
             if (enemyTarget == null) return;
 
             var unit = baseAI.GetUnit();
-            soldierReachableTiles.Clear();
+            explorerReachableTiles.Clear();
 
-            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
-                soldierReachableTiles,
-                unit.Grid,
-                unit.transform.position,
-                unit.Stats.MovementStat
-            );
+            Debug.Log("Explorer HA USADO HABILIDAD????" + baseAI.GetUnit().ActionHandler.HasUsedAbility());
+
+            if (baseAI.GetUnit().ActionHandler.HasUsedAbility())
+            {
+                _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                    explorerReachableTiles,
+                    unit.Grid,
+                    unit.transform.position,
+                    unit.Stats.MovementStat + 2
+                );
+            }
+            else
+            {
+                _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                    explorerReachableTiles,
+                    unit.Grid,
+                    unit.transform.position,
+                    unit.Stats.MovementStat // Sprint range
+                );
+            }
 
             var adjacentTiles = baseAI.GetAdjacentTilesToMove(enemyTarget);
             var allEnemies = baseAI.GetTurnSystem().GetAllyUnits();
@@ -219,7 +282,7 @@ namespace CursedOnion.Game.Entity
 
             foreach (var t in adjacentTiles)
             {
-                if (!soldierReachableTiles.Contains(t)) continue;
+                if (!explorerReachableTiles.Contains(t)) continue;
 
                 float avgDistToEnemies = allEnemies
                     .Select(e => Vector3.Distance(t, e.transform.position))
@@ -243,7 +306,7 @@ namespace CursedOnion.Game.Entity
             if (unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
             {
                 baseAI.TargetedPosToMove = targetWorld.CenterOnTile();
-                Debug.Log("Soldier selected best tile near enemy: " + bestTile);
+                Debug.Log("Explorer selected best tile near enemy: " + bestTile);
             }
         }
 
