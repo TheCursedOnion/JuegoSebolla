@@ -48,14 +48,22 @@ namespace CursedOnion.Game.Entity
 
         #region Percepciones Generales
 
-        public bool EnemyInMeleeRange()
+        public bool EnemyInAttackRange()
         {
             enemyPositions.Clear();
             reachableAttackPositions.Clear();
 
             var grid = unit.Grid;
+            unit.Grid.TryWorldToGridPosition(unit.transform.position, out Vector3 startGridPos);
 
-            reachableAttackPositions = GetAdjacentTiles(unit);
+            if (unit.Stats.SpecialAbilityType is ArcherAbility archer)
+            {
+                AStarPathFinder.InsertRangedAttackGridPositions(reachableAttackPositions, unit.Grid, startGridPos, 2);
+            }
+            else
+            {
+                reachableAttackPositions = GetAdjacentTiles(unit);
+            }
 
             foreach (var enemy in turnSystem.GetAllyUnits())
             {
@@ -80,10 +88,23 @@ namespace CursedOnion.Game.Entity
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
-
+       
             foreach (var enemy in turnSystem.GetAllyUnits())
             {
-                if (GetAdjacentTilesToMove(enemy).Any(adj => reachableMovePositions.Contains(adj)))
+                unit.Grid.TryWorldToGridPosition(enemy.transform.position, out Vector3 enemyGridPos);
+                List<Vector3> attackPositions;
+
+                if (unit.Stats.SpecialAbilityType is ArcherAbility archer)
+                {
+                    attackPositions = new List<Vector3>();
+                    AStarPathFinder.InsertRangedAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2);
+                }
+                else
+                {
+                    attackPositions = GetAdjacentTilesToMove(enemy);
+                }
+
+                if (attackPositions.Any(adj => reachableMovePositions.Contains(adj)))
                 {
                     enemyPositions.Add(enemy.transform.position);
                 }

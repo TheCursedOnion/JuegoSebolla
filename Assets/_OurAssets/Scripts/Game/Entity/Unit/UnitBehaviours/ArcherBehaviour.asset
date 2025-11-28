@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db249917b7c50574eaa600c74aff1437, type: 3}
-  m_Name: SoldierBehaviour
+  m_Name: ArcherBehaviour
   m_EditorClassIdentifier: 
   data:
     graphs:
@@ -89,14 +89,14 @@ MonoBehaviour:
         - 74cebb98-8363-46d4-8dae-92a134a3a409
         childIds:
         - 018b79ce-176f-418b-b5f5-844b2a55bac0
-    - name: SoldierBehaviour
+    - name: ArcherBehaviour
       id: 623e7d88-3324-4ba5-990d-1d85208fb3f1
       graph:
         rid: 6291014419662504024
       nodes:
-      - name: EnemySoldierFlow
+      - name: EnemyArcherFlow
         id: a955d6b7-755e-46f6-b21e-4a23a0f5a811
-        position: {x: 834.375, y: 0}
+        position: {x: 393.75, y: 0}
         node:
           rid: 6291014457700384853
         references: []
@@ -105,9 +105,9 @@ MonoBehaviour:
         - 458c672d-50c8-49a3-acf3-8122f14deaf6
         - d7c39f00-891d-454c-adc4-67125560d5b0
         - ee17a05b-dc74-4da5-aac1-55b2dfe79066
-      - name: EnemySoldierTurn
+      - name: EnemyArcherTurn
         id: d7c39f00-891d-454c-adc4-67125560d5b0
-        position: {x: 1668.75, y: 200}
+        position: {x: 787.5, y: 200}
         node:
           rid: 6291014439572340818
         references: []
@@ -115,21 +115,8 @@ MonoBehaviour:
         - a955d6b7-755e-46f6-b21e-4a23a0f5a811
         childIds:
         - a3c52bc1-e08b-4c93-bd46-00e861a3039e
-        - e68d87c7-27ee-44d4-b409-a0bf3d52a95a
-      - name: EnemyMove
-        id: 58298b1a-722d-4c19-9aaa-4cba56f65a8a
-        position: {x: 750, y: 1200}
-        node:
-          rid: 6291014419662504029
-        references:
-        - fieldName: Action
-          value:
-            rid: 6291014435267674225
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - b19c9ce9-ffa0-426c-8d42-56737ff1156d
-        childIds: []
+        - 5ab90cc4-b8d6-445c-92f2-12abd05dc18d
+        - 0a7a1aac-dc2c-486a-a4df-46bde4b6a02c
       - name: InitialWait
         id: 458c672d-50c8-49a3-acf3-8122f14deaf6
         position: {x: -300, y: 200}
@@ -146,7 +133,7 @@ MonoBehaviour:
         childIds: []
       - name: EndWait
         id: ee17a05b-dc74-4da5-aac1-55b2dfe79066
-        position: {x: 1968.75, y: 200}
+        position: {x: 1087.5, y: 200}
         node:
           rid: 6291014457700384856
         references:
@@ -158,9 +145,9 @@ MonoBehaviour:
         parentIds:
         - a955d6b7-755e-46f6-b21e-4a23a0f5a811
         childIds: []
-      - name: <30%HP?
+      - name: EnemyClose?
         id: a3c52bc1-e08b-4c93-bd46-00e861a3039e
-        position: {x: 611, y: 424}
+        position: {x: 225, y: 400}
         node:
           rid: 6291014683966046289
         references:
@@ -172,78 +159,10 @@ MonoBehaviour:
         parentIds:
         - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds:
-        - e06cb993-c219-4c80-9f23-e5e198f83c9a
-      - name: HealerClose?
-        id: fd12f101-22e5-424d-bac9-ed23af9684f0
-        position: {x: 166, y: 816}
-        node:
-          rid: 6291014683966046290
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159447
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - e06cb993-c219-4c80-9f23-e5e198f83c9a
-        childIds:
-        - 408731e1-9fcc-4530-a8da-f822f688e278
-      - name: EnemyClose?
-        id: 408731e1-9fcc-4530-a8da-f822f688e278
-        position: {x: 166, y: 1016}
-        node:
-          rid: 6291014683966046292
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159448
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - fd12f101-22e5-424d-bac9-ed23af9684f0
-        childIds:
-        - c9ae2913-8651-4751-90f6-3e4f116414c5
-      - name: Conditions<30%HP
-        id: e06cb993-c219-4c80-9f23-e5e198f83c9a
-        position: {x: 611, y: 613}
-        node:
-          rid: 6291014683966046293
-        references: []
-        parentIds:
-        - a3c52bc1-e08b-4c93-bd46-00e861a3039e
-        childIds:
-        - fd12f101-22e5-424d-bac9-ed23af9684f0
-        - d5f01eb9-2204-4f6d-b38b-d954ab078004
-        - 0f129fcb-c765-466c-b55e-26a22aa15bf5
-      - name: EnemyClose?
-        id: 0f129fcb-c765-466c-b55e-26a22aa15bf5
-        position: {x: 1200, y: 800}
-        node:
-          rid: 6291014683966046294
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159453
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - e06cb993-c219-4c80-9f23-e5e198f83c9a
-        childIds:
-        - 85a34e8b-48f1-4a84-bda8-9d3078c2f699
-      - name: SelectAndAttack
-        id: c9ae2913-8651-4751-90f6-3e4f116414c5
-        position: {x: 150, y: 1200}
-        node:
-          rid: 6291014683966046297
-        references: []
-        parentIds:
-        - 408731e1-9fcc-4530-a8da-f822f688e278
-        childIds:
-        - a58ad87b-a8db-4fe4-b388-cda0fad3cde7
-        - a139720c-8322-433d-9137-0f57741a5d6e
+        - 645482ef-631c-4c56-a6c7-7ce5c4d6969b
       - name: UTILITYSelectBestEnemy
         id: a58ad87b-a8db-4fe4-b388-cda0fad3cde7
-        position: {x: 0, y: 1400}
+        position: {x: 0, y: 800}
         node:
           rid: 6291014683966046298
         references:
@@ -253,11 +172,11 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - c9ae2913-8651-4751-90f6-3e4f116414c5
+        - 645482ef-631c-4c56-a6c7-7ce5c4d6969b
         childIds: []
       - name: EnemyAttack
         id: a139720c-8322-433d-9137-0f57741a5d6e
-        position: {x: 313, y: 1416}
+        position: {x: 600, y: 1000}
         node:
           rid: 6291014683966046299
         references:
@@ -267,196 +186,11 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - c9ae2913-8651-4751-90f6-3e4f116414c5
-        childIds: []
-      - name: SelectAndAttack
-        id: 85a34e8b-48f1-4a84-bda8-9d3078c2f699
-        position: {x: 1200, y: 1000}
-        node:
-          rid: 6291014683966046300
-        references: []
-        parentIds:
-        - 0f129fcb-c765-466c-b55e-26a22aa15bf5
-        childIds:
-        - 54c7c404-8dbf-465f-8208-36f4928dac60
-        - 405006e3-5584-42b2-ab49-ec756ed13faa
-      - name: UTILITYSelectBestEnemy
-        id: 54c7c404-8dbf-465f-8208-36f4928dac60
-        position: {x: 1050, y: 1200}
-        node:
-          rid: 6291014683966046301
-        references:
-        - fieldName: Action
-          value:
-            rid: 6291014712214159450
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 85a34e8b-48f1-4a84-bda8-9d3078c2f699
-        childIds: []
-      - name: EnemyAttack
-        id: 405006e3-5584-42b2-ab49-ec756ed13faa
-        position: {x: 1365, y: 1216}
-        node:
-          rid: 6291014683966046302
-        references:
-        - fieldName: Action
-          value:
-            rid: 1186077857517142111
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 85a34e8b-48f1-4a84-bda8-9d3078c2f699
-        childIds: []
-      - name: HealerInMovementRange?
-        id: d5f01eb9-2204-4f6d-b38b-d954ab078004
-        position: {x: 600, y: 800}
-        node:
-          rid: 6291014683966046303
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159452
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - e06cb993-c219-4c80-9f23-e5e198f83c9a
-        childIds:
-        - b19c9ce9-ffa0-426c-8d42-56737ff1156d
-      - name: SelectTileAndMove
-        id: b19c9ce9-ffa0-426c-8d42-56737ff1156d
-        position: {x: 600, y: 1000}
-        node:
-          rid: 6291014683966046304
-        references: []
-        parentIds:
-        - d5f01eb9-2204-4f6d-b38b-d954ab078004
-        childIds:
-        - bd0a3579-5bca-4a6d-ab81-bab22c2089ad
-        - 58298b1a-722d-4c19-9aaa-4cba56f65a8a
-      - name: UTILITYBestTile
-        id: bd0a3579-5bca-4a6d-ab81-bab22c2089ad
-        position: {x: 485, y: 1227}
-        node:
-          rid: 6291014683966046305
-        references:
-        - fieldName: Action
-          value:
-            rid: 6291014712214159451
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - b19c9ce9-ffa0-426c-8d42-56737ff1156d
-        childIds: []
-      - name: Conditions>30%HP
-        id: e68d87c7-27ee-44d4-b409-a0bf3d52a95a
-        position: {x: 2708, y: 408}
-        node:
-          rid: 6291014683966046306
-        references: []
-        parentIds:
-        - d7c39f00-891d-454c-adc4-67125560d5b0
-        childIds:
-        - 26120320-fda4-4956-8448-94ffcf14ef89
-        - 5ab90cc4-b8d6-445c-92f2-12abd05dc18d
-        - 0a7a1aac-dc2c-486a-a4df-46bde4b6a02c
-      - name: UseAbilitySelector
-        id: 94c24dbc-a519-4142-9cd2-0c6755aa02dd
-        position: {x: 1875, y: 800}
-        node:
-          rid: 6291014683966046307
-        references: []
-        parentIds:
-        - 26120320-fda4-4956-8448-94ffcf14ef89
-        childIds:
-        - e4df2333-891b-4a5b-a20b-a40fb02b97a0
-        - 234bd64a-dcd4-4099-a2bc-50a72d1d2f38
-      - name: EnemyClose?
-        id: 26120320-fda4-4956-8448-94ffcf14ef89
-        position: {x: 1875, y: 600}
-        node:
-          rid: 6291014683966046308
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159454
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - e68d87c7-27ee-44d4-b409-a0bf3d52a95a
-        childIds:
-        - 94c24dbc-a519-4142-9cd2-0c6755aa02dd
-      - name: CanUseRage?
-        id: e4df2333-891b-4a5b-a20b-a40fb02b97a0
-        position: {x: 1666, y: 1016}
-        node:
-          rid: 6291014683966046309
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159456
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 94c24dbc-a519-4142-9cd2-0c6755aa02dd
-        childIds:
-        - f5859290-22dc-41c1-824a-4db6ccaedb30
-      - name: RageAbility
-        id: f5859290-22dc-41c1-824a-4db6ccaedb30
-        position: {x: 1666, y: 1216}
-        node:
-          rid: 6291014683966046310
-        references:
-        - fieldName: Action
-          value:
-            rid: 6291014712214159457
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - e4df2333-891b-4a5b-a20b-a40fb02b97a0
-        childIds: []
-      - name: SelectAndAttack
-        id: 234bd64a-dcd4-4099-a2bc-50a72d1d2f38
-        position: {x: 2100, y: 1000}
-        node:
-          rid: 6291014683966046311
-        references: []
-        parentIds:
-        - 94c24dbc-a519-4142-9cd2-0c6755aa02dd
-        childIds:
-        - 7bdab089-5f40-40aa-8c80-aedb984e3101
-        - aec2a878-c29c-4943-82b1-d388f350c3db
-      - name: UTILITYSelectBestEnemy
-        id: 7bdab089-5f40-40aa-8c80-aedb984e3101
-        position: {x: 1950, y: 1200}
-        node:
-          rid: 6291014683966046312
-        references:
-        - fieldName: Action
-          value:
-            rid: 6291014712214159455
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 234bd64a-dcd4-4099-a2bc-50a72d1d2f38
-        childIds: []
-      - name: EnemyAttack
-        id: aec2a878-c29c-4943-82b1-d388f350c3db
-        position: {x: 2250, y: 1200}
-        node:
-          rid: 6291014683966046313
-        references:
-        - fieldName: Action
-          value:
-            rid: 1186077857517142118
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 234bd64a-dcd4-4099-a2bc-50a72d1d2f38
+        - e97f6308-be5d-421e-a96f-61eda179d087
         childIds: []
       - name: EnemyInMovementRange?
         id: 5ab90cc4-b8d6-445c-92f2-12abd05dc18d
-        position: {x: 2700, y: 600}
+        position: {x: 1050, y: 400}
         node:
           rid: 1186077857517142097
         references:
@@ -466,12 +200,12 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
             Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         parentIds:
-        - e68d87c7-27ee-44d4-b409-a0bf3d52a95a
+        - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds:
         - 9f6acded-603c-40b7-93de-dc89378b1176
       - name: SelectAndMove
         id: 9f6acded-603c-40b7-93de-dc89378b1176
-        position: {x: 2700, y: 800}
+        position: {x: 1050, y: 600}
         node:
           rid: 1186077857517142098
         references: []
@@ -482,7 +216,7 @@ MonoBehaviour:
         - bacc5319-7ca9-41e7-8395-510cb09d9954
       - name: UTILITYSelectBestEnemy
         id: e1fa486d-4b3c-4e83-a7f8-875f93c67539
-        position: {x: 2416, y: 1016}
+        position: {x: 750, y: 800}
         node:
           rid: 1186077857517142099
         references:
@@ -496,7 +230,7 @@ MonoBehaviour:
         childIds: []
       - name: MoveAndAttack
         id: bacc5319-7ca9-41e7-8395-510cb09d9954
-        position: {x: 3000, y: 1000}
+        position: {x: 1350, y: 800}
         node:
           rid: 1186077857517142100
         references: []
@@ -506,10 +240,10 @@ MonoBehaviour:
         - bd6ca655-5fdd-4bcb-a916-36e23323c365
         - 494b037d-d724-4010-a9ad-6f7d53b0afee
         - bbeb76cd-3f7b-4ede-94a4-61f86e1fbe76
-        - f138fc14-571c-4654-8ba2-02e5d4e2221c
+        - db0ba9e9-71aa-4d4b-bde6-e7a7ff72445b
       - name: UTILITYBestTile
         id: bd6ca655-5fdd-4bcb-a916-36e23323c365
-        position: {x: 2563, y: 1216}
+        position: {x: 900, y: 1000}
         node:
           rid: 1186077857517142101
         references:
@@ -523,7 +257,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyMove
         id: 494b037d-d724-4010-a9ad-6f7d53b0afee
-        position: {x: 2869, y: 1226}
+        position: {x: 1200, y: 1000}
         node:
           rid: 1186077857517142102
         references:
@@ -537,7 +271,7 @@ MonoBehaviour:
         childIds: []
       - name: DelayAfterMove
         id: bbeb76cd-3f7b-4ede-94a4-61f86e1fbe76
-        position: {x: 3150, y: 1200}
+        position: {x: 1500, y: 1000}
         node:
           rid: 1186077857517142103
         references:
@@ -551,7 +285,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyMove
         id: 6600ed62-f06a-4840-9635-2d309ea39f34
-        position: {x: 3466, y: 816}
+        position: {x: 1350, y: 600}
         node:
           rid: 1186077857517142109
         references:
@@ -563,49 +297,9 @@ MonoBehaviour:
         parentIds:
         - 0a7a1aac-dc2c-486a-a4df-46bde4b6a02c
         childIds: []
-      - name: UseAbility
-        id: f138fc14-571c-4654-8ba2-02e5d4e2221c
-        position: {x: 3450, y: 1200}
-        node:
-          rid: 1186077857517142112
-        references: []
-        parentIds:
-        - bacc5319-7ca9-41e7-8395-510cb09d9954
-        childIds:
-        - 81392867-4e8e-45bf-b8e8-a5d09dbf24d5
-        - 0b4be9ab-6c21-4993-a1bc-16ac6dc83047
-      - name: CanUseRage?
-        id: 81392867-4e8e-45bf-b8e8-a5d09dbf24d5
-        position: {x: 3300, y: 1400}
-        node:
-          rid: 1186077857517142114
-        references:
-        - fieldName: Perception
-          value:
-            rid: 6291014712214159459
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - f138fc14-571c-4654-8ba2-02e5d4e2221c
-        childIds:
-        - b1a2a198-f8a9-4303-a9d3-678811994632
-      - name: RageAbility
-        id: b1a2a198-f8a9-4303-a9d3-678811994632
-        position: {x: 3300, y: 1600}
-        node:
-          rid: 1186077857517142115
-        references:
-        - fieldName: Action
-          value:
-            rid: 6291014712214159460
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 81392867-4e8e-45bf-b8e8-a5d09dbf24d5
-        childIds: []
       - name: EnemyAttack
         id: 0b4be9ab-6c21-4993-a1bc-16ac6dc83047
-        position: {x: 3600, y: 1400}
+        position: {x: 1950, y: 1200}
         node:
           rid: 1186077857517142116
         references:
@@ -615,11 +309,11 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - f138fc14-571c-4654-8ba2-02e5d4e2221c
+        - db0ba9e9-71aa-4d4b-bde6-e7a7ff72445b
         childIds: []
-      - name: EnemyMediumLength
+      - name: EnemyFar?
         id: 0a7a1aac-dc2c-486a-a4df-46bde4b6a02c
-        position: {x: 3450, y: 600}
+        position: {x: 1350, y: 400}
         node:
           rid: 1186077857517142117
         references:
@@ -629,9 +323,100 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
             Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         parentIds:
-        - e68d87c7-27ee-44d4-b409-a0bf3d52a95a
+        - d7c39f00-891d-454c-adc4-67125560d5b0
         childIds:
         - 6600ed62-f06a-4840-9635-2d309ea39f34
+      - name: SelectAndAttack
+        id: 645482ef-631c-4c56-a6c7-7ce5c4d6969b
+        position: {x: 225, y: 600}
+        node:
+          rid: 6291014752520110166
+        references: []
+        parentIds:
+        - a3c52bc1-e08b-4c93-bd46-00e861a3039e
+        childIds:
+        - a58ad87b-a8db-4fe4-b388-cda0fad3cde7
+        - e97f6308-be5d-421e-a96f-61eda179d087
+      - name: AttackOrAbility
+        id: e97f6308-be5d-421e-a96f-61eda179d087
+        position: {x: 450, y: 800}
+        node:
+          rid: 6291014754063089757
+        references: []
+        parentIds:
+        - 645482ef-631c-4c56-a6c7-7ce5c4d6969b
+        childIds:
+        - 83915621-cb9f-4995-a6f1-d2ac46f57b9d
+        - a139720c-8322-433d-9137-0f57741a5d6e
+      - name: CanTripleShot?
+        id: 83915621-cb9f-4995-a6f1-d2ac46f57b9d
+        position: {x: 300, y: 1000}
+        node:
+          rid: 6291014754063089758
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014754063089759
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - e97f6308-be5d-421e-a96f-61eda179d087
+        childIds:
+        - 3e6e653a-ad06-4ac1-a401-9fcd418175e5
+      - name: AttackOrAbility
+        id: db0ba9e9-71aa-4d4b-bde6-e7a7ff72445b
+        position: {x: 1800, y: 1000}
+        node:
+          rid: 6291014754063089760
+        references: []
+        parentIds:
+        - bacc5319-7ca9-41e7-8395-510cb09d9954
+        childIds:
+        - f051a2b2-c56e-4961-877e-ced9f913fc81
+        - 0b4be9ab-6c21-4993-a1bc-16ac6dc83047
+      - name: TripleShot
+        id: 3e6e653a-ad06-4ac1-a401-9fcd418175e5
+        position: {x: 300, y: 1200}
+        node:
+          rid: 6291014754063089761
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014754063089765
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 83915621-cb9f-4995-a6f1-d2ac46f57b9d
+        childIds: []
+      - name: TripleShot
+        id: e66b590c-3c10-4373-a87f-ff0648590219
+        position: {x: 1650, y: 1400}
+        node:
+          rid: 6291014754063089762
+        references:
+        - fieldName: Action
+          value:
+            rid: 6291014754063089766
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - f051a2b2-c56e-4961-877e-ced9f913fc81
+        childIds: []
+      - name: CanTripleShot?
+        id: f051a2b2-c56e-4961-877e-ced9f913fc81
+        position: {x: 1650, y: 1200}
+        node:
+          rid: 6291014754063089763
+        references:
+        - fieldName: Perception
+          value:
+            rid: 6291014754063089764
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - db0ba9e9-71aa-4d4b-bde6-e7a7ff72445b
+        childIds:
+        - e66b590c-3c10-4373-a87f-ff0648590219
     pushPerceptions: []
   references:
     version: 2
@@ -686,58 +471,12 @@ MonoBehaviour:
         unpause:
           componentName: 
           methodName: 
-    - rid: 1186077857517142111
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AIUnitController
-          methodName: EnemyAttack
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 1186077857517142112
-      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 1186077857517142114
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 1186077857517142115
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
     - rid: 1186077857517142116
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
     - rid: 1186077857517142117
       type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 1186077857517142118
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AIUnitController
-          methodName: EnemyAttack
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
     - rid: 1186077857517142119
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
@@ -795,27 +534,6 @@ MonoBehaviour:
     - rid: 6291014419662504024
       type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014419662504029
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014435267674225
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AIUnitController
-          methodName: EnemyMove
-        update:
-          componentName: AIUnitController
-          methodName: EndMove
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
     - rid: 6291014435267674227
       type: {class: FSM, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
       data: 
@@ -888,113 +606,13 @@ MonoBehaviour:
     - rid: 6291014683966046289
       type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014683966046290
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046292
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046293
-      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 6291014683966046294
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046297
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
     - rid: 6291014683966046298
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
     - rid: 6291014683966046299
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 6291014683966046300
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 6291014683966046301
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046302
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046303
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046304
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 6291014683966046305
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046306
-      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 6291014683966046307
-      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 6291014683966046308
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046309
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046310
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046311
-      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 6291014683966046312
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 6291014683966046313
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
     - rid: 6291014712214159446
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AISoldierController
-          methodName: LowHealth
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159447
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AISoldierController
-          methodName: HealerInRange
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159448
       type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         init:
@@ -1016,152 +634,8 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
+          componentName: AIArcherController
           methodName: SelectBestEnemyToAttack
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159450
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AISoldierController
-          methodName: SelectBestEnemyToAttack
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159451
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AISoldierController
-          methodName: SelectBestTileNearHealer
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159452
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AISoldierController
-          methodName: HealerInMovementRange
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159453
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AIUnitController
-          methodName: EnemyInAttackRange
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159454
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AIUnitController
-          methodName: EnemyInAttackRange
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159455
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AISoldierController
-          methodName: SelectBestEnemyToAttack
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159456
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AISoldierController
-          methodName: CanRage
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159457
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AISoldierController
-          methodName: Rage
         update:
           componentName: AIUnitController
           methodName: EndAction
@@ -1178,44 +652,8 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
+          componentName: AIArcherController
           methodName: SelectBestEnemyToAttack
-        update:
-          componentName: AIUnitController
-          methodName: EndAction
-        stop:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159459
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: AISoldierController
-          methodName: CanRage
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 6291014712214159460
-      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        start:
-          componentName: AISoldierController
-          methodName: Rage
         update:
           componentName: AIUnitController
           methodName: EndAction
@@ -1250,7 +688,7 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
+          componentName: AIArcherController
           methodName: SelectBestTileNearEnemy
         update:
           componentName: AIUnitController
@@ -1274,6 +712,102 @@ MonoBehaviour:
           componentName: AIUnitController
           methodName: SearchAndFindPath
         reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014752520110166
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014754063089757
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014754063089758
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014754063089759
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIArcherController
+          methodName: CanTripleShot
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014754063089760
+      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6291014754063089761
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014754063089762
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014754063089763
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6291014754063089764
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIArcherController
+          methodName: CanTripleShot
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014754063089765
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIArcherController
+          methodName: TripleShot
+        update:
+          componentName: AIUnitController
+          methodName: EndAction
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6291014754063089766
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: AIArcherController
+          methodName: TripleShot
+        update:
+          componentName: AIUnitController
+          methodName: EndAction
+        stop:
           componentName: 
           methodName: 
         pause:

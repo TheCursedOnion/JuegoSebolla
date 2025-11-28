@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 4099264466346865497}
   - component: {fileID: 6849040567394088048}
   - component: {fileID: 5822104237064508139}
-  - component: {fileID: 5619357575573528376}
+  - component: {fileID: 5299201411218621334}
   m_Layer: 0
-  m_Name: EnemyUnit-Healer
+  m_Name: EnemyUnit-Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
   EntitySide: 1
   EntityController: {fileID: 0}
   LayeredEntity: {fileID: 0}
-  StatData: {fileID: 11400000, guid: 00a74bc24880ef94088765c775fc80cc, type: 2}
+  StatData: {fileID: 11400000, guid: 19d979a64a6de06408f3ad262b20c1ff, type: 2}
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -171,7 +171,7 @@ MonoBehaviour:
   _eventHandler:
     debugStatusChanges: 0
     identifier: 
-  System: {fileID: 11400000, guid: 039534e65b7b90747be53b15ef42d041, type: 2}
+  System: {fileID: 11400000, guid: 831225a8f369b19418f94484279d9440, type: 2}
 --- !u!114 &5822104237064508139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +196,7 @@ MonoBehaviour:
   tiltOnFocus: 0
   forcePan: 0
   panOnFocus: 0
---- !u!114 &5619357575573528376
+--- !u!114 &5299201411218621334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,12 +205,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 882082664728815107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47bc5580449229dea3259bd37f05498, type: 3}
+  m_Script: {fileID: 11500000, guid: 55601c29a89419c48b604c90c4ec781d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allyTarget: {fileID: 0}
-  criticalAlliesPos: []
-  woundedAlliesPos: []
 --- !u!1 &1207409992202940343
 GameObject:
   m_ObjectHideFlags: 0
