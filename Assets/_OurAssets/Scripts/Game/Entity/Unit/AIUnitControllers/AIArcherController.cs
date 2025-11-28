@@ -36,7 +36,50 @@ namespace CursedOnion.Game.Entity
         public bool CanTripleShot()
         {
             LazyInit();
-            return false;
+            var unit = baseAI.GetUnit();
+
+            if (unit == null || enemyTarget == null)
+                return false;
+
+            var grid = unit.Grid;
+            if (!grid.TryWorldToGridPosition(unit.transform.position, out Vector3 unitGridPos) ||
+                !grid.TryWorldToGridPosition(enemyTarget.transform.position, out Vector3 targetGridPos))
+                return false;
+
+            Vector3 direction = targetGridPos - unitGridPos;
+            direction.y = 0;
+
+            if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.z) > 0)
+                return false;
+
+            direction = new Vector3(
+                Mathf.Clamp(direction.x, -1, 1),
+                0,
+                Mathf.Clamp(direction.z, -1, 1)
+            );
+
+            int consecutiveEnemies = 0;
+
+            for (int i = 0; i < 3; i++)
+            {
+                Vector3 posToCheck = targetGridPos + direction * i;
+
+                Tile3d tile = grid.GetTileAtGridPosition(posToCheck);
+                if (tile == null)
+                    break;
+
+                SimpleEntity entity = tile.GetContainedEntity();
+                if (entity is Unit enemyUnit && enemyUnit.GetSide() != unit.GetSide())
+                {
+                    consecutiveEnemies++;
+                }
+                else
+                {
+                    break; 
+                }
+            }
+
+            return consecutiveEnemies >= 2;
         }
         #endregion
 
