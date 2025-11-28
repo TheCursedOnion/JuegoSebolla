@@ -1,7 +1,9 @@
 using System;
 using CursedOnion.Game.Localization;
 using CursedOnion.Game.Systems.Level;
+using CursedOnion.Locators;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion

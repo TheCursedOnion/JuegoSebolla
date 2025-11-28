@@ -20,6 +20,14 @@ namespace CursedOnion.Locators
         public int LastCompletedLevel;
         public bool IsGamePlayedOnMobile;
         
+        public void SetCompletedLevel(int levelIndex)
+        {
+            if (levelIndex > LastCompletedLevel)
+            {
+                LastCompletedLevel = levelIndex;
+                _ = AutoCloudSave?.SaveGame();
+            }
+        }
         public void SaveInto(Dictionary<string, object> serializableData)
         {
             serializableData[LAST_LEVEL_KEY] = LastPlayedLevel;

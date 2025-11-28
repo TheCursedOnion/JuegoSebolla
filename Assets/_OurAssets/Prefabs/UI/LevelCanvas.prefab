@@ -436,7 +436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 187.37103, y: 0}
+  m_AnchoredPosition: {x: -187.37094, y: 0}
   m_SizeDelta: {x: 1039.742, y: 284}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6624965660105812911
@@ -516,6 +516,7 @@ GameObject:
   - component: {fileID: 6405579149368039365}
   - component: {fileID: 6571009486889417675}
   - component: {fileID: 4095397069443495951}
+  - component: {fileID: 1537682006759888195}
   - component: {fileID: 7954736273773512154}
   - component: {fileID: 3333531845789485770}
   - component: {fileID: 1090712564776539621}
@@ -702,17 +703,9 @@ MonoBehaviour:
     _PersistentCalls: []
   OnPointerClickInsideEvent:
     _PersistentCalls:
-    - _Target: {fileID: 925700914629896952}
-      _MemberName: ChangeScene
+    - _Target: {fileID: 1537682006759888195}
+      _MemberName: GoToCorrespondingMapScene
       _PersistentArguments:
-      - _Type: 2
-        _Int: 0
-        _String: MapScene
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
       - _Type: 5
         _Int: 0
         _String: 
@@ -771,6 +764,19 @@ MonoBehaviour:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
+--- !u!114 &1537682006759888195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128359419159264569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c6e0ab5c517478469c70eb4d1b2701f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneServiceUser: {fileID: 925700914629896952}
 --- !u!114 &7954736273773512154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2979,6 +2985,7 @@ GameObject:
   - component: {fileID: 4517672194830428756}
   - component: {fileID: 7511705842909191940}
   - component: {fileID: 7359952217789452118}
+  - component: {fileID: 3562368106348627897}
   - component: {fileID: 4509317615198356627}
   - component: {fileID: 5003339109461982108}
   m_Layer: 3
@@ -3163,6 +3170,9 @@ MonoBehaviour:
     _PersistentCalls: []
   OnPointerClickInsideEvent:
     _PersistentCalls:
+    - _Target: {fileID: 3562368106348627897}
+      _MemberName: SaveSettings
+      _PersistentArguments: []
     - _Target: {fileID: 1391990981633420762}
       _MemberName: InvokeUnpauseWithLevel
       _PersistentArguments:
@@ -3188,6 +3198,18 @@ MonoBehaviour:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
+--- !u!114 &3562368106348627897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303689776262327223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26646165228148f0ab2d351db9eae914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4509317615198356627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3574,6 +3596,8 @@ GameObject:
   - component: {fileID: 7285903480010258690}
   - component: {fileID: 3036428248178729293}
   - component: {fileID: 7957647648338221497}
+  - component: {fileID: 5031255199929052447}
+  - component: {fileID: 3466642895888117707}
   m_Layer: 3
   m_Name: IntroPanel
   m_TagString: Untagged
@@ -3629,6 +3653,42 @@ MonoBehaviour:
   introGroup: {fileID: 3036428248178729293}
   introOnAwakeDelay: 2.5
   fadeTimes: 1
+  levelName: {fileID: 5031255199929052447}
+  levelGoal: {fileID: 3466642895888117707}
+--- !u!114 &5031255199929052447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453790675162940293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d592d4e227cbb644a8cbe6ed6b178bd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMultipleKeys: 0
+  key: 
+  keys: []
+  useKeyIndex: 0
+  textMesh: {fileID: 8069127602721104660}
+--- !u!114 &3466642895888117707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453790675162940293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d592d4e227cbb644a8cbe6ed6b178bd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useMultipleKeys: 0
+  key: 
+  keys: []
+  useKeyIndex: 0
+  textMesh: {fileID: 891054939790289013}
 --- !u!1 &1550845103223727074
 GameObject:
   m_ObjectHideFlags: 0
@@ -4466,7 +4526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useMultipleKeys: 0
-  key: settings_ui_text
+  key: 
   keys: []
   useKeyIndex: 0
   textMesh: {fileID: 8054570590786143905}
@@ -4521,6 +4581,7 @@ GameObject:
   - component: {fileID: 3703016537976901904}
   - component: {fileID: 8178480504509737692}
   - component: {fileID: 6089782135187718407}
+  - component: {fileID: 1825313010083063455}
   - component: {fileID: 3492516157230887016}
   - component: {fileID: 1316841711359577529}
   - component: {fileID: 3512265379895834830}
@@ -4707,17 +4768,9 @@ MonoBehaviour:
     _PersistentCalls: []
   OnPointerClickInsideEvent:
     _PersistentCalls:
-    - _Target: {fileID: 4325297930994728220}
-      _MemberName: ChangeScene
+    - _Target: {fileID: 1825313010083063455}
+      _MemberName: GoToCorrespondingMapScene
       _PersistentArguments:
-      - _Type: 2
-        _Int: 0
-        _String: MapScene
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
       - _Type: 5
         _Int: 0
         _String: 
@@ -4776,6 +4829,19 @@ MonoBehaviour:
     _PersistentCalls: []
   OnDeselect:
     _PersistentCalls: []
+--- !u!114 &1825313010083063455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235464798330307234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c6e0ab5c517478469c70eb4d1b2701f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneServiceUser: {fileID: 4325297930994728220}
 --- !u!114 &3492516157230887016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4841,7 +4907,7 @@ GameObject:
   - component: {fileID: 5739023994397674855}
   - component: {fileID: 8069127602721104660}
   m_Layer: 3
-  m_Name: Text (TMP)
+  m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6372,10 +6438,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3376696676318976517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.000045776367, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8589909680288825651
 CanvasRenderer:
@@ -6500,6 +6566,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1984405222698002692}
   - component: {fileID: 2783805696868140611}
+  - component: {fileID: 31087255288440882}
   m_Layer: 3
   m_Name: Result UI Container
   m_TagString: Untagged
@@ -6540,6 +6607,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &31087255288440882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2997515054517214052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd575cac6cd7094f8f7abf1eb80841f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outcomeText: {fileID: 1957904158984771398}
+  victoryTextKey: level_win
+  defeatTextKey: level_lose
 --- !u!1 &3266977738915987577
 GameObject:
   m_ObjectHideFlags: 0
@@ -6995,10 +7077,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3376696676318976517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 350, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3512489983552921692
 CanvasRenderer:
@@ -7920,7 +8002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useMultipleKeys: 0
-  key: settings_ui_text
+  key: level_results
   keys: []
   useKeyIndex: 0
   textMesh: {fileID: 1814965688477338960}
@@ -9687,8 +9769,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5216485667831619670}
   m_HandleRect: {fileID: 8296956629593627088}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.6395817
+  m_Value: 0.99999994
+  m_Size: 0.6395818
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11078,7 +11160,7 @@ GameObject:
   - component: {fileID: 3796201132474161917}
   - component: {fileID: 891054939790289013}
   m_Layer: 3
-  m_Name: Text (TMP) (1)
+  m_Name: Goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12072,10 +12154,10 @@ RectTransform:
   m_Father: {fileID: 8566861102560413045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 345.90002, y: 100}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2855660720600750286
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12104,7 +12186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score:'
+  m_text: "Puntuaci\xF3n:"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea4c437605fe8c848a5cffb74eaabf2e, type: 2}
   m_sharedMaterial: {fileID: 6534187640917903758, guid: ea4c437605fe8c848a5cffb74eaabf2e, type: 2}
@@ -12131,15 +12213,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
+  m_fontSize: 66
   m_fontSizeBase: 120
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 66
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 8192
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -12188,7 +12270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useMultipleKeys: 0
-  key: settings_ui_text
+  key: level_score
   keys: []
   useKeyIndex: 0
   textMesh: {fileID: 3621619184661915544}
@@ -13890,9 +13972,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 97, y: -50}
-  m_SizeDelta: {x: 180, y: 180}
-  m_Pivot: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 230, y: 230}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2337408215960886202
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14154,7 +14236,7 @@ MonoBehaviour:
   _sound:
     ID: 1073741838
     _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
-    <DebugObject>k__BackingField: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 6642187622822658470}
   _overrideGroup: {fileID: 0}
   _positionMode: 0
   _delay: 0
@@ -14461,7 +14543,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 620, y: 100}
+  m_SizeDelta: {x: 635.3, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6985190679018486467
 GameObject:
@@ -17976,7 +18058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3573255646858932170
 RectTransform:
   m_ObjectHideFlags: 0
