@@ -16,7 +16,7 @@ namespace CursedOnion.Game.Entity
 
         List<Vector3> soldierReachableTiles = new();
         List<Vector3> soldierReachableAttackTiles = new();
-        public List<Vector3> posCloseToHealers = new();
+        List<Vector3> posCloseToHealers = new();
 
         AIUnitController baseAI;
 
@@ -110,13 +110,14 @@ namespace CursedOnion.Game.Entity
             LazyInit();
 
             var unit = baseAI.GetUnit();
-            var allies = baseAI.GetTurnSystem().GetAllyUnits();
+            var allies = baseAI.GetTurnSystem().GetEnemyUnits();
 
             int totalNearby = 0;
             int alliesWhoUsedAbility = 0;
 
             foreach (var ally in allies)
             {
+                if (ally.Stats.SpecialAbilityType is not SoldierAbility) continue;
                 if (ally == unit) continue; 
 
                 float dist = Vector3.Distance(unit.transform.position, ally.transform.position);
