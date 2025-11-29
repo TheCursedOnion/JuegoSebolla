@@ -486,7 +486,7 @@ namespace CursedOnion.Game.Entity
                     
                     if (openMap.TryGetValue(neigh, out var existingOpen))
                     {
-                        if (tentativeG >= existingOpen.g) continue;
+                        /*if (tentativeG >= existingOpen.g) continue;
                         
                         if (IsDescendant(current, existingOpen)) continue;
 
@@ -494,6 +494,16 @@ namespace CursedOnion.Game.Entity
                         var replacement = RentNode(neigh, current, tentativeG, existingOpen.h); // conservamos h si lo prefieres
                         openMap[neigh] = replacement;
 
+                        openQueue.Enqueue(replacement, existingOpen.f);*/
+                        
+                        if (tentativeG >= existingOpen.g) continue;
+
+                        // Actualiza solo g y parent del nodo existente
+                        existingOpen.parent = current;
+                        existingOpen.g = tentativeG;
+
+                        // No crees un nodo nuevo ni devuelvas existingOpen al pool
+                        // La cola puede encolarlo de nuevo para reordenar según f
                         openQueue.Enqueue(existingOpen, existingOpen.f);
                     }
                     else
@@ -513,22 +523,17 @@ namespace CursedOnion.Game.Entity
         private static bool IsDescendant(Node parentCandidate, Node possibleChild)
         {
             var p = parentCandidate;
-            var visited = new HashSet<Node>();
+            int depth = 0;
 
-            while (p != null)
+            while (p != null && depth++ < 128)
             {
-                if (!visited.Add(p))
-                {
-                    return false;
-                }
-
-                if (p == possibleChild) 
+                if (p == possibleChild)
                     return true;
 
                 p = p.parent;
             }
-            return false;
 
+            return false;
         }
 
         private static void FillNeighbours(Vector3Int currentAirPos, Grid3d levelGrid, List<Vector3Int> neighbours, BattleSide side)

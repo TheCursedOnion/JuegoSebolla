@@ -87,14 +87,16 @@ namespace CursedOnion.Game.Objects
         {
             levelEvents.OnTurnFocus += FocusOnEntity;
             levelEvents.OnLevelStateChange += UpdateBehaviour;
-            levelEvents.OnTileSelectionRequested += ProcessSelectionRequest;
+            levelEvents.OnTileSelectionRequested += TryToSelect;
+            levelEvents.OnPreparedCommandLaunched += OnCommandLaunched;
         }
 
         private void OnDisable()
         {
             levelEvents.OnTurnFocus -= FocusOnEntity;
             levelEvents.OnLevelStateChange -= UpdateBehaviour;
-            levelEvents.OnTileSelectionRequested -= ProcessSelectionRequest;
+            levelEvents.OnTileSelectionRequested -= TryToSelect;
+            levelEvents.OnPreparedCommandLaunched -= OnCommandLaunched;
         }
 
         void UpdateBehaviour(LevelState previousState, LevelState currentState)
@@ -115,7 +117,11 @@ namespace CursedOnion.Game.Objects
             controller.GetCurrentBehaviour().SoftSelect(SelectTile());
         }
 
-        public void ProcessSelectionRequest()
+        void OnCommandLaunched(bool success)
+        {
+            if (!success) InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
+        }
+        void TryToSelect()
         {
             InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
         }

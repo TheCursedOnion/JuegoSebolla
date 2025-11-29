@@ -2,7 +2,9 @@ using CursedOnion.Game.Commands;
 using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Systems.Level;
+using Reflex.Attributes;
 using Reflex.Extensions;
+using Reflex.Injectors;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,25 +12,41 @@ namespace CursedOnion.Game.Entity.UI
 {
     public class UnitUI : MonoBehaviour
     {
+        enum CommandMode
+        {
+            None = -1,
+            Move = 0,
+            Attack = 1,
+            Ability = 2
+        }
+        
         [SerializeField] private UIButton moveButton;
         [SerializeField] private UIButton attackButton;
         [SerializeField] private UIButton specialButton;
         [SerializeField] private Image abilityImage;
         
-        LevelEvents levelEvents;
-        UIEvents uiEvents;
+        [Inject] LevelEvents levelEvents;
+        [Inject] UIEvents uiEvents;
+        
         Unit associatedUnit;
         CommandParameters commonParameters;
+        CommandMode lastMode = CommandMode.None;
+        UIButton lastSelectedButton;
         public void Initialize()
         {
             var container = gameObject.scene.GetSceneContainer();
-            levelEvents = container.Resolve<LevelEvents>();
-            uiEvents = container.Resolve<UIEvents>();
+            AttributeInjector.Inject(this, container);
             
             CommandParameters.Builder parametersBuilder = new CommandParameters.Builder();
             commonParameters = parametersBuilder.SetExecuteOnce(true).Build();
-        }
 
+            levelEvents.OnPreparedCommandLaunched += UpdateLastMode;
+        }
+        void OnDestroy()
+        {
+            if (associatedUnit != null) associatedUnit.OnEntityUpdate -= ProcessEntityUpdate;
+            levelEvents.OnPreparedCommandLaunched -= UpdateLastMode;
+        }
         public void AssociateUnit(Unit unit)
         {
             if (associatedUnit != null) associatedUnit.OnEntityUpdate -= ProcessEntityUpdate;
@@ -46,29 +64,65 @@ namespace CursedOnion.Game.Entity.UI
         {
             var actions = associatedUnit.ActionHandler;
             bool isNotIdle = actions.IsNotIdle();
+            lastMode = CommandMode.None;
             moveButton.SetInteractive(!actions.HasMoved() && !isNotIdle);
             attackButton.SetInteractive(!actions.HasAttacked() && !isNotIdle);
             specialButton.SetInteractive(!actions.HasUsedAbility() && !isNotIdle);
             abilityImage.sprite = associatedUnit.StatData.SpecialAbility?.AbilityIcon;
         }
-
-        public void SelectButtonUIEvent(UIButton button)
+        
+        void UpdateLastMode(bool _)
         {
-            uiEvents.SelectButton(button);
+            lastMode = CommandMode.None;
+            uiEvents.UnselectAllButtons();
         }
-        public void MoveUnit()
+        public void MoveUnit(UIButton button)
         {
-            levelEvents.CallPrepareCommand<MoveCommand>(commonParameters);
+            if (lastMode != CommandMode.Move)
+            {
+                levelEvents.CallPrepareCommand<MoveCommand>(commonParameters);
+                uiEvents.SelectButton(button);
+                lastMode = CommandMode.Move;
+            }
+            else
+            {
+                levelEvents.CancelPreparedCommand();
+                uiEvents.UnselectButton(button);
+                lastMode = CommandMode.None;
+            }
         }
 
-        public void AttackUnit()
+        public void AttackUnit(UIButton button)
         {
-            levelEvents.CallPrepareCommand<AttackCommand>(commonParameters);
+            if (lastMode != CommandMode.Attack)
+            {
+                levelEvents.CallPrepareCommand<AttackCommand>(commonParameters);
+                uiEvents.SelectButton(button);
+                lastMode = CommandMode.Attack;
+            }
+            else
+            {
+                levelEvents.CancelPreparedCommand();
+                uiEvents.UnselectButton(button);
+                lastMode = CommandMode.None;
+            }
         }
 
-        public void AbilityActivation()
+        public void AbilityActivation(UIButton button)
         {
-            levelEvents.CallPrepareCommand<AbilityCommand>(commonParameters);
+            if (lastMode != CommandMode.Ability)
+            {
+                levelEvents.CallPrepareCommand<AbilityCommand>(commonParameters);
+                levelEvents.SelectSpecialAbility(associatedUnit);
+                uiEvents.SelectButton(button);
+                lastMode = CommandMode.Ability;
+            }
+            else
+            {
+                levelEvents.CancelPreparedCommand();
+                uiEvents.UnselectButton(button);
+                lastMode = CommandMode.None;
+            }
         }
     }
 }

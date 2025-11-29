@@ -61,6 +61,8 @@ namespace CursedOnion.Game.Entity.Components
                 if (path == null || path.Count == 0)
                 {
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
+                    AssignedEntity.LevelEvents.InvokePathNotFound();
+                    AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
                     return;
                 }
                 

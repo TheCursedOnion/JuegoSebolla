@@ -18,6 +18,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         
         void Awake()
         {
+            inspector.SetUp(levelEvents);
             ClearInspector();
         }
         private void OnEnable()
@@ -43,12 +44,12 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
                 ClearInspector();
                 levelEvents.RequestTileSelection();
             }
-            else inspector.SetInspectorStatData(data);
+            else inspector.UpdateStatData(data);
         }
 
         void UpdateStatText(SimpleEntity entity)
         {
-            inspector.SetInspectorStats(entity);
+            inspector.UpdateStats(entity);
         }
     }
 }

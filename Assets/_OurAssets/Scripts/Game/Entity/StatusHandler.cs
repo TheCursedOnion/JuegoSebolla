@@ -27,9 +27,13 @@ namespace CursedOnion.Game.Entity
         }
         
         #region Movement
-        public void SetAdditionalMovement(int factor)
+        public void SetAdditionalMovement(int add)
         {
-            AdditionalMovement = factor;
+            AdditionalMovement = add;
+        }
+        public bool HasAdditionalMovement()
+        {
+            return AdditionalMovement > 0;
         }
         private void ResetAdditionalMovement()
         {
@@ -42,7 +46,10 @@ namespace CursedOnion.Game.Entity
         {
             AttackMultiplier = multiplier;
         }
-
+        public bool HasAttackMultiplier()
+        {
+            return AttackMultiplier > 1;
+        }
         private void ResetAttackMultiplier()
         {
             AttackMultiplier = 1;
@@ -96,6 +103,10 @@ namespace CursedOnion.Game.Entity
         public void SetAdditionalHP(int factor)
         {
             AdditionalHP = stats.MaxHealthStat * factor / 100;
+        }
+        public bool HasAdditionalHP(int factor)
+        {
+            return AdditionalHP > 0;
         }
         public int GetRemainingDamage(int damage)
         {
