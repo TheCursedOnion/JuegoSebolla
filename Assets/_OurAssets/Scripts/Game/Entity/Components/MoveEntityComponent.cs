@@ -28,7 +28,7 @@ namespace CursedOnion.Game.Entity.Components
             if (Vector3.Distance(lastTargetPosition, startWorldPos) < 0.1f) return;
             
             lastTargetPosition = startWorldPos;
-            await AStarPathFinder.InsertReachableGridPositionsAsyncBFS(previousReachablePositions, levelGrid, startWorldPos, movementRange, yieldFrequency);
+            await AStarPathFinder.InsertReachableGridPositionsAsyncBFS(previousReachablePositions, levelGrid, AssignedEntity.GetSide(), startWorldPos, movementRange, yieldFrequency);
         }
         
         public virtual async Task VisualizeMovement()
@@ -57,7 +57,7 @@ namespace CursedOnion.Game.Entity.Components
                 }
                 
                 grid.ResetPaint();
-                var path = AStarPathFinder.FindPath(startGrid, newPosition, grid);
+                var path = AStarPathFinder.FindPath(startGrid, newPosition, grid, AssignedEntity.GetSide());
                 if (path == null || path.Count == 0)
                 {
                     Debug.LogWarning("No se encontró camino (FindPath devolvió null/empty).");
@@ -80,7 +80,8 @@ namespace CursedOnion.Game.Entity.Components
             await CalculateReachablePositions(AssignedEntity.Grid, EntityTransform.position, moveRange);
             Vector3Int target = newPosition.CastToVectorInt();
             
-            return previousReachablePositions.Contains(target);
+            bool onTile = AssignedEntity.Grid.TryGetTileAtGridPosition(newPosition, out Tile3d tile);
+            return previousReachablePositions.Contains(target) && onTile && !tile.IsBlocked();
         }
         private IEnumerator MoveAlongPath(List<Vector3> path)
         {

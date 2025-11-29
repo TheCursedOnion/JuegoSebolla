@@ -12,6 +12,7 @@ namespace CursedOnion.Game.Entity
         HasAttacked = 1 << 2,
         HasUsedAbility = 1 << 3,
         IsNotIdle   = 1 << 4,
+        CannotCounter = 1 << 5,
     }
     public class ActionHandler : EntityFlagHandler<ActionFlag>
     {
@@ -21,8 +22,10 @@ namespace CursedOnion.Game.Entity
         public bool HasUsedAbility() => HasFlagRaised(ActionFlag.HasUsedAbility);
         
         public bool IsNotIdle() => HasFlagRaised(ActionFlag.IsNotIdle);
+        public bool CanCounter() => !HasFlagRaised(ActionFlag.CannotCounter);
+        
         public bool HasSpentAllActions() => HasAttacked() && HasUsedAbility() && HasMoved();
         
-        public void ResetAllActions() => ResetFlag(ActionFlag.HasAttacked | ActionFlag.HasUsedAbility | ActionFlag.HasMoved);
+        public void ResetAllActions() => ResetFlag(ActionFlag.HasAttacked | ActionFlag.CannotCounter | ActionFlag.HasUsedAbility | ActionFlag.HasMoved);
     }
 }

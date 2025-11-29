@@ -18,19 +18,20 @@ namespace CursedOnion.Game.Systems.Level
 {
     public class TurnSystem : MonoBehaviour
     {
-        private LevelEvents levelEvents;
-        
-        int currentInitiative;
-        private bool alliesProcessedForCurrentInitiative = false;
-        private bool battleStarted = false;
-
         [SerializeField] private List<Unit> allies = new List<Unit>();
         [SerializeField] private List<Unit> enemies = new List<Unit>();
         [SerializeField] private List<Unit> activeUnits = new List<Unit>();
-        
+        List<Unit> mergedUnits = new List<Unit>();
         public List<Unit> GetActiveUnits() => activeUnits;
         public List<Unit> GetAllyUnits() => allies;
         public List<Unit> GetEnemyUnits() => enemies;
+        public List<Unit> GetMergedUnits() => mergedUnits;
+        
+        LevelEvents levelEvents;
+        int currentInitiative;
+        bool isNextAllyTurn = true;
+        bool battleStarted = false;
+        bool CanContinue() => allies.Count > 0 && enemies.Count > 0;
         
         public void Initialize(LevelEvents levelEvents)
         {
@@ -39,16 +40,7 @@ namespace CursedOnion.Game.Systems.Level
             levelEvents.OnUnitTurnRegisterPetition += AddUnit;
             levelEvents.OnUnitTurnUnregisterPetition += RemoveUnit;
         }
-
-        void TryToBegin(LevelState previousState, LevelState newState)
-        {
-            if(newState == LevelState.InBattle) BeginBattle();
-        }
-        public void BeginBattle()
-        {
-            battleStarted = true;
-            OrganizeLists();
-        }
+        
         private void OnDisable()
         {
             levelEvents.OnLevelStateChange -= TryToBegin;
@@ -85,85 +77,117 @@ namespace CursedOnion.Game.Systems.Level
                 if(unit.IsBoss) levelEvents.InvokeBossEnemyDeath();
             }
 
+            if (mergedUnits.Contains(unit))
+            {
+                mergedUnits.Remove(unit);
+                levelEvents.UpdateMergedUnitList(mergedUnits);
+            }
+
             CheckForBattleEnd();
+        }
+        
+        void TryToBegin(LevelState previousState, LevelState newState)
+        {
+            if(newState == LevelState.InBattle) BeginBattle();
+        }
+        public void BeginBattle()
+        {
+            battleStarted = true;
+            isNextAllyTurn = true;
+            
+            OrganizeLists();
+
+            ResetInitiative();
+            ProcessTurn();
         }
         void OrganizeLists()
         { 
-            Debug.Log("======== NUEVA RONDA EMPIEZA ========");
             if (allies.Count == 0 || enemies.Count == 0) return;
             
-            levelEvents.PassRound();
             allies = allies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
             enemies = enemies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
-
+            
+            mergedUnits = allies.Concat(enemies)
+                .OrderByDescending(u => u.Stats.InitiativeStat)
+                .ThenBy(u => u.GetSide() == BattleSide.Enemy ? 1 : 0)
+                .ToList();
+            
+            levelEvents.UpdateMergedUnitList(mergedUnits);
+        }
+        void ResetInitiative()
+        {
+            Debug.Log("======== NUEVA RONDA EMPIEZA ========");
+            levelEvents.PassRound();
+            
             var maxAllyInitiative = allies[0].Stats.InitiativeStat;
             var maxEnemyInitiative = enemies[0].Stats.InitiativeStat;
             currentInitiative = Mathf.Max(maxEnemyInitiative, maxAllyInitiative);
-            
-            StartInitiativeGroup();
         }
-        //private void StartTurnFor(List<Unit> )
-        void StartInitiativeGroup()
+        void ProcessTurn()
         {
-            Debug.Log($"-- Iniciativa actual: {currentInitiative} --");
+            bool isAllyTurn = isNextAllyTurn;
+            Debug.Log($"-- Iniciativa actual: {currentInitiative} | Para aliados? {isAllyTurn} --");
             
-            var turnGroup = !alliesProcessedForCurrentInitiative
-                ? allies.Where(u => u.Stats.InitiativeStat == currentInitiative).ToList()
-                : enemies.Where(u => u.Stats.InitiativeStat == currentInitiative).ToList();
-            alliesProcessedForCurrentInitiative = !alliesProcessedForCurrentInitiative;
+            isNextAllyTurn = !isNextAllyTurn;
+            
+            var source = isAllyTurn ? allies : enemies;
+            var turnGroup = source
+                .Where(u => u.Stats.InitiativeStat == currentInitiative)
+                .ToList();
 
-            if (turnGroup.Count > 0)
-                HandleGroup(turnGroup);
+            bool handled = HandleGroup(turnGroup);
+
+            if (!handled)
+            {
+                if (!isAllyTurn) MoveToNextInitiative();
+                else ProcessTurn();
+            }
             else
-                MoveToNextTurn();
+            {
+                levelEvents.InvokeTurnBegin(isAllyTurn);
+            }
+
+            
         }
-        void MoveToNextTurn()
+        void MoveToNextInitiative()
         {
-            if (alliesProcessedForCurrentInitiative)
+            if (isNextAllyTurn)
             {
                 currentInitiative--;
-                if (currentInitiative > 0)
-                    StartInitiativeGroup();
-                else
-                    OrganizeLists();
+                if (currentInitiative == 0) ResetInitiative();
             }
-            else
-            {
-                StartInitiativeGroup();
-            }
+            ProcessTurn();
         }
-        void HandleGroup(List<Unit> groupList)
+        bool HandleGroup(List<Unit> groupList)
         {
-            if (groupList.Count == 0) return;
+            if (groupList.Count == 0) return false;
             
             activeUnits.Clear();
             activeUnits.AddRange(groupList);
-
-            bool groupIsAllies = groupList[0].GetSide() == BattleSide.Ally;
-
-            if (groupIsAllies)
+            
+            
+            foreach (var unit in activeUnits)
             {
-                foreach (var unit in activeUnits)
-                    unit.EntityController.ProcessTurn();
-
-                ChooseStartingUnit();
+                unit.NotifyStartTurn();
             }
-            else
+
+            IEnumerable<Unit> unitsToProcess = !isNextAllyTurn 
+                ? activeUnits 
+                : activeUnits.Take(1);
+
+            foreach (var unit in unitsToProcess)
             {
-                ChooseStartingEnemyUnit();
+                unit.EntityController.ProcessTurn();
             }
             
-            levelEvents.InvokeTurnBegin(alliesProcessedForCurrentInitiative);
+            FocusOnStartingUnit();
+            
+            return true;
         }
-        void ChooseStartingUnit()
+        void FocusOnStartingUnit()
         {
-            activeUnits[0].FocusOnUnit();
-        }
-
-        void ChooseStartingEnemyUnit()
-        {
-            activeUnits[0].FocusOnUnit();
-            activeUnits[0].EntityController.ProcessTurn();
+            var unit = activeUnits[0];
+            unit.FocusOnUnit();
         }
 
         public bool IsUnitActive(Unit unit) => activeUnits.Contains(unit);
@@ -182,7 +206,8 @@ namespace CursedOnion.Game.Systems.Level
             EndTurnForUnit(unit);
             if (activeUnits.Count > 0)
             {
-                ChooseStartingEnemyUnit();
+                activeUnits[0].EntityController.ProcessTurn();
+                FocusOnStartingUnit();
             }
             else
             {
@@ -198,9 +223,18 @@ namespace CursedOnion.Game.Systems.Level
         private void InvokeEndTurn()
         {
             levelEvents.InvokeTurnEnd();
-            
-            if(allies.Count > 0 && enemies.Count > 0)
-                MoveToNextTurn();
+
+            if (CanContinue())
+            {
+                if (isNextAllyTurn)
+                {
+                    MoveToNextInitiative();
+                }
+                else
+                {
+                    ProcessTurn();
+                }
+            }
         }
 
         private void CheckForBattleEnd()

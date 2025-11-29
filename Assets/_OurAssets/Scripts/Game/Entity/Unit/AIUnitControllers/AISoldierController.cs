@@ -85,6 +85,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 soldierReachableTiles,
                 grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
@@ -206,6 +207,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 soldierReachableTiles,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );

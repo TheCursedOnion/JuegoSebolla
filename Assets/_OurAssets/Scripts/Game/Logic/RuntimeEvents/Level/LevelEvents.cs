@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Events;
@@ -98,8 +99,14 @@ namespace CursedOnion.Game.Systems.Level
             OnLevelStateChange?.Invoke(previousState, newState);
             CancelPreparedCommand();
         }
-
-
+        public event Action<bool> OnLevelCompleted;
+        public void InvokeLevelCompleted(bool levelWon)
+        {
+            OnLevelCompleted?.Invoke(levelWon);
+        }
+        #endregion
+        
+        #region Turn Events
         public event Action<Unit> OnUnitTurnRegisterPetition;
         public void RegisterUnitForTurn(Unit unit)
         {
@@ -111,12 +118,19 @@ namespace CursedOnion.Game.Systems.Level
         {
             OnUnitTurnUnregisterPetition?.Invoke(unit);
         }
-
+        
+        public event Action<List<Unit>> OnMergedUnitListUpdated;
+        public void UpdateMergedUnitList(List<Unit> mergedUnits)
+        {
+            OnMergedUnitListUpdated?.Invoke(mergedUnits);
+        }
+        
         public event Action<bool> OnTurnBegin;
         public void InvokeTurnBegin(bool isPlayerTurn)
         {
             OnTurnBegin?.Invoke(isPlayerTurn);
         }
+        
         public event Action OnTurnEnded;
         public void InvokeTurnEnd()
         {
@@ -127,12 +141,6 @@ namespace CursedOnion.Game.Systems.Level
         public void InvokeTurnFocus(SimpleEntity entity)
         {
             OnTurnFocus?.Invoke(entity);
-        }
-
-        public event Action<bool> OnLevelCompleted;
-        public void InvokeLevelCompleted(bool levelWon)
-        {
-            OnLevelCompleted?.Invoke(levelWon);
         }
         #endregion
 

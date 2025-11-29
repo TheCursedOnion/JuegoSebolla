@@ -32,11 +32,16 @@ namespace CursedOnion.Game.Entity
         [Expandable] public StatData StatData;
         public ExtendedEntityStats Stats;
         
-        //Flags
+        
         public ActionHandler ActionHandler;
         public StatusHandler StatusHandler;
+        
         public event Action<SimpleEntity> OnEntityUpdate;
         public void NotifyActionUpdate() => OnEntityUpdate?.Invoke(this);
+        
+        public event Action OnStartTurn;
+        public void NotifyStartTurn() => OnStartTurn?.Invoke();
+        
         protected void Awake()
         {
             Stats = new ExtendedEntityStats();

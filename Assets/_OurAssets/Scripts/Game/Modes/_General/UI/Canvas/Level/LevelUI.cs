@@ -16,8 +16,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         const string ResultsContainer = "Results Container Variables";
         
         [Inject] LevelManager levelManager;
-        
-        [SerializeField] private UnitActionsWindow actionsWindow;
+
+        [SerializeField] private float endFadeDelay = 1f;
         [SerializeField] float fadeTime = 0.5f;
         
         [SerializeField, BoxGroup(CameraContainer)] private CanvasGroup cameraButtonsGroup;
@@ -25,6 +25,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         [SerializeField, BoxGroup(GameplayContainer)] private CanvasGroup gameplayGroup;
         [SerializeField, BoxGroup(GameplayContainer)] private GameObject battleEditorScreen;
         [SerializeField, BoxGroup(GameplayContainer)] private GameObject battleScreen;
+        [SerializeField, BoxGroup(GameplayContainer)] private UnitActionsWindow actionsWindow;
+        [SerializeField, BoxGroup(GameplayContainer)] private TurnInspector turnInspector;
         
         [SerializeField, BoxGroup(SettingsContainer)] private CanvasGroup settingsGroup;
         
@@ -38,6 +40,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             levelManager.LevelEvents.OnIntroFinished += OnIntroDone;
             
             actionsWindow.Initialize(levelManager);
+            turnInspector.Initialize(levelManager);
+            
             resultsGroup.GetOrAddComponent<LevelOutcomeController>().Initialize();
             
             DisableAllGroups();
@@ -57,10 +61,10 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             gameplayGroup.SetGroupActive(false, 0f);
             resultsGroup.SetGroupActive(false, 0f);
         }
-        void EnableOnlyGroup(CanvasGroup container)
+        void EnableOnlyGroup(CanvasGroup container, float delay = 0f)
         {
             DisableAllGroups();
-            container.SetGroupActive(true, fadeTime);
+            container.SetGroupActive(true, fadeTime, delay);
         }
         void EnableOnlyGroups(params CanvasGroup[] container)
         {
@@ -99,7 +103,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
                 case LevelState.InDialog:
                 case LevelState.InBattleEditor: EnableScreen(battleEditorScreen); break;
                 case LevelState.InBattle: EnableScreen(battleScreen); break;
-                case LevelState.Finished: EnableOnlyGroup(resultsGroup); break;
+                case LevelState.Finished: EnableOnlyGroup(resultsGroup, endFadeDelay); break;
             }
         }
         void DisableAllScreens()

@@ -16,6 +16,10 @@ namespace CursedOnion.Game.Objects
                 builder.SetTargetTile(data.Tile);
                 LaunchCommand(builder.Build());
             }
+            else
+            {
+                SoftSelect(data);
+            }
         }
         public override void SoftSelect(SelectionData data)
         {

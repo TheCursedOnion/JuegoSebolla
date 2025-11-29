@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Entity.UI;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Systems.Level;
-using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -46,6 +46,7 @@ namespace CursedOnion.Game.Cameras
         {
             var offset = Offset.Offset;
             offset.z = zOffset;
+            StopAllCoroutines();
             StartCoroutine(IEOffset(offset, smoothTime));
         }
 
