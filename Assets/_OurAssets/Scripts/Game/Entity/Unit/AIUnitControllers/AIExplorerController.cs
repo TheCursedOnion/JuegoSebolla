@@ -256,8 +256,6 @@ namespace CursedOnion.Game.Entity
             var unit = baseAI.GetUnit();
             explorerReachableTiles.Clear();
 
-            Debug.Log("Explorer HA USADO HABILIDAD????" + baseAI.GetUnit().ActionHandler.HasUsedAbility());
-
             if (baseAI.GetUnit().ActionHandler.HasUsedAbility())
             {
                 _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
