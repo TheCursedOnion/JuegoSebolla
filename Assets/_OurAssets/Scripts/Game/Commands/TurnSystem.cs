@@ -21,11 +21,13 @@ namespace CursedOnion.Game.Systems.Level
         [SerializeField] private List<Unit> allies = new List<Unit>();
         [SerializeField] private List<Unit> enemies = new List<Unit>();
         [SerializeField] private List<Unit> activeUnits = new List<Unit>();
+        [SerializeField] private List<Unit> wallEntities = new List<Unit>();
         List<Unit> mergedUnits = new List<Unit>();
         public List<Unit> GetActiveUnits() => activeUnits;
         public List<Unit> GetAllyUnits() => allies;
         public List<Unit> GetEnemyUnits() => enemies;
         public List<Unit> GetMergedUnits() => mergedUnits;
+        public List<Unit> GetWallEntities() => wallEntities;
         
         LevelEvents levelEvents;
         int currentInitiative;
