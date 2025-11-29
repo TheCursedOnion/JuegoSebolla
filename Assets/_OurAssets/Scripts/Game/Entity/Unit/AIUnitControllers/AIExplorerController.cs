@@ -57,6 +57,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 sprintReachableTiles,
                 grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat + 2 // Sprint range
             );
@@ -125,6 +126,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 explorerReachableTiles,
                 grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
@@ -165,6 +167,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 sprintReachableTiles,
                 grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat + 2 // Sprint range
             );
@@ -260,6 +263,7 @@ namespace CursedOnion.Game.Entity
                 _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                     explorerReachableTiles,
                     unit.Grid,
+                    unit.GetSide(),
                     unit.transform.position,
                     unit.Stats.MovementStat + 2
                 );
@@ -269,6 +273,7 @@ namespace CursedOnion.Game.Entity
                 _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                     explorerReachableTiles,
                     unit.Grid,
+                    unit.GetSide(),
                     unit.transform.position,
                     unit.Stats.MovementStat // Sprint range
                 );

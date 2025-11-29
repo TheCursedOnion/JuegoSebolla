@@ -151,6 +151,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 archerReachableTiles,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
