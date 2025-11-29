@@ -47,6 +47,7 @@ namespace CursedOnion.Game.Entity
         }
         public virtual void Initialize(SimpleEntity entity, EntityComponents components)
         {
+            Debug.Log("ASSIGNED ENTITY: " + entity?.name);
             AssignedEntity = entity;
             PlaceEntityComponent = components.PlaceEntityComponent;
             MoveEntityComponent = components.MoveEntityComponent;

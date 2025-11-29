@@ -24,7 +24,11 @@ namespace CursedOnion.Game.Modes.General.Animations
         }
         public void PlayAnimation(string animationName)
         {
-            foreach (Animator animator in entityAnimators) animator.Play(animationName);
+            foreach (Animator animator in entityAnimators)
+            {
+                animator.Play(animationName, -1, 0f);
+            }
+            
         }
         public void TestPlayAnimation()
         {
@@ -46,6 +50,7 @@ namespace CursedOnion.Game.Modes.General.Animations
             else
             {
                 assignedEntity.ActionHandler.ResetFlag(ActionFlag.IsNotIdle);
+                PlayAnimation("idle");
             }
                 
         }
@@ -69,6 +74,7 @@ namespace CursedOnion.Game.Modes.General.Animations
                         assignedEntity.EntityController.AttackComponent.DoAttack(target, false);
                     }
                     break;
+                
             }
             //TODO: Process finished animation
         }

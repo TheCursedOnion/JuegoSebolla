@@ -14,8 +14,6 @@ namespace CursedOnion.Game.Entity
     public class AIUnitController : EntityComponentController
     {
         LevelManager levelManager;
-        AssetBehaviourRunner runner;
-        bool startTurn = false;
 
         Unit unit;
         public Unit GetUnit() => unit;
@@ -34,21 +32,19 @@ namespace CursedOnion.Game.Entity
         public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
             base.Initialize(entity, components);
-            runner = gameObject.GetComponent<AssetBehaviourRunner>();
             turnSystem = entity.LevelManager.GetTurnSystem();
             unit = entity as Unit;
         }
         public override void ProcessTurn()
         {
             base.ProcessTurn();
-            startTurn = true;
-            Debug.Log("ES EL TURNO DE LA IA " + gameObject.name + "STARTURN: " + startTurn);
+            AssignedEntity.HasTurn = true;
         }
 
-        public bool StartTurn() 
+        public bool HasTurn() 
         {
-            Debug.Log("START TURN ESTADO: " + startTurn + " OBJECT " + gameObject.name);
-            return startTurn;
+            bool hasTurn = AssignedEntity != null && AssignedEntity.HasTurn;
+            return hasTurn;
         } 
 
         #region Percepciones Generales
@@ -425,12 +421,9 @@ namespace CursedOnion.Game.Entity
 
         public void EndAITurn()
         {
-            Debug.LogWarning("La IA " + gameObject.name + " ha terminado su turno./////////////////////////////////////");
-
-            if (turnSystem != null && startTurn)
+            if (turnSystem != null &&  AssignedEntity.HasTurn)
             {
-                Debug.LogWarning("La IA " + gameObject.name + " ha terminado su turno.");
-                //startTurn = false;
+                AssignedEntity.HasTurn = false;
                 turnSystem.EndTurnForAIUnit(unit);
             }
         }

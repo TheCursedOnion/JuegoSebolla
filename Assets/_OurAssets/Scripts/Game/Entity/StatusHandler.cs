@@ -4,6 +4,7 @@ namespace CursedOnion.Game.Entity
 {
     public class StatusHandler
     {
+        SimpleEntity assignedEntity;
         ExtendedEntityStats stats;
 
         public SimpleEntity CounterAttackTarget;
@@ -16,6 +17,8 @@ namespace CursedOnion.Game.Entity
         public StatusHandler(SimpleEntity entityOwner, ExtendedEntityStats stats)
         {
             this.stats = stats;
+            assignedEntity = entityOwner;
+            
             AdditionalHP = 0;
             IsConfused = false;
             ConfusedTurnsRemaining = 0;
@@ -72,13 +75,19 @@ namespace CursedOnion.Game.Entity
         {
             IsConfused = true;
             ConfusedTurnsRemaining = turns;
+            
+            //assignedEntity.GetLayeredEntity().PlayAnimation("confusion");
         }
         private void DecreaseConfusion()
         {
             if (IsConfused)
             {
                 ConfusedTurnsRemaining--;
-                if (ConfusedTurnsRemaining <= 0) IsConfused = false;
+                if (ConfusedTurnsRemaining <= 0)
+                {
+                    IsConfused = false;
+                    //assignedEntity.GetLayeredEntity().PlayAnimation("idle");
+                }
             }
         }
         #endregion

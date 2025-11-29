@@ -42,7 +42,6 @@ namespace CursedOnion.Game.Entity
             }
             
             SetComponents();
-            cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
             AfterSpawn();
         }
         
@@ -68,7 +67,11 @@ namespace CursedOnion.Game.Entity
         {
             EntitySide = side;
         }
-        
+        protected override void SetComponents()
+        {
+            base.SetComponents();
+            cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
+        }
         void AfterSpawn()
         {
             if (unitUI != null) unitUI.SetActive(false);

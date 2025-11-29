@@ -10,6 +10,7 @@ using Reflex.Core;
 using Reflex.Extensions;
 using Reflex.Injectors;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -27,14 +28,14 @@ namespace CursedOnion.Game.Entity
 
         public EntityComponentController EntityController;
         [SerializeField] protected LayeredEntity LayeredEntity;
-        
+        public LayeredEntity GetLayeredEntity() => LayeredEntity;
         
         [HorizontalLine(height: 2f, color: EColor.Violet)]
         [FormerlySerializedAs("Data")]
         [Expandable] public StatData StatData;
         public ExtendedEntityStats Stats;
         
-        
+        public bool HasTurn = false;
         public ActionHandler ActionHandler;
         public StatusHandler StatusHandler;
         
@@ -55,22 +56,22 @@ namespace CursedOnion.Game.Entity
             SetComponents();
         }
 
-        protected void SetComponents()
+        protected virtual void SetComponents()
         {
             switch (GetSide())
             {
                 case BattleSide.Ally:
-                    EntityController ??= gameObject.AddComponent<PlayerUnitController>();
+                    EntityController ??= gameObject.GetOrAddComponent<PlayerUnitController>();
                     break;
                 case BattleSide.Enemy:
-                    EntityController ??= gameObject.AddComponent<AIUnitController>();
+                    EntityController ??= gameObject.GetOrAddComponent<AIUnitController>();
                     break;
                 case BattleSide.Neutral:
-                    EntityController ??= gameObject.AddComponent<EntityComponentController>();
+                    EntityController ??= gameObject.GetOrAddComponent<EntityComponentController>();
                     break;
             }
             EntityController.Initialize(this, StatData.EntityComponents);
-            EntityController.GetEntityComponent<PlaceEntityComponent>().PlaceEntity();
+            EntityController.PlaceComponent.PlaceEntity();
         }
 
         public void Dispose()
