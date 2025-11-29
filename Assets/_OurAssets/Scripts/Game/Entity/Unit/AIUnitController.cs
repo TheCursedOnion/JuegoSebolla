@@ -85,6 +85,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 reachableMovePositions,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
@@ -118,7 +119,7 @@ namespace CursedOnion.Game.Entity
 
         public void EnemyMove()
         {
-            Debug.Log("EL ENEMIGO VA A MOVERSE A " + TargetedPosToMove);
+            Debug.Log($"EL ENEMIGO {gameObject.name} VA A MOVERSE A " + TargetedPosToMove);
             GetEntityComponent<MoveEntityComponent>().DoMove(TargetedGridPosToMove, false);
         }
 
@@ -192,14 +193,13 @@ namespace CursedOnion.Game.Entity
 
             foreach (var tile in adjacentTiles)
             {
-                var path = AStarPathFinder.FindPath(startGridPos, tile, unit.Grid);
+                var path = AStarPathFinder.FindPath(startGridPos, tile, unit.Grid, AssignedEntity.GetSide());
                 if (path == null || path.Count == 0)
                 {
-                    Debug.Log("No se encontró camino hacia el tile " + tile);
+                    Debug.Log("No se encontrÃ³ camino hacia el tile " + tile);
                     continue;
                 }
-
-
+                
                 if (path.Count < bestPathLen)
                 {
                     bestPathLen = path.Count;
@@ -215,6 +215,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 reachableMovePositions,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );

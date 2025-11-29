@@ -77,6 +77,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 
             if (lastMode == 0)
             {
+                levelEvents.CancelPreparedCommand();
                 EnableEditorVisualEffect(false);
                 return;
             }

@@ -18,7 +18,7 @@ namespace CursedOnion.Extensions
             return GetOrAddComponent<T>(c.gameObject);
         }
 
-        public static void SetGroupActive(this CanvasGroup canvasGroup, bool enable, float time)
+        public static void SetGroupActive(this CanvasGroup canvasGroup, bool enable, float time, float delay = 0)
         {
             canvasGroup.interactable = enable;
             if(enable) canvasGroup.gameObject.SetActive(true);
@@ -27,6 +27,7 @@ namespace CursedOnion.Extensions
             
             float final = enable ? 1 : 0;
             LeanTween.alphaCanvas(canvasGroup, final, time).setEase(LeanTweenType.easeInOutQuad)
+                .setDelay(delay)
                 .setOnComplete(() =>
                 {
                     if (!enable) canvasGroup.gameObject.SetActive(false);

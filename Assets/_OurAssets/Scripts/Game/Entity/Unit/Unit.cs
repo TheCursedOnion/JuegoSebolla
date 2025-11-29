@@ -116,7 +116,11 @@ namespace CursedOnion.Game.Entity
 
             if (Stats.CurrentHealthStat > 0)
             {
-                if (!ActionHandler.HasAttacked() && attacker is Unit unit && unit.Stats.SpecialAbilityType is not ArcherAbility)
+                if (this.ActionHandler.CanCounter()
+                    && this.Stats.SpecialAbilityType is not ArcherAbility
+                    && attacker is Unit attackerUnit
+                    && attackerUnit.Stats.SpecialAbilityType is not ArcherAbility
+                    )
                 {
                     StatusHandler.SetCounterAttackTarget(attacker);
                 }
@@ -134,9 +138,14 @@ namespace CursedOnion.Game.Entity
                 
                 case BattleSide.Ally:
                 default: 
-                    LevelEvents.InvokeTurnFocus(this);
+                    CheckUnit();
                     break;
             }
+        }
+
+        public void CheckUnit()
+        {
+            LevelEvents.InvokeTurnFocus(this);
         }
     }
 }

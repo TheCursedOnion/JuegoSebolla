@@ -74,6 +74,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 healerReachableTiles,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
@@ -132,6 +133,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 healerReachableTiles,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
@@ -265,6 +267,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 healerReachableTiles,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );
@@ -317,6 +320,7 @@ namespace CursedOnion.Game.Entity
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 healerReachableTiles,
                 unit.Grid,
+                unit.GetSide(),
                 unit.transform.position,
                 unit.Stats.MovementStat
             );

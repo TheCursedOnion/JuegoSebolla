@@ -111,6 +111,15 @@ namespace CursedOnion.Game.Systems.Grid
         {
             return (transformedEntryDirections & ~blockedEntryDirections) == 0;
         }
+        public bool HasEntityWithSide(BattleSide side)
+        {
+            return containedEntity != null && containedEntity.GetSide() == side;
+        }
+        public bool IsBlockedByEnemyOf(BattleSide side)
+        {
+            return IsBlocked() && !HasEntityWithSide(side);
+        }
+        
         public bool IsEmptyTile()
         {
             return descriptor.IsAirBlock;

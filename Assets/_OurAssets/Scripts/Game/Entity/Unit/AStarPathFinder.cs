@@ -43,21 +43,31 @@ namespace CursedOnion.Game.Entity
 
         private static Node RentNode(Vector3Int pos, Node parent, float g, float h)
         {
+            Node n;
             if (NodePool.Count > 0)
-            {
-                var n = NodePool.Pop();
-                n.Reset(pos, parent, g, h);
-                return n;
-            }
+                n = NodePool.Pop();
+            else
+                n = new Node();
 
-            return new Node { gridPosition = pos, parent = parent, g = g, h = h };
+            n.gridPosition = pos;
+            n.parent = parent;
+            n.g = g;
+            n.h = h;
+
+            return n;
         }
 
         private static void ReturnNode(Node n)
         {
+            if (n == null) return;
+
             n.parent = null;
+            n.g = 0f;
+            n.h = 0f;
+
             NodePool.Push(n);
         }
+
 
         #endregion
 
@@ -251,10 +261,15 @@ namespace CursedOnion.Game.Entity
         public static async Task InsertReachableGridPositionsAsyncBFS(
             List<Vector3> positions,
             Grid3d levelGrid,
+            BattleSide side,
             Vector3 startWorldPos,
             int movementRange,
             int yieldFrequency = 100)
         {
+            void TryAdd(Vector3 position)
+            {
+                if(!positions.Contains(position)) positions.Add(position);
+            }
             if (!levelGrid.TryWorldToGridPosition(startWorldPos, out Vector3 startGridFloat))
                 return;
 
@@ -296,7 +311,7 @@ namespace CursedOnion.Game.Entity
                         if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
 
                         Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                        if (stairTopTile != null && !stairTopTile.IsBlocked())
+                        if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side))
                         {
                             int newCost = currentCost + Mathf.RoundToInt(currentDesc.Cost);
                             if (newCost <= movementRange &&
@@ -304,7 +319,7 @@ namespace CursedOnion.Game.Entity
                             {
                                 costSoFar[stairTopPos] = newCost;
                                 frontier.Enqueue((stairTopPos, newCost));
-                                positions.Add(stairTopPos);
+                                TryAdd(stairTopPos);
                             }
                         }
                     }
@@ -320,12 +335,12 @@ namespace CursedOnion.Game.Entity
                     if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
 
                     Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
-                    if (nextAirTile == null || nextAirTile.IsBlocked()) continue;
+                    if (nextAirTile == null || nextAirTile.IsBlockedByEnemyOf(side)) continue;
 
                     var nextAirDesc = nextAirTile.GetTileDescriptor();
 
                     // Subir a escalera
-                    if (nextAirDesc.IsStairBlock && nextAirTile.CanBeAccessedFrom(dir))
+                    if (nextAirDesc.IsStairBlock && (nextAirTile.CanBeAccessedFrom(dir) || nextAirTile.HasEntityWithSide(side)))
                     {
                         int newCost = currentCost + Mathf.RoundToInt(nextAirDesc.Cost);
                         if (newCost <= movementRange &&
@@ -333,7 +348,7 @@ namespace CursedOnion.Game.Entity
                         {
                             costSoFar[nextAirPos] = newCost;
                             frontier.Enqueue((nextAirPos, newCost));
-                            positions.Add(nextAirPos);
+                            TryAdd(nextAirPos);
                         }
 
                         // También intentar la posición superior de la escalera
@@ -341,7 +356,7 @@ namespace CursedOnion.Game.Entity
                         if (levelGrid.IsGridPositionInBounds(stairTopPos))
                         {
                             Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                            if (stairTopTile != null && !stairTopTile.IsBlocked())
+                            if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side))
                             {
                                 int newCostTop = currentCost + Mathf.RoundToInt(nextAirDesc.Cost);
                                 if (newCostTop <= movementRange && (!costSoFar.ContainsKey(stairTopPos) ||
@@ -349,7 +364,7 @@ namespace CursedOnion.Game.Entity
                                 {
                                     costSoFar[stairTopPos] = newCostTop;
                                     frontier.Enqueue((stairTopPos, newCostTop));
-                                    positions.Add(stairTopPos);
+                                    TryAdd(stairTopPos);
                                 }
                             }
                         }
@@ -360,7 +375,7 @@ namespace CursedOnion.Game.Entity
                     if (levelGrid.IsGridPositionInBounds(stairDownPos))
                     {
                         Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
-                        if (stairDownTile != null && !stairDownTile.IsBlocked())
+                        if (stairDownTile != null && !stairDownTile.IsBlockedByEnemyOf(side))
                         {
                             var stairDownDesc = stairDownTile.GetTileDescriptor();
                             if (!stairDownDesc.IsAirBlock && !stairDownDesc.IsFullBlock)
@@ -371,7 +386,7 @@ namespace CursedOnion.Game.Entity
                                 {
                                     costSoFar[stairDownPos] = newCost;
                                     frontier.Enqueue((stairDownPos, newCost));
-                                    positions.Add(stairDownPos);
+                                    TryAdd(stairDownPos);
                                 }
                             }
                         }
@@ -388,7 +403,7 @@ namespace CursedOnion.Game.Entity
                     if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
 
                     DirectionFlag moveDir = DirectionHelper.GetDirectionFlag((Vector3)dir);
-                    if (nextAirTile.CanBeAccessedFrom(moveDir))
+                    if (nextAirTile.CanBeAccessedFrom(moveDir) || nextAirTile.HasEntityWithSide(side))
                     {
                         int newCost = currentCost + Mathf.RoundToInt(groundDesc.Cost);
                         if (newCost <= movementRange &&
@@ -396,7 +411,7 @@ namespace CursedOnion.Game.Entity
                         {
                             costSoFar[nextAirPos] = newCost;
                             frontier.Enqueue((nextAirPos, newCost));
-                            positions.Add(nextAirPos);
+                            TryAdd(nextAirPos);
                         }
                     }
                 }
@@ -407,16 +422,19 @@ namespace CursedOnion.Game.Entity
             }
         }
 
-        public static List<Vector3> FindPath(Vector3 startGridFloat, Vector3 targetGridFloat, Grid3d levelGrid)
+        public static List<Vector3> FindPath(Vector3 startGridFloat, Vector3 targetGridFloat, Grid3d levelGrid, BattleSide side)
         {
             Vector3Int start = Vector3Int.FloorToInt(startGridFloat);
             Vector3Int target = Vector3Int.FloorToInt(targetGridFloat);
 
-            if (!levelGrid.IsGridPositionInBounds(start) || !levelGrid.IsGridPositionInBounds(target))
+            if (!levelGrid.IsGridPositionInBounds(start)
+                || !levelGrid.TryGetTileAtGridPosition(target, out Tile3d targetTile)
+                || targetTile.IsBlocked())
                 return null;
 
             var openQueue = new PriorityQueue<Node>();
             var openMap = new Dictionary<Vector3Int, Node>();
+            var closedSet = new HashSet<Vector3Int>();
             var closedCosts = new Dictionary<Vector3Int, float>();
 
             var startNode = RentNode(start, null, 0f, Heuristic(start, target));
@@ -438,6 +456,7 @@ namespace CursedOnion.Game.Entity
 
                 // Remover del mapa abierto porque ahora está en cerrado
                 openMap.Remove(current.gridPosition);
+                closedSet.Add(current.gridPosition);
                 closedCosts[current.gridPosition] = current.g;
 
                 if (current.gridPosition == target)
@@ -450,26 +469,30 @@ namespace CursedOnion.Game.Entity
                 }
 
                 neighbourList.Clear();
-                FillNeighbours(current.gridPosition, levelGrid, neighbourList);
+                FillNeighbours(current.gridPosition, levelGrid, neighbourList, side);
 
                 foreach (var neigh in neighbourList)
                 {
                     Tile3d tile = levelGrid.GetTileAtGridPosition(neigh);
-                    if (tile == null || tile.IsBlocked()) continue;
+                    if (tile == null || tile.IsBlockedByEnemyOf(side)) continue;
 
                     float tentativeG = current.g + 1f;
 
-                    if (closedCosts.TryGetValue(neigh, out float closedG) && tentativeG >= closedG)
+                    if (closedCosts.ContainsKey(neigh))
                         continue;
 
+                    if (closedSet.Contains(neigh))
+                        continue;
+                    
                     if (openMap.TryGetValue(neigh, out var existingOpen))
                     {
-                        if (tentativeG >= existingOpen.g)
-                            continue;
+                        if (tentativeG >= existingOpen.g) continue;
+                        
+                        if (IsDescendant(current, existingOpen)) continue;
 
-
-                        existingOpen.parent = current;
-                        existingOpen.g = tentativeG;
+                        ReturnNode(existingOpen); // liberamos la instancia antigua limpiando parent
+                        var replacement = RentNode(neigh, current, tentativeG, existingOpen.h); // conservamos h si lo prefieres
+                        openMap[neigh] = replacement;
 
                         openQueue.Enqueue(existingOpen, existingOpen.f);
                     }
@@ -487,8 +510,28 @@ namespace CursedOnion.Game.Entity
 
             return null;
         }
+        private static bool IsDescendant(Node parentCandidate, Node possibleChild)
+        {
+            var p = parentCandidate;
+            var visited = new HashSet<Node>();
 
-        private static void FillNeighbours(Vector3Int currentAirPos, Grid3d levelGrid, List<Vector3Int> neighbours)
+            while (p != null)
+            {
+                if (!visited.Add(p))
+                {
+                    return false;
+                }
+
+                if (p == possibleChild) 
+                    return true;
+
+                p = p.parent;
+            }
+            return false;
+
+        }
+
+        private static void FillNeighbours(Vector3Int currentAirPos, Grid3d levelGrid, List<Vector3Int> neighbours, BattleSide side)
         {
             neighbours.Clear();
 
@@ -507,7 +550,7 @@ namespace CursedOnion.Game.Entity
                     Vector3Int stairTopPos = currentAirPos + dir;
                     if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
                     Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                    if (stairTopTile != null && !stairTopTile.IsBlocked()) neighbours.Add(stairTopPos);
+                    if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side)) neighbours.Add(stairTopPos);
                 }
             }
 
@@ -519,11 +562,11 @@ namespace CursedOnion.Game.Entity
                 if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
 
                 Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
-                if (nextAirTile == null || nextAirTile.IsBlocked()) continue;
+                if (nextAirTile == null || nextAirTile.IsBlockedByEnemyOf(side)) continue;
 
                 var nextAirDesc = nextAirTile.GetTileDescriptor();
 
-                if (nextAirDesc.IsStairBlock && nextAirTile.CanBeAccessedFrom(possibleDirection))
+                if (nextAirDesc.IsStairBlock && (nextAirTile.CanBeAccessedFrom(possibleDirection) || nextAirTile.HasEntityWithSide(side)))
                 {
                     if (!neighbours.Contains(nextAirPos)) neighbours.Add(nextAirPos);
 
@@ -531,7 +574,7 @@ namespace CursedOnion.Game.Entity
                     if (levelGrid.IsGridPositionInBounds(stairTopPos))
                     {
                         Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                        if (stairTopTile != null && !stairTopTile.IsBlocked()) neighbours.Add(stairTopPos);
+                        if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side)) neighbours.Add(stairTopPos);
                     }
                 }
 
@@ -539,7 +582,7 @@ namespace CursedOnion.Game.Entity
                 if (levelGrid.IsGridPositionInBounds(stairDownPos))
                 {
                     Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
-                    if (stairDownTile != null && !stairDownTile.IsBlocked())
+                    if (stairDownTile != null && !stairDownTile.IsBlockedByEnemyOf(side))
                     {
                         var stairDownDesc = stairDownTile.GetTileDescriptor();
                         if (!stairDownDesc.IsAirBlock && !stairDownDesc.IsFullBlock)
@@ -557,7 +600,7 @@ namespace CursedOnion.Game.Entity
                 if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
 
                 DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
-                if (nextAirTile.CanBeAccessedFrom(moveDir)) neighbours.Add(nextAirPos);
+                if (nextAirTile.CanBeAccessedFrom(moveDir) || nextAirTile.HasEntityWithSide(side)) neighbours.Add(nextAirPos);
             }
         }
 
@@ -578,10 +621,18 @@ namespace CursedOnion.Game.Entity
         {
             var path = new List<Vector3>();
             var stackNodes = new Stack<Node>();
+            var visited = new HashSet<Node>();
 
             Node current = endNode;
+            
             while (current != null)
             {
+                if (!visited.Add(current))
+                {
+                    Debug.LogError("Ciclo detectado en la cadena de nodos del pathfinding");
+                    break;
+                }
+                
                 stackNodes.Push(current);
                 current = current.parent;
             }
