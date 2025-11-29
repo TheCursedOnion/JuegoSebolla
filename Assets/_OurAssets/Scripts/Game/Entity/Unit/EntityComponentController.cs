@@ -53,7 +53,7 @@ namespace CursedOnion.Game.Entity
             AttackEntityComponent = components.AttackEntityComponent;
             AbilityEntityComponent = components.AbilityEntityComponent;
             
-            GetEntityComponent<PlaceEntityComponent>().PlaceEntity();
+            
             
             AssignedEntity.OnEntityUpdate += ProcessEntityUpdate;
             RegisterEntityForTurn();

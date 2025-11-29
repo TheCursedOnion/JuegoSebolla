@@ -111,11 +111,11 @@ namespace CursedOnion.Game.Entity
 
         public override void ActivateAbility(Unit unit, SimpleEntity target)
         {
-            if (target is Unit targetUnit)
+            if (target != null)
             {
                 Debug.Log("Activando habilidad de Barbarian: Eliminando unidad neutral");
-                if (targetUnit.GetSide() == BattleSide.Neutral)
-                    targetUnit.Dispose();
+                if (target.IsBreakable)
+                    target.Dispose();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using CursedOnion.Game.Entity.Components;
+﻿using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
@@ -22,7 +23,8 @@ namespace CursedOnion.Game.Entity
 
         [HorizontalLine(height: 2f, color: EColor.Violet)]
         [SerializeField] protected BattleSide EntitySide = BattleSide.Neutral;
-        
+        public bool IsBreakable = false;
+
         public EntityComponentController EntityController;
         [SerializeField] protected LayeredEntity LayeredEntity;
         
@@ -42,11 +44,35 @@ namespace CursedOnion.Game.Entity
         public event Action OnStartTurn;
         public void NotifyStartTurn() => OnStartTurn?.Invoke();
         
-        protected void Awake()
+        protected virtual void Awake()
         {
             Stats = new ExtendedEntityStats();
-            EntityController = GetComponent<EntityComponentController>();
         }
+        protected virtual void Start()
+        {
+            DefineEntityStats(StatData);
+            SetLevelVariables(LevelManager);
+            SetComponents();
+        }
+
+        protected void SetComponents()
+        {
+            switch (GetSide())
+            {
+                case BattleSide.Ally:
+                    EntityController ??= gameObject.AddComponent<PlayerUnitController>();
+                    break;
+                case BattleSide.Enemy:
+                    EntityController ??= gameObject.AddComponent<AIUnitController>();
+                    break;
+                case BattleSide.Neutral:
+                    EntityController ??= gameObject.AddComponent<EntityComponentController>();
+                    break;
+            }
+            EntityController.Initialize(this, StatData.EntityComponents);
+            EntityController.GetEntityComponent<PlaceEntityComponent>().PlaceEntity();
+        }
+
         public void Dispose()
         {
             EntityController.Dispose();

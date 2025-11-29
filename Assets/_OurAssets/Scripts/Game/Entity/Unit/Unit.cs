@@ -1,10 +1,11 @@
+using CursedOnion.Extensions;
+using CursedOnion.Game.Cameras;
+using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using System;
 using System.Collections;
-using CursedOnion.Extensions;
-using CursedOnion.Game.Cameras;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -26,7 +27,12 @@ namespace CursedOnion.Game.Entity
         [SerializeField, ReadOnly] CameraFocus cameraFocus;
         public bool IsBoss;
         
-        public void Start()
+        protected override void Awake()
+        {
+            Stats = new ExtendedEntityStats();
+        }
+
+        protected override void Start()
         {
             if (!PlacedManually)
             {
@@ -61,21 +67,7 @@ namespace CursedOnion.Game.Entity
         {
             EntitySide = side;
         }
-        void SetComponents()
-        {
-            switch(GetSide())
-            {
-                case BattleSide.Ally:
-                    EntityController ??= gameObject.AddComponent<PlayerUnitController>();
-                    break;
-                case BattleSide.Enemy:
-                    EntityController ??= gameObject.AddComponent<AIUnitController>();
-                    break;
-            }
-            EntityController.Initialize(this, StatData.EntityComponents);
-
-            cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
-        }
+        
         void AfterSpawn()
         {
             if (unitUI != null) unitUI.SetActive(false);

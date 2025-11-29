@@ -336,6 +336,10 @@ namespace CursedOnion.Game.Entity
 
             foreach (var tile in healerReachableTiles)
             {
+                var tile3d = unit.Grid.GetTileAtGridPosition(tile);
+                if (tile3d == null || tile3d.GetContainedEntity() != null)
+                    continue;
+
                 float score = 0f;
 
                 foreach (var ally in allies)
