@@ -3657,6 +3657,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6849040567394088048, guid: 182e1deb0635fe943ade625ffadcd07a, type: 3}
+      propertyPath: _eventHandler.debugStatusChanges
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6991290252047809679, guid: 182e1deb0635fe943ade625ffadcd07a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.6
@@ -6750,7 +6754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6991290252047809679, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.52
+      value: 2.6
       objectReference: {fileID: 0}
     - target: {fileID: 6991290252047809679, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6758,7 +6762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6991290252047809679, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.47
+      value: -1.48
       objectReference: {fileID: 0}
     - target: {fileID: 6991290252047809679, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8618,8 +8622,7 @@ MonoBehaviour:
   allies: []
   enemies: []
   activeUnits: []
-  wallEntities:
-  - {fileID: 1855492965}
+  wallEntities: []
 --- !u!114 &1499568003
 MonoBehaviour:
   m_ObjectHideFlags: 0

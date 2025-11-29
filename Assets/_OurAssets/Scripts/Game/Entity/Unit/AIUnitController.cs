@@ -15,7 +15,7 @@ namespace CursedOnion.Game.Entity
     {
         LevelManager levelManager;
         AssetBehaviourRunner runner;
-        bool startTurn;
+        bool startTurn = false;
 
         Unit unit;
         public Unit GetUnit() => unit;
@@ -42,9 +42,14 @@ namespace CursedOnion.Game.Entity
         {
             base.ProcessTurn();
             startTurn = true;
+            Debug.Log("ES EL TURNO DE LA IA " + gameObject.name + "STARTURN: " + startTurn);
         }
 
-        public bool StartTurn() => startTurn;
+        public bool StartTurn() 
+        {
+            Debug.Log("START TURN ESTADO: " + startTurn + " OBJECT " + gameObject.name);
+            return startTurn;
+        } 
 
         #region Percepciones Generales
 
@@ -420,9 +425,12 @@ namespace CursedOnion.Game.Entity
 
         public void EndAITurn()
         {
-            if (turnSystem != null)
+            Debug.LogWarning("La IA " + gameObject.name + " ha terminado su turno./////////////////////////////////////");
+
+            if (turnSystem != null && startTurn)
             {
-                startTurn = false;
+                Debug.LogWarning("La IA " + gameObject.name + " ha terminado su turno.");
+                //startTurn = false;
                 turnSystem.EndTurnForAIUnit(unit);
             }
         }
