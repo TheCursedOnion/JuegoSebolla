@@ -11,29 +11,31 @@ using Reflex.Extensions;
 using Reflex.Injectors;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 {
     public class UnitEditorSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject unitPrefab;
+        [SerializeField] private Scrollbar scrollbar;
+        [SerializeField] private HorizontalLayoutGroup horizontalLayoutGroup;
         
         [Inject] UIEvents uiEvents;
         [Inject] LevelManager levelManager;
-        LevelEvents levelEvents;
+        [Inject] LevelEvents levelEvents;
         
         GameObject selectedUnit;
-
+        bool wasScrollbarHidden = false;
         private int lastMode = -1;
         StatData lastSelectedStats;
         
         private CommandParameters spawnParameters;
         private CommandParameters eraseParameters;
-
+        
         private void Awake()
         {
             AttributeInjector.Inject(this, gameObject.scene.GetSceneContainer());
-            levelEvents = levelManager.LevelEvents;
             
             CommandParameters.Builder builder = new CommandParameters.Builder();
             builder.SetExecuteOnce(false).SetLevelManager(levelManager);
@@ -41,6 +43,35 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             spawnParameters = builder.Build();
             eraseParameters = builder.Build();
             
+            wasScrollbarHidden = !scrollbar.gameObject.activeSelf;
+        }
+
+        
+        private void Update()
+        {
+            bool isScrollbarHidden = !scrollbar.gameObject.activeSelf;
+            if (isScrollbarHidden != wasScrollbarHidden)
+            {
+                wasScrollbarHidden = isScrollbarHidden;
+                UpdatePadding(isScrollbarHidden);
+            }
+        }
+        private void UpdatePadding(bool scrollbarHidden)
+        {
+            var p = horizontalLayoutGroup.padding;
+
+            if (scrollbarHidden)
+            {
+                p.bottom = 50;
+            }
+            else
+            {
+                p.bottom = 15;
+            }
+
+            horizontalLayoutGroup.padding = p;
+            horizontalLayoutGroup.SetLayoutHorizontal();
+            horizontalLayoutGroup.SetLayoutVertical();
         }
         private void OnDisable()
         {

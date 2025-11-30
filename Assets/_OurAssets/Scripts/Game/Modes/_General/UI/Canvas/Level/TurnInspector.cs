@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
+using CursedOnion.Helpers;
 using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -27,9 +28,8 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         LevelEvents levelEvents;
         public void Initialize(LevelManager levelManager)
         {
-            iconPool = CreatePool(() => Instantiate(turnIconPrefab, turnIconContainer).GetComponent<TurnIcon>());
-
-            separatorPool = CreatePool(() => Instantiate(separatorPrefab, turnIconContainer));
+            iconPool = PoolHelper.CreatePool(() => Instantiate(turnIconPrefab, turnIconContainer).GetComponent<TurnIcon>());
+            separatorPool = PoolHelper.CreatePool(() => Instantiate(separatorPrefab, turnIconContainer));
 
             levelEvents = levelManager.LevelEvents;
             levelEvents.OnMergedUnitListUpdated += ProcessMergedList;
@@ -43,52 +43,6 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         void OnDestroy()
         {
             levelEvents.OnMergedUnitListUpdated -= ProcessMergedList;
-        }
-
-        ObjectPool<T> CreatePool<T>(Func<T> createFunc) where T : class
-        {
-            return new ObjectPool<T>(
-                createFunc,
-                item => SetActive(item, true),
-                item => SetActive(item, false),
-                item => DestroyObject(item),
-                collectionCheck: false,
-                defaultCapacity: 10,
-                maxSize: 50
-            );
-        }
-        void SetActive<T>(T item, bool active)
-        {
-            switch (item)
-            {
-                case GameObject go:
-                    go.SetActive(active);
-                    break;
-
-                case Component c:
-                    c.gameObject.SetActive(active);
-                    break;
-
-                default:
-                    throw new ArgumentException("Type must be GameObject or Component");
-            }
-        }
-
-        void DestroyObject<T>(T item)
-        {
-            switch (item)
-            {
-                case GameObject go:
-                    Destroy(go);
-                    break;
-
-                case Component c:
-                    Destroy(c.gameObject);
-                    break;
-
-                default:
-                    throw new ArgumentException("Type must be GameObject or Component");
-            }
         }
         
         void ProcessMergedList(List<Unit> mergedUnits)

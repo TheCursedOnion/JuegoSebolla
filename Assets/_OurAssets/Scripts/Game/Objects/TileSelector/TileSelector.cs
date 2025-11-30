@@ -117,9 +117,9 @@ namespace CursedOnion.Game.Objects
             controller.GetCurrentBehaviour().SoftSelect(SelectTile());
         }
 
-        void OnCommandLaunched(bool success)
+        void OnCommandLaunched(bool success, Type commandType)
         {
-            if (!success) InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
+            if (!success || commandType == typeof(EraseCommand)) InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
         }
         void TryToSelect()
         {

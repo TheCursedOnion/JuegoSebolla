@@ -1,19 +1,14 @@
-using System.Globalization;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Localization;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.Helpers;
 using NaughtyAttributes;
-using Reflex.Attributes;
-using Reflex.Extensions;
-using Reflex.Injectors;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 {
-    public class StatDataInspector : MonoBehaviour
+    public class EntityInspector : MonoBehaviour
     {
         [SerializeField] private Image background;
         [SerializeField] private GameObject statDataContainer;
@@ -67,27 +62,17 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
                 }
             }
         }
-        
         public void ClearInspector()
         {
             EnableInspector(false);
         }
-
-        public void ClearExtraTexts()
-        {
-            
-        }
+        
         void EnableInspector(bool enable)
         {
             statDataContainer.SetActive(enable);
             Color color = background.color;
             color.a = enable ? 0.8f : 0.3f;
             background.color = color;
-
-            if (enable)
-            {
-                
-            }
         }
 
         public void UpdateStatData(StatData data)
@@ -122,19 +107,20 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             spritePreview.sprite = data.InspectorSprite;
             entityName.SetKey(data.EntityNameKey);
             
-            //TODO: ADDITIONAL EFFECTS
+            
             Vector2Int currentHp = new Vector2Int(stats.CurrentHealthStat, stats.MaxHealthStat);
-            hp.SetValue(StatLineParameters.Slider(currentHp));
+            Vector2Int currentShield = new Vector2Int(statusHandler.AdditionalHP, statusHandler.MaxAdditionalHP);
+            hp.SetValue(StatLineParameters.Slider(currentHp, currentShield, statusHandler.HasAdditionalHP()));
 
             int attackStat = Mathf.CeilToInt(stats.AttackStat * statusHandler.AttackMultiplier);
-            attack.SetValue(StatLineParameters.Value(attackStat.ToString()));
+            attack.SetValue(StatLineParameters.Value(attackStat.ToString(), statusHandler.HasAttackMultiplier()));
             
-            defense.SetValue(StatLineParameters.Value(stats.DefenseStat.ToString()));
+            defense.SetValue(StatLineParameters.Value(stats.DefenseStat.ToString(), statusHandler.HasAdditionalHP()));
             
             initiative.SetValue(StatLineParameters.Value(stats.InitiativeStat.ToString()));
             
             int movementStat = stats.MovementStat + statusHandler.AdditionalMovement;
-            movementSpeed.SetValue(StatLineParameters.Value(movementStat.ToString()));
+            movementSpeed.SetValue(StatLineParameters.Value(movementStat.ToString(), statusHandler.HasAdditionalMovement()));
             
             priceValue.SetValue(StatLineParameters.Value(stats.PriceStat.ToString()));
         }

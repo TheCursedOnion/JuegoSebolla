@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3232736068254021715}
   - component: {fileID: 5493217466176316034}
   - component: {fileID: -8938150976733097378}
+  - component: {fileID: -3707990359204798866}
   - component: {fileID: 1194208409827338728}
   m_Layer: 0
   m_Name: ProjectScope
@@ -86,10 +87,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35cac03ee55e46549637e36b849c3caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraLocator: {fileID: 11400000, guid: 819a3d69242c2dc45a59d85ab28a849e, type: 2}
   uiTransitionLocator: {fileID: 11400000, guid: 86415e1e00bb1b44a81d2ed050151c09, type: 2}
   variableLocator: {fileID: 11400000, guid: dfab0323125f50340a9bd4ec2a94dde2, type: 2}
-  cloudSaveLocator: {fileID: 11400000, guid: 7038390a1b367f942bc547cf909405b8, type: 2}
+--- !u!114 &-3707990359204798866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7645404175983655882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0ce092c1f60469a9c09b22ccb548692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confusionData: {fileID: 11400000, guid: ee6254dfa03a67d489336edc62408bbd, type: 2}
+  attackBoostData: {fileID: 11400000, guid: d5fb84ca14b17c04e86a01d8866b4e96, type: 2}
+  movementBoostData: {fileID: 11400000, guid: 201e18ec30bb83040a30d57c78015204, type: 2}
+  healthBoostData: {fileID: 11400000, guid: e78d7949bfeaea0478e6198236bf496a, type: 2}
 --- !u!114 &1194208409827338728
 MonoBehaviour:
   m_ObjectHideFlags: 0

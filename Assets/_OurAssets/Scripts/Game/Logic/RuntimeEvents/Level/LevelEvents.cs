@@ -83,10 +83,10 @@ namespace CursedOnion.Game.Systems.Level
             OnPreparedCommandCancelled?.Invoke();
         }
         
-        public event Action<bool> OnPreparedCommandLaunched;
-        public void NotifyPreparedCommandLaunched(bool withSuccess)
+        public event Action<bool, Type> OnPreparedCommandLaunched;
+        public void NotifyPreparedCommandLaunched(bool withSuccess, Type commandType)
         {
-            OnPreparedCommandLaunched?.Invoke(withSuccess);
+            OnPreparedCommandLaunched?.Invoke(withSuccess, commandType);
         }
 
         #endregion

@@ -25,6 +25,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         [SerializeField, BoxGroup(GameplayContainer)] private CanvasGroup gameplayGroup;
         [SerializeField, BoxGroup(GameplayContainer)] private GameObject battleEditorScreen;
         [SerializeField, BoxGroup(GameplayContainer)] private GameObject battleScreen;
+        
+        [SerializeField, BoxGroup(GameplayContainer)] private UnitInformationWindow unitInformationWindow;
         [SerializeField, BoxGroup(GameplayContainer)] private UnitActionsWindow actionsWindow;
         [SerializeField, BoxGroup(GameplayContainer)] private TurnInspector turnInspector;
         
@@ -39,6 +41,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             levelManager.LevelEvents.OnLevelStateChange += OnChangeLevelState;
             levelManager.LevelEvents.OnIntroFinished += OnIntroDone;
             
+            unitInformationWindow.Initialize(levelManager);
             actionsWindow.Initialize(levelManager);
             turnInspector.Initialize(levelManager);
             

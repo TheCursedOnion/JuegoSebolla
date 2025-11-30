@@ -95,7 +95,7 @@ namespace CursedOnion.Game.Commands
             if (command != null)
             {
                 bool success = commandManager.ExecuteCommand((ICommand)command);
-                levelEvents.NotifyPreparedCommandLaunched(success);
+                levelEvents.NotifyPreparedCommandLaunched(success, command.GetType());
             }
             
         }

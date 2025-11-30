@@ -1,3 +1,4 @@
+using System;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.General.UI.Buttons;
 using CursedOnion.Game.Modes.General.UI.Events;
@@ -71,7 +72,7 @@ namespace CursedOnion.Game.Entity.UI
             abilityImage.sprite = associatedUnit.StatData.SpecialAbility?.AbilityIcon;
         }
         
-        void UpdateLastMode(bool _)
+        void UpdateLastMode(bool _, Type __)
         {
             lastMode = CommandMode.None;
             uiEvents.UnselectAllButtons();

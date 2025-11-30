@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Reflex.Core;
+using Reflex.Extensions;
+using Reflex.Injectors;
+using UnityEngine;
 
 namespace CursedOnion.Extensions
 {
@@ -11,6 +14,16 @@ namespace CursedOnion.Extensions
                 component = go.AddComponent<T>();
 
             return component;
+        }
+        
+        public static void InjectDependencies(this GameObject gameObject)
+        {
+            var container = gameObject.scene.GetSceneContainer();
+            AttributeInjector.Inject(gameObject, container);
+        }
+        public static void InjectDependencies(this object obj, Container container)
+        {
+            AttributeInjector.Inject(obj, container);
         }
 
         public static T GetOrAddComponent<T>(this Component c) where T : Component

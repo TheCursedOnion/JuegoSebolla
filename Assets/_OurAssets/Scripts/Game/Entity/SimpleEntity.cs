@@ -1,14 +1,8 @@
-﻿using CursedOnion.Game.Cameras;
-using CursedOnion.Game.Entity.Components;
-using CursedOnion.Game.Events;
-using CursedOnion.Game.Modes.General.Animations;
+﻿using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using Reflex.Attributes;
-using Reflex.Core;
-using Reflex.Extensions;
-using Reflex.Injectors;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
