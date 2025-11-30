@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Fuego
   m_EditorClassIdentifier: 
   TileDescriptor:
-    Id: 8
-    Cost: 2
-    allowedExitDirections: 51
-    allowedEntryDirections: 51
-    CanUnitsSpawnHere: 0
+    Cost: 1
+    DisplayOffset: {x: 0, y: 0, z: 0}
+    IsFullBlock: 1
+    IsStairBlock: 0
+    IsFluidBlock: 0
+    IsAirBlock: 0
+    AllowedExitDirections: 51
+    AllowedEntryDirections: 51
