@@ -34,7 +34,6 @@ namespace CursedOnion.Game.Systems.Level
         #endregion
 
         #region Selection Events
-
         public event Action<SimpleEntity> OnEntitySelected;
         public event Action OnNoEntitySelected;
         public void SelectEntity(SimpleEntity entity)
@@ -56,6 +55,12 @@ namespace CursedOnion.Game.Systems.Level
         {
             OnTileSelectionRequested?.Invoke();
         }
+        
+        public event Action<SimpleEntity, SpecialAbility> OnSpecialAbilitySelected;
+        public void SelectSpecialAbility(SimpleEntity entity)
+        {
+            OnSpecialAbilitySelected?.Invoke(entity, entity.StatData.SpecialAbility);
+        }
         #endregion
 
         #region Command Events
@@ -76,6 +81,12 @@ namespace CursedOnion.Game.Systems.Level
         public void CancelPreparedCommand()
         {
             OnPreparedCommandCancelled?.Invoke();
+        }
+        
+        public event Action<bool, Type> OnPreparedCommandLaunched;
+        public void NotifyPreparedCommandLaunched(bool withSuccess, Type commandType)
+        {
+            OnPreparedCommandLaunched?.Invoke(withSuccess, commandType);
         }
 
         #endregion
@@ -178,6 +189,16 @@ namespace CursedOnion.Game.Systems.Level
         public void EnableBlackAndWhite(bool enable)
         {
             OnEnableBlackAndWhite?.Invoke(enable);
+        }
+
+        #endregion
+
+        #region Special Events
+
+        public event Action OnPathNotFound;
+        public void InvokePathNotFound()
+        {
+            OnPathNotFound?.Invoke();
         }
 
         #endregion

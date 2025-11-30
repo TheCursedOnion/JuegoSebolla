@@ -93,7 +93,7 @@ namespace CursedOnion.Game.Entity
             {
                 var levelEvents = unit.LevelManager.LevelEvents;
                 levelEvents.UnregisterUnitForTurn(unit);
-                unit.LevelManager.LevelEvents.OnTurnEnded -= EndTurn;
+                levelEvents.OnTurnEnded -= EndTurn;
             }
         }
         

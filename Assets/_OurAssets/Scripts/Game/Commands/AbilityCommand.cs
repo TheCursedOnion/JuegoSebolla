@@ -12,7 +12,7 @@ namespace CursedOnion.Game.Commands
         private SimpleEntity target;
         public static void Prepare(CommandParameters parameters)
         {
-            parameters.Subject?.EntityController.GetEntityComponent<SpecialAbilityComponent>().VisualizeAbility();
+            parameters.Subject?.EntityController.AbilityComponent.VisualizeAbility();
         }
         public static AbilityCommand Create(CommandParameters parameters)
         {

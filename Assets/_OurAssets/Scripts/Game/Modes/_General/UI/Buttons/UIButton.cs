@@ -24,15 +24,20 @@ namespace CursedOnion.Game.General.UI.Buttons
             UiEvents ??= gameObject.scene.GetSceneContainer().Resolve<UIEvents>();
             UnityButton = GetComponent<Button>();
             SetInteractive(Interactable);
+            RegisterEvents();
         }
-        protected virtual void OnEnable()
+        protected void OnDestroy()
+        {
+            UnRegisterEvents();
+        }
+        protected virtual void RegisterEvents()
         {
             UiEvents.OnButtonSelected += OnSelectButton;
             UiEvents.OnButtonUnselected += OnUnselectButton;
             
             UiEvents.OnButtonGroupSelected += OnSelectButtonGroup;
         }
-        protected virtual void OnDisable()
+        protected virtual void UnRegisterEvents()
         {
             UiEvents.OnButtonSelected -= OnSelectButton;
             UiEvents.OnButtonUnselected -= OnUnselectButton;

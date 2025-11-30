@@ -13,8 +13,6 @@ namespace CursedOnion.Game.Entity
 {
     public class AIUnitController : EntityComponentController
     {
-        LevelManager levelManager;
-
         Unit unit;
         public Unit GetUnit() => unit;
 
@@ -32,8 +30,11 @@ namespace CursedOnion.Game.Entity
         public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
             base.Initialize(entity, components);
-            turnSystem = entity.LevelManager.GetTurnSystem();
             unit = entity as Unit;
+            
+            turnSystem = entity.LevelManager.GetTurnSystem();
+            
+            entity.LevelEvents.OnPathNotFound += CancelMove;
         }
         public override void ProcessTurn()
         {
@@ -41,7 +42,7 @@ namespace CursedOnion.Game.Entity
             AssignedEntity.HasTurn = true;
         }
 
-        public bool HasTurn() 
+        public bool StartTurn() 
         {
             bool hasTurn = AssignedEntity != null && AssignedEntity.HasTurn;
             return hasTurn;
@@ -118,12 +119,14 @@ namespace CursedOnion.Game.Entity
 
         #region Acciones Generales
 
+        bool doingMove = false;
+        void CancelMove() => doingMove = false;
         public void EnemyMove()
         {
             Debug.Log($"EL ENEMIGO {gameObject.name} VA A MOVERSE A " + TargetedPosToMove);
             GetEntityComponent<MoveEntityComponent>().DoMove(TargetedGridPosToMove, false);
         }
-
+        
         public BehaviourAPI.Core.Status EndMove()
         {
             Vector3 pos = unit.transform.position;
@@ -132,7 +135,7 @@ namespace CursedOnion.Game.Entity
             bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.05f && Mathf.Abs(pos.z - target.z) < 0.05f;
             bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
 
-            if (!xzAligned || !yCloseEnough)
+            if ((!xzAligned || !yCloseEnough) && doingMove)
                 return BehaviourAPI.Core.Status.Running;
 
             TargetedGridPosToMove = Vector3.zero;
@@ -425,6 +428,15 @@ namespace CursedOnion.Game.Entity
             {
                 AssignedEntity.HasTurn = false;
                 turnSystem.EndTurnForAIUnit(unit);
+            }
+        }
+        
+        public override void Dispose()
+        {
+            base.Dispose();
+            if (AssignedEntity != null)
+            {
+                AssignedEntity.LevelEvents.OnPathNotFound -= CancelMove;
             }
         }
     }

@@ -80,7 +80,6 @@ MonoBehaviour:
     AbilityEntityComponent:
       rid: 592454580667416667
   InspectorSprite: {fileID: 21300000, guid: a1a2f0788fa16de4b81e7b6bd84a52d9, type: 3}
-  TurnInspectorSprite: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -89,9 +88,8 @@ MonoBehaviour:
       data:
         AbilityIcon: {fileID: 21300000, guid: 4d176cc41cbbd14458d9060de8b7b6f5, type: 3}
         SelfTargetOnly: 0
-        AbilityMinRange: 0
-        AbilityMaxRange: 0
-        AdditionalHPFactor: 20
+        AffectedStats: 0
+        additionalHPFactor: 2
     - rid: 592454580667416664
       type: {class: PlaceEntityComponent, ns: CursedOnion.Game.Entity.Components, asm: Assembly-CSharp}
       data:

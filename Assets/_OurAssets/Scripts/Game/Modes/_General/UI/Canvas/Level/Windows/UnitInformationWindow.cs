@@ -1,54 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using CursedOnion.Game.Commands;
-using CursedOnion.Game.Events;
-using CursedOnion.Game.Entity;
+﻿using CursedOnion.Game.Entity;
 using CursedOnion.Game.Modes.Level.BattleEditor.UI;
 using CursedOnion.Game.Systems.Level;
 using Reflex.Attributes;
-using TMPro;
 using UnityEngine;
 
 namespace CursedOnion.Game.General.UI.Canvases.Level
 {
     public class UnitInformationWindow : MonoBehaviour
     {
-        [SerializeField] StatDataInspector inspector;
         [Inject] LevelEvents levelEvents;
         
-        void Awake()
+        [SerializeField] EntityInspector entityInspector;
+        [SerializeField] EffectInspector effectInspector;
+        public void Initialize(LevelManager levelManager)
         {
-            ClearInspector();
+            levelEvents = levelManager.LevelEvents;
+            entityInspector.SetUp(levelEvents);
+            effectInspector.SetUp();
+            ClearInspectors();
+            OnEnable();
         }
         private void OnEnable()
         {
-            levelEvents.OnStatDataSelected += UpdateDataText;
-            levelEvents.OnEntitySelected += UpdateStatText;
-            levelEvents.OnNoEntitySelected += ClearInspector;
+            if (levelEvents == null) return;
+            OnDisable();
+            
+            levelEvents.OnStatDataSelected += UpdateInspectedData;
+            levelEvents.OnEntitySelected += UpdateInspectedStats;
+            levelEvents.OnNoEntitySelected += ClearInspectors;
         }
         private void OnDisable()
         {
-            levelEvents.OnStatDataSelected -= UpdateDataText;
-            levelEvents.OnEntitySelected -= UpdateStatText;
-            levelEvents.OnNoEntitySelected -= ClearInspector;
+            levelEvents.OnStatDataSelected -= UpdateInspectedData;
+            levelEvents.OnEntitySelected -= UpdateInspectedStats;
+            levelEvents.OnNoEntitySelected -= ClearInspectors;
         }
-        void ClearInspector()
+        void ClearInspectors()
         {
-            inspector.ClearInspector();
+            entityInspector.ClearInspector();
+            effectInspector.ClearInspector();
         }
-        void UpdateDataText(StatData data)
+        void UpdateInspectedData(StatData data)
         {
             if (data == null)
             {
-                ClearInspector();
+                ClearInspectors();
                 levelEvents.RequestTileSelection();
             }
-            else inspector.SetInspectorStatData(data);
+            else
+            {
+                entityInspector.UpdateStatData(data);
+                effectInspector.ClearInspector();
+            }
         }
 
-        void UpdateStatText(SimpleEntity entity)
+        void UpdateInspectedStats(SimpleEntity entity)
         {
-            inspector.SetInspectorStats(entity);
+            entityInspector.UpdateStats(entity);
+            effectInspector.UpdateEffects(entity);
         }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using CursedOnion.Game.Entity.Effects;
+using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
@@ -8,44 +11,56 @@ namespace CursedOnion.Game.Entity
         ExtendedEntityStats stats;
 
         public SimpleEntity CounterAttackTarget;
+        
         public int AdditionalHP;
+        public int MaxAdditionalHP;
+        
         public bool IsConfused;
-        public int ConfusedTurnsRemaining;
         public int AdditionalMovement;
         public float AttackMultiplier;
 
+        private readonly List<StatusEffect> effects = new();
         public StatusHandler(SimpleEntity entityOwner, ExtendedEntityStats stats)
         {
             this.stats = stats;
             assignedEntity = entityOwner;
             
             AdditionalHP = 0;
+            MaxAdditionalHP = 1;
+            
             IsConfused = false;
-            ConfusedTurnsRemaining = 0;
             AdditionalMovement = 0;
             AttackMultiplier = 1f;
         }
+        public List<StatusEffect> GetActiveEffects() => effects;
+        public void AddEffect(StatusEffect newEffect)
+        {
+            var existing = effects.Find(e => e.GetType() == newEffect.GetType());
+            
+            if (existing == null)
+            {
+                //newEffect.OnStart += stats.OnEffectStart;
+                //newEffect.OnEnd += stats.OnEffectEnd;
+                effects.Add(newEffect);
+                newEffect.ApplyOn(this);
+            }
+            else
+            {
+                existing.ResetDuration(newEffect.GetDuration());
+            }
+        }
         
         #region Movement
-        public void SetAdditionalMovement(int factor)
+        public bool HasAdditionalMovement()
         {
-            AdditionalMovement = factor;
-        }
-        private void ResetAdditionalMovement()
-        {
-            AdditionalMovement = 0;
+            return AdditionalMovement > 0;
         }
         #endregion
 
         #region AttackMultiplier
-        public void SetAttackMultiplier(float multiplier)
+        public bool HasAttackMultiplier()
         {
-            AttackMultiplier = multiplier;
-        }
-
-        private void ResetAttackMultiplier()
-        {
-            AttackMultiplier = 1;
+            return AttackMultiplier > 1;
         }
         #endregion
         
@@ -71,31 +86,21 @@ namespace CursedOnion.Game.Entity
         #endregion
         
         #region Confusion
-        public void ApplyConfusion(int turns)
+        public bool HasConfusionEffect()
         {
-            IsConfused = true;
-            ConfusedTurnsRemaining = turns;
-            
-            //assignedEntity.GetLayeredEntity().PlayAnimation("confusion");
-        }
-        private void DecreaseConfusion()
-        {
-            if (IsConfused)
-            {
-                ConfusedTurnsRemaining--;
-                if (ConfusedTurnsRemaining <= 0)
-                {
-                    IsConfused = false;
-                    //assignedEntity.GetLayeredEntity().PlayAnimation("idle");
-                }
-            }
+            return IsConfused;
         }
         #endregion
         
         #region AddtionalHP
-        public void SetAdditionalHP(int factor)
+        public void SetAdditionalHP(float factor)
         {
-            AdditionalHP = stats.MaxHealthStat * factor / 100;
+            MaxAdditionalHP = Mathf.RoundToInt(stats.MaxHealthStat * factor);
+            AdditionalHP = MaxAdditionalHP;
+        }
+        public bool HasAdditionalHP()
+        {
+            return AdditionalHP > 0;
         }
         public int GetRemainingDamage(int damage)
         {
@@ -107,18 +112,16 @@ namespace CursedOnion.Game.Entity
             if (damageLeft <= 0) damageLeft = 0;
             return damageLeft;
         }
-        private void ResetAdditionalHP()
-        {
-            AdditionalHP = 0;
-        }
         #endregion
         public void UpdateStatusEffects()
         {
-            ResetAttackMultiplier();
             ResetCounterAttack();
-            DecreaseConfusion();
-            ResetAdditionalHP();
-            ResetAdditionalMovement();
+
+            foreach (var effect in effects.ToArray())
+            {
+                bool ended = effect.UpdateEffect(this);
+                if (ended) effects.Remove(effect);
+            }
         }
     }
 }

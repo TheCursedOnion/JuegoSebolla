@@ -25,6 +25,7 @@ namespace CursedOnion.Game.Entity
             public Vector2Int Range;
 
             public int RandomValue => Random.Range(Range.x, Range.y + 1);
+            public override string ToString() => $"{Range.x}-{Range.y}";
         }
         
         [BoxGroup(EntityProperties)] public string EntityName;

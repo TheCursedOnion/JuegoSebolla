@@ -1,20 +1,31 @@
 using CursedOnion.Game.Systems.Grid;
 using System;
 using System.Collections.Generic;
-using CursedOnion.Game.Entity.Components;
+using CursedOnion.Game.Entity.Effects;
+using NaughtyAttributes;
 using UnityEngine;
-using CursedOnion.Game.Systems.Level;
 
 namespace CursedOnion.Game.Entity
 {
+    [Flags]
+    public enum StatFlag
+    {
+        None = 0,
+        
+        Health = 1 << 0,
+        Damage = 1 << 1,
+        Defense = 1 << 2,
+        Initiative = 1 << 3,
+        Movement = 1 << 4,
+        Price = 1 << 5,
+    }
+    
     [System.Serializable]
     public class SpecialAbility
     {
         public Sprite AbilityIcon;
         public bool SelfTargetOnly = false;
-        public int AbilityMinRange = 0;
-        public int AbilityMaxRange = 0;
-
+        [SerializeField] protected StatFlag AffectedStats;
         public virtual void ActivateAbility(Unit unit, SimpleEntity target = null) { }
         public virtual void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
@@ -24,12 +35,15 @@ namespace CursedOnion.Game.Entity
             if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
                 AStarPathFinder.InsertMeleeAttackGridPositions(reachablePositionsList, grid, gridPos);
         }
+        
+        public StatFlag GetAffectedStats() => AffectedStats;
+        public override string ToString() => string.Empty;
     }
     
     [System.Serializable]
     public class SoldierAbility : SpecialAbility
     {
-        public float DamageMultiplier = 1.3f;
+        [SerializeField] private float damageMultiplier = 1.3f;
 
         public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
@@ -43,18 +57,20 @@ namespace CursedOnion.Game.Entity
             }
         }
 
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity _ = null)
         {
             Debug.Log("Activando habilidad de Soldier: Aumentando daño del próximo ataque");
-            
-            unit.StatusHandler.SetAttackMultiplier(DamageMultiplier);
+            var attackBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, damageMultiplier);
+            unit.StatusHandler.AddEffect(attackBoost);
         }
+
+        public override string ToString() => " x " + damageMultiplier;
     }
 
     [System.Serializable]
     public class TankAbility : SpecialAbility
     {
-        public int AdditionalHPFactor = 20;
+        [SerializeField] private float additionalHPFactor = 0.2f;
 
         public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
@@ -67,11 +83,14 @@ namespace CursedOnion.Game.Entity
                 reachablePositionsList.Add(gridPos);
             }
         }
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             Debug.Log("Activando habilidad de Tank: Aumentando HP adicional");
-            unit.StatusHandler.SetAdditionalHP(AdditionalHPFactor);
+            var healthBoost = EntityEffectFactory.CreateEffect<HealthBoostEffect>(-1, additionalHPFactor);
+            unit.StatusHandler.AddEffect(healthBoost);
         }
+        
+        public override string ToString() => " + " + additionalHPFactor;
     }
 
     [System.Serializable]
@@ -86,12 +105,13 @@ namespace CursedOnion.Game.Entity
                 AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
 
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             if (target is Unit targetUnit)
             {
                 Debug.Log("Activando habilidad de Thief: Aplicando confusión al objetivo");
-                targetUnit.StatusHandler.ApplyConfusion(1);
+                var confusion = EntityEffectFactory.CreateEffect<ConfusionEffect>(-1, -1);
+                targetUnit.StatusHandler.AddEffect(confusion);
             }
         }
 
@@ -109,7 +129,7 @@ namespace CursedOnion.Game.Entity
                 AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
 
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             if (target != null)
             {
@@ -124,6 +144,7 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class ExplorerAbility : SpecialAbility
     {
+        [SerializeField] private int movementBonus = 2;
         public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
             var grid = subject.Grid;
@@ -135,13 +156,13 @@ namespace CursedOnion.Game.Entity
                 reachablePositionsList.Add(gridPos);
             }
         }
-
-
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             Debug.Log("Activando habilidad de Explorer: Aumentando movimiento en 2");
-            unit.StatusHandler.SetAdditionalMovement(2);
+            var moveBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, movementBonus);
+            unit.StatusHandler.AddEffect(moveBoost);
         }
+        public override string ToString() => " + " + movementBonus;
 
     }
 
@@ -157,12 +178,11 @@ namespace CursedOnion.Game.Entity
                 AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
 
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             if (target is Unit targetUnit)
             {
-                if (targetUnit.GetSide() != unit.GetSide())
-                    return;
+                if (targetUnit.GetSide() != unit.GetSide()) return;
                 Debug.Log("Activando habilidad de Healer: Curando al objetivo");
                 int healedAmount = (int)Math.Ceiling(unit.Stats.CurrentHealthStat * 0.5f);
                 targetUnit.Heal(healedAmount);
@@ -186,7 +206,7 @@ namespace CursedOnion.Game.Entity
                 AStarPathFinder.InsertRangedAttackGridPositions(reachablePositionsList, grid, gridPos, 2);
         }
         
-        public override void ActivateAbility(Unit unit, SimpleEntity target)
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
 
             var grid = unit.Grid;

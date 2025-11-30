@@ -19,6 +19,7 @@ namespace CursedOnion.Game.Commands
     public class EntityCommandHandler : IDisposable
     {
         [Inject] private readonly LevelEvents levelEvents;
+        [Inject] private readonly Grid3d grid;
         [Inject] private readonly UIEvents uiEvents;
         [Inject] private readonly CommandManager commandManager;
         
@@ -90,14 +91,19 @@ namespace CursedOnion.Game.Commands
             
             parameters.Subject = selectedEntity;
             var command = genericMethod.Invoke(null, new object[] { parameters });
+
+            if (command != null)
+            {
+                bool success = commandManager.ExecuteCommand((ICommand)command);
+                levelEvents.NotifyPreparedCommandLaunched(success, command.GetType());
+            }
             
-            if(command != null) commandManager.ExecuteCommand((ICommand)command);
         }
         private void ResetCommand()
         {
             preparedCommand = null;
             preparedParameters = null;
-            
+            grid.ResetPaint();
             //levelEvents.SelectEntity(null);
         }
         public void ClearCommandStack()

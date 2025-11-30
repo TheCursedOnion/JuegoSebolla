@@ -33,14 +33,11 @@ namespace CursedOnion.Game.Commands
         }
         public bool CanExecute()
         {
-            Debug.Log(targetTile.GetContainedEntity());
             return targetTile.GetContainedEntity() as Unit && targetTile.GetTileAttributes().CanUnitsSpawnHere;
         }
         public bool Execute()
         {
-            Debug.Log("Erase");
             if(!CanExecute()) return false;
-            Debug.Log("Erase2");
             return ((Unit)targetTile.GetContainedEntity()).TryErasingUnit();
         }
         
