@@ -124,6 +124,7 @@ namespace CursedOnion.Game.Entity
         public void EnemyMove()
         {
             Debug.Log($"EL ENEMIGO {gameObject.name} VA A MOVERSE A " + TargetedPosToMove);
+            doingMove = true;
             GetEntityComponent<MoveEntityComponent>().DoMove(TargetedGridPosToMove, false);
         }
         
@@ -131,13 +132,12 @@ namespace CursedOnion.Game.Entity
         {
             Vector3 pos = unit.transform.position;
             Vector3 target = TargetedPosToMove;
-
-            bool xzAligned = Mathf.Abs(pos.x - target.x) < 0.05f && Mathf.Abs(pos.z - target.z) < 0.05f;
-            bool yCloseEnough = Mathf.Abs(pos.y - target.y) < 0.6f;
-
-            if ((!xzAligned || !yCloseEnough) && doingMove)
+            
+            bool closeEnough = Vector3.Distance(pos, target) < 0.65f;
+            if (!closeEnough && doingMove)
                 return BehaviourAPI.Core.Status.Running;
 
+            Debug.Log($"EL ENEMIGO SE HA MOVIDO A " + TargetedPosToMove + "| ESTÁ EN POSICION: " + pos);
             TargetedGridPosToMove = Vector3.zero;
             TargetedPosToMove = Vector3.zero;
             return BehaviourAPI.Core.Status.Success;

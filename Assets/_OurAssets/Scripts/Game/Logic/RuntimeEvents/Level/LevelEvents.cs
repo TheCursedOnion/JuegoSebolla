@@ -194,7 +194,6 @@ namespace CursedOnion.Game.Systems.Level
         #endregion
 
         #region Special Events
-
         public event Action OnPathNotFound;
         public void InvokePathNotFound()
         {

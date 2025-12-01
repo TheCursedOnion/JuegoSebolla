@@ -17,38 +17,80 @@ namespace CursedOnion.Game.Dialog
     {
         [Inject] PauseService pauseService;
         
+        LevelManager levelManager;
+        LevelEvents levelEvents;
+        
         public Flowchart Flowchart;
         public string StartingDialogBlockName;
+        public string EndDialogBlockName;
         
         [Header("Extras")]
         [SerializeField] CanvasGroup background;
         public void Start()
         {
-            Debug.LogWarning("FALTA LOGICA DE SI YA HAS VISTO EL DIALOGO");
-            pauseService.Pause(PauseLevel.Dialog);
-            if(!string.IsNullOrEmpty(StartingDialogBlockName))
-                Flowchart.ExecuteBlock(StartingDialogBlockName);
-        }
-        
-        public void OnDialogEnd()
-        {
             var container = gameObject.scene.GetSceneContainer();
-            if (container.HasBinding<LevelEvents>())
+            if (container.HasBinding<LevelManager>())
             {
-                var levelEvents = container.Resolve<LevelEvents>();
-                levelEvents?.CallIntro();
+                levelManager = container.Resolve<LevelManager>();
+                levelEvents = levelManager.LevelEvents;
+                levelEvents.OnLevelStateChange += TryPlayEndDialog;
+
+                if (!string.IsNullOrEmpty(StartingDialogBlockName) && levelManager.CurrentLevelState == LevelState.InDialog)
+                {
+                    PlayDialog(StartingDialogBlockName);
+                    return;
+                }
             }
             else
             {
-                pauseService.UnpauseCurrentLevel();
+                if(!string.IsNullOrEmpty(StartingDialogBlockName))
+                    PlayDialog(StartingDialogBlockName);
             }
         }
+
+        void OnDestroy()
+        {
+            if (levelEvents != null)
+            {
+                levelEvents.OnLevelStateChange -= TryPlayEndDialog;
+            }
+        }
+        
+        void TryPlayEndDialog(LevelState _, LevelState newState)
+        {
+            if(newState == LevelState.Finished) PlayDialog(EndDialogBlockName);
+        }
+        public void PlayDialog(string blockName)
+        {
+            pauseService.Pause(PauseLevel.Dialog);
+            Flowchart.ExecuteBlock(blockName);
+        }
+        
         public void SetDialogBackgroundAlpha(float alpha, float time)
         {
             LeanTween.cancel(background.gameObject);
             LeanTween.alphaCanvas(background, alpha, time);
         }
         
+        public void CallLevelIntro()
+        {
+            if (levelEvents != null)
+            {
+                levelEvents?.CallIntro();
+            }
+        }
+
+        public void CallLevelResults()
+        {
+            if (levelManager != null && levelManager.CurrentLevelState == LevelState.Finished)
+            {
+                levelManager.TrySetNewState(LevelState.InResults);
+            }
+        }
+        public void UnpauseGameFromDialog()
+        {
+            pauseService.Unpause(PauseLevel.Dialog);
+        }
     }
 
     /*#if UNITY_EDITOR
