@@ -59,7 +59,6 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         private void UpdatePadding(bool scrollbarHidden)
         {
             var p = horizontalLayoutGroup.padding;
-
             if (scrollbarHidden)
             {
                 p.bottom = 50;

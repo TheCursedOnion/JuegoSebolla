@@ -42,7 +42,7 @@ namespace CursedOnion.Game.Entity
             AssignedEntity.HasTurn = true;
         }
 
-        public bool StartTurn() 
+        public bool HasTurn() 
         {
             bool hasTurn = AssignedEntity != null && AssignedEntity.HasTurn;
             return hasTurn;
