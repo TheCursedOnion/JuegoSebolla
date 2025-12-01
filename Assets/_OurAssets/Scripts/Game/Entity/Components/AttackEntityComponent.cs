@@ -30,7 +30,7 @@ namespace CursedOnion.Game.Entity.Components
             }
             else
             {
-                AStarPathFinder.InsertMeleeAttackGridPositions(reachableTiles, grid, gridPos);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachableTiles, grid, gridPos, 1, false);
             }
             
             grid.PaintTilesAtGridPositions(reachableTiles, attackColor);

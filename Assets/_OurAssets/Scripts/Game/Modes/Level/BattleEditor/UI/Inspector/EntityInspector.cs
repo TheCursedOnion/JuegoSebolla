@@ -92,7 +92,10 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 
         void UpdateStats()
         {
-            UpdateStats(selectedEntity);
+            if(selectedEntity != null)
+                UpdateStats(selectedEntity);
+            else
+                ClearInspector();
         }
         public void UpdateStats(SimpleEntity entity)
         {

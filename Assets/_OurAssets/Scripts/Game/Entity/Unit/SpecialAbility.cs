@@ -33,7 +33,7 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
             
             if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertMeleeAttackGridPositions(reachablePositionsList, grid, gridPos);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
         
         public StatFlag GetAffectedStats() => AffectedStats;

@@ -53,7 +53,8 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
 
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
-            AStarPathFinder.InsertMeleeAttackGridPositions(soldierReachableAttackTiles, grid, gridPos);
+            
+            AStarPathFinder.InsertManhattanAttackGridPositions(soldierReachableAttackTiles, grid, gridPos,1, false);
 
             foreach (var healer in baseAI.GetTurnSystem().GetEnemyUnits().Where(u => u.Stats.SpecialAbilityType is HealerAbility))
             {
