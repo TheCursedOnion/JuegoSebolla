@@ -16,15 +16,18 @@ namespace CursedOnion.Game.Systems.Level.Goal
 
         protected virtual void OnVictory()
         {
-            if (!LevelManager.TrySetNewState(LevelState.Finished)) return;
-            LevelEvents.InvokeLevelCompleted(true);
+            LevelState nextState = LevelManager.LevelAsset.LevelData.LevelHasEndDialog ? LevelState.Finished : LevelState.InResults;
+            if (!LevelManager.TrySetNewState(nextState)) return;
             
+            LevelEvents.InvokeLevelCompleted(true);
             VariableLocator.SetCompletedLevel(LevelManager.LevelAsset.LevelData.LevelIndex);
         }
 
         protected virtual void OnDefeat()
         {
-            if (!LevelManager.TrySetNewState(LevelState.Finished)) return;
+            LevelState nextState = LevelManager.LevelAsset.LevelData.LevelHasEndDialog ? LevelState.Finished : LevelState.InResults;
+            if (!LevelManager.TrySetNewState(nextState)) return;
+            
             LevelEvents.InvokeLevelCompleted(false);
         }
 

@@ -141,26 +141,6 @@ namespace CursedOnion.Game.Entity
 
         #region Insert Attack Methods
 
-        public static void InsertMeleeAttackGridPositions(List<Vector3> reachableGridPositions, Grid3d grid,
-            Vector3 startGridPos)
-        {
-            reachableGridPositions.Clear();
-
-            Vector3Int start = Vector3Int.FloorToInt(startGridPos);
-            Tile3d tile = grid.GetTileAtGridPosition(start);
-            if (tile == null) return;
-
-            foreach (var dirV in tile.GetExitDirectionVector())
-            {
-                Vector3Int dir = Vector3Int.FloorToInt(dirV);
-                Vector3Int newPos = start + dir;
-                if (grid.TryGetTileAtGridPosition(newPos, out var nextTile) && !nextTile.IsFullTile())
-                {
-                    reachableGridPositions.Add(newPos);
-                }
-            }
-        }
-
         public static void InsertRangedAttackGridPositions(List<Vector3> reachableGridPositions, Grid3d grid,
             Vector3 startGridPos, int range)
         {
