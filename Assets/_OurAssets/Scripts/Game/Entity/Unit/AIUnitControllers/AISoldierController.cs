@@ -38,7 +38,7 @@ namespace CursedOnion.Game.Entity
         public bool LowHealth()
         {
             LazyInit();
-            float healthPercent = baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
+            float healthPercent = (float)baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
             return healthPercent < 0.3f;
         }
 
@@ -135,9 +135,9 @@ namespace CursedOnion.Game.Entity
             }
 
             if (totalNearby == 0)
-                return true;
+                return false;
 
-            return alliesWhoUsedAbility <= (totalNearby / 2f);
+            return alliesWhoUsedAbility < (totalNearby / 2f);
         }
         #endregion
 
@@ -170,6 +170,8 @@ namespace CursedOnion.Game.Entity
                     continue;
 
                 float hpScore = 1f - (enemy.Stats.CurrentHealthStat / (float)enemy.Stats.MaxHealthStat);
+
+                Debug.Log($"Evaluando enemigo {enemy.name}: HP Score = {hpScore}");
 
                 float typeScore = enemy.Stats.SpecialAbilityType switch
                 {

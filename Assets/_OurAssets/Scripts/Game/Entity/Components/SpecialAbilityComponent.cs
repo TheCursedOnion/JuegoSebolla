@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using CursedOnion.Locators;
+using Reflex.Extensions;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity.Components
@@ -20,12 +22,36 @@ namespace CursedOnion.Game.Entity.Components
         {
             if (AssignedEntity is not Unit unit || unit.Stats.SpecialAbilityType == null) return;
 
-            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("buff");
-
             unit.Grid.ResetPaint();
             unit.Stats.SpecialAbilityType.ActivateAbility(unit, target);
             AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
-                
+
+            var camera = AssignedEntity.gameObject.scene.GetSceneContainer().Resolve<RuntimeVariableLocator>().GlobalCamera;
+
+            Transform targetTransform = target.transform;
+            Transform attackerTransform = AssignedEntity.transform;
+
+            Vector3 direction = (targetTransform.position - attackerTransform.position);
+            RotateEntity(camera, AssignedEntity.transform, direction);
+            RotateEntity(camera, targetTransform.transform, -direction);
+
+            string anim = "buff";
+
+            if (AssignedEntity.Stats.SpecialAbilityType is ArcherAbility)
+            {
+                anim = "shoot";
+            }
+            else if (AssignedEntity.Stats.SpecialAbilityType is BarbarianAbility)
+            {
+                anim = "punch";
+            }
+            else if (AssignedEntity.Stats.SpecialAbilityType is HealerAbility)
+            {
+                anim = "heal";
+            }
+
+            if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation(anim);
+
             reachableTiles.Clear();
         }
         public virtual bool ValidateAbility(SimpleEntity target)

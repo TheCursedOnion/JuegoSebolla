@@ -38,7 +38,7 @@ namespace CursedOnion.Game.Entity
         public bool LowHealth()
         {
             LazyInit();
-            float healthPercent = baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
+            float healthPercent = (float)baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
             return healthPercent < 0.3f;
         }
 
