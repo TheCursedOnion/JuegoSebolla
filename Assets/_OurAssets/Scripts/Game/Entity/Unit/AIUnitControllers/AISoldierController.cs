@@ -157,7 +157,6 @@ namespace CursedOnion.Game.Entity
         public void SelectBestEnemyToAttack()
         {
             LazyInit();
-            Debug.Log("hay estas posiciones de enemigos: " + baseAI.enemyPositions.Count);
 
             var unit = baseAI.GetUnit();
             Unit best = null;
@@ -170,8 +169,6 @@ namespace CursedOnion.Game.Entity
                     continue;
 
                 float hpScore = 1f - (enemy.Stats.CurrentHealthStat / (float)enemy.Stats.MaxHealthStat);
-
-                Debug.Log($"Evaluando enemigo {enemy.name}: HP Score = {hpScore}");
 
                 float typeScore = enemy.Stats.SpecialAbilityType switch
                 {

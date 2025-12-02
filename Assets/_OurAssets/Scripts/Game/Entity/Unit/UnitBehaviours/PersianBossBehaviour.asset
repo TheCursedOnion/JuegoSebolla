@@ -186,9 +186,9 @@ MonoBehaviour:
         - 94c24dbc-a519-4142-9cd2-0c6755aa02dd
         childIds:
         - f5859290-22dc-41c1-824a-4db6ccaedb30
-      - name: RageAbility
+      - name: RageGroupAbility
         id: f5859290-22dc-41c1-824a-4db6ccaedb30
-        position: {x: 0, y: 1000}
+        position: {x: 16, y: 1016}
         node:
           rid: 6291014683966046310
         references:
@@ -267,7 +267,7 @@ MonoBehaviour:
         - bacc5319-7ca9-41e7-8395-510cb09d9954
       - name: UTILITYSelectBestEnemy
         id: e1fa486d-4b3c-4e83-a7f8-875f93c67539
-        position: {x: 750, y: 800}
+        position: {x: 765, y: 816}
         node:
           rid: 1186077857517142099
         references:
@@ -361,7 +361,7 @@ MonoBehaviour:
         - 0b4be9ab-6c21-4993-a1bc-16ac6dc83047
       - name: CanUseGroupRage?
         id: 81392867-4e8e-45bf-b8e8-a5d09dbf24d5
-        position: {x: 1650, y: 1200}
+        position: {x: 1666, y: 1176}
         node:
           rid: 1186077857517142114
         references:
@@ -374,7 +374,7 @@ MonoBehaviour:
         - f138fc14-571c-4654-8ba2-02e5d4e2221c
         childIds:
         - b1a2a198-f8a9-4303-a9d3-678811994632
-      - name: RageAbility
+      - name: RageGroupAbility
         id: b1a2a198-f8a9-4303-a9d3-678811994632
         position: {x: 1650, y: 1400}
         node:
@@ -612,7 +612,7 @@ MonoBehaviour:
     - rid: 6291014457700384857
       type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
-        delayTime: 2.5
+        delayTime: 2
     - rid: 6291014683966046307
       type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data:
@@ -658,7 +658,7 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
+          componentName: AIPersianBossController
           methodName: SelectBestEnemyToAttack
         update:
           componentName: AIUnitController
@@ -679,8 +679,8 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: AISoldierController
-          methodName: CanRage
+          componentName: AIPersianBossController
+          methodName: CanRageGroup
         reset:
           componentName: 
           methodName: 
@@ -694,8 +694,8 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
-          methodName: Rage
+          componentName: AIPersianBossController
+          methodName: RageGroup
         update:
           componentName: AIUnitController
           methodName: EndAction
@@ -712,7 +712,7 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
+          componentName: AIPersianBossController
           methodName: SelectBestEnemyToAttack
         update:
           componentName: AIUnitController
@@ -733,8 +733,8 @@ MonoBehaviour:
           componentName: 
           methodName: 
         check:
-          componentName: AISoldierController
-          methodName: CanRage
+          componentName: AIPersianBossController
+          methodName: CanRageGroup
         reset:
           componentName: 
           methodName: 
@@ -748,8 +748,8 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
-          methodName: Rage
+          componentName: AIPersianBossController
+          methodName: RageGroup
         update:
           componentName: AIUnitController
           methodName: EndAction
@@ -784,7 +784,7 @@ MonoBehaviour:
       type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         start:
-          componentName: AISoldierController
+          componentName: AIPersianBossController
           methodName: SelectBestTileNearEnemy
         update:
           componentName: AIUnitController

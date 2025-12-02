@@ -252,7 +252,21 @@ namespace CursedOnion.Game.Entity
                 
             }
         }
+    }
 
+    [System.Serializable]
+    public class PersianBossAbility : SpecialAbility
+    {
+        [SerializeField] private float damageMultiplier = 1.2f;
+
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
+        {
+            Debug.Log("Activando habilidad de BossPersa: Aumentando daño del próximo ataque de unidad cercanas");
+            var attackBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, damageMultiplier);
+            target.StatusHandler.AddEffect(attackBoost);
+        }
+
+        public override string ToString() => " x " + damageMultiplier;
     }
 
 }
