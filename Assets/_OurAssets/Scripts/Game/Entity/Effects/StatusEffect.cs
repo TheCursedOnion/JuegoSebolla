@@ -5,8 +5,8 @@ namespace CursedOnion.Game.Entity.Effects
 {
     public class StatusEffect
     {
-        public event Action<StatusEffect> OnStart;
-        public event Action<StatusEffect> OnEnd;
+        public event Action OnStart;
+        public event Action OnEnd;
         
         protected EffectData Data;
         protected int Duration;
@@ -26,8 +26,8 @@ namespace CursedOnion.Game.Entity.Effects
             this.Duration = RemainingDuration = duration;
             this.Magnitude = magnitude;
         }
-        protected void RaiseStart() => OnStart?.Invoke(this);
-        protected void RaiseEnd() => OnEnd?.Invoke(this);
+        protected void RaiseStart() => OnStart?.Invoke();
+        protected void RaiseEnd() => OnEnd?.Invoke();
         
         public virtual void ApplyOn(StatusHandler status)
         {
@@ -83,7 +83,7 @@ namespace CursedOnion.Game.Entity.Effects
         }
         public override void Remove(StatusHandler status)
         {
-            status.AttackMultiplier = 0;
+            status.AdditionalMovement = 0;
             RaiseEnd();
         }
     }
@@ -99,7 +99,7 @@ namespace CursedOnion.Game.Entity.Effects
         }
         public override void Remove(StatusHandler status)
         {
-            status.AttackMultiplier = 0;
+            status.SetAdditionalHP(0);
             RaiseEnd();
         }
     }

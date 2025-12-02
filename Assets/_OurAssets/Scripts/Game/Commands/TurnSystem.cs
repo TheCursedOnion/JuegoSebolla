@@ -13,11 +13,13 @@ using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic.Services;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Collections;
 
 namespace CursedOnion.Game.Systems.Level
 {
     public class TurnSystem : MonoBehaviour
     {
+        [SerializeField] private float delayOnAITurnEnd = 2.5f;
         [SerializeField] private List<Unit> allies = new List<Unit>();
         [SerializeField] private List<Unit> enemies = new List<Unit>();
         [SerializeField] private List<Unit> activeUnits = new List<Unit>();
@@ -35,6 +37,7 @@ namespace CursedOnion.Game.Systems.Level
         bool battleStarted = false;
         bool CanContinue() => allies.Count > 0 && enemies.Count > 0;
         
+
         public void Initialize(LevelEvents levelEvents)
         {
             this.levelEvents = levelEvents;
@@ -213,8 +216,14 @@ namespace CursedOnion.Game.Systems.Level
             }
             else
             {
-                InvokeEndTurn();
+                StartCoroutine(DelayedEndTurn(delayOnAITurnEnd));
             }
+        }
+
+        IEnumerator DelayedEndTurn(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            InvokeEndTurn();
         }
 
         void EndTurnForUnit(Unit unit)

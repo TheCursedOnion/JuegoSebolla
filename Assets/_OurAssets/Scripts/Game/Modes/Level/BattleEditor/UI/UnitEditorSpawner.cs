@@ -45,9 +45,14 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             eraseParameters = builder.Build();
             
             wasScrollbarHidden = !scrollbar.gameObject.activeSelf;
-            scrollRect.horizontalNormalizedPosition = 0;
+            scrollRect.horizontalScrollbar.value = 0;
         }
 
+        void OnEnable()
+        {
+            UpdatePadding(wasScrollbarHidden);
+            scrollRect.horizontalScrollbar.value = 0;
+        }
         
         private void Update()
         {
