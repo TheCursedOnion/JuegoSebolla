@@ -68,7 +68,6 @@ MonoBehaviour:
     AbilityEntityComponent:
       rid: 592454580667416656
   InspectorSprite: {fileID: 21300000, guid: 9ed7a872674ca8c41801c79a1adf335c, type: 3}
-  TurnInspectorSprite: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -97,5 +96,4 @@ MonoBehaviour:
       data:
         AbilityIcon: {fileID: 21300000, guid: 474e40c2cea54e24ea9cada3c148b63d, type: 3}
         SelfTargetOnly: 0
-        AbilityMinRange: 2
-        AbilityMaxRange: 2
+        AffectedStats: 0

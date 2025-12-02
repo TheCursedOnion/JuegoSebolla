@@ -30,12 +30,14 @@ namespace CursedOnion.Game.Entity
             public float h;
             public float f => g + h;
 
+            public int version;
             public void Reset(Vector3Int gridPos, Node parent, float g, float h)
             {
                 this.gridPosition = gridPos;
                 this.parent = parent;
                 this.g = g;
                 this.h = h;
+                this.version = 0;
             }
         }
 
@@ -72,6 +74,11 @@ namespace CursedOnion.Game.Entity
         #endregion
 
         #region Priority Queue
+        private struct NodeEntry
+        {
+            public Node node;
+            public int version;
+        }
         class PriorityQueue<T>
         {
             private readonly List<(T item, float priority)> heap = new();
@@ -402,198 +409,221 @@ namespace CursedOnion.Game.Entity
             }
         }
 
-        public static List<Vector3> FindPath(Vector3 startGridFloat, Vector3 targetGridFloat, Grid3d levelGrid, BattleSide side)
+        public static List<Vector3> FindPath(
+            Vector3 startGridFloat,
+            Vector3 targetGridFloat,
+            Grid3d levelGrid,
+            BattleSide side)
         {
             Vector3Int start = Vector3Int.FloorToInt(startGridFloat);
             Vector3Int target = Vector3Int.FloorToInt(targetGridFloat);
 
+            // Validaciones iniciales
             if (!levelGrid.IsGridPositionInBounds(start)
                 || !levelGrid.TryGetTileAtGridPosition(target, out Tile3d targetTile)
                 || targetTile.IsBlocked())
                 return null;
 
-            var openQueue = new PriorityQueue<Node>();
-            var openMap = new Dictionary<Vector3Int, Node>();
+            var openQueue = new PriorityQueue<NodeEntry>();   // NUEVO
+            var openMap   = new Dictionary<Vector3Int, Node>();
             var closedSet = new HashSet<Vector3Int>();
-            var closedCosts = new Dictionary<Vector3Int, float>();
 
             var startNode = RentNode(start, null, 0f, Heuristic(start, target));
-            openQueue.Enqueue(startNode, startNode.f);
             openMap[start] = startNode;
 
-            var neighbourList = new List<Vector3Int>(8);
+            openQueue.Enqueue(new NodeEntry
+            {
+                node = startNode,
+                version = startNode.version
+            }, startNode.f);
+
+            List<Vector3Int> neighbourList = new List<Vector3Int>(8);
 
             while (openQueue.Count > 0)
             {
-                var current = openQueue.Dequeue();
+                var entry = openQueue.Dequeue();
+                Node current = entry.node;
 
-                if (!openMap.TryGetValue(current.gridPosition, out var mapped) || mapped != current)
-                {
-                    // Nodo antiguo; devolver al pool y continuar
-                    ReturnNode(current);
+                // DESCARTAR versión antigua
+                if (current.version != entry.version)
                     continue;
-                }
 
-                // Remover del mapa abierto porque ahora está en cerrado
+                // Mover a cerrado
                 openMap.Remove(current.gridPosition);
                 closedSet.Add(current.gridPosition);
-                closedCosts[current.gridPosition] = current.g;
 
+                // ¿Llegamos?
                 if (current.gridPosition == target)
                 {
                     var path = ReconstructPathNodes(current, levelGrid);
+
                     foreach (var kv in openMap)
                         ReturnNode(kv.Value);
+
                     ReturnNode(current);
                     return path;
                 }
 
+                // Expandir
                 neighbourList.Clear();
                 FillNeighbours(current.gridPosition, levelGrid, neighbourList, side);
 
                 foreach (var neigh in neighbourList)
                 {
+                    if (closedSet.Contains(neigh))
+                        continue;
+
                     Tile3d tile = levelGrid.GetTileAtGridPosition(neigh);
-                    if (tile == null || tile.IsBlockedByEnemyOf(side)) continue;
+                    if (tile == null || tile.IsBlockedByEnemyOf(side))
+                        continue;
 
                     float tentativeG = current.g + 1f;
 
-                    if (closedCosts.ContainsKey(neigh))
-                        continue;
-
-                    if (closedSet.Contains(neigh))
-                        continue;
-                    
-                    if (openMap.TryGetValue(neigh, out var existingOpen))
+                    // Ya existe en open
+                    if (openMap.TryGetValue(neigh, out Node existing))
                     {
-                        /*if (tentativeG >= existingOpen.g) continue;
-                        
-                        if (IsDescendant(current, existingOpen)) continue;
+                        if (tentativeG >= existing.g)
+                            continue;
 
-                        ReturnNode(existingOpen); // liberamos la instancia antigua limpiando parent
-                        var replacement = RentNode(neigh, current, tentativeG, existingOpen.h); // conservamos h si lo prefieres
-                        openMap[neigh] = replacement;
+                        // Encontramos mejor camino → actualizar nodo
+                        existing.parent = current;
+                        existing.g = tentativeG;
+                        existing.version++;
 
-                        openQueue.Enqueue(replacement, existingOpen.f);*/
-                        
-                        if (tentativeG >= existingOpen.g) continue;
-
-                        // Actualiza solo g y parent del nodo existente
-                        existingOpen.parent = current;
-                        existingOpen.g = tentativeG;
-
-                        // No crees un nodo nuevo ni devuelvas existingOpen al pool
-                        // La cola puede encolarlo de nuevo para reordenar según f
-                        openQueue.Enqueue(existingOpen, existingOpen.f);
+                        openQueue.Enqueue(new NodeEntry
+                        {
+                            node = existing,
+                            version = existing.version
+                        }, existing.f);
                     }
                     else
                     {
+                        // Crear nodo nuevo
                         float h = Heuristic(neigh, target);
-                        var newNode = RentNode(neigh, current, tentativeG, h);
-                        openMap[neigh] = newNode;
-                        openQueue.Enqueue(newNode, newNode.f);
+                        Node nn = RentNode(neigh, current, tentativeG, h);
+                        openMap[neigh] = nn;
+
+                        openQueue.Enqueue(new NodeEntry
+                        {
+                            node = nn,
+                            version = nn.version
+                        }, nn.f);
                     }
                 }
             }
 
+            // No path
             foreach (var kv in openMap) ReturnNode(kv.Value);
-
             return null;
         }
-        private static bool IsDescendant(Node parentCandidate, Node possibleChild)
-        {
-            var p = parentCandidate;
-            int depth = 0;
 
-            while (p != null && depth++ < 128)
-            {
-                if (p == possibleChild)
-                    return true;
-
-                p = p.parent;
-            }
-
-            return false;
-        }
-
-        private static void FillNeighbours(Vector3Int currentAirPos, Grid3d levelGrid, List<Vector3Int> neighbours, BattleSide side)
+        private static void FillNeighbours(
+            Vector3Int currentAirPos,
+            Grid3d levelGrid,
+            List<Vector3Int> neighbours,
+            BattleSide side)
         {
             neighbours.Clear();
 
             Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
-            if (currentAirTile == null) return;
+            if (currentAirTile == null)
+                return;
 
-            var currentDesc = currentAirTile.GetTileDescriptor();
+            Tile3dDescriptor currentDesc = currentAirTile.GetTileDescriptor();
             bool isOnStair = currentDesc.IsStairBlock;
 
+            // ========== SI ESTOY EN ESCALERA =============
             if (isOnStair)
             {
                 var exits = currentAirTile.GetExitDirectionVector();
+
                 foreach (var v in exits)
                 {
                     Vector3Int dir = Vector3Int.FloorToInt(v);
-                    Vector3Int stairTopPos = currentAirPos + dir;
-                    if (!levelGrid.IsGridPositionInBounds(stairTopPos)) continue;
-                    Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                    if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side)) neighbours.Add(stairTopPos);
+                    Vector3Int stairTop = currentAirPos + dir;
+
+                    if (!levelGrid.IsGridPositionInBounds(stairTop))
+                        continue;
+
+                    Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTop);
+
+                    if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side))
+                        neighbours.Add(stairTop);
                 }
             }
 
+            // ========== MOVIMIENTO NORMAL ==============
             var exitDirs = currentAirTile.GetExitDirectionVector();
-            foreach (var possibleDirection in exitDirs)
+
+            foreach (var v in exitDirs)
             {
-                Vector3Int dir = Vector3Int.FloorToInt(possibleDirection);
+                Vector3Int dir = Vector3Int.FloorToInt(v);
                 Vector3Int nextAirPos = currentAirPos + dir;
-                if (!levelGrid.IsGridPositionInBounds(nextAirPos)) continue;
+
+                if (!levelGrid.IsGridPositionInBounds(nextAirPos))
+                    continue;
 
                 Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
-                if (nextAirTile == null || nextAirTile.IsBlockedByEnemyOf(side)) continue;
+                if (nextAirTile == null || nextAirTile.IsBlockedByEnemyOf(side))
+                    continue;
 
-                var nextAirDesc = nextAirTile.GetTileDescriptor();
+                var nextDesc = nextAirTile.GetTileDescriptor();
 
-                if (nextAirDesc.IsStairBlock && (nextAirTile.CanBeAccessedFrom(possibleDirection) || nextAirTile.HasEntityWithSide(side)))
+                // --- Subir por escalera ---
+                if (nextDesc.IsStairBlock &&
+                    (nextAirTile.CanBeAccessedFrom(v) || nextAirTile.HasEntityWithSide(side)))
                 {
-                    if (!neighbours.Contains(nextAirPos)) neighbours.Add(nextAirPos);
+                    if (!neighbours.Contains(nextAirPos))
+                        neighbours.Add(nextAirPos);
 
-                    Vector3Int stairTopPos = nextAirPos + dir + Up;
-                    if (levelGrid.IsGridPositionInBounds(stairTopPos))
+                    Vector3Int stairTop = nextAirPos + dir + Up;
+                    if (levelGrid.IsGridPositionInBounds(stairTop))
                     {
-                        Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTopPos);
-                        if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side)) neighbours.Add(stairTopPos);
+                        Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTop);
+                        if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side))
+                            neighbours.Add(stairTop);
                     }
                 }
 
+                // --- Bajada por escalera ---
                 Vector3Int stairDownPos = currentAirPos + dir + Down;
                 if (levelGrid.IsGridPositionInBounds(stairDownPos))
                 {
                     Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
                     if (stairDownTile != null && !stairDownTile.IsBlockedByEnemyOf(side))
                     {
-                        var stairDownDesc = stairDownTile.GetTileDescriptor();
-                        if (!stairDownDesc.IsAirBlock && !stairDownDesc.IsFullBlock)
+                        var desc = stairDownTile.GetTileDescriptor();
+                        if (!desc.IsAirBlock && !desc.IsFullBlock)
                             neighbours.Add(stairDownPos);
                     }
                 }
 
-                Vector3Int nextGroundPos = nextAirPos + Down;
-                if (!levelGrid.IsGridPositionInBounds(nextGroundPos)) continue;
+                // --- Movimiento horizontal normal ---
+                Vector3Int groundPos = nextAirPos + Down;
 
-                Tile3d nextGroundTile = levelGrid.GetTileAtGridPosition(nextGroundPos);
-                if (nextGroundTile == null) continue;
+                if (!levelGrid.IsGridPositionInBounds(groundPos))
+                    continue;
 
-                var groundDesc = nextGroundTile.GetTileDescriptor();
-                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock) continue;
+                Tile3d groundTile = levelGrid.GetTileAtGridPosition(groundPos);
+                if (groundTile == null)
+                    continue;
 
-                DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(possibleDirection);
-                if (nextAirTile.CanBeAccessedFrom(moveDir) || nextAirTile.HasEntityWithSide(side)) neighbours.Add(nextAirPos);
+                var groundDesc = groundTile.GetTileDescriptor();
+                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock)
+                    continue;
+
+                DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(v);
+                if (nextAirTile.CanBeAccessedFrom(moveDir) || nextAirTile.HasEntityWithSide(side))
+                {
+                    neighbours.Add(nextAirPos);
+                }
             }
         }
 
         private static void FillExitDirectionsAsInts(Tile3d tile, List<Vector3Int> outDirections)
         {
             outDirections.Clear();
-            var exits = tile.GetExitDirectionVector();
-            foreach (var v in exits)
+            foreach (var v in tile.GetExitDirectionVector())
                 outDirections.Add(Vector3Int.FloorToInt(v));
         }
 

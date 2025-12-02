@@ -17,6 +17,7 @@ namespace CursedOnion.Game.Inputs.Camera
         
         private bool dragStartedOnUI = true;
         private bool isDragging = false;
+        private int? activeDragFingerId = null;
         
         private Transform targetGuide;
         private Vector3 targetPosition;
@@ -76,27 +77,43 @@ namespace CursedOnion.Game.Inputs.Camera
         
         void HandleTouchDrag()
         {
-            if (Input.touchCount != 1) return;
-            Touch touch = Input.GetTouch(0);
+            if (Input.touchCount == 0) 
+            {
+                isDragging = false;
+                activeDragFingerId = null;
+                return;
+            }
+            if (Input.touchCount > 1)
+            {
+                isDragging = false;
+                activeDragFingerId = null;
+                return;
+            }
 
+            Touch touch = Input.GetTouch(0);
+            
             if (touch.phase == TouchPhase.Began)
             {
                 dragStartedOnUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touch.fingerId);
                 dragOrigin = touch.position;
                 targetPosition = targetGuide.position;
+
+                activeDragFingerId = touch.fingerId;
             }
             
+            if (activeDragFingerId != touch.fingerId) return;
+            
             isDragging = touch.phase == TouchPhase.Moved;
+
             if (isDragging && !dragStartedOnUI)
             {
                 var dragOrigin2D = new Vector2(dragOrigin.x, dragOrigin.y);
-                Vector3 delta = touch.position - dragOrigin2D;
+                Vector3 delta = (Vector3)(touch.position - dragOrigin2D);
                 dragOrigin = touch.position;
 
                 DragCamera(delta);
             }
         }
-        
         void DragCamera(Vector3 delta)
         {
             Vector3 move = new Vector3(-delta.x, 0, -delta.y) * dragSpeed;

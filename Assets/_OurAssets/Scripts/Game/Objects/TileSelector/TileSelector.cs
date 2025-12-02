@@ -152,7 +152,8 @@ namespace CursedOnion.Game.Objects
             
             Ray ray = globalCamera.Camera.ScreenPointToRay(Input.mousePosition);
             MoveResult result = MoveResult.Impossible;
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            int mask = 1 << LayerMask.NameToLayer("Default");
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, mask))
             {
                 Vector3 hitPoint = hit.point + hit.normal * 0.1f;
                 result = TrySetAtPosition(hitPoint);

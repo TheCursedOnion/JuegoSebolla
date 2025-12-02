@@ -53,28 +53,30 @@ namespace CursedOnion.Game.Inputs.Camera
 
             if (Mathf.Abs(scroll) > 0.001f)
             {
-                float zoomZ = scroll * scrollSensitivity * 10f;
+                float zoomZ = scroll * scrollSensitivity * 10f * Time.deltaTime;
                 ZoomCamera(zoomZ);
             }
         }
 
         void HandleTouchZoom()
         {
+            Debug.LogWarning(Input.touchCount);
             if (Input.touchCount != 2) return;
             
-                Touch t1 = Input.GetTouch(0);
-                Touch t2 = Input.GetTouch(1);
+            Touch t1 = Input.GetTouch(0);
+            Touch t2 = Input.GetTouch(1);
 
-                Vector2 prevPos1 = t1.position - t1.deltaPosition;
-                Vector2 prevPos2 = t2.position - t2.deltaPosition;
+            Vector2 prevPos1 = t1.position - t1.deltaPosition;
+            Vector2 prevPos2 = t2.position - t2.deltaPosition;
 
-                float prevDistance = Vector2.Distance(prevPos1, prevPos2);
-                float currentDistance = Vector2.Distance(t1.position, t2.position);
+            float prevDistance = Vector2.Distance(prevPos1, prevPos2);
+            float currentDistance = Vector2.Distance(t1.position, t2.position);
 
-                float delta = currentDistance - prevDistance;
-
-                float zoomZ = delta * -pinchSensitivity;
-                ZoomCamera(zoomZ);
+            float delta = currentDistance - prevDistance;
+            
+            float zoomZ = delta * pinchSensitivity * Time.deltaTime;
+            Debug.LogWarning("ZOOM: " + zoomZ);
+            ZoomCamera(zoomZ);
         }
 
         void ZoomCamera(float zoomZ)
