@@ -269,4 +269,17 @@ namespace CursedOnion.Game.Entity
         public override string ToString() => " x " + damageMultiplier;
     }
 
+    [System.Serializable]
+    public class RobSpecialAbility : SpecialAbility
+    {
+        [SerializeField] private int explosionDamage = 8;
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
+        { 
+            if (target == null) return;
+            target.DamageFrom(explosionDamage, unit);
+            Debug.Log($"{target.name} recibió {explosionDamage} puntos de daño por la habilidad de Rob (Ha explotado el loco)");
+        }
+
+    }
+
 }

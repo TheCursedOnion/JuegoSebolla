@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4099264466346865497}
   - component: {fileID: 6849040567394088048}
   - component: {fileID: 5822104237064508139}
+  - component: {fileID: -5488623660981171694}
   m_Layer: 0
   m_Name: EnemyUnit-BossEgypt
   m_TagString: Untagged
@@ -171,7 +172,7 @@ MonoBehaviour:
   _eventHandler:
     debugStatusChanges: 0
     identifier: 
-  System: {fileID: 11400000, guid: c1f170c80805c87febb1925942d8a0c5, type: 2}
+  System: {fileID: 11400000, guid: 32fc3c58938fbbb59ac79c93de90fbb8, type: 2}
 --- !u!114 &5822104237064508139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +197,18 @@ MonoBehaviour:
   tiltOnFocus: 0
   forcePan: 0
   panOnFocus: 0
+--- !u!114 &-5488623660981171694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882082664728815107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b28ff57be427dbd0a05802c27d1a163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1207409992202940343
 GameObject:
   m_ObjectHideFlags: 0
