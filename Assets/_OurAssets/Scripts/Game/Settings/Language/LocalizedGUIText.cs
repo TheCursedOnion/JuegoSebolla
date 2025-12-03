@@ -21,12 +21,12 @@ namespace CursedOnion.Game.Localization
         void OnEnable()
         {
             languageSetting ??= gameObject.scene.GetSceneContainer().Resolve<GameSettings>().LanguageSettings;
-            languageSetting.OnChange += OnLenguageChange;
+            languageSetting.OnChange += OnLanguageChange;
             UpdateText();
         }
         void OnDisable()
         {
-            languageSetting.OnChange -= OnLenguageChange;
+            languageSetting.OnChange -= OnLanguageChange;
         }
         
         public void SetKey(string key)
@@ -44,7 +44,7 @@ namespace CursedOnion.Game.Localization
             useKeyIndex = index;
             UpdateText();
         }
-        void OnLenguageChange(LanguageSetting.Language _)
+        void OnLanguageChange(LanguageSetting.Language _)
         {
             UpdateText();
         }

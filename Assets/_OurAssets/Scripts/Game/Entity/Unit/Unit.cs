@@ -1,11 +1,12 @@
 using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
-using CursedOnion.Game.Entity.Components;
 using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
-using System;
-using System.Collections;
+using CursedOnion.Game.Miscellaneous;
+using CursedOnion.Locators;
+using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -26,6 +27,10 @@ namespace CursedOnion.Game.Entity
         [ReadOnly] public bool PlacedManually = false;
         [SerializeField, ReadOnly] CameraFocus cameraFocus;
         public bool IsBoss;
+
+        TextParticleManager textParticleManager;
+        ParticleManager particleManager;
+        RuntimeVariableLocator locator;
         
         protected override void Awake()
         {
@@ -61,6 +66,19 @@ namespace CursedOnion.Game.Entity
             DefineEntityStats(data);
             SetLevelVariables(levelManager);
             SetSide(side);
+            
+            Vector3 spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
+            textParticleManager?.SpawnTextAt("HOLA", spawnPos);
+        }
+        
+        protected override void SetLevelVariables(LevelManager manager)
+        {
+            base.SetLevelVariables(manager);
+            
+            var container = gameObject.scene.GetSceneContainer();
+            textParticleManager = container.Resolve<TextParticleManager>();
+            particleManager = container.Resolve<ParticleManager>();
+            locator = container.Resolve<RuntimeVariableLocator>();
         }
 
         void SetSide(BattleSide side)
@@ -108,6 +126,11 @@ namespace CursedOnion.Game.Entity
         public override void DamageFrom(int damage, SimpleEntity attacker)
         {
             LayeredEntity?.PlayAnimation("hurt");
+            
+            Vector3 spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
+            textParticleManager?.SpawnTextAt(damage.ToString(), spawnPos);
+            particleManager?.SpawnParticleAt("Hit", spawnPos);
+            
             base.DamageFrom(damage, attacker);
 
             if (Stats.CurrentHealthStat > 0)

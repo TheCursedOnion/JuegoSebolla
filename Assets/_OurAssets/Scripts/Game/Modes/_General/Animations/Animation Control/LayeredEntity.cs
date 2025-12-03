@@ -94,7 +94,7 @@ namespace CursedOnion.Game.Modes.General.Animations
             if (layer.lookupTexture != null)
                 spriteRenderer.material.SetTexture(LookupTextureId, layer.lookupTexture);
             
-            layerObject.transform.position += Vector3.back * (0.001f * indexOrder);
+            layerObject.transform.position += -transform.forward * (0.001f * indexOrder);
         }
         
         public void PlayAnimation(string animationName)

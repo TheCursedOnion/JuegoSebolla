@@ -87,7 +87,7 @@ namespace CursedOnion.Game.Entity
             layeredEntity = this.LayeredEntity;
             return layeredEntity != null;
         }
-        protected void SetLevelVariables(LevelManager manager)
+        protected virtual void SetLevelVariables(LevelManager manager)
         {
             LevelManager = manager;
             LevelEvents = LevelManager.LevelEvents;

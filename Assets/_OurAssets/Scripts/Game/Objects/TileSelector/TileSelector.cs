@@ -119,6 +119,8 @@ namespace CursedOnion.Game.Objects
 
         void OnCommandLaunched(bool success, Type commandType)
         {
+            if(!success && commandType == typeof(SpawnCommand)) return;
+            
             if (!success || commandType == typeof(EraseCommand)) InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
         }
         void TryToSelect()
