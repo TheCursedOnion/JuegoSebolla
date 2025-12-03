@@ -65,7 +65,7 @@ namespace CursedOnion.Game.Modes.Map.UI
             if(currentLevelInformation == null) return;
             
             Debug.Log($"Playing level {currentLevelInformation.levelScene}");
-            variableLocator.LastPlayedLevel = currentLevelInformation.LevelIndex;
+            variableLocator.SetLastPlayedLevel(currentLevelInformation.LevelIndex);
             OnLevelSelected?.Invoke(currentLevelInformation.levelScene);
         }
     }
