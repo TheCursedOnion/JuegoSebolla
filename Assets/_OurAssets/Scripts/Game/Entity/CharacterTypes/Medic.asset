@@ -48,6 +48,16 @@ MonoBehaviour:
       runtimeAnimatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
+  - groupName: egipcio
+    layers:
+    - layerName: base
+      runtimeAnimatorController: {fileID: 9100000, guid: 64ad8df7b5d23134faee11a96aed6481, type: 2}
+      baseMaterial: {fileID: 2100000, guid: af6a31ce689ac114ca8deaabc369f48e, type: 2}
+      lookupTexture: {fileID: 2800000, guid: b4b01b12b52108042bfb75b48cfc94b7, type: 3}
+    - layerName: sword
+      runtimeAnimatorController: {fileID: 9100000, guid: 7936663576b266043b425558e2a67935, type: 2}
+      baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
+      lookupTexture: {fileID: 0}
   - groupName: romano
     layers:
     - layerName: base
@@ -68,7 +78,6 @@ MonoBehaviour:
     AbilityEntityComponent:
       rid: 592454580667416680
   InspectorSprite: {fileID: 21300000, guid: 64d71f28f9c69b842b5f6d685186dea4, type: 3}
-  TurnInspectorSprite: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -97,5 +106,4 @@ MonoBehaviour:
       data:
         AbilityIcon: {fileID: 21300000, guid: 68b82ea00e5c1154aaf4bb03644a473b, type: 3}
         SelfTargetOnly: 0
-        AbilityMinRange: 1
-        AbilityMaxRange: 1
+        AffectedStats: 0
