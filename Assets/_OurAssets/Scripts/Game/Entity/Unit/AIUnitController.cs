@@ -42,6 +42,11 @@ namespace CursedOnion.Game.Entity
             AssignedEntity.HasTurn = true;
         }
 
+        protected override void EndTurn()
+        {
+            base.EndTurn();
+            AssignedEntity.ActionHandler.ResetFlag(ActionFlag.CannotCounter);
+        }
         public bool HasTurn() 
         {
             bool hasTurn = AssignedEntity != null && AssignedEntity.HasTurn;

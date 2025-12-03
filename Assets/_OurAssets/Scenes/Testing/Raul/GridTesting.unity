@@ -3707,7 +3707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc833233a3ed46948a47bfaf8f5c35d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayOnAITurnEnd: 1
+  delayOnAITurnEnd: 0.5
   allies: []
   enemies: []
   activeUnits: []
@@ -3933,6 +3933,10 @@ PrefabInstance:
     - target: {fileID: 730611507529193680, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: zoomComponent.pinchSensitivity
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 730611507529193680, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
+      propertyPath: zoomComponent.scrollSensitivity
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3927014701367432837, guid: 941b8f45a586353439a0bed6c59aa6d9, type: 3}
       propertyPath: m_LocalPosition.x

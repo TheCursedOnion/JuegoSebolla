@@ -408,7 +408,13 @@ namespace CursedOnion.Game.Entity
                     await Task.Yield();
             }
         }
-
+        
+        private static void FillExitDirectionsAsInts(Tile3d tile, List<Vector3Int> outDirections)
+        {
+            outDirections.Clear();
+            foreach (var v in tile.GetExitDirectionVector())
+                outDirections.Add(Vector3Int.FloorToInt(v));
+        }
         public static List<Vector3> FindPath(
             Vector3 startGridFloat,
             Vector3 targetGridFloat,
@@ -417,14 +423,13 @@ namespace CursedOnion.Game.Entity
         {
             Vector3Int start = Vector3Int.FloorToInt(startGridFloat);
             Vector3Int target = Vector3Int.FloorToInt(targetGridFloat);
-
-            // Validaciones iniciales
+            
             if (!levelGrid.IsGridPositionInBounds(start)
                 || !levelGrid.TryGetTileAtGridPosition(target, out Tile3d targetTile)
                 || targetTile.IsBlocked())
                 return null;
-
-            var openQueue = new PriorityQueue<NodeEntry>();   // NUEVO
+            
+            var openQueue = new PriorityQueue<NodeEntry>();
             var openMap   = new Dictionary<Vector3Int, Node>();
             var closedSet = new HashSet<Vector3Int>();
 
@@ -438,9 +443,22 @@ namespace CursedOnion.Game.Entity
             }, startNode.f);
 
             List<Vector3Int> neighbourList = new List<Vector3Int>(8);
-
+            
+            const int MAX_NODES = 20000; //Máximo de nodos a comprobar (no debería nunca llegar al límite pero por si acaso)
+            int processed = 0;
+            
             while (openQueue.Count > 0)
             {
+                processed++;
+                if (processed > MAX_NODES)
+                {
+                    Debug.LogWarning("Pathfinding abortado: demasiados nodos explorados");
+                    foreach (var kv in openMap)
+                        ReturnNode(kv.Value);
+
+                    return null;
+                }
+
                 var entry = openQueue.Dequeue();
                 Node current = entry.node;
 
@@ -452,7 +470,7 @@ namespace CursedOnion.Game.Entity
                 openMap.Remove(current.gridPosition);
                 closedSet.Add(current.gridPosition);
 
-                // ¿Llegamos?
+                // Comprobar final
                 if (current.gridPosition == target)
                 {
                     var path = ReconstructPathNodes(current, levelGrid);
@@ -464,28 +482,25 @@ namespace CursedOnion.Game.Entity
                     return path;
                 }
 
-                // Expandir
+                // EXPANSIÓN DE NODOS
                 neighbourList.Clear();
-                FillNeighbours(current.gridPosition, levelGrid, neighbourList, side);
+                FillNeighboursSafe(current.gridPosition, levelGrid, neighbourList, side);
 
                 foreach (var neigh in neighbourList)
                 {
                     if (closedSet.Contains(neigh))
                         continue;
 
-                    Tile3d tile = levelGrid.GetTileAtGridPosition(neigh);
-                    if (tile == null || tile.IsBlockedByEnemyOf(side))
-                        continue;
-
+                    // Costo acumulado
                     float tentativeG = current.g + 1f;
 
-                    // Ya existe en open
+                    // Ya existente
                     if (openMap.TryGetValue(neigh, out Node existing))
                     {
                         if (tentativeG >= existing.g)
                             continue;
 
-                        // Encontramos mejor camino → actualizar nodo
+                        // Actualizar
                         existing.parent = current;
                         existing.g = tentativeG;
                         existing.version++;
@@ -498,9 +513,10 @@ namespace CursedOnion.Game.Entity
                     }
                     else
                     {
-                        // Crear nodo nuevo
+                        // Nuevo nodo
                         float h = Heuristic(neigh, target);
                         Node nn = RentNode(neigh, current, tentativeG, h);
+
                         openMap[neigh] = nn;
 
                         openQueue.Enqueue(new NodeEntry
@@ -513,11 +529,13 @@ namespace CursedOnion.Game.Entity
             }
 
             // No path
-            foreach (var kv in openMap) ReturnNode(kv.Value);
+            foreach (var kv in openMap)
+                ReturnNode(kv.Value);
+
             return null;
         }
 
-        private static void FillNeighbours(
+        private static void FillNeighboursSafe(
             Vector3Int currentAirPos,
             Grid3d levelGrid,
             List<Vector3Int> neighbours,
@@ -525,19 +543,16 @@ namespace CursedOnion.Game.Entity
         {
             neighbours.Clear();
 
-            Tile3d currentAirTile = levelGrid.GetTileAtGridPosition(currentAirPos);
-            if (currentAirTile == null)
+            Tile3d currentTile = levelGrid.GetTileAtGridPosition(currentAirPos);
+            if (currentTile == null)
                 return;
 
-            Tile3dDescriptor currentDesc = currentAirTile.GetTileDescriptor();
-            bool isOnStair = currentDesc.IsStairBlock;
+            Tile3dDescriptor currentDesc = currentTile.GetTileDescriptor();
+            bool onStair = currentDesc.IsStairBlock;
 
-            // ========== SI ESTOY EN ESCALERA =============
-            if (isOnStair)
+            if (onStair)
             {
-                var exits = currentAirTile.GetExitDirectionVector();
-
-                foreach (var v in exits)
+                foreach (var v in currentTile.GetExitDirectionVector())
                 {
                     Vector3Int dir = Vector3Int.FloorToInt(v);
                     Vector3Int stairTop = currentAirPos + dir;
@@ -545,17 +560,15 @@ namespace CursedOnion.Game.Entity
                     if (!levelGrid.IsGridPositionInBounds(stairTop))
                         continue;
 
-                    Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTop);
+                    if (!IsValidMove(levelGrid, stairTop, side))
+                        continue;
 
-                    if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side))
+                    if (stairTop != currentAirPos)
                         neighbours.Add(stairTop);
                 }
             }
-
-            // ========== MOVIMIENTO NORMAL ==============
-            var exitDirs = currentAirTile.GetExitDirectionVector();
-
-            foreach (var v in exitDirs)
+            
+            foreach (var v in currentTile.GetExitDirectionVector())
             {
                 Vector3Int dir = Vector3Int.FloorToInt(v);
                 Vector3Int nextAirPos = currentAirPos + dir;
@@ -564,73 +577,87 @@ namespace CursedOnion.Game.Entity
                     continue;
 
                 Tile3d nextAirTile = levelGrid.GetTileAtGridPosition(nextAirPos);
+
                 if (nextAirTile == null || nextAirTile.IsBlockedByEnemyOf(side))
                     continue;
 
                 var nextDesc = nextAirTile.GetTileDescriptor();
 
-                // --- Subir por escalera ---
+                // SUBIR ESCALERA
                 if (nextDesc.IsStairBlock &&
                     (nextAirTile.CanBeAccessedFrom(v) || nextAirTile.HasEntityWithSide(side)))
                 {
-                    if (!neighbours.Contains(nextAirPos))
+                    if (nextAirPos != currentAirPos)
                         neighbours.Add(nextAirPos);
 
                     Vector3Int stairTop = nextAirPos + dir + Up;
-                    if (levelGrid.IsGridPositionInBounds(stairTop))
-                    {
-                        Tile3d stairTopTile = levelGrid.GetTileAtGridPosition(stairTop);
-                        if (stairTopTile != null && !stairTopTile.IsBlockedByEnemyOf(side))
-                            neighbours.Add(stairTop);
-                    }
+                    if (IsValidMove(levelGrid, stairTop, side))
+                        neighbours.Add(stairTop);
                 }
 
-                // --- Bajada por escalera ---
-                Vector3Int stairDownPos = currentAirPos + dir + Down;
-                if (levelGrid.IsGridPositionInBounds(stairDownPos))
+                // BAJAR ESCALERA
+                Vector3Int stairDown = currentAirPos + dir + Down;
+                if (IsValidMove(levelGrid, stairDown, side))
                 {
-                    Tile3d stairDownTile = levelGrid.GetTileAtGridPosition(stairDownPos);
-                    if (stairDownTile != null && !stairDownTile.IsBlockedByEnemyOf(side))
-                    {
-                        var desc = stairDownTile.GetTileDescriptor();
-                        if (!desc.IsAirBlock && !desc.IsFullBlock)
-                            neighbours.Add(stairDownPos);
-                    }
+                    var desc = levelGrid.GetTileAtGridPosition(stairDown).GetTileDescriptor();
+                    if (!desc.IsAirBlock && !desc.IsFullBlock)
+                        neighbours.Add(stairDown);
                 }
 
-                // --- Movimiento horizontal normal ---
+                // MOVIMIENTO HORIZONTAL NORMAL
                 Vector3Int groundPos = nextAirPos + Down;
 
-                if (!levelGrid.IsGridPositionInBounds(groundPos))
-                    continue;
-
-                Tile3d groundTile = levelGrid.GetTileAtGridPosition(groundPos);
-                if (groundTile == null)
-                    continue;
-
-                var groundDesc = groundTile.GetTileDescriptor();
-                if (groundDesc.IsAirBlock || groundDesc.IsFluidBlock)
+                if (!IsValidGround(levelGrid, groundPos))
                     continue;
 
                 DirectionFlag moveDir = DirectionHelper.GetDirectionFlag(v);
                 if (nextAirTile.CanBeAccessedFrom(moveDir) || nextAirTile.HasEntityWithSide(side))
                 {
-                    neighbours.Add(nextAirPos);
+                    if (nextAirPos != currentAirPos)
+                        neighbours.Add(nextAirPos);
+                }
+            }
+
+            // Eliminar duplicados
+            for (int i = neighbours.Count - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (neighbours[i] == neighbours[j])
+                    {
+                        neighbours.RemoveAt(i);
+                        break;
+                    }
                 }
             }
         }
-
-        private static void FillExitDirectionsAsInts(Tile3d tile, List<Vector3Int> outDirections)
+        private static bool IsValidMove(Grid3d grid, Vector3Int pos, BattleSide side)
         {
-            outDirections.Clear();
-            foreach (var v in tile.GetExitDirectionVector())
-                outDirections.Add(Vector3Int.FloorToInt(v));
-        }
+            if (!grid.IsGridPositionInBounds(pos))
+                return false;
 
+            Tile3d tile = grid.GetTileAtGridPosition(pos);
+            return tile != null && !tile.IsBlockedByEnemyOf(side);
+        }
+        private static bool IsValidGround(Grid3d grid, Vector3Int pos)
+        {
+            if (!grid.IsGridPositionInBounds(pos))
+                return false;
+
+            Tile3d tile = grid.GetTileAtGridPosition(pos);
+            if (tile == null)
+                return false;
+
+            var desc = tile.GetTileDescriptor();
+            return !(desc.IsAirBlock || desc.IsFluidBlock);
+        }
+        
         private static float Heuristic(Vector3Int a, Vector3Int b)
         {
-            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y) + Mathf.Abs(a.z - b.z);
+            return Vector3.Distance(a, b) * 1.15f;
         }
+
+        
 
         private static List<Vector3> ReconstructPathNodes(Node endNode, Grid3d levelGrid)
         {

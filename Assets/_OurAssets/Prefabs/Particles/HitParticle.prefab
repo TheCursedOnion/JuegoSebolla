@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8e51fe8c7e4683a78605090366148b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystem: {fileID: 2685420338744740650}
+  attachedParticleSystem: {fileID: 2685420338744740650}
 --- !u!198 &2685420338744740650
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -55,7 +55,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5594606119426301874}
   serializedVersion: 8
-  lengthInSec: 0.3
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 3
   cullingMode: 0
