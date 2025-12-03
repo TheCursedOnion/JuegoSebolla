@@ -12,6 +12,7 @@ namespace CursedOnion.Game.Modes.Map.UI
         [Inject] MapEvents mapEvents;
         
         [SerializeField] LocalizedGUIText levelName;
+        [SerializeField] LocalizedGUIText levelGoal;
         [SerializeField] LocalizedGUIText levelDescription;
         private void Awake()
         {
@@ -28,6 +29,7 @@ namespace CursedOnion.Game.Modes.Map.UI
             string descKey = levelInformation.BaseKey + "_desc";
             
             levelName.SetKey(nameKey);
+            levelGoal.SetKey(goalKey);
             levelDescription.SetKey(descKey);
         }
         

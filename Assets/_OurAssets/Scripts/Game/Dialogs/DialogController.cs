@@ -3,6 +3,7 @@ using System.Linq;
 using CursedOnion.Game.General.UI.Canvases.Level;
 using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Systems.Level;
+using CursedOnion.Locators;
 using Fungus;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -15,6 +16,7 @@ namespace CursedOnion.Game.Dialog
 {
     public class DialogController : MonoBehaviour
     {
+        [Inject] RuntimeVariableLocator variableLocator;
         [Inject] PauseService pauseService;
         
         LevelManager levelManager;
@@ -26,8 +28,13 @@ namespace CursedOnion.Game.Dialog
         
         [Header("Extras")]
         [SerializeField] CanvasGroup background;
+        
+        [Header("DialogData")]
+        [SerializeField] int dialogId = -1;
         public void Start()
         {
+            if (dialogId >= 0 && variableLocator.LastDialogCompleted >= dialogId) return;
+            
             var container = gameObject.scene.GetSceneContainer();
             if (container.HasBinding<LevelManager>())
             {
@@ -90,6 +97,13 @@ namespace CursedOnion.Game.Dialog
         public void UnpauseGameFromDialog()
         {
             pauseService.Unpause(PauseLevel.Dialog);
+        }
+
+        public void SaveDialogId()
+        {
+            if (dialogId < 0) return;
+            
+            variableLocator?.SetLastDialogCompleted(dialogId);
         }
     }
 
