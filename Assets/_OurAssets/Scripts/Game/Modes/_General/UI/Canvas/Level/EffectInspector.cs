@@ -30,6 +30,12 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         
         public void UpdateEffects(SimpleEntity entity)
         {
+            if (entity == null || entity.ActionHandler.HasDied())
+            {
+                ClearInspector();
+                return;
+            }
+            
             EnableInspector(true);
             RegisterForEntityUpdate(entity);
             

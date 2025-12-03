@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 5098834108180860959}
   - component: {fileID: 3970698366269209433}
   - component: {fileID: 5020381351521428215}
+  - component: {fileID: 4701061059075179038}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -255,6 +256,34 @@ MonoBehaviour:
   tiltOnFocus: 0
   forcePan: 0
   panOnFocus: 0
+--- !u!114 &4701061059075179038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2919935223951079824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1fb9cd2c1175908a3f9765fb249aec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AssignedEntity: {fileID: 0}
+  PlaceEntityComponent:
+    UsedFlags: 0
+    blockEntryDirectionsOnPlacement: 0
+  MoveEntityComponent:
+    UsedFlags: 0
+    movementColor: {r: 0, g: 0, b: 1, a: 1}
+  AttackEntityComponent:
+    UsedFlags: 0
+    attackColor: {r: 1, g: 0, b: 0, a: 1}
+  AbilityEntityComponent:
+    UsedFlags: 0
+    abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  turnIndicator: {fileID: 0}
+  beingInspectedColor: {r: 0, g: 1, b: 0, a: 1}
+  notBeingInspectedColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.5}
 --- !u!1 &8308048264081539728
 GameObject:
   m_ObjectHideFlags: 0

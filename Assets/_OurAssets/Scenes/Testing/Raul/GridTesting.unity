@@ -3707,6 +3707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc833233a3ed46948a47bfaf8f5c35d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayOnAITurnEnd: 1
   allies: []
   enemies: []
   activeUnits: []
@@ -4932,7 +4933,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6101889491955785473, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: m_Name
@@ -6665,7 +6666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1378997132
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -105,6 +105,13 @@ namespace CursedOnion.Game.Cameras
             }
         }
         public float GetCameraPanAngles() => CinemachineContainer.GetCameraPanAngles();
+
+        public Vector3 GetForward() => Camera.transform.forward;
+        /*{
+            float rotateAngle = CinemachineContainer.GetCameraPanAngles();
+            Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
+            Vector3 fixedRotation = rotation * transform.forward;
+        }*/
         
     }
 }

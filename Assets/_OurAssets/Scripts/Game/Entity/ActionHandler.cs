@@ -20,6 +20,8 @@ namespace CursedOnion.Game.Entity
         public bool HasMoved() => HasFlagRaised(ActionFlag.HasMoved);
         public bool HasAttacked() => HasFlagRaised(ActionFlag.HasAttacked);
         public bool HasUsedAbility() => HasFlagRaised(ActionFlag.HasUsedAbility);
+
+        public bool HasDied() => HasFlagRaised(ActionFlag.HasDied);
         
         public bool IsNotIdle() => HasFlagRaised(ActionFlag.IsNotIdle);
         public bool CanCounter() => !HasFlagRaised(ActionFlag.CannotCounter);
