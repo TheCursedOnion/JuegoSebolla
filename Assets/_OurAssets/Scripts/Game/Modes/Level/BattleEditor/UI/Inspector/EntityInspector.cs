@@ -69,6 +69,8 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         
         void EnableInspector(bool enable)
         {
+            Debug.Log($"!!!!!!!!!Enable inspector: {enable}");
+            
             statDataContainer.SetActive(enable);
             Color color = background.color;
             color.a = enable ? 0.8f : 0.3f;
@@ -92,12 +94,20 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
 
         void UpdateStats()
         {
-            UpdateStats(selectedEntity);
+            if(selectedEntity != null && !selectedEntity.ActionHandler.HasDied())
+                UpdateStats(selectedEntity);
+            else
+                ClearInspector();
         }
         public void UpdateStats(SimpleEntity entity)
         {
-            EnableInspector(true);
+            if (entity == null || entity.ActionHandler.HasDied())
+            {
+                ClearInspector();
+                return;
+            }
             
+            EnableInspector(true);
             RegisterForEntityUpdate(entity);
             
             var data = entity.StatData;

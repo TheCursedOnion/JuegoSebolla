@@ -38,7 +38,7 @@ namespace CursedOnion.Game.Entity
         public bool LowHealth()
         {
             LazyInit();
-            float healthPercent = baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
+            float healthPercent = (float)baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
             return healthPercent < 0.3f;
         }
 
@@ -53,7 +53,8 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
 
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
-            AStarPathFinder.InsertMeleeAttackGridPositions(soldierReachableAttackTiles, grid, gridPos);
+            
+            AStarPathFinder.InsertManhattanAttackGridPositions(soldierReachableAttackTiles, grid, gridPos,1, false);
 
             foreach (var healer in baseAI.GetTurnSystem().GetEnemyUnits().Where(u => u.Stats.SpecialAbilityType is HealerAbility))
             {
@@ -134,9 +135,9 @@ namespace CursedOnion.Game.Entity
             }
 
             if (totalNearby == 0)
-                return true;
+                return false;
 
-            return alliesWhoUsedAbility <= (totalNearby / 2f);
+            return alliesWhoUsedAbility < (totalNearby / 2f);
         }
         #endregion
 
@@ -156,7 +157,6 @@ namespace CursedOnion.Game.Entity
         public void SelectBestEnemyToAttack()
         {
             LazyInit();
-            Debug.Log("hay estas posiciones de enemigos: " + baseAI.enemyPositions.Count);
 
             var unit = baseAI.GetUnit();
             Unit best = null;

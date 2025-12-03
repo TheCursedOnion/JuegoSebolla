@@ -1,17 +1,23 @@
+using CursedOnion.Extensions;
+using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
 {
     public class PlayerUnitController : EntityComponentController
     {
-        [SerializeField] protected MeshRenderer turnIndicator;
+        [SerializeField] protected SpriteRenderer turnIndicator;
+        [SerializeField] private Color beingInspectedColor = Color.green;
+        [SerializeField] private Color notBeingInspectedColor = new Color(1, 0.87f, 0 , 0.5f);
+        bool hasTurn = false;
         public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
             base.Initialize(entity, components);
             
             AssignedEntity.LevelEvents.OnEntitySelected += CheckSelectedEntity;
             AssignedEntity.LevelEvents.OnNoEntitySelected += UnselectEntity;
-            turnIndicator = transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
+            
+            turnIndicator = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
             turnIndicator.enabled = false;
         }
         protected override void ProcessEntityUpdate(SimpleEntity entity)
@@ -19,13 +25,17 @@ namespace CursedOnion.Game.Entity
             if(entity is not Unit unit) return;
 
             bool enableTurnIndicator = !unit.ActionHandler.HasSpentAllActions();
-            turnIndicator.enabled = enableTurnIndicator;
+            //turnIndicator.enabled = enableTurnIndicator;
         }
         protected void CheckSelectedEntity(SimpleEntity entity)
         {
+            if(!hasTurn) return;
+            
             bool entitySelected = entity == AssignedEntity;
-
-            turnIndicator.material.color = entitySelected ? Color.green : new Color(1, 0.87f, 0 , 1);
+            turnIndicator.enabled = true;
+            
+            Color color = entitySelected ? beingInspectedColor : notBeingInspectedColor;
+            turnIndicator.color = color;
         }
         protected void UnselectEntity()
         {
@@ -34,14 +44,16 @@ namespace CursedOnion.Game.Entity
         public override void ProcessTurn()
         {
             base.ProcessTurn();
+            hasTurn = true;
             turnIndicator.enabled = true;
         }
         protected override void EndTurn()
         {
             base.EndTurn();
-            turnIndicator.enabled = false;
+            
+            hasTurn = false;
             AssignedEntity.ActionHandler.ResetAllActions();
-            UnselectEntity();
+            turnIndicator.enabled = false;
         }
 
         public override void Dispose()

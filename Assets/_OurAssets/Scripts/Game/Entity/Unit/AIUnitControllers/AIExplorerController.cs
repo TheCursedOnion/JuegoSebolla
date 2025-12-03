@@ -38,7 +38,7 @@ namespace CursedOnion.Game.Entity
         public bool LowHealth()
         {
             LazyInit();
-            float healthPercent = baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
+            float healthPercent = (float)baseAI.GetUnit().Stats.CurrentHealthStat / baseAI.GetUnit().Stats.MaxHealthStat;
             return healthPercent < 0.3f;
         }
 
@@ -94,7 +94,7 @@ namespace CursedOnion.Game.Entity
             var grid = unit.Grid;
 
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 gridPos);
-            AStarPathFinder.InsertMeleeAttackGridPositions(explorerReachableAttackTiles, grid, gridPos);
+            AStarPathFinder.InsertManhattanAttackGridPositions(explorerReachableAttackTiles, grid, gridPos, 1, false);
 
             foreach (var healer in baseAI.GetTurnSystem().GetEnemyUnits().Where(u => u.Stats.SpecialAbilityType is HealerAbility))
             {

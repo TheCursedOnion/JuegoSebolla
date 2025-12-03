@@ -119,6 +119,8 @@ namespace CursedOnion.Game.Objects
 
         void OnCommandLaunched(bool success, Type commandType)
         {
+            if(!success && commandType == typeof(SpawnCommand)) return;
+            
             if (!success || commandType == typeof(EraseCommand)) InvokeEntitySelection(SelectTile().Tile.GetContainedEntity());
         }
         void TryToSelect()
@@ -152,7 +154,8 @@ namespace CursedOnion.Game.Objects
             
             Ray ray = globalCamera.Camera.ScreenPointToRay(Input.mousePosition);
             MoveResult result = MoveResult.Impossible;
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            int mask = 1 << LayerMask.NameToLayer("Default");
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, mask))
             {
                 Vector3 hitPoint = hit.point + hit.normal * 0.1f;
                 result = TrySetAtPosition(hitPoint);

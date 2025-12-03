@@ -33,7 +33,7 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
             
             if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertMeleeAttackGridPositions(reachablePositionsList, grid, gridPos);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
         
         public StatFlag GetAffectedStats() => AffectedStats;
@@ -159,7 +159,7 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             Debug.Log("Activando habilidad de Explorer: Aumentando movimiento en 2");
-            var moveBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, movementBonus);
+            var moveBoost = EntityEffectFactory.CreateEffect<MovementBoostEffect>(-1, movementBonus);
             unit.StatusHandler.AddEffect(moveBoost);
         }
         public override string ToString() => " + " + movementBonus;
@@ -184,7 +184,7 @@ namespace CursedOnion.Game.Entity
             {
                 if (targetUnit.GetSide() != unit.GetSide()) return;
                 Debug.Log("Activando habilidad de Healer: Curando al objetivo");
-                int healedAmount = (int)Math.Ceiling(unit.Stats.CurrentHealthStat * 0.5f);
+                int healedAmount = (int)Math.Ceiling(unit.Stats.MaxHealthStat * 0.5f);
                 targetUnit.Heal(healedAmount);
             }
         }
@@ -252,7 +252,21 @@ namespace CursedOnion.Game.Entity
                 
             }
         }
+    }
 
+    [System.Serializable]
+    public class PersianBossAbility : SpecialAbility
+    {
+        [SerializeField] private float damageMultiplier = 1.2f;
+
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
+        {
+            Debug.Log("Activando habilidad de BossPersa: Aumentando daño del próximo ataque de unidad cercanas");
+            var attackBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, damageMultiplier);
+            target.StatusHandler.AddEffect(attackBoost);
+        }
+
+        public override string ToString() => " x " + damageMultiplier;
     }
 
 }

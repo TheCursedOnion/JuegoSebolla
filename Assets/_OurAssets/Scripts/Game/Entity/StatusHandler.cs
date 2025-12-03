@@ -8,6 +8,8 @@ namespace CursedOnion.Game.Entity
     public class StatusHandler
     {
         SimpleEntity assignedEntity;
+        public SimpleEntity AssignedEntity => assignedEntity;
+        
         ExtendedEntityStats stats;
 
         public SimpleEntity CounterAttackTarget;

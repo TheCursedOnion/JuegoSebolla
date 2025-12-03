@@ -1,10 +1,6 @@
-using System;
-using CursedOnion.Game.Entity;
-using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Locators;
-using CursedOnion.ScriptableObjects;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -77,8 +73,9 @@ namespace CursedOnion.Game.Systems.Level
         public bool TrySetNewState(LevelState newState)
         {
             if (CurrentLevelState == newState) return false;
-            
+
             LevelEvents.InvokeLevelState(CurrentLevelState, newState);
+            
             CurrentLevelState = newState;
             return true;
         }

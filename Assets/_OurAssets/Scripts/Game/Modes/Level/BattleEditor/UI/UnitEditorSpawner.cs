@@ -19,6 +19,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
     {
         [SerializeField] private GameObject unitPrefab;
         [SerializeField] private Scrollbar scrollbar;
+        [SerializeField] private ScrollRect scrollRect;
         [SerializeField] private HorizontalLayoutGroup horizontalLayoutGroup;
         
         [Inject] UIEvents uiEvents;
@@ -44,8 +45,14 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             eraseParameters = builder.Build();
             
             wasScrollbarHidden = !scrollbar.gameObject.activeSelf;
+            scrollRect.horizontalScrollbar.value = 0;
         }
 
+        void OnEnable()
+        {
+            UpdatePadding(wasScrollbarHidden);
+            scrollRect.horizontalScrollbar.value = 0;
+        }
         
         private void Update()
         {
@@ -59,7 +66,6 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         private void UpdatePadding(bool scrollbarHidden)
         {
             var p = horizontalLayoutGroup.padding;
-
             if (scrollbarHidden)
             {
                 p.bottom = 50;

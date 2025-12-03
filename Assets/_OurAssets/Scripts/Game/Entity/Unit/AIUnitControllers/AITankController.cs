@@ -65,8 +65,8 @@ namespace CursedOnion.Game.Entity
 
         public void SelectBestEnemyToAttack()
         {
-            Debug.Log("hay estas posiciones de enemigos: " + baseAI.enemyPositions.Count);
             LazyInit();
+            Debug.Log("hay estas posiciones de enemigos: " + baseAI.enemyPositions.Count);
 
             var unit = baseAI.GetUnit();
             Unit best = null;

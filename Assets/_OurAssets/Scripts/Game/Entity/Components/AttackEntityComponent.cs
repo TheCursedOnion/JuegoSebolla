@@ -30,7 +30,7 @@ namespace CursedOnion.Game.Entity.Components
             }
             else
             {
-                AStarPathFinder.InsertMeleeAttackGridPositions(reachableTiles, grid, gridPos);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachableTiles, grid, gridPos, 1, false);
             }
             
             grid.PaintTilesAtGridPositions(reachableTiles, attackColor);
@@ -77,6 +77,11 @@ namespace CursedOnion.Game.Entity.Components
 
         public void ApplyAttack()
         {
+            if(AssignedEntity == null || target == null)
+            {
+                Debug.LogWarning("ApplyAttack falló: AssignedEntity o target es null");
+                return;
+            }
             int finalDamage = CalculateDamage(AssignedEntity, target);
             Debug.Log($"{AssignedEntity.name} ataca a {target.name} causando {finalDamage} de daño.");
             
@@ -97,7 +102,6 @@ namespace CursedOnion.Game.Entity.Components
             int targetDefense = target.Stats.DefenseStat;
             int finalDamage = Mathf.Max(1, rawDamage - targetDefense);
             
-            attacker.StatusHandler.AttackMultiplier = 1;
             return finalDamage;
         }
 

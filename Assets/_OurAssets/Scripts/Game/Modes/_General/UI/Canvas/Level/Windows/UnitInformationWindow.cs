@@ -12,6 +12,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         
         [SerializeField] EntityInspector entityInspector;
         [SerializeField] EffectInspector effectInspector;
+        
+        SimpleEntity selectedEntity;
         public void Initialize(LevelManager levelManager)
         {
             levelEvents = levelManager.LevelEvents;
@@ -56,8 +58,26 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
 
         void UpdateInspectedStats(SimpleEntity entity)
         {
+            if (entity == null || entity.ActionHandler.HasDied())
+            {
+                Debug.Log($"Selected entity era nula o ha muerto");
+                ClearInspectors();
+                return;
+            }
+
+            RegisterForEntityUpdate(entity);
+            Debug.Log($"Selected entity: {entity.name}");
             entityInspector.UpdateStats(entity);
             effectInspector.UpdateEffects(entity);
+        }
+        
+        void RegisterForEntityUpdate(SimpleEntity entity)
+        {
+            if(selectedEntity == entity) return;
+            
+            if(selectedEntity != null) entity.OnEntityUpdate -= UpdateInspectedStats;
+            selectedEntity = entity;
+            selectedEntity.OnEntityUpdate += UpdateInspectedStats;
         }
     }
 }
