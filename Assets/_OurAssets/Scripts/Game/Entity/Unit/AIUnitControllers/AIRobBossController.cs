@@ -14,6 +14,8 @@ namespace CursedOnion.Game.Entity
     {
 
         List<Vector3> robReachableTiles = new();
+        List<Vector3> areaTiles = new();
+        List<SimpleEntity> bestAffectedList = new();
 
         AIUnitController baseAI;
 
@@ -32,24 +34,127 @@ namespace CursedOnion.Game.Entity
 
         #region Perceptions
 
-        public bool CanExplode()
+        public bool CanFindBetterSkillPosition()
         {
             LazyInit();
 
+            var unit = baseAI.GetUnit();
+            var grid = unit.Grid;
+
+            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
+                robReachableTiles, 
+                grid, 
+                unit.GetSide(), 
+                unit.transform.position, 
+                unit.Stats.MovementStat
+            );
+
+            grid.TryWorldToGridPosition(unit.transform.position, out Vector3 currentGridPos);
+            robReachableTiles.Add(currentGridPos);
+
+            int bestEnemies = 0;
+            int bestAllies = 999;
+            Vector3 bestTile = currentGridPos;
+
+            bool foundBetter = false;
+
+            foreach (var tile in robReachableTiles)
+            {
+                EvaluateAOEManhattan(tile, unit, out int enemies, out int allies, out List<SimpleEntity> affected);
+
+                if (allies >= enemies) continue;
+
+                bool better =
+                    enemies > bestEnemies ||
+                    (enemies == bestEnemies && allies < bestAllies);
+
+                if (better)
+                {
+                    bestEnemies = enemies;
+                    bestAllies = allies;
+                    bestTile = tile;
+                    bestAffectedList = affected;
+                    foundBetter = true;
+                }
+            }
+
+            if (!foundBetter || bestTile == currentGridPos)
+                return false;
+
+            baseAI.TargetedGridPosToMove = bestTile;
+
+            if (unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
+            {
+                baseAI.TargetedPosToMove = targetWorld.CenterOnTile();
+            }
+
             return true;
         }
+
+        private void EvaluateAOEManhattan(Vector3 tile, Unit caster, out int enemies, out int allies, out List<SimpleEntity> affectedUnits)
+        {
+            enemies = 0;
+            allies = 0;
+
+            var grid = caster.Grid;
+            
+
+            affectedUnits = new List<SimpleEntity>();
+            areaTiles.Clear();
+            AStarPathFinder.InsertManhattanAttackGridPositions(areaTiles, grid, tile, 3, true);
+
+            var ts = baseAI.GetTurnSystem();
+
+            foreach (var pos in areaTiles)
+            {
+                Tile3d t = grid.GetTileAtGridPosition(pos);
+                if (t == null) continue;
+
+                if (t.GetContainedEntity() is SimpleEntity e && e != caster && e != null)
+                {
+                    if (!affectedUnits.Contains(e))
+                        affectedUnits.Add(e);
+
+                    if (ts.GetAllyUnits().Contains(e)) enemies++;
+                    else if (ts.GetEnemyUnits().Contains(e)) allies++;
+                }
+            }
+        }
+
+        public bool ShouldUseSkillOnSpot()
+        {
+            LazyInit();
+
+            var unit = baseAI.GetUnit();
+            var grid = unit.Grid;
+
+            grid.TryWorldToGridPosition(unit.transform.position, out Vector3 startGrid);
+
+            EvaluateAOEManhattan(startGrid, unit, out int enemies, out int allies, out List<SimpleEntity> affected);
+
+            if (enemies > allies)
+            {
+                bestAffectedList = affected; 
+                return true;
+            }
+
+            return false;
+        }
+
+
         #endregion
 
         #region ActionLogic
 
         public void Explode()
         {
-            /*foreach (var ally in alliesToBuff)
+            foreach (var unit in bestAffectedList.ToList())
             {
-                Debug.Log("BossRob is EXPLODING: " + ally.name);
-                baseAI.GetEntityComponent<SpecialAbilityComponent>().DoAbility(ally, false);
-            }*/
-            
+                if (unit == null) continue;
+                Debug.Log("BossRob is EXPLODING damaging: " + unit.name);
+                baseAI.GetEntityComponent<SpecialAbilityComponent>().DoAbility(unit, false);
+            }
+
         }
 
         #endregion
@@ -73,21 +178,7 @@ namespace CursedOnion.Game.Entity
 
                 float hpScore = 1f - (enemy.Stats.CurrentHealthStat / (float)enemy.Stats.MaxHealthStat);
 
-                Debug.Log($"Evaluando enemigo {enemy.name}: HP Score = {hpScore}");
-
-                float typeScore = enemy.Stats.SpecialAbilityType switch
-                {
-                    HealerAbility _ => 1f,
-                    ArcherAbility _ => 0.9f,
-                    SoldierAbility _ => 0.7f,
-                    ThiefAbility _ => 0.7f,
-                    BarbarianAbility _ => 0.6f,
-                    TankAbility _ => 0.4f,
-                    ExplorerAbility _ => 0.5f,
-                    _ => 0.5f
-                };
-
-                float score = hpScore + typeScore;
+                float score = hpScore;
 
                 if (score > bestScore)
                 {
@@ -100,59 +191,6 @@ namespace CursedOnion.Game.Entity
             baseAI.TargetedEnemy = enemyTarget;
             Debug.Log("RobBoss selected best enemy to attack: " + enemyTarget?.name);
         }
-
-        public void SelectBestTileNearEnemy()
-        {
-            LazyInit();
-
-            if (enemyTarget == null) return;
-
-            var unit = baseAI.GetUnit();
-            robReachableTiles.Clear();
-
-            _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
-                robReachableTiles,
-                unit.Grid,
-                unit.GetSide(),
-                unit.transform.position,
-                unit.Stats.MovementStat
-            );
-
-            var adjacentTiles = baseAI.GetAdjacentTilesToMove(enemyTarget);
-            var allEnemies = baseAI.GetTurnSystem().GetAllyUnits();
-
-            Vector3 bestTile = Vector3.zero;
-            float bestScore = float.MinValue;
-
-            foreach (var t in adjacentTiles)
-            {
-                if (!robReachableTiles.Contains(t)) continue;
-
-                float avgDistToEnemies = allEnemies
-                    .Select(e => Vector3.Distance(t, e.transform.position))
-                    .DefaultIfEmpty(0f)
-                    .Average();
-
-                float score = avgDistToEnemies;
-
-                if (score > bestScore)
-                {
-                    bestScore = score;
-                    bestTile = t;
-                }
-            }
-
-            if (bestScore == float.MinValue)
-                return;
-
-            baseAI.TargetedGridPosToMove = bestTile;
-
-            if (unit.Grid.TryGridToWorldPosition(bestTile, out Vector3 targetWorld))
-            {
-                baseAI.TargetedPosToMove = targetWorld.CenterOnTile();
-                Debug.Log("RobBoss selected best tile near enemy: " + bestTile);
-            }
-        } 
 
         #endregion
     }

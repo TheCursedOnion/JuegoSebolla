@@ -274,7 +274,8 @@ namespace CursedOnion.Game.Entity
     {
         [SerializeField] private int explosionDamage = 8;
         public override void ActivateAbility(Unit unit, SimpleEntity target = null)
-        {
+        { 
+            if (target == null) return;
             target.DamageFrom(explosionDamage, unit);
             Debug.Log($"{target.name} recibió {explosionDamage} puntos de daño por la habilidad de Rob (Ha explotado el loco)");
         }

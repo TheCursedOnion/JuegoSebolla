@@ -139,6 +139,7 @@ namespace CursedOnion.Game.Entity
                     && this.Stats.SpecialAbilityType is not ArcherAbility
                     && attacker is Unit attackerUnit
                     && attackerUnit.Stats.SpecialAbilityType is not ArcherAbility
+                     && attackerUnit.Stats.SpecialAbilityType is not RobSpecialAbility
                     )
                 {
                     StatusHandler.SetCounterAttackTarget(attacker);
