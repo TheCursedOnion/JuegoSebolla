@@ -4,6 +4,7 @@ using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using System;
+using UltEvents;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,29 +16,36 @@ namespace CursedOnion.Game.Entity
         [HideInInspector, Inject] public LevelManager LevelManager;
         [HideInInspector] public LevelEvents LevelEvents;
         [HideInInspector] public Grid3d Grid;
-
-        [HorizontalLine(height: 2f, color: EColor.Violet)]
-        [SerializeField] protected BattleSide EntitySide = BattleSide.Neutral;
-        public bool IsBreakable = false;
-
-        public EntityComponentController EntityController;
-        [SerializeField] protected LayeredEntity LayeredEntity;
-        public LayeredEntity GetLayeredEntity() => LayeredEntity;
-        
-        [HorizontalLine(height: 2f, color: EColor.Violet)]
-        [FormerlySerializedAs("Data")]
-        [Expandable] public StatData StatData;
-        public ExtendedEntityStats Stats;
-        
-        public bool HasTurn = false;
-        public ActionHandler ActionHandler;
-        public StatusHandler StatusHandler;
-        
         public event Action<SimpleEntity> OnEntityUpdate;
         public void NotifyActionUpdate() => OnEntityUpdate?.Invoke(this);
         
         public event Action OnStartTurn;
         public void NotifyStartTurn() => OnStartTurn?.Invoke();
+        
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        [Header("Entity Instance Events")]
+        [SerializeField] UltEvent<int> OnDamageTaken;
+        [SerializeField] UltEvent OnDeath;
+        
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        [Header("Entity Spawn Data")]
+        [FormerlySerializedAs("Data")]
+        public ExtendedEntityStats Stats;
+        [Expandable] public StatData StatData;
+        
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        [Header("Entity Instance Control")]
+        public bool IsBreakable = false;
+        [ReadOnly] public bool HasTurn = false;
+        [SerializeField] protected BattleSide EntitySide = BattleSide.Neutral;
+        public EntityComponentController EntityController;
+        
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        [Header("Visual Instance Layering")]
+        [SerializeField] protected LayeredEntity LayeredEntity;
+        
+        public ActionHandler ActionHandler;
+        public StatusHandler StatusHandler;
         
         protected virtual void Awake()
         {
@@ -103,6 +111,10 @@ namespace CursedOnion.Game.Entity
             {
                 Die();
             }
+            else
+            {
+                OnDamageTaken?.Invoke(remainingDamage);
+            }
         }
         public virtual void Heal(int healedHP)
         {
@@ -111,6 +123,7 @@ namespace CursedOnion.Game.Entity
         protected void Die()
         {
             ActionHandler.RaiseFlag(ActionFlag.HasDied);
+            OnDeath?.Invoke();
             OnEntityUpdate?.Invoke(this);
             Dispose();
         }
