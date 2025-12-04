@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CursedOnion.Game.Miscellaneous;
 using CursedOnion.Game.Modes.General.Animations;
 using NaughtyAttributes;
 using UnityEngine;
@@ -12,12 +13,6 @@ namespace CursedOnion.Game.Entity
     [CreateAssetMenu(fileName = "New Stat Data", menuName = "Game/Entity/Stats Data")]
     public class StatData : ScriptableObject
     {
-        private const string EntityProperties = "Entity Properties";
-        private const string EntityUI = "Entity UI";
-        private const string EntityExtras = "Entity Extras";
-        private const string EntityController = "Entity Controller";
-        private const string VisualData = "Visual Data";
-
         [Serializable]
         public struct StatRange
         {
@@ -28,30 +23,40 @@ namespace CursedOnion.Game.Entity
             public override string ToString() => $"{Range.x}-{Range.y}";
         }
         
-        [BoxGroup(EntityProperties)] public string EntityName;
-        [BoxGroup(EntityProperties)] public string EntityNameKey;
+        [HorizontalLine(height: 1f, color: EColor.Gray)]
+        [Header("Entity Properties")]
+        public string EntityName;
+        public string EntityNameKey;
 
-        [BoxGroup(EntityProperties)] public StatRange Hp;
-        [BoxGroup(EntityProperties)] public StatRange Attack;
-        [BoxGroup(EntityProperties)] public StatRange Defense;
-        [BoxGroup(EntityProperties)] public StatRange Initiative;
+        public StatRange Hp;
+        public StatRange Attack;
+        public StatRange Defense;
+        public StatRange Initiative;
 
-        [BoxGroup(EntityProperties)] public int Movement;
-        [BoxGroup(EntityProperties)] public int Price;
+        public int Movement;
+        public int Price;
         
-        [BoxGroup(EntityUI)] public GameObject CharacterUI;
+        [HorizontalLine(height: 1f, color: EColor.Gray)]
+        [Header("Entity UI")]
+        public GameObject CharacterUI;
         
-        [BoxGroup(EntityExtras), SerializeReference, SubclassSelector] public SpecialAbility SpecialAbility;
-
-        [BoxGroup(EntityExtras)] public List<AnimationLayerGroup> AnimationLayers;
+        [HorizontalLine(height: 1f, color: EColor.Gray)]
+        [Header("Entity Components")]
+        [SerializeReference, SubclassSelector] public SpecialAbility SpecialAbility;
+        public EntityComponents EntityComponents;
         
-        [BoxGroup(EntityController)] public EntityComponents EntityComponents;
+        [HorizontalLine(height: 1f, color: EColor.Gray)]
+        [Header("Entity Visuals")]
+        public Sprite InspectorSprite;
+        public List<AnimationLayerGroup> AnimationLayers;
         
-        [BoxGroup(VisualData)] public Sprite InspectorSprite;
-        public GameObject UI => CharacterUI;
+        
+        [HorizontalLine(height: 1f, color: EColor.Gray)]
+        [Header("Entity Extras")]
+        public TalkData TalkData;
+        
         public int GetPrice() => Price;
         public int GetMovement() => Movement;
-
         public int GetRandomHP() => Hp.RandomValue;
         public int GetRandomAttack() => Attack.RandomValue;
         public int GetRandomDefense() => Defense.RandomValue;
