@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4099264466346865497}
   - component: {fileID: 6849040567394088048}
   - component: {fileID: 5822104237064508139}
-  - component: {fileID: 5317918810154488964}
+  - component: {fileID: 3916916712730372132}
   m_Layer: 0
   m_Name: EnemyUnit-BossJeannie
   m_TagString: Untagged
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spritesContainer: {fileID: 1207409992202940343}
   animationLayerPrefab: {fileID: 4970596132176400840, guid: 695f041c38f2e5741ab5064e868719a4, type: 3}
-  testAnimation: 
+  testAnimation: buff
   entity: {fileID: 8883574365890564531}
 --- !u!114 &3628538033530652204
 MonoBehaviour:
@@ -172,7 +172,7 @@ MonoBehaviour:
   _eventHandler:
     debugStatusChanges: 0
     identifier: 
-  System: {fileID: 11400000, guid: d14be302c3b3dff46844c5771d82254b, type: 2}
+  System: {fileID: 11400000, guid: f5d6f144d3f9bcc4f9d54481a09f1d34, type: 2}
 --- !u!114 &5822104237064508139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   tiltOnFocus: 0
   forcePan: 0
   panOnFocus: 0
---- !u!114 &5317918810154488964
+--- !u!114 &3916916712730372132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,10 +206,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 882082664728815107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3846ca3e08d14253a751f64ae953577, type: 3}
+  m_Script: {fileID: 11500000, guid: bd40fc6eabd4bdb4b8312e86e3c2a55c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allyHealer: {fileID: 0}
 --- !u!1 &1207409992202940343
 GameObject:
   m_ObjectHideFlags: 0
