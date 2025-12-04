@@ -84,11 +84,9 @@ namespace CursedOnion.Game.Entity
             base.SetComponents();
             cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
 
-            if (StatData.TalkData != null)
-            {
-                talkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
-                talkComponent.Initialize(StatData.TalkData);
-            }
+            talkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
+            talkComponent.Initialize(StatData.TalkData);
+
         }
         void AfterSpawn()
         {
@@ -97,7 +95,7 @@ namespace CursedOnion.Game.Entity
             InitializeAnimations();
             transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
             
-            if(PlacedManually) talkComponent.Talk("I am here!");
+            if(PlacedManually) talkComponent?.Talk("I am here!");
         }
 
         public GameObject GetUI() => unitUI;

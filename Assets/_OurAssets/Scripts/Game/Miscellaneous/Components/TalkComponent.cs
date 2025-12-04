@@ -22,8 +22,8 @@ namespace CursedOnion.Game.Miscellaneous
             
             talkData = data;
             
-            
-            StartCoroutine(RandomTalkRoutine());
+            if (talkData != null)
+                StartCoroutine(RandomTalkRoutine());
         }
         void OnDestroy() => StopAllCoroutines();
         

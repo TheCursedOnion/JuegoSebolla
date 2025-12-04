@@ -101,7 +101,7 @@ namespace CursedOnion.Game.Entity
 
             affectedUnits = new List<SimpleEntity>();
             areaTiles.Clear();
-            AStarPathFinder.InsertManhattanAttackGridPositions(areaTiles, grid, tile, 3, true);
+            AStarPathFinder.InsertManhattanAttackGridPositions(areaTiles, grid, tile, 2, true);
 
             var ts = baseAI.GetTurnSystem();
 

@@ -282,4 +282,14 @@ namespace CursedOnion.Game.Entity
 
     }
 
+    [System.Serializable]
+    public class JeanneSpecialAbility : SpecialAbility
+    {
+        public override void ActivateAbility(Unit unit, SimpleEntity target = null)
+        {
+            Debug.Log($"Jeanne haciendo su habilidad...");
+        }
+
+    }
+
 }

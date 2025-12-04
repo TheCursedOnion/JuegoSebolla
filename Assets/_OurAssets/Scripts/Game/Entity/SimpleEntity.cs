@@ -78,6 +78,7 @@ namespace CursedOnion.Game.Entity
 
         public void Dispose()
         {
+            OnDeath?.Invoke();
             EntityController.Dispose();
             Destroy(gameObject);
         }
@@ -123,7 +124,7 @@ namespace CursedOnion.Game.Entity
         protected void Die()
         {
             ActionHandler.RaiseFlag(ActionFlag.HasDied);
-            OnDeath?.Invoke();
+            
             OnEntityUpdate?.Invoke(this);
             Dispose();
         }
