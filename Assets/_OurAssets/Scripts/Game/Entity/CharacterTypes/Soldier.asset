@@ -27,6 +27,16 @@ MonoBehaviour:
   CharacterUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
   SpecialAbility:
     rid: 592454580667416658
+  EntityComponents:
+    PlaceEntityComponent:
+      rid: 592454580667416659
+    MoveEntityComponent:
+      rid: 592454580667416660
+    AttackEntityComponent:
+      rid: 592454580667416661
+    AbilityEntityComponent:
+      rid: 592454580667416662
+  InspectorSprite: {fileID: 21300000, guid: 9b22f8a224f53da409e6373be0110f48, type: 3}
   AnimationLayers:
   - groupName: griego
     layers:
@@ -80,16 +90,7 @@ MonoBehaviour:
       runtimeAnimatorController: {fileID: 9100000, guid: ff51c68c856967e4fb1095f74d0e68fb, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
-  EntityComponents:
-    PlaceEntityComponent:
-      rid: 592454580667416659
-    MoveEntityComponent:
-      rid: 592454580667416660
-    AttackEntityComponent:
-      rid: 592454580667416661
-    AbilityEntityComponent:
-      rid: 592454580667416662
-  InspectorSprite: {fileID: 21300000, guid: 9b22f8a224f53da409e6373be0110f48, type: 3}
+  TalkData: {fileID: 11400000, guid: db9b0329d431386409d1e4b527561f98, type: 2}
   references:
     version: 2
     RefIds:

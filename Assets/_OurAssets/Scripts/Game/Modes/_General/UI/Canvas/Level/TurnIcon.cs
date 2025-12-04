@@ -23,20 +23,24 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         [SerializeField] private Color inactiveColor;
         
         Unit unit;
+        
         bool highlighted = false;
         LevelEvents levelEvents;
-        private void Awake()
+        TurnInspector inspector;
+        private bool canRequestScroll = false;
+        public void Initialize(LevelEvents levelEvents, TurnInspector inspector)
         {
-            levelEvents = gameObject.scene.GetSceneContainer().Resolve<LevelEvents>();
-            levelEvents.OnTurnEnded += UnhighlightInterior;
+            this.inspector = inspector;
+            this.levelEvents = levelEvents;
+            this.levelEvents.OnTurnEnded += UnhighlightInterior;
         }
-
         private void OnDestroy()
         {
             levelEvents.OnTurnEnded -= UnhighlightInterior;
             if(unit != null) unit.OnStartTurn -= HighlightInterior;
         }
 
+        public void EnableCanRequestScroll(bool enable) => canRequestScroll = enable;
         public void CheckUnit()
         {
             unit?.CheckUnit();
@@ -44,7 +48,6 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         public void AssignUnit(Unit newUnit)
         {
             if(unit == newUnit) return;
-            
             if(unit != null) unit.OnStartTurn -= HighlightInterior;
             
             highlighted = false;
@@ -67,6 +70,10 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
             if(highlighted) return;
             
             highlighted = true;
+            
+            if(canRequestScroll)
+                inspector.FocusOnIcon(this);
+            
             Color color = unit.GetSide() == BattleSide.Ally ? allyHighlightColor : enemyHighlightColor;
             SetImageColor(interior, color);
         }

@@ -21,16 +21,18 @@ namespace CursedOnion.Game.Entity
     {
         // Character UI
         [HorizontalLine(height: 2f, color: EColor.Violet)] 
-        [SerializeField] GameObject unitUI;
-        public GameObject GetUI() => unitUI;
-
+        
         [ReadOnly] public bool PlacedManually = false;
-        [SerializeField, ReadOnly] CameraFocus cameraFocus;
         public bool IsBoss;
+        [SerializeField, ReadOnly] CameraFocus cameraFocus;
+        [SerializeField] GameObject unitUI;
+        
 
-        TextParticleManager textParticleManager;
+        
+        
         ParticleManager particleManager;
         RuntimeVariableLocator locator;
+        TalkComponent talkComponent;
         
         protected override void Awake()
         {
@@ -45,7 +47,6 @@ namespace CursedOnion.Game.Entity
                 SetLevelVariables(LevelManager);
                 SetSide(EntitySide);
             }
-            
             SetComponents();
             AfterSpawn();
         }
@@ -66,9 +67,6 @@ namespace CursedOnion.Game.Entity
             DefineEntityStats(data);
             SetLevelVariables(levelManager);
             SetSide(side);
-            
-            Vector3 spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
-            textParticleManager?.SpawnTextAt("HOLA", spawnPos);
         }
         
         protected override void SetLevelVariables(LevelManager manager)
@@ -76,7 +74,6 @@ namespace CursedOnion.Game.Entity
             base.SetLevelVariables(manager);
             
             var container = gameObject.scene.GetSceneContainer();
-            textParticleManager = container.Resolve<TextParticleManager>();
             particleManager = container.Resolve<ParticleManager>();
             locator = container.Resolve<RuntimeVariableLocator>();
         }
@@ -89,6 +86,12 @@ namespace CursedOnion.Game.Entity
         {
             base.SetComponents();
             cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
+
+            if (StatData.TalkData != null)
+            {
+                talkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
+                talkComponent.Initialize(StatData.TalkData);
+            }
         }
         void AfterSpawn()
         {
@@ -96,8 +99,11 @@ namespace CursedOnion.Game.Entity
             
             InitializeAnimations();
             transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
+            
+            if(PlacedManually) talkComponent.Talk("I am here!");
         }
 
+        public GameObject GetUI() => unitUI;
         public bool TryErasingUnit()
         {
             bool canBeErased = PlacedManually && EntitySide == BattleSide.Ally && LevelManager != null;
@@ -127,8 +133,9 @@ namespace CursedOnion.Game.Entity
         {
             LayeredEntity?.PlayAnimation("hurt");
             
+            talkComponent?.Talk(damage.ToString());
+            
             Vector3 spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
-            textParticleManager?.SpawnTextAt(damage.ToString(), spawnPos);
             particleManager?.SpawnParticleAt("Hit", spawnPos);
             
             base.DamageFrom(damage, attacker);

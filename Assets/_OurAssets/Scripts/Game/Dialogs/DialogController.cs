@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using UnityEngine;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -25,8 +26,9 @@ namespace CursedOnion.Game.Dialog
         public Flowchart Flowchart;
         public string StartingDialogBlockName;
         public string EndDialogBlockName;
-        
+
         [Header("Extras")]
+        [SerializeField] private Text nameText;
         [SerializeField] CanvasGroup background;
         
         [Header("DialogData")]
