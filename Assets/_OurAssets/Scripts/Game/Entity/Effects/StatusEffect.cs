@@ -53,6 +53,25 @@ namespace CursedOnion.Game.Entity.Effects
     public class ConfusionEffect : StatusEffect
     {
         public ConfusionEffect(EffectData data, int duration, float magnitude) : base(data, duration, magnitude) {}
+        public override void ApplyOn(StatusHandler status)
+        {
+            status.IsConfused = true;
+            if (status.AssignedEntity.TryGetLayeredEntity(out var layered))
+            {
+                layered.PlayAnimation("dizzy");
+            }
+            RaiseStart();
+        }
+
+        public override void Remove(StatusHandler status)
+        {
+            status.IsConfused = false;
+            if (status.AssignedEntity.TryGetLayeredEntity(out var layered))
+            {
+                layered.PlayAnimation("idle");
+            }
+            RaiseEnd();
+        }
     }
 
     public class AttackBoostEffect : StatusEffect
