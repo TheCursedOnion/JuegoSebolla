@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 4099264466346865497}
   - component: {fileID: 6849040567394088048}
   - component: {fileID: 5822104237064508139}
-  - component: {fileID: -5488623660981171694}
+  - component: {fileID: 5317918810154488964}
   m_Layer: 0
-  m_Name: EnemyUnit-BossEgypt
+  m_Name: EnemyUnit-BossJeannie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   IsBreakable: 0
   EntityController: {fileID: 0}
   LayeredEntity: {fileID: 0}
-  StatData: {fileID: 11400000, guid: 5875c7ac54793a64189ab59c34216e96, type: 2}
+  StatData: {fileID: 11400000, guid: f5120c6cf40fdd14caae8a00518dc5f2, type: 2}
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -92,10 +92,10 @@ MonoBehaviour:
       AffectedStats: 0
     AnimationLayers: []
   HasTurn: 0
-  unitUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
   PlacedManually: 0
-  cameraFocus: {fileID: 0}
   IsBoss: 1
+  cameraFocus: {fileID: 0}
+  unitUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
 --- !u!114 &341242105478282337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   _eventHandler:
     debugStatusChanges: 0
     identifier: 
-  System: {fileID: 11400000, guid: 32fc3c58938fbbb59ac79c93de90fbb8, type: 2}
+  System: {fileID: 11400000, guid: d14be302c3b3dff46844c5771d82254b, type: 2}
 --- !u!114 &5822104237064508139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   tiltOnFocus: 0
   forcePan: 0
   panOnFocus: 0
---- !u!114 &-5488623660981171694
+--- !u!114 &5317918810154488964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,9 +206,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 882082664728815107}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b28ff57be427dbd0a05802c27d1a163, type: 3}
+  m_Script: {fileID: 11500000, guid: e3846ca3e08d14253a751f64ae953577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  allyHealer: {fileID: 0}
 --- !u!1 &1207409992202940343
 GameObject:
   m_ObjectHideFlags: 0
