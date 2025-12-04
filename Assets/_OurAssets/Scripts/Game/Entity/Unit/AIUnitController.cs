@@ -38,16 +38,17 @@ namespace CursedOnion.Game.Entity
         }
         public override void ProcessTurn()
         {
-            base.ProcessTurn();
-            if (AssignedEntity.StatusHandler.HasConfusionEffect())
-            {
-                Debug.Log($"{AssignedEntity.name} está confundido y pierde el turno.");
-
-                //EndTurn();
-
-                //return;
-            }
             AssignedEntity.HasTurn = true;
+
+            if (AssignedEntity.StatusHandler.HasConfusionEffect()) 
+            {
+                EndAITurn();
+                AssignedEntity.UpdateStatusEffects();
+                return;
+            }
+
+            base.ProcessTurn();
+            
         }
 
         protected override void EndTurn()
