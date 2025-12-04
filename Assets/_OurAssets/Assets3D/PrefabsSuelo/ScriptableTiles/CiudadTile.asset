@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: CiudadTile
   m_EditorClassIdentifier: 
   TileDescriptor:
-    Id: 4
     Cost: 1
-    allowedExitDirections: 51
-    allowedEntryDirections: 51
+    DisplayOffset: {x: 0, y: 0, z: 0}
+    IsFullBlock: 1
+    IsStairBlock: 0
+    IsFluidBlock: 0
+    IsAirBlock: 0
+    AllowedExitDirections: 51
+    AllowedEntryDirections: 51
