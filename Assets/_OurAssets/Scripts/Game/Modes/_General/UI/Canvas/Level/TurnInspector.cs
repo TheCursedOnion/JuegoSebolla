@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Entity;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.Helpers;
-using Reflex.Attributes;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
@@ -28,11 +28,11 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         LevelEvents levelEvents;
         public void Initialize(LevelManager levelManager)
         {
-            iconPool = PoolHelper.CreatePool(() => Instantiate(turnIconPrefab, turnIconContainer).GetComponent<TurnIcon>());
-            separatorPool = PoolHelper.CreatePool(() => Instantiate(separatorPrefab, turnIconContainer));
-
             levelEvents = levelManager.LevelEvents;
             levelEvents.OnMergedUnitListUpdated += ProcessMergedList;
+            
+            iconPool = PoolHelper.CreatePool(CreateIcon);
+            separatorPool = PoolHelper.CreatePool(() => Instantiate(separatorPrefab, turnIconContainer));
         }
 
         void OnEnable()
@@ -43,6 +43,13 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         void OnDestroy()
         {
             levelEvents.OnMergedUnitListUpdated -= ProcessMergedList;
+        }
+
+        TurnIcon CreateIcon()
+        {
+           var icon = Instantiate(turnIconPrefab, turnIconContainer).GetComponent<TurnIcon>();
+           icon.Initialize(levelEvents, this);
+           return icon;
         }
         
         void ProcessMergedList(List<Unit> mergedUnits)
@@ -79,6 +86,7 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
             {
                 Unit unit = mergedUnits[i];
                 visualizedIcons[i].AssignUnit(unit);
+                visualizedIcons[i].EnableCanRequestScroll(false);
             }
         }
         
@@ -97,6 +105,8 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
             int added = 0;
             var previous = mergedUnits[0];
 
+            turnIconContainer.GetChild(0).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
+                
             for (int i = 1; i < mergedUnits.Count; i++)
             {
                 var current = mergedUnits[i];
@@ -108,13 +118,22 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
                 {
                     var separator = separatorPool.Get();
                     separators.Add(separator);
+                    
                     separator.transform.SetSiblingIndex(i + added);
+                    turnIconContainer.GetChild(i + added + 1).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
                     
                     added++;
                 }
 
                 previous = current;
             }
+        }
+        
+        public void FocusOnIcon(TurnIcon elementToCenter)
+        {
+            if(elementToCenter == null) return;
+            
+            StartCoroutine(turnOrderScrollRect.FocusOnItemCoroutine(elementToCenter.GetComponent<RectTransform>(), 0.5f));
         }
         IEnumerator SmoothSetScrollHorizontalValue(float target, float duration)
         {

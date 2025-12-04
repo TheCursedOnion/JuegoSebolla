@@ -19,7 +19,7 @@ namespace CursedOnion.Extensions
         public static void InjectDependencies(this GameObject gameObject)
         {
             var container = gameObject.scene.GetSceneContainer();
-            AttributeInjector.Inject(gameObject, container);
+            GameObjectInjector.InjectObject(gameObject, container);
         }
         public static void InjectDependencies(this object obj, Container container)
         {
