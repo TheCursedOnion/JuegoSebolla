@@ -29,8 +29,6 @@ namespace CursedOnion.Game.Entity
         
 
         
-        
-        ParticleManager particleManager;
         RuntimeVariableLocator locator;
         TalkComponent talkComponent;
         
@@ -74,7 +72,6 @@ namespace CursedOnion.Game.Entity
             base.SetLevelVariables(manager);
             
             var container = gameObject.scene.GetSceneContainer();
-            particleManager = container.Resolve<ParticleManager>();
             locator = container.Resolve<RuntimeVariableLocator>();
         }
 
@@ -134,9 +131,6 @@ namespace CursedOnion.Game.Entity
             LayeredEntity?.PlayAnimation("hurt");
             
             talkComponent?.Talk(damage.ToString());
-            
-            Vector3 spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
-            particleManager?.SpawnParticleAt("Hit", spawnPos);
             
             base.DamageFrom(damage, attacker);
 
