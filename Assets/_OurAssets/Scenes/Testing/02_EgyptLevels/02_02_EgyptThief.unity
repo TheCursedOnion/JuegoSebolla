@@ -140269,6 +140269,7 @@ GameObject:
   - component: {fileID: 1870778377}
   - component: {fileID: 1870778376}
   - component: {fileID: 1870778375}
+  - component: {fileID: 1870778385}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: LevelManager
@@ -140351,7 +140352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc833233a3ed46948a47bfaf8f5c35d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayOnAITurnEnd: 2.5
+  delayOnAITurnEnd: 1
   allies: []
   enemies: []
   activeUnits: []
@@ -140453,6 +140454,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1870778385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870778374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3a57b6b28d4bb58373d9c296b36a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1871095165
 PrefabInstance:
   m_ObjectHideFlags: 0

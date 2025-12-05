@@ -263,6 +263,10 @@ namespace CursedOnion.Game.Systems.Level
             {
                 levelEvents.InvokeAllEnemiesDeath();
             }
+            else if(activeUnits.Count == 0)
+            {
+                StartCoroutine(DelayedEndTurn(delayOnAITurnEnd));
+            }
             
         }
 
