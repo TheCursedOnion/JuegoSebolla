@@ -74,7 +74,7 @@ namespace CursedOnion.Game.Entity
 
             if (unit.Stats.SpecialAbilityType is ArcherAbility archer)
             {
-                AStarPathFinder.InsertManhattanAttackGridPositions(reachableAttackPositions, grid, startGridPos, 2, false);
+                AStarPathFinder.InsertRangedAttackGridPositions(reachableAttackPositions, unit.Grid, startGridPos, 2);
             }
             else
             {
@@ -109,12 +109,12 @@ namespace CursedOnion.Game.Entity
             foreach (var enemy in turnSystem.GetAllyUnits())
             {
                 unit.Grid.TryWorldToGridPosition(enemy.transform.position, out Vector3 enemyGridPos);
-
-                List<Vector3> attackPositions = new List<Vector3>();
+                List<Vector3> attackPositions;
 
                 if (unit.Stats.SpecialAbilityType is ArcherAbility archer)
                 {
-                    AStarPathFinder.InsertManhattanAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2, false);
+                    attackPositions = new List<Vector3>();
+                    AStarPathFinder.InsertRangedAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2);
                 }
                 else
                 {
