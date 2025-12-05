@@ -120,7 +120,9 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
                     separators.Add(separator);
                     
                     separator.transform.SetSiblingIndex(i + added);
-                    turnIconContainer.GetChild(i + added + 1).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
+                    
+                    if((i + added + 1) < turnIconContainer.childCount)
+                        turnIconContainer.GetChild(i + added + 1)?.GetComponent<TurnIcon>()?.EnableCanRequestScroll(true);
                     
                     added++;
                 }
