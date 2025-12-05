@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6849040567394088048}
   - component: {fileID: 5822104237064508139}
   - component: {fileID: -6000989192082995335}
+  - component: {fileID: 3500949155216841433}
   m_Layer: 0
   m_Name: EnemyUnit-BossPersa
   m_TagString: Untagged
@@ -73,11 +74,10 @@ MonoBehaviour:
     origin: {x: 0, y: 0, z: 0}
     size: {x: 0, y: 0, z: 0}
     tiles: []
-  EntitySide: 1
-  IsBreakable: 0
-  EntityController: {fileID: 0}
-  LayeredEntity: {fileID: 0}
-  StatData: {fileID: 11400000, guid: f2c518422df2e3cab97e887b11daa121, type: 2}
+  OnDamageTaken:
+    _PersistentCalls: []
+  OnDeath:
+    _PersistentCalls: []
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -91,11 +91,16 @@ MonoBehaviour:
       SelfTargetOnly: 0
       AffectedStats: 0
     AnimationLayers: []
+  StatData: {fileID: 11400000, guid: f2c518422df2e3cab97e887b11daa121, type: 2}
+  IsBreakable: 0
   HasTurn: 0
-  unitUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
+  EntitySide: 1
+  EntityController: {fileID: 0}
+  LayeredEntity: {fileID: 0}
   PlacedManually: 0
-  cameraFocus: {fileID: 0}
   IsBoss: 1
+  cameraFocus: {fileID: 0}
+  unitUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
 --- !u!114 &341242105478282337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +212,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9727fd59ddaf40040aa8d14c9b043acb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3500949155216841433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882082664728815107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c256bd5dc87befb4da1e58aad7eaab46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1207409992202940343
