@@ -291,7 +291,20 @@ namespace CursedOnion.Game.Entity
 
                     Tile3d t = grid.GetTileAtGridPosition(pos);
 
-                    if (t.IsEmptyTile() && t.GetContainedEntity() == null)
+                    Vector3 belowPos = pos + new Vector3(0, -1, 0);
+
+                    if (grid.IsGridPositionInBounds(belowPos))
+                    {
+                        Tile3d belowTile = grid.GetTileAtGridPosition(belowPos);
+
+                        if (belowTile.IsStairTile() && belowTile.GetContainedEntity() == null)
+                        {
+                            positions.Add(belowPos);
+                            continue;
+                        }
+                    }
+
+                    if ((t.IsEmptyTile() || t.IsStairTile()) && t.GetContainedEntity() == null)
                         positions.Add(pos);
                 }
 
@@ -347,11 +360,10 @@ namespace CursedOnion.Game.Entity
 
                 //tile normal y corriente
 
-                if (!(tile.IsStairTile()) &&
-                    tile.IsEmptyTile() &&
-                    tile.GetContainedEntity() == null)
+                if (tile.IsStairTile() || tile.IsEmptyTile())
                 {
-                    positions.Add(pos);
+                    if (tile.GetContainedEntity() == null)
+                        positions.Add(pos);
                 }
             }
 
