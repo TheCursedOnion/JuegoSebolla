@@ -1325,7 +1325,6 @@ GameObject:
   - component: {fileID: 1170052280088953601}
   - component: {fileID: 8732515158316300885}
   - component: {fileID: 8962891221805588588}
-  - component: {fileID: 2788078111373931603}
   - component: {fileID: 1873795680952194533}
   - component: {fileID: 3228790611385530803}
   - component: {fileID: 6281033609686347767}
@@ -1335,6 +1334,7 @@ GameObject:
   - component: {fileID: 4714454960514154087}
   - component: {fileID: 435441238245418520}
   - component: {fileID: 2304524965514465673}
+  - component: {fileID: 6733281999232362762}
   m_Layer: 0
   m_Name: DialogController
   m_TagString: Untagged
@@ -1400,8 +1400,10 @@ MonoBehaviour:
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
-  selectedCommands: []
+  selectedBlocks:
+  - {fileID: 8962891221805588588}
+  selectedCommands:
+  - {fileID: 0}
   variables: []
   description: 
   stepPause: 0
@@ -1439,7 +1441,8 @@ MonoBehaviour:
   eventHandler: {fileID: 0}
   commandList:
   - {fileID: 2304524965514465673}
-  - {fileID: 2788078111373931603}
+  - {fileID: 0}
+  - {fileID: 6733281999232362762}
   - {fileID: 8939308400547167795}
   - {fileID: 6281033609686347767}
   - {fileID: 3228790611385530803}
@@ -1449,34 +1452,6 @@ MonoBehaviour:
   - {fileID: 4714454960514154087}
   - {fileID: 435441238245418520}
   suppressAllAutoSelections: 0
---- !u!114 &2788078111373931603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6051141804734565333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 8
-  indentLevel: 0
-  storyText: "Bueno, lo que ves delante es Cronogea. S\xED, ya s\xE9\u2026 nada que
-    ver con lo que te ense\xF1aron en la uni."
-  description: 
-  character: {fileID: 0}
-  portrait: {fileID: 0}
-  voiceOverClip: {fileID: 0}
-  showAlways: 1
-  showCount: 1
-  extendPrevious: 0
-  fadeWhenDone: 1
-  waitForClick: 1
-  stopVoiceover: 1
-  waitForVO: 0
-  setSayDialog: {fileID: 0}
 --- !u!114 &1873795680952194533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1717,6 +1692,34 @@ MonoBehaviour:
     stringVal: holaaa
   description: 
   _textObjectObsolete: {fileID: 0}
+--- !u!114 &6733281999232362762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051141804734565333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 32
+  indentLevel: 0
+  storyText: "Bueno, lo que ves delante es Cronogea. S\xED, ya s\xE9\u2026 nada que
+    ver con lo que te ense\xF1aron en la uni."
+  description: 
+  character: {fileID: 0}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}
 --- !u!1 &6101889491955785473
 GameObject:
   m_ObjectHideFlags: 0
