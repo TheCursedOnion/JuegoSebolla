@@ -31,8 +31,27 @@ namespace CursedOnion.Game.Entity
                 Debug.LogError("AIHealerController NO encontró AIUnitController en el mismo GameObject.");
         }
 
-        
+
         #region Perceptions
+
+        public bool EnemyRelativelyClose()
+        {
+            LazyInit();
+            var unit = baseAI.GetUnit();
+            var turnSystem = baseAI.GetTurnSystem();
+
+            float maxDist = unit.Stats.MovementStat * 2f;
+
+            foreach (var enemy in turnSystem.GetAllyUnits())
+            {
+                float dist = Vector3.Distance(unit.transform.position, enemy.transform.position);
+
+                if (dist <= maxDist)
+                    return true;
+            }
+
+            return false;
+        }
 
         public bool DetectCriticalAlliesInHealRange()
         {

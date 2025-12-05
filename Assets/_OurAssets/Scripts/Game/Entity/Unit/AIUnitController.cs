@@ -199,7 +199,7 @@ namespace CursedOnion.Game.Entity
             if (closestAlly == null)
                 return false;
 
-            float maxAllowedDistance = unit.Stats.MovementStat * 2; // demasiado lejos, no te busca
+            float maxAllowedDistance = unit.Stats.MovementStat * 3; // demasiado lejos, no te busca
 
             if (bestAllyDistance > maxAllowedDistance)
             {

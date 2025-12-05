@@ -71,7 +71,7 @@ namespace CursedOnion.Game.Entity
         {
             hasTeleportedFirst = true;
             Debug.Log("BossJeanne teleported to first position");
-            Vector3 firstPos = new Vector3(0.5f, 2, 1.5f); 
+            Vector3 firstPos = new Vector3(-12.5f, 5f, 16.5f); 
             TeleportInstant(firstPos);
         }
 
@@ -79,7 +79,7 @@ namespace CursedOnion.Game.Entity
         {
             hasTeleportedSecond = true;
             Debug.Log("BossJeanne teleported to second position");
-            Vector3 secondPos = new Vector3(0.5f, 1, -1.5f);
+            Vector3 secondPos = new Vector3(-10.5f, 7f, 32.5f);
             TeleportInstant(secondPos);
         }
 

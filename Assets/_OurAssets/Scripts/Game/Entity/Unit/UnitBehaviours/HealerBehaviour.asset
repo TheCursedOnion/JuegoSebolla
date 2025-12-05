@@ -96,7 +96,7 @@ MonoBehaviour:
       nodes:
       - name: EnemyHealerFlow
         id: a955d6b7-755e-46f6-b21e-4a23a0f5a811
-        position: {x: 637.5, y: 0}
+        position: {x: 675, y: 0}
         node:
           rid: 6291014457700384853
         references: []
@@ -107,7 +107,7 @@ MonoBehaviour:
         - ee17a05b-dc74-4da5-aac1-55b2dfe79066
       - name: EnemyHealerTurn
         id: d7c39f00-891d-454c-adc4-67125560d5b0
-        position: {x: 1275, y: 200}
+        position: {x: 1350, y: 200}
         node:
           rid: 6291014439572340818
         references: []
@@ -119,7 +119,7 @@ MonoBehaviour:
         - 832038a2-d9c2-4551-a084-3910f254df54
         - 741e733e-0281-4e07-b66d-1fec330ea7ae
         - 413ae845-756c-4654-ae4f-493069868547
-        - 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
+        - 34118e8b-9a3a-49df-bc5a-0d8af87c07fb
       - name: EnemyMove
         id: 58298b1a-722d-4c19-9aaa-4cba56f65a8a
         position: {x: 750, y: 1000}
@@ -164,7 +164,7 @@ MonoBehaviour:
         childIds: []
       - name: EndWait
         id: ee17a05b-dc74-4da5-aac1-55b2dfe79066
-        position: {x: 1575, y: 200}
+        position: {x: 1650, y: 200}
         node:
           rid: 6291014457700384856
         references:
@@ -368,7 +368,7 @@ MonoBehaviour:
         childIds: []
       - name: HealerAbility
         id: eaf5f569-3a51-4513-b2c1-fcf07bc62a6f
-        position: {x: 1517, y: 816}
+        position: {x: 1500, y: 800}
         node:
           rid: 6291014547320602729
         references:
@@ -449,7 +449,7 @@ MonoBehaviour:
         childIds: []
       - name: DelatAfterMove
         id: a1df9ae6-f91d-4e2a-bdd3-10300621d05d
-        position: {x: 2266, y: 1016}
+        position: {x: 2250, y: 1000}
         node:
           rid: 6291014547320602737
         references:
@@ -477,7 +477,7 @@ MonoBehaviour:
         childIds: []
       - name: UTILITYBestTileNearAlly
         id: d2e1336a-d4e6-4e5b-902e-c03acccb59d0
-        position: {x: 467, y: 1016}
+        position: {x: 450, y: 1000}
         node:
           rid: 6291014547320602741
         references:
@@ -505,18 +505,18 @@ MonoBehaviour:
         childIds: []
       - name: SelectSafeTileAndMove
         id: 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
-        position: {x: 2400, y: 400}
+        position: {x: 2550, y: 600}
         node:
           rid: 6291014547320602743
         references: []
         parentIds:
-        - d7c39f00-891d-454c-adc4-67125560d5b0
+        - 34118e8b-9a3a-49df-bc5a-0d8af87c07fb
         childIds:
         - e6acaa44-051f-4e4c-a818-ca6e12c093b3
         - 524bd4ff-cc34-4160-aa94-4bbca1fe6aca
       - name: UTILITYBestDefensiveTile
         id: e6acaa44-051f-4e4c-a818-ca6e12c093b3
-        position: {x: 2250, y: 600}
+        position: {x: 2400, y: 800}
         node:
           rid: 6291014547320602744
         references:
@@ -530,7 +530,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyMove
         id: 524bd4ff-cc34-4160-aa94-4bbca1fe6aca
-        position: {x: 2550, y: 600}
+        position: {x: 2700, y: 800}
         node:
           rid: 6291014547320602745
         references:
@@ -542,12 +542,48 @@ MonoBehaviour:
         parentIds:
         - 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
         childIds: []
+      - name: EnemyRelativelyClose?
+        id: 34118e8b-9a3a-49df-bc5a-0d8af87c07fb
+        position: {x: 2550, y: 400}
+        node:
+          rid: 898366005396635743
+        references:
+        - fieldName: Perception
+          value:
+            rid: 898366005396635744
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - d7c39f00-891d-454c-adc4-67125560d5b0
+        childIds:
+        - 864e1a9a-cc7e-4ca1-8fa9-4220db1aa11c
     pushPerceptions: []
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 898366005396635743
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 898366005396635744
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: AIHealerController
+          methodName: EnemyRelativelyClose
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
     - rid: 1186077743807463501
       type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
