@@ -29,8 +29,6 @@ namespace CursedOnion.Game.Entity
         
 
         
-        
-        ParticleManager particleManager;
         RuntimeVariableLocator locator;
         TalkComponent talkComponent;
         
@@ -74,7 +72,6 @@ namespace CursedOnion.Game.Entity
             base.SetLevelVariables(manager);
             
             var container = gameObject.scene.GetSceneContainer();
-            particleManager = container.Resolve<ParticleManager>();
             locator = container.Resolve<RuntimeVariableLocator>();
         }
 
@@ -87,11 +84,9 @@ namespace CursedOnion.Game.Entity
             base.SetComponents();
             cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
 
-            if (StatData.TalkData != null)
-            {
-                talkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
-                talkComponent.Initialize(StatData.TalkData);
-            }
+            talkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
+            talkComponent.Initialize(StatData.TalkData);
+
         }
         void AfterSpawn()
         {
@@ -100,7 +95,7 @@ namespace CursedOnion.Game.Entity
             InitializeAnimations();
             transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
             
-            if(PlacedManually) talkComponent.Talk("I am here!");
+            if(PlacedManually) talkComponent?.Talk("I am here!");
         }
 
         public GameObject GetUI() => unitUI;
@@ -134,9 +129,6 @@ namespace CursedOnion.Game.Entity
             LayeredEntity?.PlayAnimation("hurt");
             
             talkComponent?.Talk(damage.ToString());
-            
-            Vector3 spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
-            particleManager?.SpawnParticleAt("Hit", spawnPos);
             
             base.DamageFrom(damage, attacker);
 

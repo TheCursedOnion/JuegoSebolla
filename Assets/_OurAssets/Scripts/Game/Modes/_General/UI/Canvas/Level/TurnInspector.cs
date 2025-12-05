@@ -131,7 +131,7 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         
         public void FocusOnIcon(TurnIcon elementToCenter)
         {
-            if(elementToCenter == null) return;
+            if(elementToCenter == null || gameObject.activeInHierarchy == false) return;
             
             StartCoroutine(turnOrderScrollRect.FocusOnItemCoroutine(elementToCenter.GetComponent<RectTransform>(), 0.5f));
         }

@@ -169,6 +169,7 @@ namespace CursedOnion.Game.Systems.Level
             
             activeUnits.Clear();
             activeUnits.AddRange(groupList);
+
             
             
             foreach (var unit in activeUnits)
@@ -184,8 +185,9 @@ namespace CursedOnion.Game.Systems.Level
             {
                 unit.EntityController.ProcessTurn();
             }
-            
-            FocusOnStartingUnit();
+
+            if(activeUnits.Count > 0)
+                FocusOnStartingUnit();
             
             return true;
         }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3855450358403285232}
   - component: {fileID: 653661522655242142}
   - component: {fileID: 3636434301551944517}
+  - component: {fileID: 4216485635461426766}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -67,11 +68,21 @@ MonoBehaviour:
     origin: {x: 0, y: 0, z: 0}
     size: {x: 0, y: 0, z: 0}
     tiles: []
-  EntitySide: -1
-  IsBreakable: 1
-  EntityController: {fileID: 3636434301551944517}
-  LayeredEntity: {fileID: 0}
-  StatData: {fileID: 11400000, guid: 94ea152b21c75a84caf2ccbc741578d4, type: 2}
+  OnDamageTaken:
+    _PersistentCalls: []
+  OnDeath:
+    _PersistentCalls:
+    - _Target: {fileID: 4216485635461426766}
+      _MemberName: PlayParticle
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: Explosion
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -83,10 +94,14 @@ MonoBehaviour:
     SpecialAbilityType:
       AbilityIcon: {fileID: 0}
       SelfTargetOnly: 0
-      AbilityMinRange: 0
-      AbilityMaxRange: 0
+      AffectedStats: 0
     AnimationLayers: []
+  StatData: {fileID: 11400000, guid: 94ea152b21c75a84caf2ccbc741578d4, type: 2}
+  IsBreakable: 1
   HasTurn: 0
+  EntitySide: -1
+  EntityController: {fileID: 3636434301551944517}
+  LayeredEntity: {fileID: 0}
 --- !u!114 &3636434301551944517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +127,18 @@ MonoBehaviour:
   AbilityEntityComponent:
     UsedFlags: 0
     abilityColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &4216485635461426766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720763556161844995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c256bd5dc87befb4da1e58aad7eaab46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1801063763262740585
 PrefabInstance:
   m_ObjectHideFlags: 0
