@@ -75,9 +75,31 @@ MonoBehaviour:
     size: {x: 0, y: 0, z: 0}
     tiles: []
   OnDamageTaken:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 5997211537107264643}
+      _MemberName: PlayParticle
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: Hit
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   OnDeath:
-    _PersistentCalls: []
+    _PersistentCalls:
+    - _Target: {fileID: 5997211537107264643}
+      _MemberName: PlayParticle
+      _PersistentArguments:
+      - _Type: 2
+        _Int: 0
+        _String: Death
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -160,6 +182,7 @@ MonoBehaviour:
   reachableAttackPositions: []
   reachableMovePositions: []
   enemyPositions: []
+  attackPositions: []
 --- !u!114 &6849040567394088048
 MonoBehaviour:
   m_ObjectHideFlags: 0
