@@ -39,6 +39,11 @@ namespace CursedOnion.Game.Miscellaneous
         {
             localizedText.SetText(text);
         }
+
+        void OnDestroy()
+        {
+            manager.ReturnParticle(this.gameObject);
+        }
         
         public void PlayAnimation()
         {

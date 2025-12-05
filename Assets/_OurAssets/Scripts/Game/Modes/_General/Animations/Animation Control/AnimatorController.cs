@@ -69,9 +69,16 @@ namespace CursedOnion.Game.Modes.General.Animations
             switch (animationName)
             {
                 case "hurt":
-                    if (assignedEntity.StatusHandler.HasCounterAttackTarget(out var target))
+                    if (assignedEntity.StatusHandler.IsConfused)
                     {
-                        assignedEntity.EntityController.AttackComponent.DoAttack(target, false);
+                        PlayAnimation("dizzy");
+                    }
+                    else
+                    {
+                        if (assignedEntity.StatusHandler.HasCounterAttackTarget(out var target))
+                        {
+                            assignedEntity.EntityController.AttackComponent.DoAttack(target, false);
+                        }
                     }
                     break;
                 

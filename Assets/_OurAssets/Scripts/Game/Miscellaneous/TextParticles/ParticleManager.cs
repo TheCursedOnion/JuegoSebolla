@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CursedOnion.Helpers;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -48,6 +49,10 @@ namespace CursedOnion.Game.Miscellaneous
             if (!particlePools.ContainsKey(particleEffectName)) return;
             
             var gameObject = particlePools[particleEffectName].Get();
+            if (gameObject == null || gameObject == false)
+            {
+                gameObject = particleEntries.First(entry => entry.ParticleEffectName == particleEffectName).CreateParticleInstance();
+            }
             gameObject.transform.position = position;
             gameObject.GetComponent<ParticleObject>().Play();
         }

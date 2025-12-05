@@ -10,7 +10,7 @@ namespace CursedOnion.Game.Commands
     public class MoveCommand : IStackableCommand
     {
         private SimpleEntity commandSubject;
-        private Vector3 previousPosition;
+        private Vector3 previousWorldPosition;
         private Vector3 targetPosition;
 
         private bool previousHasMoved;
@@ -46,14 +46,14 @@ namespace CursedOnion.Game.Commands
         {
             if (!CanExecute()) return false;
             
-            previousPosition = commandSubject.transform.position;
+            previousWorldPosition = commandSubject.transform.position;
             commandSubject.EntityController.GetEntityComponent<MoveEntityComponent>().DoMove(targetPosition, false);
             return true;
         }
 
         public void Undo()
         {
-            commandSubject.EntityController.GetEntityComponent<MoveEntityComponent>().DoMove(targetPosition, true);
+            commandSubject.EntityController.GetEntityComponent<MoveEntityComponent>().DoMove(previousWorldPosition, true);
         }
     }
 }

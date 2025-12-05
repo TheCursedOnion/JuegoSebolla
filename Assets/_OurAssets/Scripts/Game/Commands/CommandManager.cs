@@ -24,6 +24,7 @@ namespace CursedOnion.Game.Commands
             
             return success;
         }
+        public bool HasCommandsStacked() => undoStack.Count > 0;
         public void Undo()
         {
             if (undoStack.Count > 0)

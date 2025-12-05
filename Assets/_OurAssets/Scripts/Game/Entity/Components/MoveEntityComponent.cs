@@ -46,7 +46,14 @@ namespace CursedOnion.Game.Entity.Components
             
             if (undo)
             {
+                Debug.Log($"{AssignedEntity.name} ha hecho undo a {newPosition}. unidad?:{AssignedEntity is Unit} ");
+                
+                AssignedEntity.EntityController.PlaceComponent.RemoveEntity();
                 transform.position = newPosition;
+                AssignedEntity.EntityController.PlaceComponent.PlaceEntity();
+                
+                (AssignedEntity as Unit)?.FocusOnUnit();
+                
                 AssignedEntity.ActionHandler.ResetFlag(UsedFlags);
             }
             else
@@ -69,9 +76,8 @@ namespace CursedOnion.Game.Entity.Components
                 if(AssignedEntity.TryGetLayeredEntity(out var layeredEntity)) layeredEntity.PlayAnimation("walk");
                 
                 AssignedEntity.StartCoroutine(MoveAlongPath(path));
+                AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
             }
-            
-            AssignedEntity.ActionHandler.RaiseFlag(UsedFlags);
         }
 
         public virtual async Task<bool> ValidateMove(Vector3 newPosition)

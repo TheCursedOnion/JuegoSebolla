@@ -82,6 +82,8 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         private void OnDisable()
         {
             uiEvents.UnselectAllButtons();
+            DeselectAll();
+            EnableEditorVisualEffect(false);
         }
 
         public void ToggleSelectForSpawn(UnitButtonSpawner buttonSpawner)

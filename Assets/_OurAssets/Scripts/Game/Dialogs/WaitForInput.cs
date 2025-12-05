@@ -3,6 +3,22 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Dialog
 {
+    [CommandInfo("Custom", "Play Anim State Delayed", "Detiene el flujo hasta que el jugador haga click o toque la pantalla")]
+    public class PlayAnimStateDelayed : Command
+    {
+        public float delay = 0.5f;
+        public override void OnEnter()
+        {
+            StartCoroutine(ChangeAnimState());
+        }
+        
+        private System.Collections.IEnumerator ChangeAnimState()
+        {
+            yield return new WaitForSeconds(delay);
+            Continue();
+        }
+    }
+    
     [CommandInfo("Custom", "WaitForInput", "Detiene el flujo hasta que el jugador haga click o toque la pantalla")]
     public class WaitForInput : Command
     {

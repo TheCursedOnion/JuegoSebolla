@@ -11,25 +11,35 @@ namespace CursedOnion.Helpers
         {
             return new ObjectPool<T>(
                 createFunc,
-                item => SetActive(item, true),
-                item => SetActive(item, false),
+                item =>
+                {
+                    if (!TrySetActive(item, true))
+                    {
+                        item = createFunc();
+                    }
+                },
+                item => TrySetActive(item, false),
                 item => DestroyObject(item),
                 collectionCheck: false,
                 defaultCapacity: 10,
                 maxSize: 50
             );
         }
-        private static void SetActive<T>(T item, bool active)
+
+        private static bool TrySetActive<T>(T item, bool active)
         {
+            if (item == null) return false;
+            if (item is Object unityObj && unityObj == null) return false;
+
             switch (item)
             {
                 case GameObject go:
                     go.SetActive(active);
-                    break;
+                    return true;
 
                 case Component c:
                     c.gameObject.SetActive(active);
-                    break;
+                    return true;
 
                 default:
                     throw new ArgumentException("Type must be GameObject or Component");
@@ -38,6 +48,9 @@ namespace CursedOnion.Helpers
 
         private static void DestroyObject<T>(T item)
         {
+            if (item == null) return;
+            if (item is Object unityObj && unityObj == null) return;
+
             switch (item)
             {
                 case GameObject go:
