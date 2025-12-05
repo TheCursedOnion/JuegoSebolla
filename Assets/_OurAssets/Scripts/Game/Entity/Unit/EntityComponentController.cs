@@ -92,7 +92,6 @@ namespace CursedOnion.Game.Entity
             if (AssignedEntity is Unit unit)
             {
                 var levelEvents = unit.LevelManager.LevelEvents;
-                Debug.Log("He muerto");
                 levelEvents.UnregisterUnitForTurn(unit);
                 levelEvents.OnTurnEnded -= EndTurn;
             }

@@ -80,7 +80,7 @@ namespace CursedOnion.Game.Entity
         {
             OnDeath?.Invoke();
             EntityController.Dispose();
-            Destroy(gameObject, 0.05f);
+            Destroy(gameObject);
         }
         protected virtual void DefineEntityStats(StatData data)
         {
@@ -124,7 +124,6 @@ namespace CursedOnion.Game.Entity
         protected void Die()
         {
             ActionHandler.RaiseFlag(ActionFlag.HasDied);
-            Debug.Log($"{gameObject.name} has died.");
             OnEntityUpdate?.Invoke(this);
             Dispose();
         }
