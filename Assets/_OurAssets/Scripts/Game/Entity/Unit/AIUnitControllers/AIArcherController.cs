@@ -159,7 +159,7 @@ namespace CursedOnion.Game.Entity
             List<Vector3> attackPositions = new List<Vector3>();
 
             grid.TryWorldToGridPosition(enemyTarget.transform.position, out Vector3 enemyGridPos);
-            AStarPathFinder.InsertRangedAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2);
+            AStarPathFinder.InsertManhattanAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2, false);
 
             var candidateTiles = archerReachableTiles.Intersect(attackPositions).ToList();
             if (!candidateTiles.Any()) return;
