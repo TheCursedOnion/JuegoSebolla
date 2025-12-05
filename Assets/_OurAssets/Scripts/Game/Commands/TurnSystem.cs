@@ -84,7 +84,8 @@ namespace CursedOnion.Game.Systems.Level
 
             if (mergedUnits.Contains(unit))
             {
-                mergedUnits.Remove(unit);
+        
+                OrganizeLists();
                 levelEvents.UpdateMergedUnitList(mergedUnits);
             }
 
@@ -112,6 +113,7 @@ namespace CursedOnion.Game.Systems.Level
             allies = allies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
             enemies = enemies.OrderByDescending(u => u.Stats.InitiativeStat).ToList();
             
+            mergedUnits.Clear();
             mergedUnits = allies.Concat(enemies)
                 .OrderByDescending(u => u.Stats.InitiativeStat)
                 .ThenBy(u => u.GetSide() == BattleSide.Enemy ? 1 : 0)
@@ -262,6 +264,10 @@ namespace CursedOnion.Game.Systems.Level
             else if (enemies.Count == 0)
             {
                 levelEvents.InvokeAllEnemiesDeath();
+            }
+            else if(activeUnits.Count == 0)
+            {
+                StartCoroutine(DelayedEndTurn(delayOnAITurnEnd));
             }
             
         }

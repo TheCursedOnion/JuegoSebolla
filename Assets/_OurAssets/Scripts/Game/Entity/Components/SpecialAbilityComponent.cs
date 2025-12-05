@@ -39,11 +39,11 @@ namespace CursedOnion.Game.Entity.Components
 
             if (AssignedEntity.Stats.SpecialAbilityType is ArcherAbility)
             {
-                anim = "shoot";
+                anim = "tripleShot";
             }
             else if (AssignedEntity.Stats.SpecialAbilityType is BarbarianAbility)
             {
-                anim = "punch";
+                anim = "destroy";
             }
             else if (AssignedEntity.Stats.SpecialAbilityType is HealerAbility)
             {

@@ -176,10 +176,17 @@ namespace CursedOnion.Game.Entity
 
             TargetedGridPosToMove = Vector3.zero;
 
-            Unit closestAlly = null;
+            SimpleEntity closestAlly = null;
             float bestAllyDistance = float.MaxValue;
 
-            foreach (var ally in turnSystem.GetAllyUnits())
+            IEnumerable<SimpleEntity> targets = turnSystem.GetAllyUnits();
+
+            if (unit.Stats.SpecialAbilityType is BarbarianAbility)
+            {
+                targets = targets.Concat(turnSystem.GetWallEntities().Where(e => e != null));
+            }
+
+            foreach (var ally in targets)
             {
                 float dist = Vector3.Distance(unit.transform.position, ally.transform.position);
                 if (dist < bestAllyDistance)

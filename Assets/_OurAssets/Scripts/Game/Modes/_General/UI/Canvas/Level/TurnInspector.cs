@@ -74,9 +74,7 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
             }
             
             AddIcons(mergedUnits);
-            
-            ClearSeparators();
-            AddSeparators(mergedUnits);
+            AnalyzeTurnOrderSeparators(mergedUnits);
             
             modifiedLayout = true;
         }
@@ -87,6 +85,31 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
                 Unit unit = mergedUnits[i];
                 visualizedIcons[i].AssignUnit(unit);
                 visualizedIcons[i].EnableCanRequestScroll(false);
+            }
+        }
+        void AnalyzeTurnOrderSeparators(List<Unit> mergedUnits)
+        {
+            if (mergedUnits.Count == 0) return;
+
+            int added = 0;
+            var previous = mergedUnits[0];
+
+            turnIconContainer.GetChild(0).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
+                
+            for (int i = 1; i < mergedUnits.Count; i++)
+            {
+                var current = mergedUnits[i];
+
+                bool sideChanged = current.GetSide() != previous.GetSide();
+                bool initiativeChanged = current.Stats.InitiativeStat != previous.Stats.InitiativeStat;
+                
+                if (sideChanged || initiativeChanged)
+                {
+                    turnIconContainer.GetChild(i).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
+                    added++;
+                }
+
+                previous = current;
             }
         }
         
@@ -120,9 +143,7 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
                     separators.Add(separator);
                     
                     separator.transform.SetSiblingIndex(i + added);
-                    
-                    if((i + added + 1) < turnIconContainer.childCount)
-                        turnIconContainer.GetChild(i + added + 1)?.GetComponent<TurnIcon>()?.EnableCanRequestScroll(true);
+                    turnIconContainer.GetChild(i + added + 1).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
                     
                     added++;
                 }
