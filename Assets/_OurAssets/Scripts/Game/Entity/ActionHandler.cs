@@ -28,6 +28,7 @@ namespace CursedOnion.Game.Entity
         
         public bool HasSpentAllActions() => HasAttacked() && HasUsedAbility() && HasMoved();
         
+        public void RaiseAllActions() => RaiseFlag(ActionFlag.HasMoved | ActionFlag.HasUsedAbility | ActionFlag.HasAttacked | ActionFlag.CannotCounter);
         public void ResetAllActions() => ResetFlag(ActionFlag.HasAttacked | ActionFlag.CannotCounter | ActionFlag.HasUsedAbility | ActionFlag.HasMoved);
     }
 }

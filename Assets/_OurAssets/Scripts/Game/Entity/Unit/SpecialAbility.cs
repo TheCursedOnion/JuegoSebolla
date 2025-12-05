@@ -96,6 +96,7 @@ namespace CursedOnion.Game.Entity
     [System.Serializable]
     public class ThiefAbility : SpecialAbility
     {
+        [SerializeField] private int confusionDuration = -1;
         public override void InsertReachableTiles(List<Vector3> reachablePositionsList, SimpleEntity subject)
         {
             var grid = subject.Grid;
@@ -110,7 +111,8 @@ namespace CursedOnion.Game.Entity
             if (target is Unit targetUnit)
             {
                 Debug.Log("Activando habilidad de Thief: Aplicando confusión al objetivo");
-                var confusion = EntityEffectFactory.CreateEffect<ConfusionEffect>(-1, -1);
+                int finalDuration = targetUnit.GetSide() == BattleSide.Ally? confusionDuration : -1;
+                var confusion = EntityEffectFactory.CreateEffect<ConfusionEffect>(finalDuration, -1);
                 targetUnit.StatusHandler.AddEffect(confusion);
             }
         }

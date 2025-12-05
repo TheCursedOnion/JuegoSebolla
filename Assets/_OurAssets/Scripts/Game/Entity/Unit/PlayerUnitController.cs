@@ -9,7 +9,7 @@ namespace CursedOnion.Game.Entity
         [SerializeField] protected SpriteRenderer turnIndicator;
         [SerializeField] private Color beingInspectedColor = Color.green;
         [SerializeField] private Color notBeingInspectedColor = new Color(1, 0.87f, 0 , 0.5f);
-        bool hasTurn = false;
+
         public override void Initialize(SimpleEntity entity, EntityComponents components)
         {
             base.Initialize(entity, components);
@@ -29,7 +29,7 @@ namespace CursedOnion.Game.Entity
         }
         protected void CheckSelectedEntity(SimpleEntity entity)
         {
-            if(!hasTurn) return;
+            if(!AssignedEntity.HasTurn) return;
             
             bool entitySelected = entity == AssignedEntity;
             turnIndicator.enabled = true;
@@ -43,15 +43,26 @@ namespace CursedOnion.Game.Entity
         }
         public override void ProcessTurn()
         {
+            AssignedEntity.HasTurn = true;
+            
+            if (AssignedEntity.StatusHandler.HasConfusionEffect())
+            {
+                EndTurn();
+                AssignedEntity.ActionHandler.RaiseAllActions();
+                AssignedEntity.UpdateStatusEffects();
+                return;
+            }
+            
             base.ProcessTurn();
-            hasTurn = true;
             turnIndicator.enabled = true;
         }
         protected override void EndTurn()
         {
+            if(!AssignedEntity.HasTurn) return;
+            
             base.EndTurn();
             
-            hasTurn = false;
+            AssignedEntity.HasTurn = false;
             AssignedEntity.ActionHandler.ResetAllActions();
             turnIndicator.enabled = false;
         }

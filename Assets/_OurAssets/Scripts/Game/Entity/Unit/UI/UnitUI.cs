@@ -20,7 +20,8 @@ namespace CursedOnion.Game.Entity.UI
             Attack = 1,
             Ability = 2
         }
-        
+
+        [SerializeField] private UIButton undoMoveButton;
         [SerializeField] private UIButton moveButton;
         [SerializeField] private UIButton attackButton;
         [SerializeField] private UIButton specialButton;
@@ -28,6 +29,7 @@ namespace CursedOnion.Game.Entity.UI
         
         [Inject] LevelEvents levelEvents;
         [Inject] UIEvents uiEvents;
+        [Inject] CommandManager commandManager;
         
         Unit associatedUnit;
         CommandParameters commonParameters;
@@ -66,6 +68,8 @@ namespace CursedOnion.Game.Entity.UI
             var actions = associatedUnit.ActionHandler;
             bool isNotIdle = actions.IsNotIdle();
             lastMode = CommandMode.None;
+            
+            undoMoveButton.SetInteractive(actions.HasMoved() && !isNotIdle && commandManager.HasCommandsStacked());
             moveButton.SetInteractive(!actions.HasMoved() && !isNotIdle);
             attackButton.SetInteractive(!actions.HasAttacked() && !isNotIdle);
             specialButton.SetInteractive(!actions.HasUsedAbility() && !isNotIdle);
@@ -76,6 +80,14 @@ namespace CursedOnion.Game.Entity.UI
         {
             lastMode = CommandMode.None;
             uiEvents.UnselectAllButtons();
+        }
+
+        public void UndoMove()
+        {
+            commandManager.Undo();
+            levelEvents.CancelPreparedCommand();
+            uiEvents.UnselectAllButtons();
+            lastMode = CommandMode.None;
         }
         public void MoveUnit(UIButton button)
         {

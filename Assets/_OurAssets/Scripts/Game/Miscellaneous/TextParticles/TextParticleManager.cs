@@ -31,6 +31,13 @@ namespace CursedOnion.Game.Miscellaneous
         public void SpawnTextAt(string text, Vector3 position)
         {
             var particle = textParticlePool.Get();
+            
+            if (particle == null || particle == false)
+            {
+                particle = CreateParticle();
+            }
+            
+            
             particle.transform.position = position;
             
             var textParticle = particle.GetComponent<TextParticle>();
