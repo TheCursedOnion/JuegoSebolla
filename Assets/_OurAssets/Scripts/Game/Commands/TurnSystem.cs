@@ -84,7 +84,8 @@ namespace CursedOnion.Game.Systems.Level
 
             if (mergedUnits.Contains(unit))
             {
-                mergedUnits.Remove(unit);
+                mergedUnits.Clear();
+                OrganizeLists();
                 levelEvents.UpdateMergedUnitList(mergedUnits);
             }
 
