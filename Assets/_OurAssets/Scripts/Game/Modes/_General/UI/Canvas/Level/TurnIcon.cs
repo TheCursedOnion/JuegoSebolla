@@ -37,7 +37,10 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         private void OnDestroy()
         {
             levelEvents.OnTurnEnded -= UnhighlightInterior;
-            if(unit != null) unit.OnStartTurn -= HighlightInterior;
+            if (unit != null)
+            {
+                unit.OnStartTurn -= HighlightInterior;
+            }
         }
 
         public void EnableCanRequestScroll(bool enable) => canRequestScroll = enable;
