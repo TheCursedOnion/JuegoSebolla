@@ -39,6 +39,13 @@ namespace CursedOnion.Game.Miscellaneous
         {
             localizedText.SetText(text);
         }
+
+        void OnDestroy()
+        {
+            LeanTween.cancel(gameObject);
+            LeanTween.cancel(textMesh.gameObject);
+            manager.ReturnParticle(gameObject);
+        }
         
         public void PlayAnimation()
         {
