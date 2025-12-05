@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
-using CursedOnion.Game.General.UI.Canvases.Level;
+using CursedOnion.Game.Audio;
 using CursedOnion.Game.Logic.Services;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
 using Fungus;
-using NaughtyAttributes;
 using Reflex.Attributes;
 using Reflex.Extensions;
 using UnityEngine;
@@ -73,6 +72,17 @@ namespace CursedOnion.Game.Dialog
         {
             pauseService.Pause(PauseLevel.Dialog);
             Flowchart.ExecuteBlock(blockName);
+            RequestMusic(MusicType.Dialog);
+        }
+
+        public void RequestMusic(MusicType musicType)
+        {
+            variableLocator.MusicPlayer.RequestMusic(musicType);
+        }
+
+        public void RequestStopMusic()
+        {
+            variableLocator.MusicPlayer.StopMusic();
         }
         
         public void SetDialogBackgroundAlpha(float alpha, float time)

@@ -60,8 +60,6 @@ namespace CursedOnion.Game.Cameras
                 
             CameraController.Initialize(this);
             
-            GetComponent<MusicPlayer>()?.StartMusic();
-            
             var pipelineAsset = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
             pipelineAsset.EnableRenderFeature<FullScreenPassRendererFeature>(false);
         }

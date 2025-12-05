@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using CursedOnion.Game.Audio;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.CloudSave;
+using CursedOnion.Game.Systems.Level;
 using Unity.Services.CloudSave.Models;
 using UnityEngine;
 
@@ -16,6 +18,7 @@ namespace CursedOnion.Locators
 
         [System.NonSerialized] public AutoCloudSave AutoCloudSave;
         [System.NonSerialized] public GlobalCamera GlobalCamera;
+        [System.NonSerialized] public MusicPlayer MusicPlayer;
         
         public int LastDialogCompleted;
         public int LastPlayedLevel;

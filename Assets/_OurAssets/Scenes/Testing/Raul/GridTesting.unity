@@ -3246,68 +3246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a334fe2ffb574b3583ff3b18b4792d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &739466814
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739466796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 30
-  indentLevel: 0
-  description: 
-  targetObject: {fileID: 739466796}
-  targetComponentAssemblyName: CursedOnion.Game.Dialog.DialogController, Assembly-CSharp,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  targetComponentFullname: 'UnityEngine.Component[]'
-  targetComponentText: DialogController
-  targetMethod: SetDialogBackgroundAlpha
-  targetMethodText: 'SetDialogBackgroundAlpha (Single, Single): Void'
-  methodParameters:
-  - objValue:
-      typeAssemblyname: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      typeFullname: System.Single
-      intValue: 0
-      boolValue: 0
-      floatValue: 0
-      stringValue: 
-      colorValue: {r: 0, g: 0, b: 0, a: 0}
-      gameObjectValue: {fileID: 0}
-      materialValue: {fileID: 0}
-      objectValue: {fileID: 0}
-      spriteValue: {fileID: 0}
-      textureValue: {fileID: 0}
-      vector2Value: {x: 0, y: 0}
-      vector3Value: {x: 0, y: 0, z: 0}
-    variableKey: 
-  - objValue:
-      typeAssemblyname: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      typeFullname: System.Single
-      intValue: 0
-      boolValue: 0
-      floatValue: 1
-      stringValue: 
-      colorValue: {r: 0, g: 0, b: 0, a: 0}
-      gameObjectValue: {fileID: 0}
-      materialValue: {fileID: 0}
-      objectValue: {fileID: 0}
-      spriteValue: {fileID: 0}
-      textureValue: {fileID: 0}
-      vector2Value: {x: 0, y: 0}
-      vector3Value: {x: 0, y: 0, z: 0}
-    variableKey: 
-  saveReturnValue: 0
-  returnValueVariableKey: 
-  returnValueType: System.Void
-  showInherited: 0
-  callMode: 0
 --- !u!114 &739466815
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3320,7 +3258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d9ff288f3904c05ada7ac9c9a075bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 31
+  itemId: 36
   indentLevel: 0
   description: 
   delay: 0
@@ -3354,7 +3292,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 739466798}
         m_TargetAssemblyTypeName: CursedOnion.Game.Dialog.DialogController, Assembly-CSharp
-        m_MethodName: CallLevelResults
+        m_MethodName: RequestStopMusic
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3388,62 +3326,6 @@ MonoBehaviour:
   stringEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &739466816
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739466796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 33
-  indentLevel: 0
-  description: 
-  targetObject: {fileID: 1170200292}
-  targetComponentAssemblyName: CursedOnion.Game.Cameras.CameraFocus, Assembly-CSharp,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  targetComponentFullname: 'UnityEngine.Component[]'
-  targetComponentText: CameraFocus
-  targetMethod: RequestFocus
-  targetMethodText: 'RequestFocus (): Void'
-  methodParameters: []
-  saveReturnValue: 0
-  returnValueVariableKey: 
-  returnValueType: System.Void
-  showInherited: 0
-  callMode: 0
---- !u!114 &739466817
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739466796}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 32
-  indentLevel: 0
-  description: 
-  targetObject: {fileID: 1529768978}
-  targetComponentAssemblyName: CursedOnion.Game.Cameras.CameraFocus, Assembly-CSharp,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  targetComponentFullname: 'UnityEngine.Component[]'
-  targetComponentText: CameraFocus
-  targetMethod: RequestFocus
-  targetMethodText: 'RequestFocus (): Void'
-  methodParameters: []
-  saveReturnValue: 0
-  returnValueVariableKey: 
-  returnValueType: System.Void
-  showInherited: 0
-  callMode: 0
 --- !u!114 &739466818 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8939308400547167795, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
@@ -3466,50 +3348,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &739466820 stripped
+--- !u!114 &739466827 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2788078111373931603, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
   m_PrefabInstance: {fileID: 1047060692}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 739466796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d3d73aef2cfc4f51abf34ac00241f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &739466824
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739466796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deea8902248f4e9089a757cdc1e5c5b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 34
-  indentLevel: 0
-  securityDelay: 0
---- !u!114 &739466825
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739466796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3315ad2ebb85443909a1203d56d9344e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 35
-  indentLevel: 0
-  _duration:
-    floatRef: {fileID: 0}
-    floatVal: 1
-  durationOLD: 0
 --- !u!4 &740220322 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8470264880036326994, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
@@ -4915,7 +4764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6101889491955785473, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: m_Name
@@ -4927,115 +4776,106 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8732515158316300885, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: selectedBlocks.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8732515158316300885, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: selectedCommands.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8732515158316300885, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: 'selectedBlocks.Array.data[0]'
+      value: 
+      objectReference: {fileID: 739466827}
     - target: {fileID: 8732515158316300885, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'selectedCommands.Array.data[0]'
       value: 
-      objectReference: {fileID: 739466825}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: nodeRect.x
       value: 252.25374
       objectReference: {fileID: 0}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: commandList.Array.size
-      value: 17
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[0]'
       value: 
-      objectReference: {fileID: 739466825}
+      objectReference: {fileID: 0}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 739466818}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[2]'
       value: 
-      objectReference: {fileID: 739466820}
+      objectReference: {fileID: 739466819}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[3]'
       value: 
-      objectReference: {fileID: 739466818}
+      objectReference: {fileID: 739466805}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[4]'
       value: 
-      objectReference: {fileID: 739466819}
+      objectReference: {fileID: 739466806}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[5]'
       value: 
-      objectReference: {fileID: 739466814}
+      objectReference: {fileID: 739466802}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[6]'
       value: 
-      objectReference: {fileID: 739466824}
+      objectReference: {fileID: 739466801}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[7]'
       value: 
-      objectReference: {fileID: 739466817}
+      objectReference: {fileID: 739466800}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[8]'
       value: 
-      objectReference: {fileID: 739466805}
+      objectReference: {fileID: 739466799}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[9]'
       value: 
-      objectReference: {fileID: 739466806}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[10]'
       value: 
-      objectReference: {fileID: 739466802}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[11]'
       value: 
-      objectReference: {fileID: 739466801}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[12]'
       value: 
-      objectReference: {fileID: 739466800}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[13]'
       value: 
-      objectReference: {fileID: 739466799}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[14]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 739466815}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[15]'
       value: 
-      objectReference: {fileID: 739466816}
+      objectReference: {fileID: 0}
     - target: {fileID: 8962891221805588588, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: 'commandList.Array.data[16]'
       value: 
       objectReference: {fileID: 739466815}
     m_RemovedComponents:
     - {fileID: 4157040963964160271, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+    - {fileID: 2304524965514465673, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+    - {fileID: 6733281999232362762, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 739466814}
-    - targetCorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 739466815}
-    - targetCorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 739466817}
-    - targetCorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 739466816}
-    - targetCorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 739466824}
-    - targetCorrespondingSourceObject: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 739466825}
   m_SourcePrefab: {fileID: 100100000, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
 --- !u!1001 &1049601160
 PrefabInstance:
@@ -5596,11 +5436,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 581469e0399a64977b11cf77c1dc4ded, type: 3}
---- !u!1 &1170200292 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3723169174483445520, guid: 0138ce526668a104086314b831e751c8, type: 3}
-  m_PrefabInstance: {fileID: 1194644421}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1175492798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7132,6 +6967,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee8aad303db444c41bcc267f6dd42b4f, type: 3}
+--- !u!1 &1470288482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1470288484}
+  - component: {fileID: 1470288483}
+  m_Layer: 0
+  m_Name: MusicPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1470288483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470288482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e07f5c2dc9daa43b5c63b32b087125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialMenu:
+    ID: 268435458
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+  dialogMusic:
+    ID: 268435461
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+  mapMusic:
+    ID: 268435460
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+  greeceMusic:
+    ID: 268435459
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+  egyptMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+  japanMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+  playOnAwake: 1
+  awakeMusic:
+    ID: 268435459
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 1470288482}
+--- !u!4 &1470288484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470288482}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 208.27985, y: 131.12372, z: -269.70023}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1480102324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5625984945174076157, guid: 73af6e1939c3f45448dd8c05261745a1, type: 3}
@@ -10574,3 +10482,4 @@ SceneRoots:
   - {fileID: 750661528}
   - {fileID: 1960904728}
   - {fileID: 1047060692}
+  - {fileID: 1470288484}

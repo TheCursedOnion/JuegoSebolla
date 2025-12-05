@@ -1,4 +1,5 @@
 using CursedOnion.Game.Commands;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Inputs;
 using CursedOnion.Game.Miscellaneous;
 using Reflex.Core;
@@ -17,6 +18,8 @@ namespace CursedOnion.Installers
         [Expandable, SerializeField] GameSettings gameSettings;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
+            containerBuilder.AddSingleton(new UIEvents(), typeof(UIEvents));
+            
             gameSettings.Initialize();
             containerBuilder.AddSingleton(gameSettings, typeof(GameSettings));
             
@@ -28,8 +31,6 @@ namespace CursedOnion.Installers
             
             containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
             
-            containerBuilder.AddSingleton(new UIEvents(), typeof(UIEvents));
-
             containerBuilder.AddSingleton(new TextParticleManager(textParticlePrefab), typeof(TextParticleManager));
         }
     }

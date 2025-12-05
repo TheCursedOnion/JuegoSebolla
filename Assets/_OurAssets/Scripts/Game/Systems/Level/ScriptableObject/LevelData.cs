@@ -4,7 +4,7 @@ using UnityEngine;
 namespace CursedOnion.Game.Systems.Level
 {
     public enum LevelState { InDialog, InBattleEditor, InBattle, Finished, InResults}
-    public enum LevelTimePeriod { Greece = 0, Egypt = 1, Italy = 2}
+    public enum LevelTimePeriod { Greece = 0, Egypt = 1, Japan = 2}
     
     [System.Serializable]
     public class LevelData

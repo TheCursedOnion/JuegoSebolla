@@ -1,7 +1,11 @@
 ﻿using CursedOnion.Extensions;
+using CursedOnion.Game.Audio;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic.Services.Pause;
+using CursedOnion.Game.Modes.General.UI.Events;
 using CursedOnion.Game.Modes.Level.Battle.UI;
 using CursedOnion.Game.Systems.Level;
+using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using UnityEngine;
@@ -16,7 +20,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         const string ResultsContainer = "Results Container Variables";
         
         [Inject] LevelManager levelManager;
-
+        [Inject] RuntimeVariableLocator variableLocator;
+        
         [SerializeField] private float endFadeDelay = 1f;
         [SerializeField] float fadeTime = 0.5f;
         
@@ -104,7 +109,17 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
             switch (newState)
             {
                 case LevelState.InDialog:
-                case LevelState.InBattleEditor: EnableScreen(battleEditorScreen); break;
+                case LevelState.InBattleEditor: EnableScreen(battleEditorScreen);
+                    if (variableLocator !=  null && variableLocator.MusicPlayer)
+                    {
+                        switch (levelManager.LevelAsset.LevelData.TimePeriod)
+                        {
+                            case LevelTimePeriod.Greece: variableLocator.MusicPlayer.RequestMusic(MusicType.GreeceGameplay); break;
+                            case LevelTimePeriod.Egypt: variableLocator.MusicPlayer.RequestMusic(MusicType.EgyptGameplay); break;
+                            case LevelTimePeriod.Japan: variableLocator.MusicPlayer.RequestMusic(MusicType.JapanGameplay); break;
+                        }
+                    }
+                    break;
                 case LevelState.InBattle: EnableScreen(battleScreen); break;
                 case LevelState.Finished: DisableAllGroups(); break;
                 case LevelState.InResults: EnableOnlyGroup(resultsGroup, endFadeDelay); break;

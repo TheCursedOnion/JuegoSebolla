@@ -1,8 +1,14 @@
+using CursedOnion.Extensions;
+using CursedOnion.Game.Audio;
+using CursedOnion.Game.Events;
 using CursedOnion.Game.Modes.General;
+using CursedOnion.Game.Modes.General.UI.Events;
+using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
+using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Game.Systems.Level
@@ -11,7 +17,7 @@ namespace CursedOnion.Game.Systems.Level
     public class LevelManager : MonoBehaviour
     {
         [ReadOnly] public LevelState CurrentLevelState;
-        [Inject] RuntimeVariableLocator runtimeVariableLocator;
+        [Inject] UIEvents uiEvents;
         
         public LevelEvents LevelEvents;
         public LevelScoreData LevelScoreVariables;
@@ -39,6 +45,7 @@ namespace CursedOnion.Game.Systems.Level
         #endif
         public void SetLevelProperties()
         {
+            
             LevelAsset.Grid.StartingOffset = LevelAsset.Grid.Origin - LevelManagerOrigin;
             LevelAsset.Grid.PrepareGrid(GetComponent<GridHighlighter>());
                 
@@ -77,6 +84,7 @@ namespace CursedOnion.Game.Systems.Level
             LevelEvents.InvokeLevelState(CurrentLevelState, newState);
             
             CurrentLevelState = newState;
+            
             return true;
         }
     }
