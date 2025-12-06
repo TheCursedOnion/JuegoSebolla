@@ -16,6 +16,8 @@ namespace CursedOnion.Extensions
             return component;
         }
         
+        public static bool IsNull(this GameObject gameObject, object o) => o == null || gameObject == null;
+        
         public static void InjectDependencies(this GameObject gameObject)
         {
             var container = gameObject.scene.GetSceneContainer();

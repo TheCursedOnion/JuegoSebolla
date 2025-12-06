@@ -30,6 +30,7 @@ namespace CursedOnion.Game.Miscellaneous
         public void Initialize(TextParticleManager manager)
         {
             this.manager = manager;
+            //Debug.LogWarning("Me creo");
         }
         public void SetKey(string key)
         {
@@ -40,17 +41,29 @@ namespace CursedOnion.Game.Miscellaneous
             localizedText.SetText(text);
         }
         
+        void OnDisable()
+        {
+            CancelAnimation();
+            if (this != null && gameObject != null) manager.ReturnParticle(gameObject);
+        }
+
+        void CancelAnimation()
+        {
+            LeanTween.cancel(gameObject);
+            LeanTween.cancel(textMesh.gameObject);
+        }
         public void PlayAnimation()
         {
+            if (this == null || gameObject == null) return;
+            
+            CancelAnimation();
+            
             Color color = textMesh.color;
             color.a = 0;
             textMesh.color = color;
             
             Vector3 startPos = transform.position;
             Vector3 endPos = startPos + Vector3.up * verticalDistance;
-            
-            LeanTween.cancel(gameObject);
-            LeanTween.cancel(textMesh.gameObject);
             
             sequence = LeanTween.sequence();
             

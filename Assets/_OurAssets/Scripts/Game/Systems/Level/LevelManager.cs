@@ -17,7 +17,7 @@ namespace CursedOnion.Game.Systems.Level
     [RequireComponent(typeof(MeshFilter))]
     public class LevelManager : MonoBehaviour
     {
-        [ReadOnly] public LevelState CurrentLevelState;
+        public LevelState CurrentLevelState;
         [Inject] UIEvents uiEvents;
         
         public LevelEvents LevelEvents;
@@ -82,9 +82,9 @@ namespace CursedOnion.Game.Systems.Level
         {
             if (CurrentLevelState == newState) return false;
 
-            LevelEvents.InvokeLevelState(CurrentLevelState, newState);
-            
+            var previousState = CurrentLevelState;
             CurrentLevelState = newState;
+            LevelEvents.InvokeLevelState(previousState, newState);
             
             return true;
         }

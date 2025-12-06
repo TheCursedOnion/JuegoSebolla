@@ -21,19 +21,23 @@ namespace CursedOnion.Game.Entity
             return (current & raised) != 0;
         }
 
-        public void RaiseFlag(T flag)
+        public void RaiseFlag(T flag, bool notify = true)
         {
             int current = ToInt(currentFlags);
             int rising = ToInt(flag);
             currentFlags = ToEnum(current | rising);
-            entityOwner.NotifyActionUpdate();
+            
+            if(notify)
+                entityOwner.NotifyActionUpdate();
         }
-        public void ResetFlag(T flag)
+        public void ResetFlag(T flag, bool notify = true)
         {
             int current = ToInt(currentFlags);
             int resetting = ToInt(flag);
             currentFlags = ToEnum(current & ~resetting);
-            entityOwner.NotifyActionUpdate();
+                
+            if(notify)
+                entityOwner.NotifyActionUpdate();
         }
     }
 }

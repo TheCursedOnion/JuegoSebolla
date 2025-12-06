@@ -72,12 +72,12 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         void EnableOnlyGroup(CanvasGroup container, float delay = 0f)
         {
             DisableAllGroups();
-            container.SetGroupActive(true, fadeTime, delay);
+            container.SetGroupActive(true, fadeTime / 2f, delay);
         }
         void EnableOnlyGroups(params CanvasGroup[] container)
         {
             DisableAllGroups();
-            foreach (var c in container) c.SetGroupActive(true, fadeTime);
+            foreach (var c in container) c.SetGroupActive(true, fadeTime / 2f);
         }
 
         void OnIntroDone()

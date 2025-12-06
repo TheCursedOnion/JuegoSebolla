@@ -64,7 +64,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
                 ClearInspectors();
                 return;
             }
-
+            
+            Debug.Log($"Actualizando informacion de {entity.name}");
             RegisterForEntityUpdate(entity);
             entityInspector.UpdateStats(entity);
             effectInspector.UpdateEffects(entity);

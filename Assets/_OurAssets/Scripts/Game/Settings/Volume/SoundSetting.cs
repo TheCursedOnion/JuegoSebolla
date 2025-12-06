@@ -34,7 +34,6 @@ namespace CursedOnion.Game.Settings
 
         public void SetMusicVolume(float volume, float fadeTime = BroAdvice.FadeTime_Immediate)
         {
-            Debug.Log("Music volume: " + volume);
             musicVolume = volume;
             fungusMixer.SetFloat("Music", ConvertLinearToDb(volume));
             BroAudio.SetVolume(BroAudioType.Music, volume, fadeTime);

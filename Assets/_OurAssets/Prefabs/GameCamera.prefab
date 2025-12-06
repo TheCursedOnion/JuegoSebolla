@@ -95,8 +95,8 @@ MonoBehaviour:
     damping: 10
   zoomComponent:
     zoomLimits: {x: -30, y: -3}
-    scrollSensitivity: 2.5
-    pinchSensitivity: 0.08
+    scrollSensitivity: 450
+    pinchSensitivity: 8
     smoothZoomSpeed: 10
 --- !u!114 &5688396321082638336
 MonoBehaviour:
@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901de051d13125f4f93268bc86e14c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imposeResultingMode: 0
   resultingMode: 0
   focusOnAwake: 0
   target: {fileID: 0}

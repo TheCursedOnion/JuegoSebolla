@@ -7,62 +7,47 @@ namespace CursedOnion.Helpers
 {
     public static class PoolHelper
     {
-        public static ObjectPool<T> CreatePool<T>(Func<T> createFunc) where T : class
+        public static ObjectPool<T> CreatePool<T>(Func<T> createFunc, int maxSize = 50) where T : UnityEngine.Object
         {
             return new ObjectPool<T>(
                 createFunc,
-                item =>
+                actionOnGet: item =>
                 {
-                    if (!TrySetActive(item, true))
-                    {
-                        item = createFunc();
-                    }
+                    if (!IsValid(item)) return;
+                    SetActive(item, true);
                 },
-                item => TrySetActive(item, false),
-                item => DestroyObject(item),
+                actionOnRelease: item =>
+                {
+                    if (!IsValid(item)) return;
+                    SetActive(item, false);
+                },
+                actionOnDestroy: item =>
+                {
+                    if (IsValid(item))
+                        UnityEngine.Object.Destroy(item);
+                },
                 collectionCheck: false,
                 defaultCapacity: 10,
-                maxSize: 50
+                maxSize: maxSize
             );
         }
 
-        private static bool TrySetActive<T>(T item, bool active)
+        private static bool IsValid(UnityEngine.Object obj)
         {
-            if (item == null) return false;
-            if (item is Object unityObj && unityObj == null) return false;
+            return obj != null;
+        }
 
-            switch (item)
+        private static void SetActive(UnityEngine.Object obj, bool active)
+        {
+            switch (obj)
             {
                 case GameObject go:
                     go.SetActive(active);
-                    return true;
-
-                case Component c:
-                    c.gameObject.SetActive(active);
-                    return true;
-
-                default:
-                    throw new ArgumentException("Type must be GameObject or Component");
-            }
-        }
-
-        private static void DestroyObject<T>(T item)
-        {
-            if (item == null) return;
-            if (item is Object unityObj && unityObj == null) return;
-
-            switch (item)
-            {
-                case GameObject go:
-                    Object.Destroy(go);
                     break;
 
-                case Component c:
-                    Object.Destroy(c.gameObject);
+                case Component comp:
+                    comp.gameObject.SetActive(active);
                     break;
-
-                default:
-                    throw new ArgumentException("Type must be GameObject or Component");
             }
         }
     }

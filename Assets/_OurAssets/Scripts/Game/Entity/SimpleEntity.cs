@@ -108,7 +108,8 @@ namespace CursedOnion.Game.Entity
         {
             int remainingDamage = StatusHandler.GetRemainingDamage(damage);
             Stats.CurrentHealthStat -= remainingDamage;
-            
+
+            NotifyActionUpdate();
             if (Stats.CurrentHealthStat <= 0)
             {
                 Die();

@@ -60,11 +60,11 @@ namespace CursedOnion.Game.Modes.General.Animations
             
             if (!isIdle && !isThinking)
             {
-                assignedEntity.ActionHandler.RaiseFlag(ActionFlag.IsNotIdle);
+                assignedEntity.ActionHandler.RaiseFlag(ActionFlag.IsNotIdle, false);
             }
             else
             {
-                assignedEntity.ActionHandler.ResetFlag(ActionFlag.IsNotIdle);
+                assignedEntity.ActionHandler.ResetFlag(ActionFlag.IsNotIdle, false);
                 
                 if(isIdle && assignedEntity.HasTurn && assignedEntity.BeingInspected) PlayAnimation("think");
                 else if (isIdle) PlayAnimation("idle");

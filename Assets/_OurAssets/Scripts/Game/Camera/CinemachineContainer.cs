@@ -52,11 +52,13 @@ namespace CursedOnion.Game.Cameras
 
         public void SetPanCenterAndValue(float panValue)
         {
+            Debug.Log($"Setting pan center to {panValue}");
             PanTilt.PanAxis.Center = panValue;
             PanTilt.PanAxis.Value = panValue;
         }
         public void SetPanCenter(float panValue)
         {
+            Debug.Log($"Setting pan center to {panValue}");
             PanTilt.PanAxis.Center = panValue;
         }
 

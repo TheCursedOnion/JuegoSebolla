@@ -43,7 +43,8 @@ namespace CursedOnion.Game.Miscellaneous
             {
                 yield return new WaitForSeconds(talkData.GetNewRandomInterval());
 
-                if (!talkData.TryGetWeightedRandomTalkKey(out string key)) continue;
+                if (!talkData.TryGetWeightedRandomTalkKey(out string key) || gameObject.IsNull(this)) continue;
+
                 TalkWithKey(key);
             }
         }

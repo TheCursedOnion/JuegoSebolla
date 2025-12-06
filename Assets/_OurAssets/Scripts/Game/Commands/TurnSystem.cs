@@ -79,16 +79,19 @@ namespace CursedOnion.Game.Systems.Level
             if (enemies.Contains(unit))
             {
                 enemies.Remove(unit);
-                if(unit.IsBoss) levelEvents.InvokeBossEnemyDeath();
+                if(unit.IsBoss && battleStarted) levelEvents.InvokeBossEnemyDeath();
             }
 
-            if (mergedUnits.Contains(unit))
+            if (mergedUnits.Contains(unit) && battleStarted)
             {
                 mergedUnits.Remove(unit);
                 levelEvents.UpdateMergedUnitList(mergedUnits);
             }
 
-            CheckForBattleEnd();
+            if (!CheckForBattleEnd() && isNextAllyTurn && battleStarted)
+            {
+                TryPassTurnToPlayer();
+            }
         }
         
         void TryToBegin(LevelState previousState, LevelState newState)
@@ -212,6 +215,11 @@ namespace CursedOnion.Game.Systems.Level
         public void EndTurnForAIUnit(Unit unit)
         {
             EndTurnForUnit(unit);
+            TryPassTurnToPlayer();
+        }
+
+        void TryPassTurnToPlayer()
+        {
             if (activeUnits.Count > 0)
             {
                 activeUnits[0].EntityController.ProcessTurn();
@@ -251,9 +259,9 @@ namespace CursedOnion.Game.Systems.Level
             }
         }
 
-        private void CheckForBattleEnd()
+        private bool CheckForBattleEnd()
         {
-            if (!battleStarted) return;
+            if (!battleStarted) return false;
             
             Debug.Log($"Comprobando fin de batalla: Aliados restantes {allies.Count}, Enemigos restantes {enemies.Count}");
             if (allies.Count == 0)
@@ -264,11 +272,8 @@ namespace CursedOnion.Game.Systems.Level
             {
                 levelEvents.InvokeAllEnemiesDeath();
             }
-            else if(activeUnits.Count == 0)
-            {
-                StartCoroutine(DelayedEndTurn(delayOnAITurnEnd));
-            }
             
+            return allies.Count == 0 || enemies.Count == 0;
         }
 
         void Update()

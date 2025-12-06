@@ -28,6 +28,7 @@ namespace CursedOnion.Game.Dialog
 
         [Header("Extras")]
         [SerializeField] private Text nameText;
+        [SerializeField] private CanvasGroup mainCanvasGroup;
         [SerializeField] CanvasGroup background;
         
         [Header("DialogData")]
@@ -63,7 +64,32 @@ namespace CursedOnion.Game.Dialog
                 levelEvents.OnLevelStateChange -= TryPlayEndDialog;
             }
         }
+
+        #region Special Functions
+        public void SetDialogCanvasAlpha(float alpha, float time)
+        {
+            LeanTween.cancel(mainCanvasGroup.gameObject);
+            LeanTween.alphaCanvas(mainCanvasGroup, alpha, time);
+        }
+        public void SetDialogBackgroundAlpha(float alpha, float time)
+        {
+            LeanTween.cancel(background.gameObject);
+            LeanTween.alphaCanvas(background, alpha, time);
+        }
+        #endregion
         
+        #region MusicFunctions
+        public void RequestPlayMusic(MusicType musicType)
+        {
+            variableLocator.MusicPlayer.RequestMusic(musicType);
+        }
+        public void RequestStopMusic()
+        {
+            variableLocator.MusicPlayer.StopMusic();
+        }
+        #endregion
+        
+        #region PlayDialog
         void TryPlayEndDialog(LevelState _, LevelState newState)
         {
             if(newState == LevelState.Finished) PlayDialog(EndDialogBlockName);
@@ -72,51 +98,44 @@ namespace CursedOnion.Game.Dialog
         {
             pauseService.Pause(PauseLevel.Dialog);
             Flowchart.ExecuteBlock(blockName);
-            RequestMusic(MusicType.Dialog);
+            RequestPlayMusic(MusicType.Dialog);
         }
+        #endregion
 
-        public void RequestMusic(MusicType musicType)
+        #region EndDialog
+        public void EndMapDialog()
         {
-            variableLocator.MusicPlayer.RequestMusic(musicType);
+            pauseService.Unpause(PauseLevel.Dialog);
+            SaveDialogId();
         }
+        public void EndLevelDialog(bool isIntro)
+        {
+            pauseService.Unpause(PauseLevel.Dialog);
+            if(isIntro) CallLevelIntro();
+            else CallLevelResults();
 
-        public void RequestStopMusic()
-        {
-            variableLocator.MusicPlayer.StopMusic();
+            SaveDialogId();
         }
-        
-        public void SetDialogBackgroundAlpha(float alpha, float time)
-        {
-            LeanTween.cancel(background.gameObject);
-            LeanTween.alphaCanvas(background, alpha, time);
-        }
-        
-        public void CallLevelIntro()
-        {
-            if (levelEvents != null)
-            {
-                levelEvents?.CallIntro();
-            }
-        }
-
-        public void CallLevelResults()
-        {
-            if (levelManager != null && levelManager.CurrentLevelState == LevelState.Finished)
-            {
-                levelManager.TrySetNewState(LevelState.InResults);
-            }
-        }
-        public void UnpauseGameFromDialog()
+        void UnpauseGameFromDialog()
         {
             pauseService.Unpause(PauseLevel.Dialog);
         }
+        void CallLevelIntro()
+        {
+            levelEvents.CallIntro();
+        }
 
-        public void SaveDialogId()
+        void CallLevelResults()
+        {
+            levelManager.TrySetNewState(LevelState.InResults);
+        }
+        void SaveDialogId()
         {
             if (dialogId < 0) return;
             
             variableLocator?.SetLastDialogCompleted(dialogId);
         }
+        #endregion
     }
 
     /*#if UNITY_EDITOR

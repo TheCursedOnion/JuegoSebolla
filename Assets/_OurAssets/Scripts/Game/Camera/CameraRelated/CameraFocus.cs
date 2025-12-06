@@ -48,8 +48,7 @@ namespace CursedOnion.Game.Cameras
             
             if(imposeResultingMode) camera.SetCameraMode(resultingMode);
             camera.FocusOn(target, positionDamping, tiltOnFocus);
-            
-            
+
             if(forceOffset) cinemachineContainer.SetOffset(distanceOffset, offsetTime);
             if (forceTilt) cinemachineContainer.SetTiltCenter(tiltOnFocus);
             if(forcePan) cinemachineContainer.SetPanCenter(panOnFocus);
