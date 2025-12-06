@@ -15,11 +15,11 @@ MonoBehaviour:
   EntityName: BossRob
   EntityNameKey: boss_rob
   Hp:
-    Range: {x: 35, y: 35}
+    Range: {x: 50, y: 50}
   Attack:
-    Range: {x: 5, y: 5}
+    Range: {x: 13, y: 13}
   Defense:
-    Range: {x: 7, y: 9}
+    Range: {x: 9, y: 9}
   Initiative:
     Range: {x: 14, y: 14}
   Movement: 6
@@ -27,6 +27,16 @@ MonoBehaviour:
   CharacterUI: {fileID: 1984920611202777708, guid: 814e270bbee1e92479e6694205bf94ab, type: 3}
   SpecialAbility:
     rid: 8638992684117917786
+  EntityComponents:
+    PlaceEntityComponent:
+      rid: 592454580667416659
+    MoveEntityComponent:
+      rid: 592454580667416660
+    AttackEntityComponent:
+      rid: 592454580667416661
+    AbilityEntityComponent:
+      rid: 592454580667416662
+  InspectorSprite: {fileID: -2077729579, guid: 0511d5765380ffc4792f96c44a8cda0f, type: 3}
   AnimationLayers:
   - groupName: '-'
     layers: []
@@ -40,16 +50,7 @@ MonoBehaviour:
       runtimeAnimatorController: {fileID: 9100000, guid: 3b7de11083cf3434b92333531f7a8f61, type: 2}
       baseMaterial: {fileID: 2100000, guid: a6fb0b0ad30d8fc4c94183fa6c96d3fc, type: 2}
       lookupTexture: {fileID: 0}
-  EntityComponents:
-    PlaceEntityComponent:
-      rid: 592454580667416659
-    MoveEntityComponent:
-      rid: 592454580667416660
-    AttackEntityComponent:
-      rid: 592454580667416661
-    AbilityEntityComponent:
-      rid: 592454580667416662
-  InspectorSprite: {fileID: 21300000, guid: 9b22f8a224f53da409e6373be0110f48, type: 3}
+  TalkData: {fileID: 0}
   references:
     version: 2
     RefIds:
