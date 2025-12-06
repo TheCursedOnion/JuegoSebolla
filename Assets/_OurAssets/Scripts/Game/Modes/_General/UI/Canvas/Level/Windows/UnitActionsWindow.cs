@@ -58,7 +58,6 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         }
         void SetEntity(SimpleEntity entity)
         {
-            Debug.Log($"Selected entity 2: {entity?.name}");
             DisableChildren();
             
             unit = entity as Unit;

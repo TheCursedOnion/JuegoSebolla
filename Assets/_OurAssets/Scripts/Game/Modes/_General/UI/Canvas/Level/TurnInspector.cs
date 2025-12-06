@@ -54,101 +54,111 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         
         void ProcessMergedList(List<Unit> mergedUnits)
         {
-            int needed = mergedUnits.Count;
-            int current = visualizedIcons.Count;
+            var layout = turnIconContainer.GetComponent<LayoutGroup>();
+            if (layout) layout.enabled = false;
             
-            if(needed == 0) return;
-            
-            if (current > needed)
-            {
-                for (int i = needed; i < current; i++)
-                    iconPool.Release(visualizedIcons[i]);
-
-                visualizedIcons.RemoveRange(needed, current - needed);
-            }
-            
-            for (int i = current; i < needed; i++)
-            {
-                TurnIcon newIcon = iconPool.Get();
-                visualizedIcons.Add(newIcon);
-            }
-            
+            ClearIcons();
             AddIcons(mergedUnits);
+            
             AnalyzeTurnOrderSeparators(mergedUnits);
             
             modifiedLayout = true;
+            
+            if (layout) layout.enabled = true;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(turnIconContainer as RectTransform);
+        }
+        void ClearIcons()
+        {
+            foreach (var icon in visualizedIcons)
+                iconPool.Release(icon);
+            visualizedIcons.Clear();
         }
         void AddIcons(List<Unit> mergedUnits)
         {
             for (int i = 0; i < mergedUnits.Count; i++)
             {
+                var icon = iconPool.Get();
                 Unit unit = mergedUnits[i];
-                visualizedIcons[i].AssignUnit(unit);
-                visualizedIcons[i].EnableCanRequestScroll(false);
-            }
-        }
-        void AnalyzeTurnOrderSeparators(List<Unit> mergedUnits)
-        {
-            if (mergedUnits.Count == 0) return;
-
-            int added = 0;
-            var previous = mergedUnits[0];
-
-            turnIconContainer.GetChild(0).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
-                
-            for (int i = 1; i < mergedUnits.Count; i++)
-            {
-                var current = mergedUnits[i];
-
-                bool sideChanged = current.GetSide() != previous.GetSide();
-                bool initiativeChanged = current.Stats.InitiativeStat != previous.Stats.InitiativeStat;
-                
-                if (sideChanged || initiativeChanged)
-                {
-                    turnIconContainer.GetChild(i).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
-                    added++;
-                }
-
-                previous = current;
+                icon.AssignUnit(unit);
+                icon.EnableCanRequestScroll(false);
+                icon.transform.SetSiblingIndex(i);
+                visualizedIcons.Add(icon);
             }
         }
         
+        void AnalyzeTurnOrderSeparators(List<Unit> mergedUnits)
+        {
+            ClearSeparators();
+
+            if (mergedUnits.Count <= 1) return;
+
+            List<int> separatorPositions = new List<int>();
+            InsertSeparatorPositions(separatorPositions, mergedUnits);
+
+            List<int> realIndices = PlaceSeparators(separatorPositions);
+
+            SetScrollRequests(realIndices);
+        }
+
         void ClearSeparators()
         {
             foreach (var separator in separators)
-            {
                 separatorPool.Release(separator);
-            }
+
             separators.Clear();
         }
-        void AddSeparators(List<Unit> mergedUnits)
+
+        void InsertSeparatorPositions(List<int> separatorPositions, List<Unit> mergedUnits)
         {
-            if (mergedUnits.Count == 0) return;
+            Unit previous = mergedUnits[0];
 
-            int added = 0;
-            var previous = mergedUnits[0];
-
-            turnIconContainer.GetChild(0).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
-                
             for (int i = 1; i < mergedUnits.Count; i++)
             {
-                var current = mergedUnits[i];
+                Unit current = mergedUnits[i];
 
                 bool sideChanged = current.GetSide() != previous.GetSide();
-                bool initiativeChanged = current.Stats.InitiativeStat != previous.Stats.InitiativeStat;
-                
-                if (sideChanged || initiativeChanged)
-                {
-                    var separator = separatorPool.Get();
-                    separators.Add(separator);
-                    
-                    separator.transform.SetSiblingIndex(i + added);
-                    turnIconContainer.GetChild(i + added + 1).GetComponent<TurnIcon>().EnableCanRequestScroll(true);
-                    
-                    added++;
-                }
+                bool initChanged = current.Stats.InitiativeStat != previous.Stats.InitiativeStat;
+
+                if (sideChanged || initChanged)
+                    separatorPositions.Add(i);
 
                 previous = current;
+            }
+        }
+
+        List<int> PlaceSeparators(List<int> separatorPositions)
+        {
+            List<int> realIndices = new List<int>();
+            int offset = 0;
+
+            foreach (int pos in separatorPositions)
+            {
+                int siblingIndex = pos + offset;
+
+                var sep = separatorPool.Get();
+                sep.transform.SetParent(turnIconContainer, false);
+                sep.transform.SetSiblingIndex(siblingIndex);
+
+                separators.Add(sep);
+                realIndices.Add(siblingIndex);
+
+                offset++;
+            }
+
+            return realIndices;
+        }
+
+        void SetScrollRequests(List<int> realIndices)
+        {
+            foreach (int sepIndex in realIndices)
+            {
+                int iconIndex = sepIndex + 1;
+
+                if (iconIndex < turnIconContainer.childCount)
+                {
+                    var icon = turnIconContainer.GetChild(iconIndex)?.GetComponent<TurnIcon>();
+                    icon?.EnableCanRequestScroll(true);
+                }
             }
         }
         

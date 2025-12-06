@@ -37,6 +37,7 @@ namespace CursedOnion.Game.Entity
         [Header("Entity Instance Control")]
         public bool IsBreakable = false;
         [ReadOnly] public bool HasTurn = false;
+        [ReadOnly] public bool BeingInspected = false;
         [SerializeField] protected BattleSide EntitySide = BattleSide.Neutral;
         public EntityComponentController EntityController;
         
@@ -121,7 +122,9 @@ namespace CursedOnion.Game.Entity
         {
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
         }
-        protected void Die()
+        
+        [Button]
+        public void Die()
         {
             ActionHandler.RaiseFlag(ActionFlag.HasDied);
             OnEntityUpdate?.Invoke(this);

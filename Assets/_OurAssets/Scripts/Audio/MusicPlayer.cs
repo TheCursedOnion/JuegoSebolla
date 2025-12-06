@@ -18,7 +18,6 @@ namespace CursedOnion.Game.Audio
        EgyptGameplay,
        JapanGameplay,
     }
-
     public class MusicPlayer : MonoBehaviour
     {
         [Inject] RuntimeVariableLocator variableLocator;
@@ -67,6 +66,7 @@ namespace CursedOnion.Game.Audio
                 case MusicType.JapanGameplay: PlayMusic(japanMusic); break;
             }
         }
+        public void RequestMusic(SoundID soundID) => PlayMusic(soundID);
 
         void PlayMusic(SoundID soundID)
         {

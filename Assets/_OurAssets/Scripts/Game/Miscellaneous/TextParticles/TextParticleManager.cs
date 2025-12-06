@@ -35,7 +35,10 @@ namespace CursedOnion.Game.Miscellaneous
             if (particle == null || particle == false)
             {
                 particle = CreateParticle();
+                
+                if(particle == null || particle == false) return;
             }
+            
             
             
             particle.transform.position = position;

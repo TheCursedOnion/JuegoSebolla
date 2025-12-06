@@ -1,4 +1,5 @@
 using CursedOnion.Extensions;
+using CursedOnion.Game.Modes.General.Animations;
 using CursedOnion.Game.Systems.Grid;
 using UnityEngine;
 
@@ -32,10 +33,16 @@ namespace CursedOnion.Game.Entity
             if(!AssignedEntity.HasTurn) return;
             
             bool entitySelected = entity == AssignedEntity;
-            turnIndicator.enabled = true;
+            
+            AssignedEntity.BeingInspected = entitySelected;
             
             Color color = entitySelected ? beingInspectedColor : notBeingInspectedColor;
             turnIndicator.color = color;
+
+            if (AssignedEntity.TryGetLayeredEntity(out LayeredEntity layeredEntity))
+            {
+                layeredEntity.PlayAnimation(entitySelected ? "think" : "idle");
+            }
         }
         protected void UnselectEntity()
         {
@@ -63,6 +70,8 @@ namespace CursedOnion.Game.Entity
             base.EndTurn();
             
             AssignedEntity.HasTurn = false;
+            AssignedEntity.BeingInspected = false;
+            
             AssignedEntity.ActionHandler.ResetAllActions();
             turnIndicator.enabled = false;
         }
