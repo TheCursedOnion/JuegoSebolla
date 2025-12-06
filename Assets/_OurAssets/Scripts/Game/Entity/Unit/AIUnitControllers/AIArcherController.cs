@@ -14,7 +14,7 @@ namespace CursedOnion.Game.Entity
     {
 
         List<Vector3> archerReachableTiles = new();
-        List<Vector3> archerReachableAttackTiles = new();
+        List<Vector3> archerAttackPositions = new();
 
         AIUnitController baseAI;
 
@@ -142,11 +142,11 @@ namespace CursedOnion.Game.Entity
         {
             LazyInit();
 
-            if (enemyTarget == null) return;
-
             var unit = baseAI.GetUnit();
             var grid = unit.Grid;
+
             archerReachableTiles.Clear();
+            archerAttackPositions.Clear();
 
             _ = AStarPathFinder.InsertReachableGridPositionsAsyncBFS(
                 archerReachableTiles,
@@ -156,13 +156,23 @@ namespace CursedOnion.Game.Entity
                 unit.Stats.MovementStat
             );
 
-            List<Vector3> attackPositions = new List<Vector3>();
-
             grid.TryWorldToGridPosition(enemyTarget.transform.position, out Vector3 enemyGridPos);
-            AStarPathFinder.InsertManhattanAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2, false);
 
-            var candidateTiles = archerReachableTiles.Intersect(attackPositions).ToList();
-            if (!candidateTiles.Any()) return;
+            AStarPathFinder.InsertManhattanAttackGridPositions(archerAttackPositions, unit.Grid, enemyGridPos, 2, false);
+
+            archerAttackPositions = archerAttackPositions
+                .Where(tile =>
+                {
+                    if (!grid.TryGetTileAtGridPosition(tile, out Tile3d tileObj))
+                        return false;
+                    // tile libre si no contiene entidad
+                    return tileObj.GetContainedEntity() == null;
+                })
+                .ToList();
+
+            var candidateTiles = archerReachableTiles
+                .Where(movePos => archerAttackPositions.Contains(movePos))
+                .ToList();
 
             Debug.Log("Archer found candidate tiles near enemy: " + candidateTiles.Count);
 
@@ -186,9 +196,6 @@ namespace CursedOnion.Game.Entity
                     bestTile = t;
                 }
             }
-
-            if (bestScore == float.MinValue)
-                return;
 
             baseAI.TargetedGridPosToMove = bestTile;
 

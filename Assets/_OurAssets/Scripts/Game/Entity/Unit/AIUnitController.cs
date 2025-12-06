@@ -116,6 +116,19 @@ namespace CursedOnion.Game.Entity
                 if (unit.Stats.SpecialAbilityType is ArcherAbility archer)
                 {
                     AStarPathFinder.InsertManhattanAttackGridPositions(attackPositions, unit.Grid, enemyGridPos, 2, false);
+
+                    for (int i = attackPositions.Count - 1; i >= 0; i--)
+                    {
+                        Vector3 pos = attackPositions[i];
+
+                        if (!unit.Grid.TryGetTileAtGridPosition(pos, out Tile3d tile))
+                            continue;
+
+                        if (tile.GetContainedEntity() != null)
+                        {
+                            attackPositions.RemoveAt(i);
+                        }
+                    }
                 }
                 else
                 {
