@@ -69274,7 +69274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc833233a3ed46948a47bfaf8f5c35d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayOnAITurnEnd: 2.5
+  delayOnAITurnEnd: 1
   allies: []
   enemies: []
   activeUnits: []
@@ -69389,7 +69389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2188d95fd1bb4592bc1146d5c6397891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossEnemiesCount: 0
+  bossEnemiesCount: 1
 --- !u!1001 &527254282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245246,8 +245246,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 932447581240962011, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: m_Size
+      value: 0.65841585
+      objectReference: {fileID: 0}
+    - target: {fileID: 932447581240962011, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_Value
-      value: 0.5005952
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1413384203589491416, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_AnchorMax.y
@@ -245284,6 +245288,10 @@ PrefabInstance:
     - target: {fileID: 1978226441245366445, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978226441245366445, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 172.5
       objectReference: {fileID: 0}
     - target: {fileID: 2174700787727622902, guid: e9257a4554fc83e4993e0a13bd2f7b37, type: 3}
       propertyPath: statData
