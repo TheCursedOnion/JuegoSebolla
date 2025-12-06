@@ -41,17 +41,36 @@ namespace CursedOnion.Game.Modes.General.Animations
             
             previousAnimationName = animationName;
             //Debug.Log($"{assignedEntity.name}: Animation {animationName} started.");
+            
+            switch (animationName)
+            {
+                case "punch":
+                case "shoot":
+                    assignedEntity.BeingInspected = false;
+                    break;
+                
+                case "idle": PlayAnimation("idle"); break;
+                
+                case "hurt": PlayAnimation("hurt"); break;
+            }
+            
             bool isIdle = string.Equals("idle", animationName);
-
-            if (!isIdle)
+            bool isThinking = string.Equals("think", animationName);
+            
+            
+            if (!isIdle && !isThinking)
             {
                 assignedEntity.ActionHandler.RaiseFlag(ActionFlag.IsNotIdle);
             }
             else
             {
                 assignedEntity.ActionHandler.ResetFlag(ActionFlag.IsNotIdle);
-                PlayAnimation("idle");
+                
+                if(isIdle && assignedEntity.HasTurn && assignedEntity.BeingInspected) PlayAnimation("think");
+                else if (isIdle) PlayAnimation("idle");
             }
+            
+            
                 
         }
         public void ProcessAnimationEvent(string eventName)

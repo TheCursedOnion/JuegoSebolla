@@ -17118,6 +17118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1445082052}
+  - component: {fileID: 1445082053}
   m_Layer: 0
   m_Name: =====SCREENS=====
   m_TagString: Untagged
@@ -17140,6 +17141,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1445082053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445082051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d1e424bf4b419991dfc6b673d6b3f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicToPlay:
+    ID: 268435458
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 1445082051}
 --- !u!1 &1447098034
 GameObject:
   m_ObjectHideFlags: 0
@@ -24716,10 +24733,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e07f5c2dc9daa43b5c63b32b087125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicID:
-    ID: 268435458
-    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
-    <DebugObject>k__BackingField: {fileID: 2004016191}
+  initialMenu:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
+  dialogMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
+  mapMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
+  greeceMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
+  egyptMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
+  japanMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
+  playOnAwake: 0
+  awakeMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 0}
 --- !u!1001 &2007765169
 PrefabInstance:
   m_ObjectHideFlags: 0

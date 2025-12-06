@@ -39,11 +39,6 @@ namespace CursedOnion.Game.Miscellaneous
         {
             localizedText.SetText(text);
         }
-
-        void OnDestroy()
-        {
-            manager.ReturnParticle(this.gameObject);
-        }
         
         public void PlayAnimation()
         {
@@ -93,7 +88,11 @@ namespace CursedOnion.Game.Miscellaneous
                     })
             );
             
-            sequence.append(() => manager.ReturnParticle(gameObject));
+            sequence.append(() =>
+            {
+                if (this != null && gameObject != null)
+                    manager.ReturnParticle(gameObject);
+            });
         }
     }
 }

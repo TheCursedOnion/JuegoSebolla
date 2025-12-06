@@ -57,7 +57,13 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
             
             unit = newUnit;
             ColorBorder(unit);
-            SetImageColor(interior, inactiveColor);
+
+            Color color = inactiveColor;
+            
+            if(unit.HasTurn)
+                color = unit.GetSide() == BattleSide.Ally ? allyHighlightColor : enemyHighlightColor;
+           
+            SetImageColor(interior, color);
             
             unit.OnStartTurn += HighlightInterior;
             icon.sprite = newUnit.StatData.InspectorSprite;
