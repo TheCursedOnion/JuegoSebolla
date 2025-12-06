@@ -226563,9 +226563,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e07f5c2dc9daa43b5c63b32b087125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicID:
-    ID: 268435458
-    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+  initialMenu:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1019193227}
+  dialogMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1019193227}
+  mapMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1019193227}
+  greeceMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1019193227}
+  egyptMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1019193227}
+  japanMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 1019193227}
+  playOnAwake: 0
+  awakeMusic:
+    ID: 0
+    _sourceAsset: {fileID: 0}
     <DebugObject>k__BackingField: {fileID: 1019193227}
 --- !u!1001 &1019193944
 PrefabInstance:
@@ -232934,7 +232959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1043831481
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -232944,7 +232969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d9ff288f3904c05ada7ac9c9a075bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 32
+  itemId: 33
   indentLevel: 0
   description: 
   delay: 0
@@ -291516,7 +291541,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1623586664}
   m_HandleRect: {fileID: 1623586663}
   m_Direction: 2
-  m_Value: 1.0000002
+  m_Value: 1
   m_Size: 0.57101786
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -482780,6 +482805,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 473453845845761783, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b8d1d52bd86631044889de4f6f136e3d, type: 3}
+    - target: {fileID: 503609941411364506, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 650
+      objectReference: {fileID: 0}
+    - target: {fileID: 1169585689629715320, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 650
+      objectReference: {fileID: 0}
     - target: {fileID: 2325458270432444222, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -482820,6 +482857,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2924491692302860658, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 331108fc5963f3e4b90a49553f45305e, type: 3}
+    - target: {fileID: 2986323003634937966, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 650
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421009693995244933, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_Color.b
+      value: 0.80784315
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421009693995244933, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 3421009693995244933, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_Color.r
+      value: 0.80784315
+      objectReference: {fileID: 0}
+    - target: {fileID: 4772533385208656249, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 650
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474617343172698015, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 650
+      objectReference: {fileID: 0}
     - target: {fileID: 6051141804734565333, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
       propertyPath: m_Name
       value: DialogController
@@ -482848,7 +482913,8 @@ PrefabInstance:
       propertyPath: 'commandList.Array.data[10]'
       value: 
       objectReference: {fileID: 1043831481}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 435441238245418520, guid: 62ff3bd0dcefb4440963e22dcba4c2a9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
