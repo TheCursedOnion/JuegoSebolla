@@ -5,6 +5,7 @@ using CursedOnion.Game.Systems.Grid;
 using CursedOnion.Game.Systems.Level;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CursedOnion.Game.Entity
@@ -300,6 +301,13 @@ namespace CursedOnion.Game.Entity
             foreach (var t in adjacentTiles)
             {
                 if (!healerReachableTiles.Contains(t)) continue;
+
+                Vector3 below = new Vector3(t.x, t.y - 1, t.z);
+                if (unit.Grid.TryGetTileAtGridPosition(below, out Tile3d tileBelow))
+                {
+                    if (tileBelow.IsStairTile()) 
+                        continue;
+                }
 
                 float avgDistToEnemies = enemies
                     .Select(e => Vector3.Distance(t, e.transform.position))
