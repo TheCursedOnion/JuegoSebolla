@@ -48,9 +48,9 @@ namespace CursedOnion.Game.Logic.Services
                     transition
                         .SetInBetweenTime(uiTransitionData.InBetweenTime)
                         .SetColor(uiTransitionData.Color)
-                        .SetMidAction(() =>
+                        .SetMidAction(async () =>
                             {
-                                _ = sceneService.ChangeScene(sceneName);
+                                await sceneService.ChangeScene(sceneName);
                                 transition.StartCloseTransition(halfDuration);
                             }
                         )

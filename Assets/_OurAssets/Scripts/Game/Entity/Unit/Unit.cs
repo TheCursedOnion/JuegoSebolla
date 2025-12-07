@@ -118,8 +118,6 @@ namespace CursedOnion.Game.Entity
             int periodId = (int)LevelManager.LevelAsset.LevelData.TimePeriod * 2;
             int indexOffset = (int)EntitySide;
             
-            Debug.Log($"Period: {periodId}, Index: {indexOffset} y {EntitySide}");
-            
             LayeredEntity.Initialize(Stats.AnimationLayers, periodId + indexOffset);
         }
 
@@ -128,6 +126,7 @@ namespace CursedOnion.Game.Entity
         {
             LayeredEntity?.PlayAnimation("hurt");
             
+            Debug.Log($"{name} has taken {damage} damage from {attacker.name}");
             talkComponent?.Talk(damage.ToString());
             
             base.DamageFrom(damage, attacker);

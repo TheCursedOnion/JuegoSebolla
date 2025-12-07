@@ -12,7 +12,7 @@ namespace CursedOnion.Game.Objects
     [Serializable]
     public class LevelInformation
     {
-        public enum LevelType { Start, Normal, End }
+        public enum LevelType { Start, Normal, End, Only }
         
         public int LevelIndex;
         public LevelType LevelEnumType;

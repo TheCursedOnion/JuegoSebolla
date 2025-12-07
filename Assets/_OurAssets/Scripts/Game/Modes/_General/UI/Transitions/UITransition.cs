@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UltEvents;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +42,7 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
             TransitionData.Color = color;
             return this;
         }
-        public UITransition SetMidAction(Action midPoint)
+        public UITransition SetMidAction(Func<Task> midPoint)
         {
             TransitionData.MidPointAction = midPoint;
             return this;

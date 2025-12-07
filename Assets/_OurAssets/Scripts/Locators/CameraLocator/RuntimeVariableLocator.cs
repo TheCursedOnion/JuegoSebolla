@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.CloudSave;
+using CursedOnion.Game.Dialog;
 using CursedOnion.Game.Systems.Level;
 using Unity.Services.CloudSave.Models;
 using UnityEngine;
@@ -19,13 +20,24 @@ namespace CursedOnion.Locators
         [System.NonSerialized] public AutoCloudSave AutoCloudSave;
         [System.NonSerialized] public GlobalCamera GlobalCamera;
         [System.NonSerialized] public MusicPlayer MusicPlayer;
+        [System.NonSerialized] DialogController dialogController;
+        
+        public GameObject DialogControllerPrefab;
         
         public int LastDialogCompleted;
         public int LastPlayedLevel;
         public int LastCompletedLevel;
         public bool IsGamePlayedOnMobile;
-        
-        
+
+        public DialogController GetDialogController()
+        {
+            if (dialogController == null)
+            {
+                dialogController = Instantiate(DialogControllerPrefab).GetComponent<DialogController>();
+                dialogController.Initialize();
+            }
+            return dialogController;
+        }
         public void SetLastDialogCompleted(int dialogIndex)
         {
             if (dialogIndex > LastDialogCompleted)

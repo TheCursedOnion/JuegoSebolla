@@ -42,10 +42,10 @@ namespace CursedOnion.Game.Modes.Map.UI
             int currentLevelIndex = currentLevelInformation.LevelIndex;
             int completedLevels = variableLocator.LastCompletedLevel;
 
-            bool isPreviousButtonEnabled = levelType != LevelInformation.LevelType.Start;
+            bool isPreviousButtonEnabled = levelType != LevelInformation.LevelType.Start && levelType != LevelInformation.LevelType.Only;
             previousButton.gameObject.SetActive(isPreviousButtonEnabled);
             
-            bool isNextButtonEnabled = levelType != LevelInformation.LevelType.End && completedLevels >= currentLevelIndex;
+            bool isNextButtonEnabled = levelType != LevelInformation.LevelType.End && completedLevels >= currentLevelIndex && levelType != LevelInformation.LevelType.Only;
             nextButton.gameObject.SetActive(isNextButtonEnabled);
             
             levelName.SetKey(levelInformation.BaseKey);

@@ -21,10 +21,12 @@ namespace CursedOnion.Game.Inputs.Camera
         
         private Transform targetGuide;
         private Vector3 targetPosition;
+        CinemachineContainer cinemachineContainer;
         
         bool enabled = true;
         public void Initialize(GlobalCamera camera)
         {
+            cinemachineContainer = camera.CinemachineContainer;
             targetGuide = camera.CameraGuide.transform;
             targetPosition = targetGuide.position;
             Enable();
@@ -128,8 +130,16 @@ namespace CursedOnion.Game.Inputs.Camera
             forward.Normalize();
 
             Vector3 worldMove = right * move.x + forward * move.z;
-
+            
+            worldMove = AdjustDirectionToRotation(worldMove);
             targetPosition += worldMove;
+        }
+        Vector3 AdjustDirectionToRotation(Vector3 direction)
+        {
+            float rotateAngle = cinemachineContainer.GetCameraPanAngles();
+            Quaternion rotation = Quaternion.AngleAxis(rotateAngle, Vector3.up);
+            Vector3 fixedRotation = rotation * direction;
+            return targetGuide.forward * fixedRotation.z + targetGuide.right * fixedRotation.x;
         }
 
     }

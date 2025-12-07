@@ -221,7 +221,7 @@ MonoBehaviour:
       - _Type: 5
         _Int: 0
         _String: 
-        _X: 2.25
+        _X: 1.75
         _Y: 0
         _Z: 0
         _W: 0
@@ -675,7 +675,7 @@ MonoBehaviour:
       - _Type: 5
         _Int: 0
         _String: 
-        _X: 2.25
+        _X: 1.75
         _Y: 0
         _Z: 0
         _W: 0
@@ -1682,7 +1682,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.0001
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 0
   m_Viewport: {fileID: 2853281823870276344}
   m_HorizontalScrollbar: {fileID: 5180269689539097239}
   m_VerticalScrollbar: {fileID: 0}
@@ -3883,14 +3883,14 @@ RectTransform:
   m_GameObject: {fileID: 2017488724010715367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1025639394216949293}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 85}
+  m_AnchoredPosition: {x: 0, y: 35}
   m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5249577181086847917
@@ -6428,6 +6428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundType: 0
+  volumeSlider: {fileID: 4110223976019668138}
 --- !u!114 &4371129922679798385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9137,6 +9138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundType: 1
+  volumeSlider: {fileID: 8546829863714147294}
 --- !u!114 &3534635202063700107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10018,10 +10020,10 @@ MonoBehaviour:
       - m_Target: {fileID: 2282855988941386558}
         m_TargetAssemblyTypeName: CursedOnion.Game.Settings.VolumeController, Assembly-CSharp
         m_MethodName: SetVolume
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 8546829863714147294}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10987,10 +10989,10 @@ MonoBehaviour:
       - m_Target: {fileID: 2144429648247425115}
         m_TargetAssemblyTypeName: CursedOnion.Game.Settings.VolumeController, Assembly-CSharp
         m_MethodName: SetVolume
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 4110223976019668138}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14526,7 +14528,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.0001
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 0
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 932447581240962011}
   m_VerticalScrollbar: {fileID: 0}

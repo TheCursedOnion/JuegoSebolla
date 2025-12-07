@@ -6,6 +6,7 @@ using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
 using Fungus;
 using Reflex.Attributes;
+using Reflex.Core;
 using Reflex.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,55 +17,28 @@ namespace CursedOnion.Game.Dialog
 {
     public class DialogController : MonoBehaviour
     {
-        [Inject] RuntimeVariableLocator variableLocator;
-        [Inject] PauseService pauseService;
-        
+        RuntimeVariableLocator variableLocator;
+        PauseService pauseService;
         LevelManager levelManager;
         LevelEvents levelEvents;
         
         public Flowchart Flowchart;
-        public string StartingDialogBlockName;
-        public string EndDialogBlockName;
 
         [Header("Extras")]
         [SerializeField] private Text nameText;
         [SerializeField] private CanvasGroup mainCanvasGroup;
         [SerializeField] CanvasGroup background;
-        
-        [Header("DialogData")]
-        [SerializeField] int dialogId = -1;
-        public void Start()
+
+        private int processedDialogID;
+        public void Initialize()
         {
-            if (dialogId >= 0 && variableLocator.LastDialogCompleted >= dialogId) return;
-            
             var container = gameObject.scene.GetSceneContainer();
-            if (container.HasBinding<LevelManager>())
-            {
-                levelManager = container.Resolve<LevelManager>();
-                levelEvents = levelManager.LevelEvents;
-                levelEvents.OnLevelStateChange += TryPlayEndDialog;
-
-                if (!string.IsNullOrEmpty(StartingDialogBlockName) && levelManager.CurrentLevelState == LevelState.InDialog)
-                {
-                    PlayDialog(StartingDialogBlockName);
-                    return;
-                }
-            }
-            else
-            {
-                if(!string.IsNullOrEmpty(StartingDialogBlockName))
-                    PlayDialog(StartingDialogBlockName);
-            }
+            variableLocator = container.Resolve<RuntimeVariableLocator>();
+            pauseService = container.Resolve<PauseService>();
+            Debug.Log(pauseService != null);
+            
+            DontDestroyOnLoad(gameObject);
         }
-
-        void OnDestroy()
-        {
-            if (levelEvents != null)
-            {
-                levelEvents.OnLevelStateChange -= TryPlayEndDialog;
-            }
-        }
-
         #region Special Functions
         public void SetDialogCanvasAlpha(float alpha, float time)
         {
@@ -90,15 +64,22 @@ namespace CursedOnion.Game.Dialog
         #endregion
         
         #region PlayDialog
-        void TryPlayEndDialog(LevelState _, LevelState newState)
+        public bool PlayDialog(DialogBlock dialogBlock, Container sceneContainer)
         {
-            if(newState == LevelState.Finished) PlayDialog(EndDialogBlockName);
-        }
-        public void PlayDialog(string blockName)
-        {
+            if (dialogBlock.ID >= 0 && variableLocator.LastDialogCompleted >= dialogBlock.ID || !Flowchart.HasBlock(dialogBlock.Name)) return false;
+            
+            processedDialogID = dialogBlock.ID;
+            
+            if (sceneContainer.HasBinding<LevelManager>())
+            {
+                levelManager = sceneContainer.Resolve<LevelManager>();
+                levelEvents = levelManager.LevelEvents;
+            }
+            
             pauseService.Pause(PauseLevel.Dialog);
-            Flowchart.ExecuteBlock(blockName);
+            Flowchart.ExecuteBlock(dialogBlock.Name);
             RequestPlayMusic(MusicType.Dialog);
+            return true;
         }
         #endregion
 
@@ -118,22 +99,22 @@ namespace CursedOnion.Game.Dialog
         }
         void UnpauseGameFromDialog()
         {
+            Debug.Log("Unpausing game from dialog");
             pauseService.Unpause(PauseLevel.Dialog);
         }
         void CallLevelIntro()
         {
-            levelEvents.CallIntro();
+            levelEvents?.CallIntro();
         }
 
         void CallLevelResults()
         {
-            levelManager.TrySetNewState(LevelState.InResults);
+            levelManager?.TrySetNewState(LevelState.InResults);
         }
         void SaveDialogId()
         {
-            if (dialogId < 0) return;
-            
-            variableLocator?.SetLastDialogCompleted(dialogId);
+            if (processedDialogID < 0) return;
+            variableLocator?.SetLastDialogCompleted(processedDialogID);
         }
         #endregion
     }

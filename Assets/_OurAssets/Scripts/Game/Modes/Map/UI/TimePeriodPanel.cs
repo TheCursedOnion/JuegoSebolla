@@ -15,7 +15,7 @@ namespace CursedOnion.Game.Modes.Map.UI
             int lastCompletedWorld = (variableLocator.LastCompletedLevel + 1) / 4;
             for (int i = 0; i < timePeriodButtons.Length; i++)
             {
-                timePeriodButtons[i].SetInteractive(i <= lastCompletedWorld);
+                timePeriodButtons[i].SetInteractive(i <= lastCompletedWorld && timePeriodButtons[i].Interactable);
             }
         }
     }

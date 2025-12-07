@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using CursedOnion.Locators;
 using NaughtyAttributes;
 using Reflex.Attributes;
@@ -24,7 +25,11 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
             MaterialInstance.SetColor(FadeColor, TransitionData.Color);
             
             yield return AnimateFade(halfDuration, alphaRange.x, alphaRange.y);
-            TransitionData.MidPointAction?.Invoke();
+            if (TransitionData.MidPointAction != null)
+            {
+                var task = TransitionData.MidPointAction.Invoke();
+                yield return new WaitUntil(()=> task.IsCompleted);
+            }
             
             yield return new WaitForSecondsRealtime(TransitionData.InBetweenTime);
             
@@ -39,7 +44,12 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
             {
                 MaterialInstance.SetColor(FadeColor, TransitionData.Color);
                 yield return AnimateFade(duration, alphaRange.x, alphaRange.y);
-                TransitionData.MidPointAction?.Invoke();
+                
+                if (TransitionData.MidPointAction != null)
+                {
+                    var task = TransitionData.MidPointAction.Invoke();
+                    yield return new WaitUntil(()=> task.IsCompleted);
+                }
             }
             else
             {

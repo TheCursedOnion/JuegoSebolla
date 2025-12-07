@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CursedOnion.Game.Modes.General.UI.Transitions
@@ -10,11 +11,11 @@ namespace CursedOnion.Game.Modes.General.UI.Transitions
         public float InBetweenTime;
         public TransitionType Type;
         public Color Color;
-        public Action MidPointAction;
+        public Func<Task> MidPointAction;
         public Action EndPointAction;
         public UITransitionData() {}
 
-        public UITransitionData(float duration, float inBetweenTime, TransitionType type, Color color, Action midPointAction, Action endPointAction)
+        public UITransitionData(float duration, float inBetweenTime, TransitionType type, Color color, Func<Task> midPointAction, Action endPointAction)
         {
             Duration = duration;
             InBetweenTime = inBetweenTime;
