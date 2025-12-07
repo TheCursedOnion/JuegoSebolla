@@ -56,60 +56,63 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         {
             var layout = turnIconContainer.GetComponent<LayoutGroup>();
             if (layout) layout.enabled = false;
-            
-            ClearIcons();
-            AddIcons(mergedUnits);
-            
+
+            UpdateIcons(mergedUnits);
+
             AnalyzeTurnOrderSeparators(mergedUnits);
-            
+
             modifiedLayout = true;
-            
+
             if (layout) layout.enabled = true;
             LayoutRebuilder.ForceRebuildLayoutImmediate(turnIconContainer as RectTransform);
         }
-        void ClearIcons()
+        void UpdateIcons(List<Unit> mergedUnits)
         {
-            foreach (var icon in visualizedIcons)
-                iconPool.Release(icon);
-            visualizedIcons.Clear();
-        }
-        void AddIcons(List<Unit> mergedUnits)
-        {
-            for (int i = 0; i < mergedUnits.Count; i++)
+            int needed = mergedUnits.Count;
+            
+            while (visualizedIcons.Count > needed)
+            {
+                var extra = visualizedIcons[visualizedIcons.Count - 1];
+                visualizedIcons.RemoveAt(visualizedIcons.Count - 1);
+                iconPool.Release(extra);
+            }
+            
+            while (visualizedIcons.Count < needed)
             {
                 var icon = iconPool.Get();
+                icon.transform.SetParent(turnIconContainer, false);
+                visualizedIcons.Add(icon);
+            }
+            
+            for (int i = 0; i < needed; i++)
+            {
+                var icon = visualizedIcons[i];
                 Unit unit = mergedUnits[i];
+
                 icon.AssignUnit(unit);
                 icon.EnableCanRequestScroll(false);
                 icon.transform.SetSiblingIndex(i);
-                visualizedIcons.Add(icon);
             }
         }
         
         void AnalyzeTurnOrderSeparators(List<Unit> mergedUnits)
         {
-            ClearSeparators();
-
-            if (mergedUnits.Count <= 1) return;
-
-            List<int> separatorPositions = new List<int>();
-            InsertSeparatorPositions(separatorPositions, mergedUnits);
-
-            List<int> realIndices = PlaceSeparators(separatorPositions);
-
+            if (mergedUnits.Count <= 1)
+            {
+                EnsureSeparatorCount(0);
+                return;
+            }
+            
+            List<int> separatorPositions = ComputeSeparatorPositions(mergedUnits);
+            EnsureSeparatorCount(separatorPositions.Count);
+            
+            List<int> realIndices = PlaceExistingSeparators(separatorPositions);
             SetScrollRequests(realIndices);
         }
-
-        void ClearSeparators()
+        List<int> ComputeSeparatorPositions(List<Unit> mergedUnits)
         {
-            foreach (var separator in separators)
-                separatorPool.Release(separator);
+            List<int> positions = new List<int>();
 
-            separators.Clear();
-        }
-
-        void InsertSeparatorPositions(List<int> separatorPositions, List<Unit> mergedUnits)
-        {
             Unit previous = mergedUnits[0];
 
             for (int i = 1; i < mergedUnits.Count; i++)
@@ -120,26 +123,42 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
                 bool initChanged = current.Stats.InitiativeStat != previous.Stats.InitiativeStat;
 
                 if (sideChanged || initChanged)
-                    separatorPositions.Add(i);
+                    positions.Add(i);
 
                 previous = current;
             }
-        }
 
-        List<int> PlaceSeparators(List<int> separatorPositions)
+            return positions;
+        }
+        void EnsureSeparatorCount(int needed)
+        {
+            while (separators.Count > needed)
+            {
+                var sep = separators[separators.Count - 1];
+                separators.RemoveAt(separators.Count - 1);
+                separatorPool.Release(sep);
+            }
+
+            while (separators.Count < needed)
+            {
+                var sep = separatorPool.Get();
+                sep.transform.SetParent(turnIconContainer, false);
+                separators.Add(sep);
+            }
+        }
+        List<int> PlaceExistingSeparators(List<int> separatorPositions)
         {
             List<int> realIndices = new List<int>();
             int offset = 0;
 
-            foreach (int pos in separatorPositions)
+            for (int i = 0; i < separatorPositions.Count; i++)
             {
+                int pos = separatorPositions[i];
                 int siblingIndex = pos + offset;
 
-                var sep = separatorPool.Get();
-                sep.transform.SetParent(turnIconContainer, false);
+                var sep = separators[i];
                 sep.transform.SetSiblingIndex(siblingIndex);
 
-                separators.Add(sep);
                 realIndices.Add(siblingIndex);
 
                 offset++;
@@ -150,6 +169,7 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
 
         void SetScrollRequests(List<int> realIndices)
         {
+            turnIconContainer.GetChild(0)?.GetComponent<TurnIcon>()?.EnableCanRequestScroll(true);
             foreach (int sepIndex in realIndices)
             {
                 int iconIndex = sepIndex + 1;

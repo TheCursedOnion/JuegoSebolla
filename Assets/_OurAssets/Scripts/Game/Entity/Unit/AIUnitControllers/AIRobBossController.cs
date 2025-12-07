@@ -49,6 +49,15 @@ namespace CursedOnion.Game.Entity
                 unit.Stats.MovementStat
             );
 
+            for (int i = robReachableTiles.Count - 1; i >= 0; i--)
+            {
+                if (!grid.TryGetTileAtGridPosition(robReachableTiles[i], out Tile3d tile))
+                    continue;
+
+                if (tile.GetContainedEntity() != null)   // tile ocupada
+                    robReachableTiles.RemoveAt(i);
+            }
+
             grid.TryWorldToGridPosition(unit.transform.position, out Vector3 currentGridPos);
             robReachableTiles.Add(currentGridPos);
 

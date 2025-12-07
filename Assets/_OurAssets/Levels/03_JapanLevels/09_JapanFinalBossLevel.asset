@@ -18,13 +18,13 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 1ccbb11bcd6124fa0b94749849912a75, type: 2}
   - {fileID: 2100000, guid: f63378bd7ea874f02bd76736af87e180, type: 2}
   LevelData:
-    timePeriod: 0
-    startingGold: 1000
+    timePeriod: 2
+    startingGold: 5700
     startingState: 0
-    levelHasEndDialog: 0
-    LevelIndex: 0
-    CorrespondingMapSceneName: 
-    LevelBaseKey: 
+    levelHasEndDialog: 1
+    LevelIndex: 8
+    CorrespondingMapSceneName: JapanMap
+    LevelBaseKey: level9
   Grid:
     mesh: {fileID: 4300000, guid: e9ab4fc198f6f1c41906703ebdb566f0, type: 2}
     startingOffset: {x: 0, y: 0, z: 0}
@@ -107030,15 +107030,15 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 1
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 0
+      eulerYRotation: 180
     - descriptor:
         Cost: 0
         DisplayOffset: {x: 0, y: 0, z: 0}

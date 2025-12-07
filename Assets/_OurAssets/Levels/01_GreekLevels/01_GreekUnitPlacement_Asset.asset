@@ -16,7 +16,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 93b75a62111954d858a680d57486ae57, type: 2}
   LevelData:
     timePeriod: 0
-    startingGold: 1500
+    startingGold: 15000
     startingState: 0
     levelHasEndDialog: 1
     LevelIndex: 0
@@ -24,7 +24,7 @@ MonoBehaviour:
     LevelBaseKey: level1
   Grid:
     mesh: {fileID: 4300000, guid: 075c2bb05f700f14bb3d4e679e2362e5, type: 2}
-    startingOffset: {x: 0, y: 0, z: 0}
+    startingOffset: {x: -9, y: 0, z: 0}
     origin: {x: -13, y: 0, z: -5}
     size: {x: 9, y: 2, z: 11}
     tiles:
@@ -2825,7 +2825,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
@@ -2841,7 +2841,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 1
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 270
     - descriptor:
@@ -2857,7 +2857,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 1
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 270
     - descriptor:
@@ -2873,7 +2873,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 1
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 270
     - descriptor:
@@ -2985,7 +2985,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 1
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 270
     - descriptor:
@@ -3001,7 +3001,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 1
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 270
     - descriptor:
@@ -3017,7 +3017,7 @@ MonoBehaviour:
         CanUnitsSpawnHere: 1
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
+      blockedEntryDirections: -1
       containedEntity: {fileID: 0}
       eulerYRotation: 270
     - descriptor:

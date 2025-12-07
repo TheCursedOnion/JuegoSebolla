@@ -25,9 +25,9 @@ namespace CursedOnion.Game.Systems.Level.Goal
 
         protected virtual void OnDefeat()
         {
-            LevelState nextState = LevelManager.LevelAsset.LevelData.LevelHasEndDialog ? LevelState.Finished : LevelState.InResults;
-            if (!LevelManager.TrySetNewState(nextState)) return;
+            if (!LevelManager.TrySetNewState(LevelState.InResults)) return;
             
+            VariableLocator.MusicPlayer.StopMusic();
             LevelEvents.InvokeLevelCompleted(false);
         }
 
