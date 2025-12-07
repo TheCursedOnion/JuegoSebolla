@@ -41,14 +41,14 @@ namespace CursedOnion.Game.Systems.Level
         public void Initialize(LevelEvents levelEvents)
         {
             this.levelEvents = levelEvents;
-            levelEvents.OnLevelStateChange += TryToBegin;
+            levelEvents.OnLevelStateChange += ProcessState;
             levelEvents.OnUnitTurnRegisterPetition += AddUnit;
             levelEvents.OnUnitTurnUnregisterPetition += RemoveUnit;
         }
         
         private void OnDisable()
         {
-            levelEvents.OnLevelStateChange -= TryToBegin;
+            levelEvents.OnLevelStateChange -= ProcessState;
             levelEvents.OnUnitTurnRegisterPetition -= AddUnit;
             levelEvents.OnUnitTurnUnregisterPetition -= RemoveUnit;
             foreach (var unit in activeUnits.ToList())
@@ -94,9 +94,16 @@ namespace CursedOnion.Game.Systems.Level
             }
         }
         
-        void TryToBegin(LevelState previousState, LevelState newState)
+        void ProcessState(LevelState previousState, LevelState newState)
         {
-            if(newState == LevelState.InBattle) BeginBattle();
+            switch (newState)
+            {
+                case LevelState.InBattle: BeginBattle(); break;
+                
+                case LevelState.Finished:
+                case LevelState.InResults:
+                    battleStarted = false; break;
+            }
         }
         public void BeginBattle()
         {
@@ -125,6 +132,8 @@ namespace CursedOnion.Game.Systems.Level
         }
         void ResetInitiative()
         {
+            if(!battleStarted) return;
+            
             Debug.Log("======== NUEVA RONDA EMPIEZA ========");
             levelEvents.PassRound();
             
@@ -134,6 +143,8 @@ namespace CursedOnion.Game.Systems.Level
         }
         void ProcessTurn()
         {
+            if(!battleStarted) return;
+            
             bool isAllyTurn = isNextAllyTurn;
             Debug.Log($"-- Iniciativa actual: {currentInitiative} | Para aliados? {isAllyTurn} --");
             
@@ -174,7 +185,7 @@ namespace CursedOnion.Game.Systems.Level
             activeUnits.Clear();
             activeUnits.AddRange(groupList);
 
-            
+            levelEvents.UpdateMergedUnitList(mergedUnits);
             
             foreach (var unit in activeUnits)
             {
