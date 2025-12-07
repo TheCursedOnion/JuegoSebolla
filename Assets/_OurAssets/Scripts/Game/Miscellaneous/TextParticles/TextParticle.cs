@@ -44,7 +44,6 @@ namespace CursedOnion.Game.Miscellaneous
         void OnDisable()
         {
             CancelAnimation();
-            if (this != null && gameObject != null) manager.ReturnParticle(gameObject);
         }
 
         void CancelAnimation()

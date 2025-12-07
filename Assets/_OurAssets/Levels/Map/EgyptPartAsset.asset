@@ -21,12 +21,12 @@ MonoBehaviour:
     startingState: 0
     levelHasEndDialog: 0
     LevelIndex: 0
-    CorrespondingMapSceneName: 
+    CorrespondingMapSceneName: MenuScene
     LevelBaseKey: 
   Grid:
     mesh: {fileID: 4300000, guid: 06186d1060f2f174392b351e03eca96a, type: 2}
     startingOffset: {x: 0, y: 0, z: 0}
-    origin: {x: 9, y: 0, z: -54}
+    origin: {x: -10, y: 0, z: -13}
     size: {x: 21, y: 2, z: 26}
     tiles:
     - descriptor:
@@ -2804,166 +2804,6 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -2975,182 +2815,6 @@ MonoBehaviour:
       eulerYRotation: 0
     - descriptor:
         Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 1
         IsStairBlock: 0
@@ -3308,7 +2972,23 @@ MonoBehaviour:
       transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 90
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -3444,22 +3124,6 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
         AllowedExitDirections: 51
         AllowedEntryDirections: 51
       attributes:
@@ -3518,21 +3182,21 @@ MonoBehaviour:
       containedEntity: {fileID: 0}
       eulerYRotation: 90
     - descriptor:
-        Cost: 2
+        Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 1
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 0
+      eulerYRotation: 90
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -3780,15 +3444,15 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 90
+      eulerYRotation: 0
     - descriptor:
         Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -3844,6 +3508,38 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
         AllowedExitDirections: 0
         AllowedEntryDirections: 0
       attributes:
@@ -3853,6 +3549,310 @@ MonoBehaviour:
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
       eulerYRotation: 90
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 90
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 90
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 90
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4110,21 +4110,21 @@ MonoBehaviour:
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
-        Cost: 1
+        Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 1
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 90
+      eulerYRotation: 0
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4132,15 +4132,15 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 90
+      eulerYRotation: 0
     - descriptor:
         Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -4191,54 +4191,6 @@ MonoBehaviour:
       eulerYRotation: 90
     - descriptor:
         Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 1
         IsStairBlock: 0
@@ -4302,22 +4254,6 @@ MonoBehaviour:
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 0
@@ -4378,230 +4314,6 @@ MonoBehaviour:
         CanUnitsSpawnHere: 0
       transformedExitDirections: 51
       transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 0
-        IsStairBlock: 0
-        IsFluidBlock: 1
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
       eulerYRotation: 90
@@ -4750,34 +4462,18 @@ MonoBehaviour:
       containedEntity: {fileID: 0}
       eulerYRotation: 0
     - descriptor:
-        Cost: 2
+        Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 1
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
       eulerYRotation: 0
@@ -4796,9 +4492,41 @@ MonoBehaviour:
       transformedEntryDirections: 0
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
       eulerYRotation: 90
     - descriptor:
-        Cost: 2
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 90
+    - descriptor:
+        Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 1
         IsStairBlock: 0
@@ -4864,38 +4592,6 @@ MonoBehaviour:
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 1
-        DisplayOffset: {x: 0, y: 0, z: 0}
         IsFullBlock: 0
         IsStairBlock: 0
         IsFluidBlock: 1
@@ -4909,38 +4605,6 @@ MonoBehaviour:
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
       eulerYRotation: 90
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
-    - descriptor:
-        Cost: 2
-        DisplayOffset: {x: 0, y: 0, z: 0}
-        IsFullBlock: 1
-        IsStairBlock: 0
-        IsFluidBlock: 0
-        IsAirBlock: 0
-        AllowedExitDirections: 51
-        AllowedEntryDirections: 51
-      attributes:
-        CanUnitsSpawnHere: 0
-      transformedExitDirections: 51
-      transformedEntryDirections: 51
-      blockedEntryDirections: 0
-      containedEntity: {fileID: 0}
-      eulerYRotation: 0
     - descriptor:
         Cost: 1
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5148,7 +4812,343 @@ MonoBehaviour:
       transformedEntryDirections: 0
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
       eulerYRotation: 90
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 90
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 0
+        IsStairBlock: 0
+        IsFluidBlock: 1
+        IsAirBlock: 0
+        AllowedExitDirections: 0
+        AllowedEntryDirections: 0
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 0
+      transformedEntryDirections: 0
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 90
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 2
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
+    - descriptor:
+        Cost: 1
+        DisplayOffset: {x: 0, y: 0, z: 0}
+        IsFullBlock: 1
+        IsStairBlock: 0
+        IsFluidBlock: 0
+        IsAirBlock: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
+      attributes:
+        CanUnitsSpawnHere: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
+      blockedEntryDirections: 0
+      containedEntity: {fileID: 0}
+      eulerYRotation: 0
     - descriptor:
         Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
@@ -5204,15 +5204,15 @@ MonoBehaviour:
         IsStairBlock: 0
         IsFluidBlock: 0
         IsAirBlock: 0
-        AllowedExitDirections: 0
-        AllowedEntryDirections: 0
+        AllowedExitDirections: 51
+        AllowedEntryDirections: 51
       attributes:
         CanUnitsSpawnHere: 0
-      transformedExitDirections: 0
-      transformedEntryDirections: 0
+      transformedExitDirections: 51
+      transformedEntryDirections: 51
       blockedEntryDirections: 0
       containedEntity: {fileID: 0}
-      eulerYRotation: 90
+      eulerYRotation: 0
     - descriptor:
         Cost: 2
         DisplayOffset: {x: 0, y: 0, z: 0}
