@@ -19,7 +19,6 @@ namespace CursedOnion.Locators
 
         [System.NonSerialized] public AutoCloudSave AutoCloudSave;
         [System.NonSerialized] public GlobalCamera GlobalCamera;
-        [System.NonSerialized] public MusicPlayer MusicPlayer;
         [System.NonSerialized] DialogController dialogController;
         
         public GameObject DialogControllerPrefab;

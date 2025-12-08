@@ -1,4 +1,5 @@
-﻿using CursedOnion.Extensions;
+﻿using Ami.BroAudio;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Logic.Services.Pause;
@@ -21,6 +22,7 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         
         [Inject] LevelManager levelManager;
         [Inject] RuntimeVariableLocator variableLocator;
+        [Inject] AudioGallery audioGallery;
         
         [SerializeField] private float endFadeDelay = 1f;
         [SerializeField] float fadeTime = 0.5f;
@@ -38,6 +40,8 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         [SerializeField, BoxGroup(SettingsContainer)] private CanvasGroup settingsGroup;
         
         [SerializeField, BoxGroup(ResultsContainer)] private CanvasGroup resultsGroup;
+
+        [SerializeField] private SoundID[] levelMusicIDs;
         
         bool hasDoneIntro = false;
         
@@ -108,18 +112,13 @@ namespace CursedOnion.Game.General.UI.Canvases.Level
         {
             switch (newState)
             {
-                case LevelState.InDialog:
-                case LevelState.InBattleEditor: EnableScreen(battleEditorScreen);
-                    if (variableLocator !=  null && variableLocator.MusicPlayer)
-                    {
-                        switch (levelManager.LevelAsset.LevelData.TimePeriod)
-                        {
-                            case LevelTimePeriod.Greece: variableLocator.MusicPlayer.RequestMusic(MusicType.GreeceGameplay); break;
-                            case LevelTimePeriod.Egypt: variableLocator.MusicPlayer.RequestMusic(MusicType.EgyptGameplay); break;
-                            case LevelTimePeriod.Japan: variableLocator.MusicPlayer.RequestMusic(MusicType.JapanGameplay); break;
-                        }
-                    }
+                case LevelState.InDialog: break;
+                
+                case LevelState.InBattleEditor:
+                    EnableScreen(battleEditorScreen);
+                    audioGallery?.PlayMusic(levelMusicIDs[(int)levelManager.LevelAsset.LevelData.TimePeriod]);
                     break;
+                
                 case LevelState.InBattle: EnableScreen(battleScreen); break;
                 case LevelState.Finished: DisableAllGroups(); break;
                 case LevelState.InResults: EnableOnlyGroup(resultsGroup, endFadeDelay); break;

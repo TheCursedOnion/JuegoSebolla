@@ -11,12 +11,17 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
     public class EntityInspector : MonoBehaviour
     {
         [SerializeField] private Image background;
+        [SerializeField] private Color allyColor;
+        [SerializeField] private Color enemyColor;
+        [SerializeField] private Color neutralColor;
+        
         [SerializeField] private GameObject statDataContainer;
         
         [HorizontalLine(height: 2f, color: EColor.Orange)]
         [SerializeField] private Image spritePreview;
         [SerializeField] private LocalizedGUIText entityName;
         
+        [HorizontalLine(height: 2f, color: EColor.Orange)]
         [SerializeField] private StatLine hp;
         [SerializeField] private StatLine attack;
         [SerializeField] private StatLine defense;
@@ -75,10 +80,17 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             background.color = color;
         }
 
+        void SetBackgroundColor(Color color)
+        {
+            Color c = background.color;
+            color.a = c.a;
+            background.color = color;
+        }
         public void UpdateStatData(StatData data)
         {
             EnableInspector(true);
-
+            SetBackgroundColor(neutralColor);
+            
             spritePreview.sprite = data.InspectorSprite;
             entityName.SetKey(data.EntityNameKey);
             
@@ -106,6 +118,15 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             }
             
             EnableInspector(true);
+
+            Color backgroundColor = entity.GetSide() switch
+            {
+                BattleSide.Ally => allyColor,
+                BattleSide.Enemy => enemyColor,
+                _ => neutralColor
+            };
+            SetBackgroundColor(backgroundColor);
+            
             RegisterForEntityUpdate(entity);
             
             var data = entity.StatData;

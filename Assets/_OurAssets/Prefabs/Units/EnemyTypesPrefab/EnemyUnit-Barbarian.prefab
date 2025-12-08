@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5822104237064508139}
   - component: {fileID: 4542617281454377000}
   - component: {fileID: 5316620915710197611}
+  - component: {fileID: -855579059519483080}
   m_Layer: 0
   m_Name: EnemyUnit-Barbarian
   m_TagString: Untagged
@@ -87,6 +88,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: -855579059519483080}
+      _MemberName: PlayHurtSound
+      _PersistentArguments: []
   OnDeath:
     _PersistentCalls:
     - _Target: {fileID: 5316620915710197611}
@@ -100,6 +104,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: -855579059519483080}
+      _MemberName: PlayDeathSound
+      _PersistentArguments: []
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -116,9 +123,11 @@ MonoBehaviour:
   StatData: {fileID: 11400000, guid: a8e6c55ad5bf7a749b6bfee5078e4b85, type: 2}
   IsBreakable: 0
   HasTurn: 0
+  BeingInspected: 0
   EntitySide: 1
   EntityController: {fileID: 0}
   LayeredEntity: {fileID: 0}
+  AudioInvoker: {fileID: 0}
   PlacedManually: 0
   IsBoss: 0
   cameraFocus: {fileID: 0}
@@ -249,6 +258,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c256bd5dc87befb4da1e58aad7eaab46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-855579059519483080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882082664728815107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e51ede799654288a479a683e7ade77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healID:
+    ID: 1073741843
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 882082664728815107, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
+  buffID:
+    ID: 1073741842
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 882082664728815107, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
+  hurtID:
+    ID: 1073741844
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 882082664728815107, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
+  deathID:
+    ID: 1073741846
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 882082664728815107, guid: 26ee6324daf453b4087baa6ba2f2afaa, type: 3}
 --- !u!1 &1207409992202940343
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,9 +5,9 @@ namespace CursedOnion.Game.Audio
 {
     public class MusicClient : MonoBehaviour
     {
-        [Inject] public MusicPlayer MusicPlayer { get; set; }
+        [Inject] public AudioGallery AudioGallery;
         
-        [SerializeField] private MusicType musicType;
-        void Start() => MusicPlayer?.RequestMusic(musicType);
+        [SerializeField] private string musicAtStart;
+        void Start() => AudioGallery?.PlayMusic(musicAtStart);
     }
 }

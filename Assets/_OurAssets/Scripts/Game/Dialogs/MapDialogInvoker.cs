@@ -1,26 +1,20 @@
-﻿using CursedOnion.Game.Audio;
-using CursedOnion.Locators;
-using Reflex.Attributes;
+﻿using Ami.BroAudio;
+using CursedOnion.Game.Audio;
 using Reflex.Extensions;
 using UnityEngine;
 
 namespace CursedOnion.Game.Dialog
 {
-    public class MapDialogInvoker : MonoBehaviour
+    public class MapDialogInvoker : DialogInvoker
     {
-        [Inject] RuntimeVariableLocator variableLocator;
         public DialogBlock StartingDialogBlock;
+        [SerializeField] SoundID mapMusic;
         public void Start()
         {
-            var dialogController = variableLocator.GetDialogController();
-
-
-            bool dialogPlayed = false;
-            if (StartingDialogBlock != null && !string.IsNullOrEmpty(StartingDialogBlock.Name))
+            if (!RequestDialog(StartingDialogBlock))
             {
-               dialogPlayed = dialogController.PlayDialog(StartingDialogBlock, gameObject.scene.GetSceneContainer());
+                AudioGallery.PlayMusic(mapMusic);
             }
-            if(!dialogPlayed) variableLocator.MusicPlayer.RequestMusic(MusicType.Map);
         }
     }
 }

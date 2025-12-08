@@ -57,6 +57,7 @@ namespace CursedOnion.Game.Inputs.Camera
             zoomComponent.SetActive(false);
         }
         
+        public CameraControlFlag GetCurrentMode() => cameraControlFlag;
         public void Pause(PauseLevel pauseLevel)
         {
             isPaused = true;

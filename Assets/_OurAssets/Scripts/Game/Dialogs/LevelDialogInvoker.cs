@@ -8,9 +8,8 @@ using UnityEngine;
 
 namespace CursedOnion.Game.Dialog
 {
-    public class LevelDialogInvoker : MonoBehaviour
+    public class LevelDialogInvoker : DialogInvoker
     {
-        [Inject] RuntimeVariableLocator variableLocator;
         [Inject] LevelEvents levelEvents;
         
         public DialogBlock StartingDialogBlock;
@@ -20,10 +19,7 @@ namespace CursedOnion.Game.Dialog
         public void Start()
         {
             levelEvents.OnLevelStateChange += TryPlayEndDialog;
-            dialogController = variableLocator.GetDialogController();
-            
-            if(StartingDialogBlock != null && !string.IsNullOrEmpty(StartingDialogBlock.Name))
-                dialogController.PlayDialog(StartingDialogBlock, gameObject.scene.GetSceneContainer());
+            RequestDialog(StartingDialogBlock);
         }
 
         private void OnDestroy()
@@ -33,7 +29,7 @@ namespace CursedOnion.Game.Dialog
 
         void TryPlayEndDialog(LevelState _, LevelState newState)
         {
-            if(newState == LevelState.Finished) dialogController?.PlayDialog(EndDialogBlock, gameObject.scene.GetSceneContainer());
+            if (newState == LevelState.Finished) RequestDialog(EndDialogBlock);
         }
     }
 }

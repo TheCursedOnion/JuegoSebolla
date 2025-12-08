@@ -1,4 +1,5 @@
 ﻿using System;
+using CursedOnion.Game.Audio;
 using CursedOnion.Locators;
 using Reflex.Attributes;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace CursedOnion.Game.Systems.Level.Goal
     public abstract class LevelGoal : MonoBehaviour
     {
         [Inject] protected RuntimeVariableLocator VariableLocator;
+        [Inject] protected AudioGallery AudioGallery;
         [Inject] protected LevelEvents LevelEvents;
         [Inject] protected LevelManager LevelManager;
         protected abstract void OnEnable();
@@ -19,6 +21,8 @@ namespace CursedOnion.Game.Systems.Level.Goal
             LevelState nextState = LevelManager.LevelAsset.LevelData.LevelHasEndDialog ? LevelState.Finished : LevelState.InResults;
             if (!LevelManager.TrySetNewState(nextState)) return;
             
+            if(nextState != LevelState.Finished) AudioGallery.StopAllMusic();
+            
             LevelEvents.InvokeLevelCompleted(true);
             VariableLocator.SetCompletedLevel(LevelManager.LevelAsset.LevelData.LevelIndex);
         }
@@ -27,7 +31,7 @@ namespace CursedOnion.Game.Systems.Level.Goal
         {
             if (!LevelManager.TrySetNewState(LevelState.InResults)) return;
             
-            VariableLocator.MusicPlayer.StopMusic();
+            AudioGallery.StopAllMusic();
             LevelEvents.InvokeLevelCompleted(false);
         }
 

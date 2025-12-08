@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 653661522655242142}
   - component: {fileID: 3636434301551944517}
   - component: {fileID: 4216485635461426766}
+  - component: {fileID: 1299509460484620368}
   m_Layer: 0
   m_Name: EgyptWall
   m_TagString: Untagged
@@ -83,6 +84,9 @@ MonoBehaviour:
         _Z: 0
         _W: 0
         _Object: {fileID: 0}
+    - _Target: {fileID: 1299509460484620368}
+      _MemberName: PlayDeathSound
+      _PersistentArguments: []
   Stats:
     CurrentHealthStat: 0
     MaxHealthStat: 0
@@ -99,6 +103,7 @@ MonoBehaviour:
   StatData: {fileID: 11400000, guid: 94ea152b21c75a84caf2ccbc741578d4, type: 2}
   IsBreakable: 1
   HasTurn: 0
+  BeingInspected: 0
   EntitySide: -1
   EntityController: {fileID: 3636434301551944517}
   LayeredEntity: {fileID: 0}
@@ -139,6 +144,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c256bd5dc87befb4da1e58aad7eaab46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1299509460484620368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720763556161844995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e51ede799654288a479a683e7ade77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hurtID:
+    ID: 0
+    _sourceAsset: {fileID: 0}
+    <DebugObject>k__BackingField: {fileID: 7720763556161844995}
+  deathID:
+    ID: 1073741846
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 7720763556161844995}
 --- !u!1001 &1801063763262740585
 PrefabInstance:
   m_ObjectHideFlags: 0

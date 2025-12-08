@@ -1,4 +1,5 @@
-﻿using CursedOnion.Extensions;
+﻿using Ami.BroAudio;
+using CursedOnion.Extensions;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Logic.Services.Pause;
 using CursedOnion.Locators;
@@ -14,6 +15,8 @@ namespace CursedOnion.Game.General.UI.Canvases
         const string MapContainer = "Map Container Variables";
         
         [Inject] RuntimeVariableLocator variableLocator;
+        [Inject] AudioGallery audioGallery;
+        [SerializeField] private SoundID musicToPlay;
         
         [SerializeField] float fadeTime = 0.5f;
         [SerializeField, BoxGroup(SettingsContainer)] private CanvasGroup settingsGroup;
@@ -47,7 +50,7 @@ namespace CursedOnion.Game.General.UI.Canvases
         public void Unpause()
         {
             EnableOnlyGroup(mapGroup);
-            variableLocator.MusicPlayer.RequestMusic(MusicType.Map);
+            audioGallery.PlayMusic(musicToPlay);
         }
         #endregion
     }

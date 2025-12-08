@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using Ami.BroAudio;
 using CursedOnion.Game.Audio;
 using CursedOnion.Game.Logic.Services;
+using CursedOnion.Game.Settings;
 using CursedOnion.Game.Systems.Level;
 using CursedOnion.Locators;
 using Fungus;
@@ -18,12 +20,17 @@ namespace CursedOnion.Game.Dialog
     public class DialogController : MonoBehaviour
     {
         RuntimeVariableLocator variableLocator;
+        AudioGallery audioGallery;
+        GameSettings gameSettings;
         PauseService pauseService;
         LevelManager levelManager;
         LevelEvents levelEvents;
         
         public Flowchart Flowchart;
 
+        [Header("Dialog Music")]
+        [SerializeField] private SoundID dialogMusic;
+        
         [Header("Extras")]
         [SerializeField] private Text nameText;
         [SerializeField] private CanvasGroup mainCanvasGroup;
@@ -34,7 +41,10 @@ namespace CursedOnion.Game.Dialog
         {
             var container = gameObject.scene.GetSceneContainer();
             variableLocator = container.Resolve<RuntimeVariableLocator>();
+            gameSettings = container.Resolve<GameSettings>();
             pauseService = container.Resolve<PauseService>();
+            audioGallery = container.Resolve<AudioGallery>();
+            
             Debug.Log(pauseService != null);
             
             DontDestroyOnLoad(gameObject);
@@ -53,20 +63,21 @@ namespace CursedOnion.Game.Dialog
         #endregion
         
         #region MusicFunctions
-        public void RequestPlayMusic(MusicType musicType)
+        public void RequestPlayMusic(SoundID music)
         {
-            variableLocator.MusicPlayer.RequestMusic(musicType);
+            audioGallery.PlayMusic(music);
         }
         public void RequestStopMusic()
         {
-            variableLocator.MusicPlayer.StopMusic();
+            audioGallery.StopAllMusic();
         }
         #endregion
         
         #region PlayDialog
         public bool PlayDialog(DialogBlock dialogBlock, Container sceneContainer)
         {
-            if (dialogBlock.ID >= 0 && variableLocator.LastDialogCompleted >= dialogBlock.ID || !Flowchart.HasBlock(dialogBlock.Name)) return false;
+            string blockName = dialogBlock.Name + GetLanguageTermination();
+            if (dialogBlock.ID >= 0 && variableLocator.LastDialogCompleted >= dialogBlock.ID || !Flowchart.HasBlock(blockName)) return false;
             
             processedDialogID = dialogBlock.ID;
             
@@ -77,9 +88,18 @@ namespace CursedOnion.Game.Dialog
             }
             
             pauseService.Pause(PauseLevel.Dialog);
-            Flowchart.ExecuteBlock(dialogBlock.Name);
-            RequestPlayMusic(MusicType.Dialog);
+            Flowchart.ExecuteBlock(blockName);
+            RequestPlayMusic(dialogMusic);
             return true;
+        }
+        private string GetLanguageTermination()
+        {
+            var language = gameSettings?.LanguageSettings.GetCurrentLanguage();
+            return language switch
+            {
+                LanguageSetting.Language.Spanish => "",
+                _ => "_en"
+            };
         }
         #endregion
 

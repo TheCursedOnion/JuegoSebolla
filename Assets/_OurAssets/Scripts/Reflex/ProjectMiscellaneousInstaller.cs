@@ -1,3 +1,4 @@
+using CursedOnion.Game.Audio;
 using CursedOnion.Game.Commands;
 using CursedOnion.Game.Events;
 using CursedOnion.Game.Inputs;
@@ -13,8 +14,13 @@ namespace CursedOnion.Installers
     public class ProjectMiscellaneousInstaller : MonoBehaviour, IInstaller
     {
         [SerializeField] GameObject textParticlePrefab;
+        
         [Expandable, SerializeField] ParticleManager particleManager;
+        
+        [Expandable, SerializeField] AudioGallery audioGallery;
+        
         [Expandable, SerializeField] InputReaderCollection inputReaderCollection;
+        
         [Expandable, SerializeField] GameSettings gameSettings;
         public void InstallBindings(ContainerBuilder containerBuilder)
         {
@@ -28,6 +34,9 @@ namespace CursedOnion.Installers
             
             particleManager.Initialize();
             containerBuilder.AddSingleton(particleManager, typeof(ParticleManager));
+            
+            audioGallery.Initialize();
+            containerBuilder.AddSingleton(audioGallery, typeof(AudioGallery));
             
             containerBuilder.AddSingleton(new CommandManager(), typeof(CommandManager));
             

@@ -3024,6 +3024,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79871036bb494b219dd5d04653eea0ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  musicToPlay:
+    ID: 268435460
+    _sourceAsset: {fileID: 11400000, guid: 3f5fe2a766c24dd4c8b82bfc345d952d, type: 2}
+    <DebugObject>k__BackingField: {fileID: 2846347006663935255}
   fadeTime: 0.5
   settingsGroup: {fileID: 75886815271135587}
   mapGroup: {fileID: 6328957938521514162}
@@ -3165,7 +3169,7 @@ MonoBehaviour:
       - _Type: 5
         _Int: 0
         _String: 
-        _X: 1.75
+        _X: 1
         _Y: 0
         _Z: 0
         _W: 0
@@ -4249,6 +4253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eec9384b66ab4cfc8a4b6b6e03609b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  switchCameraModeImage: {fileID: 0}
+  rotateLeftImage: {fileID: 0}
+  rotateRightImage: {fileID: 0}
+  freeModeColor: {r: 0, g: 0, b: 0, a: 0}
+  fixedModeColor: {r: 0, g: 0, b: 0, a: 0}
+  disabledModeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &3817921444972845755
 GameObject:
   m_ObjectHideFlags: 0

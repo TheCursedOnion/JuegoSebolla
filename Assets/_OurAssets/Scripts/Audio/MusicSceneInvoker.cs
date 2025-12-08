@@ -7,11 +7,11 @@ namespace CursedOnion.Game.Audio
 {
     public class MusicSceneInvoker : MonoBehaviour
     {
-        [Inject] private RuntimeVariableLocator variableLocator;
+        [Inject] private AudioGallery audioGallery;
         [SerializeField] private SoundID musicToPlay;
         void Awake()
         {
-            variableLocator?.MusicPlayer.RequestMusic(musicToPlay);
+            audioGallery.PlayMusic(musicToPlay);
         }
     }
 }

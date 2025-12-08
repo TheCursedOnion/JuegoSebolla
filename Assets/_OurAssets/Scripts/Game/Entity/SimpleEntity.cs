@@ -4,6 +4,7 @@ using CursedOnion.Game.Systems.Level;
 using NaughtyAttributes;
 using Reflex.Attributes;
 using System;
+using CursedOnion.Game.Miscellaneous;
 using UltEvents;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -45,8 +46,13 @@ namespace CursedOnion.Game.Entity
         [Header("Visual Instance Layering")]
         [SerializeField] protected LayeredEntity LayeredEntity;
         
+        [HorizontalLine(height: 2f, color: EColor.Violet)]
+        [Header("Audio Instance Data")]
+        public EntityAudioInvoker AudioInvoker;
+        
         public ActionHandler ActionHandler;
         public StatusHandler StatusHandler;
+        
         
         protected virtual void Awake()
         {
@@ -75,6 +81,8 @@ namespace CursedOnion.Game.Entity
             }
             EntityController.Initialize(this, StatData.EntityComponents);
             EntityController.PlaceComponent.PlaceEntity();
+            
+            AudioInvoker ??= gameObject.GetComponent<EntityAudioInvoker>();
         }
 
         public void Dispose()
@@ -122,6 +130,7 @@ namespace CursedOnion.Game.Entity
         public virtual void Heal(int healedHP)
         {
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
+            AudioInvoker.PlayHealSound();
         }
         
         [Button]
