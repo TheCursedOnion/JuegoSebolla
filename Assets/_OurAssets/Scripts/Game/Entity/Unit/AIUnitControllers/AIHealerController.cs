@@ -367,6 +367,13 @@ namespace CursedOnion.Game.Entity
                 if (tile3d == null || tile3d.GetContainedEntity() != null)
                     continue;
 
+                Vector3 below = new Vector3(tile.x, tile.y - 1, tile.z);
+                if (unit.Grid.TryGetTileAtGridPosition(below, out Tile3d tileBelow))
+                {
+                    if (tileBelow.IsStairTile())
+                        continue;
+                }
+
                 float score = 0f;
 
                 foreach (var ally in allies)
@@ -375,7 +382,7 @@ namespace CursedOnion.Game.Entity
                         continue;
 
                     float dist = Vector3.Distance(tile, allyGridPos);
-                    score += Mathf.Clamp(10f / (dist + 1f), 0f, 10f) * 2f; // Cuanto más cerca, mejor
+                    score += Mathf.Clamp(10f / (dist + 1f), 0f, 10f) * 15f; // Cuanto más cerca, mejor
                 }
 
                 foreach (var enemy in enemies)
@@ -390,7 +397,7 @@ namespace CursedOnion.Game.Entity
                 int enemiesClose = enemies.Count(e =>
                 {
                     unit.Grid.TryWorldToGridPosition(e.transform.position, out Vector3 pos);
-                    return Vector3.Distance(tile, pos) < 3f;
+                    return Vector3.Distance(tile, pos) < 2f;
                 });
 
                 float danger = enemiesClose * 5f;
