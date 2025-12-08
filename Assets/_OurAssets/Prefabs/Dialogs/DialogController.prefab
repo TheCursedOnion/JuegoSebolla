@@ -3677,6 +3677,8 @@ GameObject:
   - component: {fileID: 1109515751338127970}
   - component: {fileID: 1031579461063396931}
   - component: {fileID: 5175964608931345497}
+  - component: {fileID: 816985851095145622}
+  - component: {fileID: -7021441505681547591}
   m_Layer: 0
   m_Name: DialogController
   m_TagString: Untagged
@@ -3733,21 +3735,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 582.82526, y: 473.17352}
+  scrollPos: {x: 1347.2687, y: 409.66528}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 585
-  zoom: 0.6298713
+  zoom: 0.5040093
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks:
-  - {fileID: 6401075282200509524}
-  selectedCommands:
-  - {fileID: 8153508626241428217}
+  selectedBlocks: []
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -5362,7 +5362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: -643.3852
+    x: -641.4011
     y: -123.93796
     width: 154.56
     height: 40
@@ -11912,6 +11912,7 @@ MonoBehaviour:
   - {fileID: 7397107223220884663}
   - {fileID: 3748686800315488095}
   - {fileID: 5843750883802129843}
+  - {fileID: 816985851095145622}
   - {fileID: 3286293968336421663}
   - {fileID: 3200981099115573787}
   - {fileID: 213318653882436629}
@@ -12516,8 +12517,7 @@ MonoBehaviour:
   itemId: 1719
   indentLevel: 0
   storyText: "Si la mayor biblioteca y su reina m\xE1s c\xE9lebre nunca llegan a
-    existir en el recuerdo colectivo,  tambi\xE9n se apagar\xE1 la chispa que ha
-    encendido tantos ideales que han dado pie a tantas rebeliones."
+    existir en el recuerdo colectivo..."
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -46049,8 +46049,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 862.6061
-    y: -8.07767
+    x: 867.3692
+    y: 25.262472
     width: 176.66
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -46117,6 +46117,7 @@ MonoBehaviour:
   - {fileID: 251895647676427200}
   - {fileID: 3438213291033741466}
   - {fileID: 7373250178695699097}
+  - {fileID: -7021441505681547591}
   - {fileID: 8500125586097292819}
   - {fileID: 2880907455738164901}
   - {fileID: 8872695107930610969}
@@ -47712,7 +47713,7 @@ MonoBehaviour:
   itemId: 2492
   indentLevel: 0
   storyText: "If the greatest library and its most celebrated queen disappear from
-    people\u2019s minds, so will the spark that fuels so many rebellions."
+    people\u2019s minds..."
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -66485,6 +66486,61 @@ MonoBehaviour:
     stringVal: 
   startIndex: 0
   callMode: 0
+--- !u!114 &816985851095145622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051141804734565333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 3154
+  indentLevel: 0
+  storyText: "Tambi\xE9n se apagar\xE1 la chispa que ha encendido tantos ideales
+    que han dado pie a tantas rebeliones."
+  description: 
+  character: {fileID: 0}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}
+--- !u!114 &-7021441505681547591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051141804734565333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 3155
+  indentLevel: 0
+  storyText: So will the spark that fuels so many rebellions.
+  description: 
+  character: {fileID: 0}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}
 --- !u!1 &6101889491955785473
 GameObject:
   m_ObjectHideFlags: 0
