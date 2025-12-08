@@ -120,6 +120,7 @@ namespace CursedOnion.Game.Entity.Components
             if (AssignedEntity.TryGetLayeredEntity(out var layeredEntity))
                 layeredEntity.PlayAnimation("idle");
             
+            placeComponent = AssignedController.GetEntityComponent<PlaceEntityComponent>();
             placeComponent.PlaceEntity();
         }
     }

@@ -62,6 +62,7 @@ namespace CursedOnion.Game.Entity
             var attackBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, damageMultiplier);
             unit.StatusHandler.AddEffect(attackBoost);
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
         }
 
         public override string ToString() => " x " + damageMultiplier;
@@ -89,6 +90,7 @@ namespace CursedOnion.Game.Entity
             var healthBoost = EntityEffectFactory.CreateEffect<HealthBoostEffect>(-1, additionalHPFactor);
             unit.StatusHandler.AddEffect(healthBoost);
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
         }
         
         public override string ToString() => " + " + additionalHPFactor;
@@ -137,6 +139,8 @@ namespace CursedOnion.Game.Entity
             if (target != null)
             {
                 unit.AudioInvoker.PlayBuffSound();
+                unit.ParticleComponent.PlayParticle("Buff");
+                
                 Debug.Log("Activando habilidad de Barbarian: Eliminando unidad neutral");
                 if (target.IsBreakable) target.Dispose();
             }
@@ -165,6 +169,7 @@ namespace CursedOnion.Game.Entity
             var moveBoost = EntityEffectFactory.CreateEffect<MovementBoostEffect>(-1, movementBonus);
             unit.StatusHandler.AddEffect(moveBoost);
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
         }
         public override string ToString() => " + " + movementBonus;
 
@@ -227,6 +232,7 @@ namespace CursedOnion.Game.Entity
             }
 
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
             
             direction = new Vector3(
                 Mathf.Clamp(direction.x, -1, 1),
@@ -270,6 +276,8 @@ namespace CursedOnion.Game.Entity
             var attackBoost = EntityEffectFactory.CreateEffect<AttackBoostEffect>(-1, damageMultiplier);
             target.StatusHandler.AddEffect(attackBoost);
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
+            
         }
 
         public override string ToString() => " x " + damageMultiplier;
@@ -284,6 +292,8 @@ namespace CursedOnion.Game.Entity
             if (target == null) return;
             
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
+            
             target.DamageFrom(explosionDamage, unit);
             
             Debug.Log($"{target.name} recibió {explosionDamage} puntos de daño por la habilidad de Rob (Ha explotado el loco)");
@@ -297,6 +307,8 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             unit.AudioInvoker.PlayBuffSound();
+            unit.ParticleComponent.PlayParticle("Buff");
+            
             Debug.Log($"Jeanne haciendo su habilidad...");
         }
 

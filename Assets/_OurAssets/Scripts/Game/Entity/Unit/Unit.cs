@@ -1,3 +1,4 @@
+using System;
 using CursedOnion.Extensions;
 using CursedOnion.Game.Cameras;
 using CursedOnion.Game.Modes.General.Animations;
@@ -122,6 +123,18 @@ namespace CursedOnion.Game.Entity
         }
 
         #region Damage
+        public override void Heal(int healedHP)
+        {
+            int newHealth = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
+            int healedAmount = newHealth - Stats.CurrentHealthStat;
+            Stats.CurrentHealthStat = newHealth;
+            AudioInvoker?.PlayHealSound();
+
+            float healDelay = 0.75f;
+            
+            if(healedAmount > 0) talkComponent.Talk("+"+healedAmount, healDelay);
+            ParticleComponent.PlayParticleWithDelay("Heal", healDelay);
+        }
         public override void DamageFrom(int damage, SimpleEntity attacker)
         {
             LayeredEntity?.PlayAnimation("hurt");

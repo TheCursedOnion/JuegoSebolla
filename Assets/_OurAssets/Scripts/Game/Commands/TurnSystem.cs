@@ -36,8 +36,12 @@ namespace CursedOnion.Game.Systems.Level
         bool isNextAllyTurn = true;
         bool battleStarted = false;
         bool CanContinue() => allies.Count > 0 && enemies.Count > 0;
-        
 
+
+        public (bool, int) GetCurrentTurnInformation()
+        {
+            return (isNextAllyTurn, currentInitiative);
+        }
         public void Initialize(LevelEvents levelEvents)
         {
             this.levelEvents = levelEvents;

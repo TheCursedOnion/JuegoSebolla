@@ -11,6 +11,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
     public class EntityInspector : MonoBehaviour
     {
         [SerializeField] private Image background;
+        [SerializeField] private Image effectsBackground;
         [SerializeField] private Color allyColor;
         [SerializeField] private Color enemyColor;
         [SerializeField] private Color neutralColor;
@@ -77,7 +78,9 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             statDataContainer.SetActive(enable);
             Color color = background.color;
             color.a = enable ? 0.8f : 0.3f;
+            
             background.color = color;
+            effectsBackground.color = color;
         }
 
         void SetBackgroundColor(Color color)
@@ -85,6 +88,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             Color c = background.color;
             color.a = c.a;
             background.color = color;
+            effectsBackground.color = color;
         }
         public void UpdateStatData(StatData data)
         {

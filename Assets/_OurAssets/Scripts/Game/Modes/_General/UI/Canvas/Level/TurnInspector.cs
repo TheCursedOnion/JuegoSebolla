@@ -25,9 +25,11 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         readonly List<GameObject> separators = new();
         
         bool modifiedLayout = false;
+        LevelManager levelManager;
         LevelEvents levelEvents;
         public void Initialize(LevelManager levelManager)
         {
+            this.levelManager = levelManager;
             levelEvents = levelManager.LevelEvents;
             levelEvents.OnMergedUnitListUpdated += ProcessMergedList;
             
@@ -48,7 +50,7 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
         TurnIcon CreateIcon()
         {
            var icon = Instantiate(turnIconPrefab, turnIconContainer).GetComponent<TurnIcon>();
-           icon.Initialize(levelEvents, this);
+           icon.Initialize(levelManager, this);
            return icon;
         }
         
@@ -63,6 +65,11 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
 
             modifiedLayout = true;
 
+            foreach (var icon in visualizedIcons)
+            {
+                icon.ResetHighlight();
+            }
+            
             if (layout) layout.enabled = true;
             LayoutRebuilder.ForceRebuildLayoutImmediate(turnIconContainer as RectTransform);
         }

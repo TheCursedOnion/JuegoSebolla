@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Runtime.InteropServices.ComTypes;
 using CursedOnion.Extensions;
 using Reflex.Attributes;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CursedOnion.Game.Miscellaneous
@@ -21,6 +24,16 @@ namespace CursedOnion.Game.Miscellaneous
         {
             particleManager.SpawnParticleAt(particleType, transformPoint.position);
         }
-        
+
+        public void PlayParticleWithDelay(string particleType, float delay)
+        {
+            StartCoroutine(IEInvokeParticleDelayed(particleType, delay));
+        }
+
+        IEnumerator IEInvokeParticleDelayed(string particleType, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            PlayParticle(particleType);
+        }
     }
 }

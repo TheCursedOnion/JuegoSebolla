@@ -47,8 +47,9 @@ namespace CursedOnion.Game.Entity
         [SerializeField] protected LayeredEntity LayeredEntity;
         
         [HorizontalLine(height: 2f, color: EColor.Violet)]
-        [Header("Audio Instance Data")]
+        [Header("Component Data")]
         public EntityAudioInvoker AudioInvoker;
+        public ParticleComponent ParticleComponent;
         
         public ActionHandler ActionHandler;
         public StatusHandler StatusHandler;
@@ -83,6 +84,7 @@ namespace CursedOnion.Game.Entity
             EntityController.PlaceComponent.PlaceEntity();
             
             AudioInvoker ??= gameObject.GetComponent<EntityAudioInvoker>();
+            ParticleComponent ??= gameObject.GetComponent<ParticleComponent>();
         }
 
         public void Dispose()
@@ -130,7 +132,8 @@ namespace CursedOnion.Game.Entity
         public virtual void Heal(int healedHP)
         {
             Stats.CurrentHealthStat = Math.Min(Stats.CurrentHealthStat + healedHP, Stats.MaxHealthStat);
-            AudioInvoker.PlayHealSound();
+            AudioInvoker?.PlayHealSound();
+            ParticleComponent.PlayParticleWithDelay("Heal", 0.75f);
         }
         
         [Button]

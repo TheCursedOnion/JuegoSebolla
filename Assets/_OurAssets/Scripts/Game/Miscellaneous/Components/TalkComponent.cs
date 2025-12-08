@@ -4,6 +4,7 @@ using CursedOnion.Extensions;
 using CursedOnion.Locators;
 using Reflex.Attributes;
 using Reflex.Core;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CursedOnion.Game.Miscellaneous
@@ -32,10 +33,25 @@ namespace CursedOnion.Game.Miscellaneous
             var spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
             textParticleManager?.SpawnTextAt(text, spawnPos);
         }
+
+        public void Talk(string text, float delay)
+        {
+            StartCoroutine(TalkWithDelay(delay, () => Talk(text)));
+        }
         public void TalkWithKey(string key)
         {
             var spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
             textParticleManager?.SpawnKeyTextAt(key, spawnPos);
+        }
+        public void TalkWithKey(string key, float delay)
+        {
+            StartCoroutine(TalkWithDelay(delay, () => TalkWithKey(key)));
+        }
+
+        private IEnumerator TalkWithDelay(float delay, Action callback)
+        {
+            yield return new WaitForSeconds(delay);
+            callback?.Invoke();
         }
         private IEnumerator RandomTalkRoutine()
         {
