@@ -10,7 +10,8 @@ namespace CursedOnion.Game.Inputs.Camera
     [System.Serializable]
     public class DragComponent
     {
-        [SerializeField] private float dragSpeed = 0.1f;
+        [SerializeField] private float dragSpeedPc = 0.1f;
+        [SerializeField] private float dragSpeedMobile = 0.03f;
         [SerializeField] private float damping = 10f;
 
         private Vector3 dragOrigin;
@@ -73,7 +74,7 @@ namespace CursedOnion.Game.Inputs.Camera
                 Vector3 delta = Input.mousePosition - dragOrigin;
                 dragOrigin = Input.mousePosition;
 
-                DragCamera(delta);
+                DragCamera(delta, dragSpeedPc);
             }
         }
         
@@ -113,10 +114,10 @@ namespace CursedOnion.Game.Inputs.Camera
                 Vector3 delta = (Vector3)(touch.position - dragOrigin2D);
                 dragOrigin = touch.position;
 
-                DragCamera(delta);
+                DragCamera(delta, dragSpeedMobile);
             }
         }
-        void DragCamera(Vector3 delta)
+        void DragCamera(Vector3 delta, float dragSpeed)
         {
             Vector3 move = new Vector3(-delta.x, 0, -delta.y) * dragSpeed;
             
