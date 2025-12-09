@@ -111,7 +111,7 @@ namespace CursedOnion.Game.Entity
 
         public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
-            if (target is Unit targetUnit)
+            if (target is Unit targetUnit && targetUnit.GetSide() != unit.GetSide())
             {
                 Debug.Log("Activando habilidad de Thief: Aplicando confusión al objetivo");
                 int finalDuration = targetUnit.GetSide() == BattleSide.Ally? confusionDuration : -1;
