@@ -87,10 +87,10 @@ namespace CursedOnion.Game.Modes.Level.Battle.UI
 
             Color color = inactiveColor;
 
-            var turnInfo = turnSystem.GetCurrentTurnInformation();
-            BattleSide side = turnInfo.Item1 ? BattleSide.Enemy : BattleSide.Ally;
+            //var turnInfo = turnSystem.GetCurrentTurnInformation();
+            //BattleSide side = turnInfo.Item1 ? BattleSide.Enemy : BattleSide.Ally;
             
-            if(unit.GetSide() == side && turnInfo.Item2 == unit.Stats.InitiativeStat)
+            if(turnSystem.IsUnitActive(unit))
                 color = unit.GetSide() == BattleSide.Ally ? allyHighlightColor : enemyHighlightColor;
             
             SetImageColor(interior, color);

@@ -76,8 +76,18 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         void EnableInspector(bool enable)
         {
             statDataContainer.SetActive(enable);
-            Color color = background.color;
-            color.a = enable ? 0.8f : 0.3f;
+            
+            Color color;
+            if (enable)
+            {
+                color = background.color;
+                color.a = 0.8f;
+            }
+            else
+            {
+                color = neutralColor;
+                color.a = 0.3f;
+            }
             
             background.color = color;
             effectsBackground.color = color;

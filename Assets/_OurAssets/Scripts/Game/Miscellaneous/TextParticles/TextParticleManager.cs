@@ -48,7 +48,7 @@ namespace CursedOnion.Game.Miscellaneous
             return p;
         }
 
-        public void SpawnTextAt(string text, Vector3 position)
+        public void SpawnTextAt(string text, Vector3 position, Color? color = null)
         {
             var particle = GetValidParticle();
             if (particle == null) return;
@@ -56,10 +56,11 @@ namespace CursedOnion.Game.Miscellaneous
             particle.transform.position = position;
             var tp = particle.GetComponent<TextParticle>();
             tp.SetText(text);
+            tp.SetColor(color ?? Color.white);
             tp.PlayAnimation();
         }
 
-        public void SpawnKeyTextAt(string key, Vector3 position)
+        public void SpawnKeyTextAt(string key, Vector3 position, Color? color = null)
         {
             var particle = GetValidParticle();
             if (particle == null) return;
@@ -67,6 +68,7 @@ namespace CursedOnion.Game.Miscellaneous
             particle.transform.position = position;
             var tp = particle.GetComponent<TextParticle>();
             tp.SetKey(key);
+            tp.SetColor(color ?? Color.white);
             tp.PlayAnimation();
         }
     }

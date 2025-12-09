@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using Unity.Cinemachine;
 using UnityEngine;
 using Debug = System.Diagnostics.Debug;
@@ -14,7 +15,8 @@ namespace CursedOnion.Game.Miscellaneous
     [CreateAssetMenu(fileName = "TalkData", menuName = "Game/Entity/TalkData")]
     public class TalkData : ScriptableObject
     {
-        [SerializeField, MinMaxRangeSlider(5f, 100f)] private Vector2 talkInterval;
+        [SerializeField] public bool HasRandomInterval;
+        [SerializeField, ShowIf("HasRandomInterval"), MinMaxRangeSlider(5f, 100f)] private Vector2 talkInterval;
         [SerializeField] private List<TalkEntry> talkEntries;
         
         public float GetNewRandomInterval() => Random.Range(talkInterval.x, talkInterval.y);

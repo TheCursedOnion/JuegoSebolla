@@ -26,12 +26,12 @@ namespace CursedOnion.Game.Entity
         [ReadOnly] public bool PlacedManually = false;
         public bool IsBoss;
         [SerializeField, ReadOnly] CameraFocus cameraFocus;
-        [SerializeField] GameObject unitUI;
+        [SerializeField] GameObject[] unitUIs;
         
 
         
         RuntimeVariableLocator locator;
-        TalkComponent talkComponent;
+        [HideInInspector] public TalkComponent TalkComponent;
         
         protected override void Awake()
         {
@@ -85,21 +85,24 @@ namespace CursedOnion.Game.Entity
             base.SetComponents();
             cameraFocus ??= gameObject.GetOrAddComponent<CameraFocus>();
 
-            talkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
-            talkComponent.Initialize(StatData.TalkData);
+            TalkComponent ??= gameObject.GetOrAddComponent<TalkComponent>();
+            TalkComponent.Initialize(StatData.TalkData);
 
         }
         void AfterSpawn()
         {
-            if (unitUI != null) unitUI.SetActive(false);
+            if (unitUIs != null)
+            {
+                foreach (var ui in unitUIs) ui.SetActive(true);
+            }
             
             InitializeAnimations();
             transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
             
-            if(PlacedManually) talkComponent?.Talk("I am here!");
+            if(PlacedManually) TalkComponent?.RandomTalk();
         }
 
-        public GameObject GetUI() => unitUI;
+        public GameObject GetUI() => unitUIs[(int)LevelManager.LevelAsset.LevelData.TimePeriod];
         public bool TryErasingUnit()
         {
             bool canBeErased = PlacedManually && EntitySide == BattleSide.Ally && LevelManager != null;
@@ -132,7 +135,7 @@ namespace CursedOnion.Game.Entity
 
             float healDelay = 0.75f;
             
-            if(healedAmount > 0) talkComponent.Talk("+"+healedAmount, healDelay);
+            if(healedAmount > 0) TalkComponent.Talk("+"+healedAmount, healDelay, new Color(0.2f, 1f, 0.2f));
             ParticleComponent.PlayParticleWithDelay("Heal", healDelay);
         }
         public override void DamageFrom(int damage, SimpleEntity attacker)
@@ -140,7 +143,7 @@ namespace CursedOnion.Game.Entity
             LayeredEntity?.PlayAnimation("hurt");
             
             Debug.Log($"{name} has taken {damage} damage from {attacker.name}");
-            talkComponent?.Talk(damage.ToString());
+            TalkComponent?.Talk(damage.ToString());
             
             base.DamageFrom(damage, attacker);
 

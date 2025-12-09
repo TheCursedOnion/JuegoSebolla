@@ -41,8 +41,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
     [RequireComponent(typeof(LocalizedGUIText))]
     public class StatLine : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI improvedText;
-        [SerializeField] private TextMeshProUGUI statName;
+        [SerializeField] private Image improvedIcon;
         [SerializeField] private TextMeshProUGUI valueText;
         [SerializeField] private TextMeshProUGUI extraText;
         
@@ -55,7 +54,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
             slider.gameObject.SetActive(usesSlider);
             valueText.gameObject.SetActive(!usesSlider);
             extraText.text = "";
-            improvedText.text = "";
+            improvedIcon.gameObject.SetActive(false);
         }
 
         public void SetValue(StatLineParameters parameters)
@@ -66,7 +65,7 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
                     slider.gameObject.SetActive(true);
                     valueText.gameObject.SetActive(false);
                     
-                    improvedText.text = parameters.ImprovedStat ? "*" : "";
+                    improvedIcon.gameObject.SetActive(parameters.ImprovedStat);
                     slider.value = (float)parameters.Range.x / parameters.Range.y;
                     
                     float secondaryValue = (float)parameters.SecondaryRange.x / parameters.SecondaryRange.y;
@@ -80,8 +79,9 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
                     valueText.gameObject.SetActive(true);
                     
                     //improvedText.text = parameters.ImprovedStat ? "*" : "";
+                    
                     valueText.text = parameters.Text;
-                    statName.GetComponent<TextMeshEffects>().Underline(parameters.ImprovedStat);
+                    improvedIcon.gameObject.SetActive(parameters.ImprovedStat);
                     extraText.text = "";
                     break;
 

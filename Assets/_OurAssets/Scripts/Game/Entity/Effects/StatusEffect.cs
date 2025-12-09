@@ -59,6 +59,7 @@ namespace CursedOnion.Game.Entity.Effects
             if (status.AssignedEntity.TryGetLayeredEntity(out var layered))
             {
                 layered.PlayAnimation("dizzy");
+                status.AssignedEntity.ParticleComponent.PlayParticle("Confusion");
             }
             RaiseStart();
         }

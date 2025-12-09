@@ -23,25 +23,31 @@ namespace CursedOnion.Game.Miscellaneous
             
             talkData = data;
             
-            if (talkData != null)
+            if (talkData != null && talkData.HasRandomInterval)
                 StartCoroutine(RandomTalkRoutine());
         }
         void OnDestroy() => StopAllCoroutines();
         
-        public void Talk(string text)
+        public void Talk(string text, Color? color = null)
         {
             var spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
-            textParticleManager?.SpawnTextAt(text, spawnPos);
+            textParticleManager?.SpawnTextAt(text, spawnPos, color);
         }
 
-        public void Talk(string text, float delay)
+        public void RandomTalk()
         {
-            StartCoroutine(TalkWithDelay(delay, () => Talk(text)));
+            if (talkData == null || !talkData.TryGetWeightedRandomTalkKey(out string key) || gameObject.IsNull(this)) return;
+            if(string.IsNullOrEmpty(key)) return;
+            TalkWithKey(key);
         }
-        public void TalkWithKey(string key)
+        public void Talk(string text, float delay, Color? color = null)
+        {
+            StartCoroutine(TalkWithDelay(delay, () => Talk(text, color)));
+        }
+        public void TalkWithKey(string key, Color? color = null)
         {
             var spawnPos = transform.position - locator.GlobalCamera.GetForward() * 0.2f;
-            textParticleManager?.SpawnKeyTextAt(key, spawnPos);
+            textParticleManager?.SpawnKeyTextAt(key, spawnPos, color);
         }
         public void TalkWithKey(string key, float delay)
         {
@@ -59,9 +65,7 @@ namespace CursedOnion.Game.Miscellaneous
             {
                 yield return new WaitForSeconds(talkData.GetNewRandomInterval());
 
-                if (!talkData.TryGetWeightedRandomTalkKey(out string key) || gameObject.IsNull(this)) continue;
-
-                TalkWithKey(key);
+                RandomTalk();
             }
         }
     }

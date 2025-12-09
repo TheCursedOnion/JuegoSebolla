@@ -277,7 +277,7 @@ namespace CursedOnion.Game.Entity
             target.StatusHandler.AddEffect(attackBoost);
             unit.AudioInvoker.PlayBuffSound();
             unit.ParticleComponent.PlayParticle("Buff");
-            
+            unit.TalkComponent?.RandomTalk();
         }
 
         public override string ToString() => " x " + damageMultiplier;
@@ -292,8 +292,7 @@ namespace CursedOnion.Game.Entity
             if (target == null) return;
             
             unit.AudioInvoker.PlayBuffSound();
-            unit.ParticleComponent.PlayParticle("Buff");
-            
+            unit.TalkComponent?.RandomTalk();
             target.DamageFrom(explosionDamage, unit);
             
             Debug.Log($"{target.name} recibió {explosionDamage} puntos de daño por la habilidad de Rob (Ha explotado el loco)");
@@ -307,7 +306,7 @@ namespace CursedOnion.Game.Entity
         public override void ActivateAbility(Unit unit, SimpleEntity target = null)
         {
             unit.AudioInvoker.PlayBuffSound();
-            unit.ParticleComponent.PlayParticle("Buff");
+            unit.ParticleComponent.PlayParticle("Death");
             
             Debug.Log($"Jeanne haciendo su habilidad...");
         }

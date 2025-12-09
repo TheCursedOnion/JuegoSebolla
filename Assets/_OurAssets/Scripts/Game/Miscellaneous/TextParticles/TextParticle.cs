@@ -26,7 +26,7 @@ namespace CursedOnion.Game.Miscellaneous
         
         LTSeq sequence;
         TextParticleManager manager;
-        
+        bool isCancelled = false;
         public void Initialize(TextParticleManager manager)
         {
             this.manager = manager;
@@ -40,7 +40,11 @@ namespace CursedOnion.Game.Miscellaneous
         {
             localizedText.SetText(text);
         }
-        
+        public void SetColor(Color color)
+        {
+            textMesh.color = color;
+        }
+
         void OnDisable()
         {
             CancelAnimation();
@@ -48,6 +52,7 @@ namespace CursedOnion.Game.Miscellaneous
 
         void CancelAnimation()
         {
+            isCancelled = true;
             LeanTween.cancel(gameObject);
             LeanTween.cancel(textMesh.gameObject);
         }
@@ -56,6 +61,7 @@ namespace CursedOnion.Game.Miscellaneous
             if (this == null || gameObject == null) return;
             
             CancelAnimation();
+            isCancelled = false;
             
             Color color = textMesh.color;
             color.a = 0;
@@ -102,7 +108,7 @@ namespace CursedOnion.Game.Miscellaneous
             
             sequence.append(() =>
             {
-                if (this != null && gameObject != null)
+                if (!isCancelled && this != null && gameObject != null)
                     manager.ReturnParticle(gameObject);
             });
         }

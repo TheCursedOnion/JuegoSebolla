@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2b21ad82074ef49c8a9e4f567468a7, type: 3}
+  m_Name: RobBossTalk
+  m_EditorClassIdentifier: 
+  HasRandomInterval: 0
+  talkInterval: {x: 20, y: 50}
+  talkEntries:
+  - Weight: 1
+    TalkKey: talk_special2
+  - Weight: 3
+    TalkKey: 
