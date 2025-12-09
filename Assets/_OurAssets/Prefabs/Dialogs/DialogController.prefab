@@ -3679,6 +3679,7 @@ GameObject:
   - component: {fileID: 5175964608931345497}
   - component: {fileID: 816985851095145622}
   - component: {fileID: -7021441505681547591}
+  - component: {fileID: 8511143575597076488}
   m_Layer: 0
   m_Name: DialogController
   m_TagString: Untagged
@@ -3735,19 +3736,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  scrollPos: {x: 1347.2687, y: 409.66528}
+  scrollPos: {x: 459.3303, y: 300.0437}
   variablesScrollPos: {x: 0, y: 0}
   variablesExpanded: 1
   blockViewHeight: 433
-  zoom: 0.5040093
+  zoom: 0.4690209
   scrollViewRect:
     serializedVersion: 2
     x: -343
     y: -340
     width: 1114
     height: 859
-  selectedBlocks: []
-  selectedCommands: []
+  selectedBlocks:
+  - {fileID: 6804408219321861904}
+  selectedCommands:
+  - {fileID: 3160250383400820074}
   variables: []
   description: 
   stepPause: 0
@@ -5363,7 +5366,7 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: -641.4011
-    y: -123.93796
+    y: -121.953865
     width: 154.56
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -5391,6 +5394,7 @@ MonoBehaviour:
   - {fileID: 4061445706265702750}
   - {fileID: 540815951493052632}
   - {fileID: 5169174478546865534}
+  - {fileID: 8511143575597076488}
   - {fileID: 5160549861236432010}
   - {fileID: 8784348256733256612}
   - {fileID: 2882727768314878503}
@@ -5903,9 +5907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1504
   indentLevel: 0
-  storyText: "Abajo tienes una barra con el listado de tropas disponibles. Te las
-    pongo yo, no vaya a ser que destroces a\xFAn m\xE1s la historia y acabes metiendo
-    un dron militar en plena Edad de Piedra.\n"
+  storyText: Abajo tienes una barra con el listado de tropas disponibles.
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -12461,8 +12463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1717
   indentLevel: 0
-  storyText: "Robespierre, el Cronos ha informado: Salvatore ya no est\xE1 en este
-    ciclo."
+  storyText: "Robespierre, Cronos ha informado: Salvatore ya no est\xE1 en este ciclo."
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
@@ -66529,6 +66530,34 @@ MonoBehaviour:
   itemId: 3155
   indentLevel: 0
   storyText: So will the spark that fuels so many rebellions.
+  description: 
+  character: {fileID: 0}
+  portrait: {fileID: 0}
+  voiceOverClip: {fileID: 0}
+  showAlways: 1
+  showCount: 1
+  extendPrevious: 0
+  fadeWhenDone: 1
+  waitForClick: 1
+  stopVoiceover: 1
+  waitForVO: 0
+  setSayDialog: {fileID: 0}
+--- !u!114 &8511143575597076488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6051141804734565333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec422cd568a9c4a31ad7c36d0572b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 3156
+  indentLevel: 0
+  storyText: "Te las pongo yo, no vaya a ser que destroces a\xFAn m\xE1s la historia
+    y acabes metiendo un dron militar en plena Edad de Piedra.\n"
   description: 
   character: {fileID: 0}
   portrait: {fileID: 0}
