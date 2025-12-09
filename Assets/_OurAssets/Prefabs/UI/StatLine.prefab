@@ -296,7 +296,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6375973979403347106}
   - component: {fileID: 8624552400658871022}
-  - component: {fileID: 8573257658453253810}
   - component: {fileID: 5003253203008340759}
   m_Layer: 3
   m_Name: StatLine
@@ -338,23 +337,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1864758472794010771}
   m_CullTransparentMesh: 1
---- !u!114 &8573257658453253810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1864758472794010771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d592d4e227cbb644a8cbe6ed6b178bd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useMultipleKeys: 0
-  key: unit_stat_hp
-  keys: []
-  useKeyIndex: 0
-  textMesh: {fileID: 0}
 --- !u!114 &5003253203008340759
 MonoBehaviour:
   m_ObjectHideFlags: 0

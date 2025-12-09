@@ -37,8 +37,6 @@ namespace CursedOnion.Game.Modes.Level.BattleEditor.UI
         public static StatLineParameters Extra(string text, bool improved = false)
             => new(Mode.Extra,improved, text, default, default);
     }
-    
-    [RequireComponent(typeof(LocalizedGUIText))]
     public class StatLine : MonoBehaviour
     {
         [SerializeField] private Image improvedIcon;
