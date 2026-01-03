@@ -13,6 +13,7 @@ namespace CursedOnion.Game.Entity
     public class AITankController : MonoBehaviour
     {
         List<Vector3> tankReachableTiles = new();
+        List<Vector3> enemiesPositionsClose = new();
 
         AIUnitController baseAI;
 
@@ -36,15 +37,20 @@ namespace CursedOnion.Game.Entity
             LazyInit();
             var unit = baseAI.GetUnit();
             var enemies = baseAI.GetTurnSystem().GetAllyUnits();
+            enemiesPositionsClose.Clear();
 
             foreach (var enemy in enemies)
             {
                 float dist = Vector3.Distance(unit.transform.position, enemy.transform.position);
-                if (dist > unit.Stats.MovementStat && dist <= unit.Stats.MovementStat * 1.5f)
+                if (dist < 2)
                 {
-                    return true;
+                    enemiesPositionsClose.Add(enemy.transform.position);
                 }
             }
+
+            if (enemiesPositionsClose.Count > 2)
+                return true;
+
             return false;
         }
 
