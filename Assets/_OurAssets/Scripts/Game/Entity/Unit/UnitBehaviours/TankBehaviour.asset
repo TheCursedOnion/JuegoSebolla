@@ -96,7 +96,7 @@ MonoBehaviour:
       nodes:
       - name: EnemyTankFlow
         id: a955d6b7-755e-46f6-b21e-4a23a0f5a811
-        position: {x: 375, y: 0}
+        position: {x: 300, y: 0}
         node:
           rid: 6291014457700384853
         references: []
@@ -107,16 +107,16 @@ MonoBehaviour:
         - ee17a05b-dc74-4da5-aac1-55b2dfe79066
       - name: EnemyTankTurn
         id: d7c39f00-891d-454c-adc4-67125560d5b0
-        position: {x: 750, y: 200}
+        position: {x: 600, y: 200}
         node:
           rid: 6291014439572340818
         references: []
         parentIds:
         - a955d6b7-755e-46f6-b21e-4a23a0f5a811
         childIds:
+        - 062c8267-c94c-4d86-a623-81bdeef689e3
         - a3c52bc1-e08b-4c93-bd46-00e861a3039e
         - 5ab90cc4-b8d6-445c-92f2-12abd05dc18d
-        - 062c8267-c94c-4d86-a623-81bdeef689e3
         - 0a7a1aac-dc2c-486a-a4df-46bde4b6a02c
       - name: InitialWait
         id: 458c672d-50c8-49a3-acf3-8122f14deaf6
@@ -134,7 +134,7 @@ MonoBehaviour:
         childIds: []
       - name: EndWait
         id: ee17a05b-dc74-4da5-aac1-55b2dfe79066
-        position: {x: 1050, y: 200}
+        position: {x: 900, y: 200}
         node:
           rid: 6291014457700384856
         references:
@@ -148,7 +148,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyClose?
         id: a3c52bc1-e08b-4c93-bd46-00e861a3039e
-        position: {x: 150, y: 400}
+        position: {x: 300, y: 400}
         node:
           rid: 6291014683966046289
         references:
@@ -163,7 +163,7 @@ MonoBehaviour:
         - 645482ef-631c-4c56-a6c7-7ce5c4d6969b
       - name: UTILITYSelectBestEnemy
         id: a58ad87b-a8db-4fe4-b388-cda0fad3cde7
-        position: {x: 0, y: 800}
+        position: {x: 150, y: 800}
         node:
           rid: 6291014683966046298
         references:
@@ -177,7 +177,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyAttack
         id: a139720c-8322-433d-9137-0f57741a5d6e
-        position: {x: 300, y: 800}
+        position: {x: 450, y: 800}
         node:
           rid: 6291014683966046299
         references:
@@ -191,7 +191,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyInMovementRange?
         id: 5ab90cc4-b8d6-445c-92f2-12abd05dc18d
-        position: {x: 750, y: 400}
+        position: {x: 900, y: 400}
         node:
           rid: 1186077857517142097
         references:
@@ -206,7 +206,7 @@ MonoBehaviour:
         - 9f6acded-603c-40b7-93de-dc89378b1176
       - name: SelectAndMove
         id: 9f6acded-603c-40b7-93de-dc89378b1176
-        position: {x: 750, y: 600}
+        position: {x: 900, y: 600}
         node:
           rid: 1186077857517142098
         references: []
@@ -217,7 +217,7 @@ MonoBehaviour:
         - bacc5319-7ca9-41e7-8395-510cb09d9954
       - name: UTILITYSelectBestEnemy
         id: e1fa486d-4b3c-4e83-a7f8-875f93c67539
-        position: {x: 600, y: 800}
+        position: {x: 750, y: 800}
         node:
           rid: 1186077857517142099
         references:
@@ -231,7 +231,7 @@ MonoBehaviour:
         childIds: []
       - name: MoveAndAttack
         id: bacc5319-7ca9-41e7-8395-510cb09d9954
-        position: {x: 900, y: 800}
+        position: {x: 1050, y: 800}
         node:
           rid: 1186077857517142100
         references: []
@@ -244,7 +244,7 @@ MonoBehaviour:
         - 0b4be9ab-6c21-4993-a1bc-16ac6dc83047
       - name: UTILITYBestTile
         id: bd6ca655-5fdd-4bcb-a916-36e23323c365
-        position: {x: 450, y: 1000}
+        position: {x: 600, y: 1000}
         node:
           rid: 1186077857517142101
         references:
@@ -258,7 +258,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyMove
         id: 494b037d-d724-4010-a9ad-6f7d53b0afee
-        position: {x: 750, y: 1000}
+        position: {x: 900, y: 1000}
         node:
           rid: 1186077857517142102
         references:
@@ -272,7 +272,7 @@ MonoBehaviour:
         childIds: []
       - name: DelayAfterMove
         id: bbeb76cd-3f7b-4ede-94a4-61f86e1fbe76
-        position: {x: 1050, y: 1000}
+        position: {x: 1200, y: 1000}
         node:
           rid: 1186077857517142103
         references:
@@ -286,7 +286,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyMove
         id: 6600ed62-f06a-4840-9635-2d309ea39f34
-        position: {x: 1350, y: 600}
+        position: {x: 1200, y: 600}
         node:
           rid: 1186077857517142109
         references:
@@ -300,7 +300,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyAttack
         id: 0b4be9ab-6c21-4993-a1bc-16ac6dc83047
-        position: {x: 1350, y: 1000}
+        position: {x: 1500, y: 1000}
         node:
           rid: 1186077857517142116
         references:
@@ -314,7 +314,7 @@ MonoBehaviour:
         childIds: []
       - name: EnemyFar?
         id: 0a7a1aac-dc2c-486a-a4df-46bde4b6a02c
-        position: {x: 1350, y: 400}
+        position: {x: 1200, y: 400}
         node:
           rid: 1186077857517142117
         references:
@@ -329,7 +329,7 @@ MonoBehaviour:
         - 6600ed62-f06a-4840-9635-2d309ea39f34
       - name: SelectAndAttack
         id: 645482ef-631c-4c56-a6c7-7ce5c4d6969b
-        position: {x: 150, y: 600}
+        position: {x: 300, y: 600}
         node:
           rid: 6291014752520110166
         references: []
@@ -340,7 +340,7 @@ MonoBehaviour:
         - a139720c-8322-433d-9137-0f57741a5d6e
       - name: CanFortify?
         id: 062c8267-c94c-4d86-a623-81bdeef689e3
-        position: {x: 1066, y: 416}
+        position: {x: 0, y: 400}
         node:
           rid: 6291014752520110167
         references:
@@ -355,7 +355,7 @@ MonoBehaviour:
         - 22a98ee1-237c-43a4-8019-375247fb9ddb
       - name: Fortify
         id: 22a98ee1-237c-43a4-8019-375247fb9ddb
-        position: {x: 1083, y: 616}
+        position: {x: 0, y: 600}
         node:
           rid: 6291014752520110168
         references:
