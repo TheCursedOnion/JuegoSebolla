@@ -99,7 +99,7 @@ namespace CursedOnion.Game.Entity
             InitializeAnimations();
             transform.localScale = new Vector3(0.75f, 0.75f, transform.localScale.z);
             
-            if(PlacedManually) TalkComponent?.RandomTalk();
+            if(PlacedManually) TalkComponent?.RandomTalk(false);
         }
 
         public GameObject GetUI() => unitUIs[(int)LevelManager.LevelAsset.LevelData.TimePeriod];

@@ -157,7 +157,9 @@ namespace CursedOnion.Game.Entity
             foreach (var direction in CentralXZ)
             {
                 var gridPos = start + direction * range;
-                TryToInsertGridPosition(reachableGridPositions, gridPos, grid);
+                if (!grid.TryGetTileAtGridPosition(gridPos, out Tile3d targetTile)) continue;
+                
+                TryToInsertGridPosition(reachableGridPositions, gridPos, targetTile, grid);
             }
         }
 
@@ -166,7 +168,8 @@ namespace CursedOnion.Game.Entity
             Grid3d grid,
             Vector3 startGridPos,
             int distance,
-            bool fill)
+            bool fill,
+            Func<Tile3d, bool> filter = null)
         {
             reachableGridPositions.Clear();
 
@@ -181,18 +184,21 @@ namespace CursedOnion.Game.Entity
                     int manhattan = Mathf.Abs(dx) + Mathf.Abs(dz);
 
                     if (!fill && manhattan != distance) continue;
-
+                    
+                    
                     Vector3Int targetPos = new Vector3Int(start.x + dx, start.y, start.z + dz);
-                    TryToInsertGridPosition(reachableGridPositions, targetPos, grid);
+                    
+                    if (!grid.TryGetTileAtGridPosition(targetPos, out Tile3d targetTile)) continue;
+                    if (filter != null && !filter(targetTile)) continue;
+                    
+                    TryToInsertGridPosition(reachableGridPositions, targetPos, targetTile, grid);
 
                 }
             }
         }
 
-        static void TryToInsertGridPosition(List<Vector3> reachableGridPositions, Vector3Int targetPos, Grid3d grid)
+        static void TryToInsertGridPosition(List<Vector3> reachableGridPositions, Vector3Int targetPos, Tile3d targetTile, Grid3d grid)
         {
-            if (!grid.TryGetTileAtGridPosition(targetPos, out Tile3d targetTile)) return;
-
             bool isTargetFull = targetTile.IsFullTile();
             bool isTargetEmpty = targetTile.IsEmptyTile();
             bool isTargetStair = targetTile.IsStairTile();

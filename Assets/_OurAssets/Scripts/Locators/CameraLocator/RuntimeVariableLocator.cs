@@ -74,5 +74,12 @@ namespace CursedOnion.Locators
             lastInt = CloudUtils.GetValueFromQuery(loadedData, COMPLETED_LEVELS, -1);
             LastCompletedLevel = lastInt;
         }
+        
+        public void LoadDemoValues()
+        {
+            LastDialogCompleted = 100;
+            LastPlayedLevel = 100;
+            LastCompletedLevel = 100;
+        }
     }
 }

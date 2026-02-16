@@ -52,7 +52,7 @@ namespace CursedOnion.Game.Authentication
                     if (IsValidUsername(user) && IsValidPassword(pass))
                         return await LoginUser(user, pass);
 
-                    return new AuthResult { Error = -1 };
+                    break;
 
                 case AuthMode.Anonymous:
                     return await AnonymousLogin();

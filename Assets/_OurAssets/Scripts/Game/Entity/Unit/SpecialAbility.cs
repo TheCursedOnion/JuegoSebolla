@@ -35,6 +35,10 @@ namespace CursedOnion.Game.Entity
             if(grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
                 AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
         }
+        protected virtual bool FilterToInsert(Tile3d tile)
+        {
+            return true;
+        }
         
         public StatFlag GetAffectedStats() => AffectedStats;
         public override string ToString() => string.Empty;
@@ -106,7 +110,12 @@ namespace CursedOnion.Game.Entity
             var transform = subject.transform;
 
             if (grid.TryWorldToGridPosition(transform.position, out Vector3 gridPos))
-                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false);
+                AStarPathFinder.InsertManhattanAttackGridPositions(reachablePositionsList, grid, gridPos, 1, false, FilterToInsert);
+        }
+
+        protected override bool FilterToInsert(Tile3d tile)
+        {
+            return !(tile.GetContainedEntity() is Unit { IsBoss: true });
         }
 
         public override void ActivateAbility(Unit unit, SimpleEntity target = null)
@@ -277,7 +286,7 @@ namespace CursedOnion.Game.Entity
             target.StatusHandler.AddEffect(attackBoost);
             unit.AudioInvoker.PlayBuffSound();
             unit.ParticleComponent.PlayParticle("Buff");
-            unit.TalkComponent?.RandomTalk();
+            unit.TalkComponent?.RandomTalk(true);
         }
 
         public override string ToString() => " x " + damageMultiplier;
@@ -292,7 +301,7 @@ namespace CursedOnion.Game.Entity
             if (target == null) return;
             
             unit.AudioInvoker.PlayBuffSound();
-            unit.TalkComponent?.RandomTalk();
+            unit.TalkComponent?.RandomTalk(true);
             target.DamageFrom(explosionDamage, unit);
             
             Debug.Log($"{target.name} recibió {explosionDamage} puntos de daño por la habilidad de Rob (Ha explotado el loco)");

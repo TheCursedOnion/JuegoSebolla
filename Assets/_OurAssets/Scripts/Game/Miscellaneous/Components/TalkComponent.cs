@@ -6,6 +6,7 @@ using Reflex.Attributes;
 using Reflex.Core;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = System.Random;
 
 namespace CursedOnion.Game.Miscellaneous
 {
@@ -34,10 +35,17 @@ namespace CursedOnion.Game.Miscellaneous
             textParticleManager?.SpawnTextAt(text, spawnPos, color);
         }
 
-        public void RandomTalk()
+        public void RandomTalk(bool alwaysTalk)
         {
-            if (talkData == null || !talkData.TryGetWeightedRandomTalkKey(out string key) || gameObject.IsNull(this)) return;
-            if(string.IsNullOrEmpty(key)) return;
+            if (talkData == null || gameObject.IsNull(this))
+                return;
+            
+            if (!alwaysTalk && UnityEngine.Random.Range(0f, 1f) > talkData.ChanceToRandomTalk)
+                return;
+            
+            if(!talkData.TryGetWeightedRandomTalkKey(out string key) || string.IsNullOrEmpty(key))
+                return;
+            
             TalkWithKey(key);
         }
         public void Talk(string text, float delay, Color? color = null)
@@ -65,7 +73,7 @@ namespace CursedOnion.Game.Miscellaneous
             {
                 yield return new WaitForSeconds(talkData.GetNewRandomInterval());
 
-                RandomTalk();
+                RandomTalk(true);
             }
         }
     }

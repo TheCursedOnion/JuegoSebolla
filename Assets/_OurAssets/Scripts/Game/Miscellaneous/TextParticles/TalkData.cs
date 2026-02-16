@@ -18,6 +18,7 @@ namespace CursedOnion.Game.Miscellaneous
         [SerializeField] public bool HasRandomInterval;
         [SerializeField, ShowIf("HasRandomInterval"), MinMaxRangeSlider(5f, 100f)] private Vector2 talkInterval;
         [SerializeField] private List<TalkEntry> talkEntries;
+        [SerializeField, Range(0,1)] public float ChanceToRandomTalk;
         
         public float GetNewRandomInterval() => Random.Range(talkInterval.x, talkInterval.y);
         

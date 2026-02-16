@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2b21ad82074ef49c8a9e4f567468a7, type: 3}
   m_Name: TestTalk
   m_EditorClassIdentifier: 
+  HasRandomInterval: 0
   talkInterval: {x: 20, y: 50}
   talkEntries:
   - Weight: 1
@@ -22,3 +23,4 @@ MonoBehaviour:
     TalkKey: level3
   - Weight: 0.4
     TalkKey: level4
+  ChanceToRandomTalk: 0.1

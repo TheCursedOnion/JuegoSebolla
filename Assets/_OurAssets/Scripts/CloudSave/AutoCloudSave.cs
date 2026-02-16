@@ -18,6 +18,7 @@ namespace CursedOnion.Game.CloudSave
         
         [FormerlySerializedAs("debug")] [SerializeField] private bool autoLogIn;
         [SerializeField] private bool autoSave;
+        [SerializeField] private bool demoBuild;
         
         CloudSaveClient saveClient;
         
@@ -55,7 +56,9 @@ namespace CursedOnion.Game.CloudSave
             {
                 var dataToSave = new Dictionary<string, object>();
                 gameSettings.SaveInto(dataToSave);
-                variableLocator.SaveInto(dataToSave);
+                
+                if(!demoBuild)
+                    variableLocator.SaveInto(dataToSave);
                     
                 await saveClient.Save(dataToSave);
             }
@@ -92,7 +95,11 @@ namespace CursedOnion.Game.CloudSave
 
                     var loadedData = await saveClient.LoadAll();
                     gameSettings.LoadFrom(loadedData);
-                    variableLocator.LoadFrom(loadedData);
+                    
+                    if(!demoBuild)
+                        variableLocator.LoadFrom(loadedData);
+                    else
+                        variableLocator.LoadDemoValues();
                 }
             }
             catch (Exception e)
